@@ -93,6 +93,12 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public static final String PRIVILEGE_WECHAT_MANAGEMENT = "微信公众平台管理权限";
     public static final String PRIVILEGE_WECHAT_MANAGEMENT_DESCRIPTION = "该权限可以对微信公众平台进行管理";
 
+    public static final String PRIVILEGE_MALL_COMMODITY_MANAGEMENT = "商城商品管理权限";
+    public static final String PRIVILEGE_MALL_COMMODITY_MANAGEMENT_DESCRIPTION = "该权限可以对商城的商品进行管理";
+
+    public static final String PRIVILEGE_MALL_ORDER_MANAGEMENT = "商城订单管理权限";
+    public static final String PRIVILEGE_MALL_ORDER_MANAGEMENT_DESCRIPTION = "该权限可以对商城订单进行管理";
+
     /**
      * 平台认证过滤器
      * <p>
@@ -196,6 +202,8 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers(QXCMP_BACKEND_URL + "/article/new").hasRole(PRIVILEGE_ARTICLE_CREATE)
                 .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(PRIVILEGE_ARTICLE_CREATE)
                 .antMatchers(QXCMP_BACKEND_URL + "/article/channel/new").hasRole(PRIVILEGE_CHANNEL_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/mall/commodity/**").hasRole(PRIVILEGE_MALL_COMMODITY_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/mall/order/**").hasRole(PRIVILEGE_MALL_ORDER_MANAGEMENT)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -228,7 +236,11 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
         navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/article/published", LinkTarget.SELF, 70);
         navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disabled", LinkTarget.SELF, 80);
 
-        navigation = navigationService.get(Navigation.Type.SIDEBAR, "微信公众平台", 91000);
+        navigation = navigationService.get(Navigation.Type.SIDEBAR, "商城管理", 91000);
+        navigationService.add(navigation, "订单管理", "", "", QXCMP_BACKEND_URL + "/mall/order", LinkTarget.SELF, 2, PRIVILEGE_MALL_ORDER_MANAGEMENT);
+        navigationService.add(navigation, "商品管理", "", "", QXCMP_BACKEND_URL + "/mall/commodity", LinkTarget.SELF, 5, PRIVILEGE_MALL_COMMODITY_MANAGEMENT);
+
+        navigation = navigationService.get(Navigation.Type.SIDEBAR, "微信公众平台", 92000);
         navigationService.add(navigation, "素材管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", LinkTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
         navigationService.add(navigation, "用户管理", "", "", QXCMP_BACKEND_URL + "/weixin/user", LinkTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
         navigationService.add(navigation, "公众号设置", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", LinkTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
