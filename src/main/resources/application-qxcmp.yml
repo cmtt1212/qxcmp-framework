@@ -1,0 +1,26 @@
+# Common Server Settings
+server:
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,application/javascript,text/html,text/xml,text/plain,text/css
+
+# Spring Framework Settings
+spring:
+  resources:
+    cache-period: 31536000
+    chain:
+      strategy:
+        content:
+          enabled: true
+  thymeleaf:
+    mode: HTML
+  messages:
+    basename: i18n/qxcmp, i18n/ValidationMessages
+  mobile:
+    devicedelegatingviewresolver:
+      enabled: true
+  data:
+    rest:
+      max-page-size: 100
+logging:
+  file: logs/${application.short-name}.log
