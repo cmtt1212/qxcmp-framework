@@ -1,0 +1,78 @@
+<!--/*
+    账户页面通用组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet"
+          href="../../../../../../qxcmp-ui-default-style/src/main/websrc/node_modules/materialize-css/dist/css/materialize.css"/>
+</head>
+<body>
+
+<!--/*
+    页面大标题
+*/-->
+<th:block th:fragment="header">
+    <div class="col s12">
+        <a th:href="@{/}">
+            <img th:src="@{${@QXCMPConfiguration.getLogo()}}" class="circle responsive-img" style="width: 64px"/>
+        </a>
+    </div>
+</th:block>
+
+<!--/*
+    登录表单
+*/-->
+<th:block th:fragment="loginForm">
+    <form th:action="@{/login}" method="post">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="username" name="username" type="text" class="validate"
+                       placeholder="请输入您的登录账号，可以是用户名、邮箱、手机号"/>
+                <label for="username">登录账户</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" name="password" type="password" class="validate"
+                       placeholder="请输入您的账号密码"/>
+                <label for="password">登录密码</label>
+            </div>
+        </div>
+        <div th:if="${#session?.getAttribute('authenticationShowCaptcha')}" class="row captcha">
+            <div class="input-field col s8">
+                <input id="captcha" name="captcha" type="text" class="validate" placeholder="请输入验证码"/>
+                <label for="captcha">验证码</label>
+            </div>
+            <div class="col s4">
+                <a id="changeCaptcha" href="#">
+                    <img id="captchaImage" th:src="@{/api/captcha/image}"/>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action" style="width: 100%">
+                    <span>登录</span>
+                </button>
+            </div>
+            <div th:if="${#session?.getAttribute('authenticationMessage')}" class="col s12">
+                <p class="red-text" th:utext="#{${#session.getAttribute('authenticationMessage')}}"></p>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<!--/*
+    登录页面导航链接
+*/-->
+<th:block th:fragment="loginLink">
+    <div class="row">
+        <div class="center-align col s12">
+            <a th:href="@{/account/logon}">注册新用户</a>
+            <a th:href="@{/account/reset}">忘记密码？</a>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

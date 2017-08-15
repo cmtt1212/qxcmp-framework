@@ -1,0 +1,32 @@
+{
+  "name": "qxcmp",
+  "version": "1.0.0",
+  "description": "QingXing Content Management Platform",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --progress --color --watch",
+    "start": "webpack --progress --color"
+  },
+  "keywords": [
+    "qxcmp"
+  ],
+  "author": "Aaric",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "materialize-css": "^0.98.0",
+    "quill": "^1.3.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.27.2",
+    "file-loader": "^0.10.1",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.13.2",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.2.1"
+  }
+}

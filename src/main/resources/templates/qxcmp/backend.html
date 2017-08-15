@@ -1,0 +1,107 @@
+<!--/*
+
+    模板名称：   后端页面布局
+    实现框架：   Materialize CSS
+
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet"
+          href="../../../../../../qxcmp-ui-default-style/src/main/websrc/node_modules/materialize-css/dist/css/materialize.css"/>
+</head>
+<body>
+<!--/*@thymesVar id="navigation" type="com.qxcmp.framework.view.nav.Navigation"*/-->
+
+<!--/*
+    横向导航栏
+    位于页面顶部，非固定位置，在小屏下缩小
+*/-->
+<nav th:fragment="navbar">
+    <div class="nav-wrapper">
+        <a class="brand-logo" th:href="@{${@QXCMPConfiguration.QXCMP_BACKEND_URL}}">
+            <img class="circle responsive-img" th:src="@{${@QXCMPConfiguration.getLogo()}}"/>
+            <span class="hide-on-med-and-down" th:utext="${@QXCMPConfiguration.getTitle()}"></span>
+        </a>
+        <ul class="right">
+            <li>
+                <a class="dropdown-button" href="#" data-activates="user-action">
+                    <i class="material-icons">more_vert</i>
+                </a>
+            </li>
+        </ul>
+        <a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul th:include="~{:: sidebar}" id="mobile-sidebar" class="side-nav"></ul>
+    </div>
+    <ul id="user-action" class="dropdown-content">
+        <li>
+            <th:block th:each="navigation : ${actionBar}">
+                <a th:each="item : ${navigation.items}" th:href="@{${item.link}}" th:utext="${item.title}"></a>
+            </th:block>
+            <!--/* 注销登录 */-->
+            <a type="submit" onclick="document.getElementById('logout-form').submit();return false">注销登录</a>
+            <form id="logout-form" th:action="@{/logout}" method="post"></form>
+        </li>
+    </ul>
+</nav>
+
+<!--/*
+    侧边导航栏
+    位于页面左侧，在大屏下固定显示，小屏下隐藏，可通过顶部导航工具栏打开
+*/-->
+<ul th:fragment="sidebar" class="side-nav fixed">
+
+    <!--/* 用户试图 */-->
+    <li>
+        <div th:if="${user ne null}" class="userView">
+            <div class="background">
+                <img th:src="@{/assets/images/profile-bg.jpg}"/>
+            </div>
+            <div>
+                <img th:if="${#strings.isEmpty(user.portrait)}" class="circle"
+                     th:src="@{/assets/images/placeholder.png}"/>
+                <img th:unless="${#strings.isEmpty(user.portrait)}" class="circle" th:src="@{${user.portrait}}"/>
+            </div>
+            <div>
+                <span class="grey-text name" th:utext="${user.nickname ?: user.username}"></span>
+            </div>
+            <div>
+                <span class="grey-text email" th:utext="${user.email}"></span>
+            </div>
+        </div>
+    </li>
+
+    <!--/* 可用导航项目 */-->
+    <li>
+        <ul class="collapsible" data-collapsible="accordion">
+            <th:block th:each="navigation : ${sidebar}">
+                <li th:if="${not #lists.isEmpty(navigation.items)}">
+                    <a class="collapsible-header waves-effect waves-light" th:utext="${navigation.name}"> </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li th:each="navigationItem : ${navigation.items}">
+                                <a class="waves-effect"
+                                   th:href="@{${navigationItem.link}}"
+                                   th:utext="${navigationItem.title}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </th:block>
+        </ul>
+    </li>
+</ul>
+
+<!--/*
+    页脚
+*/-->
+<footer th:fragment="footer" class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <a class="grey-text text-lighten-4" th:href="@{|${@QXCMPConfiguration.QXCMP_BACKEND_URL}/about|}">关于</a>
+            <span class="right">清醒科技</span>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

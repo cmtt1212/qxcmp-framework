@@ -1,0 +1,245 @@
+<!--/*
+    商城相关UI组件
+*/-->
+<!DOCTYPE html>
+<html th:lang="${#ctx.#locale}" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*
+    商品详情组件
+*/-->
+<!--/*@thymesVar id="commodity" type="com.qxcmp.mall.Commodity"*/-->
+<th:block th:fragment="commodity-details">
+    <div class="row">
+        <div class="col s12 m4">
+            <div class="slider" data-th-height="275" data-th-indicators="${false}">
+                <ul class="slides">
+                    <li th:each="image : ${commodity.albums}">
+                        <img th:src="@{${image}}"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col s12 m8">
+            <div class="section">
+                <p class="black-text"><b th:utext="${commodity.title}"></b></p>
+                <p class="primary-text" th:utext="${commodity.subTitle}"></p>
+                <b class="red-text darken-3"
+                   th:utext="|￥${new java.text.DecimalFormat('0.00').format(new java.lang.Double(commodity.sellPrice) / 100)}|"></b>
+                <span class="grey-text">
+            <del th:utext="|￥${new java.text.DecimalFormat('0.00').format(new java.lang.Double(commodity.originPrice) / 100)}|"></del>
+        </span>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="section">
+                <img th:each="image : ${commodity.details}" class="responsive-img" th:src="@{${image}}"/>
+            </div>
+        </div>
+    </div>
+    <div class="center-align row">
+        <div class="divider" style="margin: 1rem;"></div>
+        <div class="right-align col s12">
+            <a class="waves-effect waves-light btn" th:href="@{/mall/cart}">我的购物车</a>
+            <form th:action="@{/mall/cart/item/add}" method="post" style="display: inline">
+                <input id="id" name="id" th:value="${commodity.id}" type="hidden"/>
+                <button class="primary waves-effect waves-light btn">加入购物车</button>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+<!--/*
+    商品列表组件
+*/-->
+<th:block th:fragment="commodity-list(title, commodities)">
+    <div class="row">
+        <div class="col s12">
+            <div class="section">
+                <h4 class="center-align primary-text" th:utext="${title}"></h4>
+                <div class="divider"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div th:each="commodity : ${commodities}" class="col s6 m4 l3">
+            <a class="black-text card" th:href="@{|/mall/item/${commodity.id}.html|}">
+                <div class="card-image">
+                    <img th:src="@{${commodity.cover}}"/>
+                </div>
+                <div class="card-content" style="padding: 2px;">
+                    <div th:utext="${commodity.title}"></div>
+                </div>
+                <div class="card-action" style="padding: 2px;">
+                    <div class="primary-text"
+                         th:utext="|￥${new java.text.DecimalFormat('0.00').format(new java.lang.Double(commodity.sellPrice) / 100)}|"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</th:block>
+
+<!--/*
+    商品订单Tab组件
+*/-->
+<th:block th:fragment="commodity-order-tabs">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3">
+                    <a th:class="${#request.getParameter('type') eq 'all' ? 'active' : ''}"
+                       target="_self" th:href="@{/mall/item/order(type='all')}">全部</a>
+                </li>
+                <li class="tab col s3">
+                    <a th:class="${#request.getParameter('type') eq 'PAYING' ? 'active' : ''}"
+                       target="_self" th:href="@{/mall/item/order(type='PAYING')}">待付款</a>
+                </li>
+                <li class="tab col s3">
+                    <a th:class="${#request.getParameter('type') eq 'PAYED' ? 'active' : ''}"
+                       target="_self" th:href="@{/mall/item/order(type='PAYED')}">已付款</a>
+                </li>
+                <li class="tab col s3">
+                    <a th:class="${#request.getParameter('type') eq 'FINISHED' ? 'active' : ''}"
+                       target="_self" th:href="@{/mall/item/order(type='FINISHED')}">已完成</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</th:block>
+
+<!--/*
+    购物车UI组件
+*/-->
+<th:block th:fragment="shopping-cart">
+    <form id="form" th:action="@{/mall/cart/item}" method="post">
+        <input type="hidden" id="csrf" th:value="${_csrf.token}"/>
+        <input type="hidden" id="formId" name="id"/>
+        <input type="hidden" id="formSelected" name="selected"/>
+        <input type="hidden" id="formQuantity" name="quantity"/>
+    </form>
+    <!--/*@thymesVar id="commodity" type="com.qxcmp.mall.Commodity"*/-->
+    <!--/*@thymesVar id="item" type="com.qxcmp.mall.ShoppingCartItem"*/-->
+    <div class="cart-item-list">
+        <th:block th:each="item : ${shoppingCartItemList}">
+            <div class="cart-item"
+                 style="display: flex;border-bottom: 1px lightgrey solid; padding: 0.5rem 1rem;align-items: center">
+                <img class="responsive-img" th:src="@{${item.commodity.cover}}"
+                     style="width:80px;height: 80px; border: 1px lightgrey solid;flex: 0 0 auto"/>
+                <div class="cart-item-content"
+                     style="flex: 1 0 auto;padding: 0 1rem; display: flex;flex-direction: column;width: 1px">
+                    <b th:utext="${item.commodity.title}"
+                       style="flex: 0 0 auto; overflow: hidden;text-overflow: ellipsis;white-space: nowrap"></b>
+                    <small class="grey-text" th:utext="${item.commodity.subTitle}"
+                           style="flex: 0 0 auto; overflow: hidden;text-overflow: ellipsis;white-space: nowrap"></small>
+                    <div style="display: flex; margin-top: 1rem">
+                        <b class="red-text darken-3" style="flex: 1 0 auto"
+                           th:utext="|￥${new java.text.DecimalFormat('0.00').format(new java.lang.Double(item.commodity.sellPrice) / 100)}|"></b>
+
+                        <div class="spanner" data-th-id="${item.id}">
+                            <i class="small material-icons">remove</i>
+                            <input th:id="|quantity-${item.id}|" data-th-item-id="${item.id}"
+                                   th:value="${item.quantity}"/>
+                            <i class="small material-icons">add</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-item-select" style="flex: 0 0 auto">
+                    <p>
+                        <input class="select" th:id="|select-${item.id}|" name="selected" type="checkbox"
+                               th:checked="${item.selected}"
+                               data-th-item-id="${item.id}"
+                               th:value="${item.selected}"/>
+                        <label th:for="|select-${item.id}|"></label>
+                    </p>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <div class="center-align row">
+        <div class="divider" style="margin: 1rem;"></div>
+        <div class="left-align col s6">
+            <p th:utext="|合计：￥${price}|"></p>
+        </div>
+        <div class="right-align col s6">
+            <a class="waves-effect waves-light btn" th:href="@{/mall/cart/order}" th:utext="|去结算(${count})|"></a>
+        </div>
+    </div>
+
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+
+            var submitForm = function (itemId) {
+                $("#formId").val(itemId);
+                $("#formSelected").val($("#select-" + itemId).prop('checked'));
+                $("#formQuantity").val($("#quantity-" + itemId).val());
+                $("#form").submit();
+            };
+
+            $(".spanner").each(function () {
+                var minus = $(this).children("i").get(0);
+                var plus = $(this).children("i").get(1);
+                var value = $(this).children("input");
+                var id = $(this).attr("id");
+
+                $(minus).click(function () {
+                    $(value).val($(value).val() - 1);
+                    $(value).change();
+                });
+
+                $(plus).click(function () {
+                    $(value).val(parseInt($(value).val()) + 1);
+                    $(value).change();
+                });
+
+                $(value).change(function () {
+                    var value = $(this).val();
+
+                    if (value <= 1) {
+                        $(this).val(1);
+                        $(minus).addClass("grey-text");
+                    } else if (value >= 200) {
+                        $(this).val(200);
+                        $(plus).addClass("grey-text");
+                    } else {
+                        $(minus).removeClass("grey-text");
+                        $(plus).removeClass("grey-text");
+                    }
+
+                    submitForm($(this).attr("item-id"));
+                });
+            });
+
+            $(".select").change(function () {
+                submitForm($(this).attr("item-id"));
+            });
+        });
+    </script>
+</th:block>
+
+<!--/*
+    收银台组件
+*/-->
+<th:block th:fragment="cashier">
+    <div class="center-align row">
+        <form th:action="@{/mall/cashier}" class="col s12" method="post">
+            <input type="hidden" id="id" name="id" th:value="${orderId}"/>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" name="password" type="password" class="validate"
+                           th:required="${true}"
+                           th:autocomplete="${false}"
+                           minlength="6"
+                           placeholder="请输入您的独立支付密码"/>
+                    <label for="password">支付密码</label>
+                </div>
+            </div>
+            <div class="right-align col s12">
+                <button class="waves-effect waves-light btn">确认支付</button>
+            </div>
+        </form>
+    </div>
+</th:block>
+</body>
+</html>

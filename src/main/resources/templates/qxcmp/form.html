@@ -1,0 +1,377 @@
+<!--/*
+    表单视图组件
+
+    实现版本： Materialize CSS
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet"
+          href="../../../../../../qxcmp-ui-default-style/src/main/websrc/node_modules/materialize-css/dist/css/materialize.css"/>
+</head>
+<body>
+<!--/*@thymesVar id="formViewEntity" type="com.qxcmp.framework.view.form.FormViewEntity"*/-->
+
+
+<!--/*
+
+    表单视图渲染组件
+
+    该组件将表单视图渲染为基本表单
+
+*/-->
+<th:block th:fragment="basic">
+    <div class="section">
+        <form th:object="${object}"
+              th:action="@{${formViewEntity.action}}"
+              th:enctype="${formViewEntity.enctype}"
+              th:method="${formViewEntity.method}"
+              th:class="${formViewEntity.className ?: 'col s12'}"
+              data-th-show-dialog="${formViewEntity.showDialog}"
+              data-th-title="${formViewEntity.dialogTitle}"
+              data-th-desc="${formViewEntity.dialogDescription}">
+
+            <div th:unless="${formViewEntity.disableCaption}" class="row">
+                <div class="col s12">
+                    <h5 th:utext="${formViewEntity.caption}"></h5>
+                </div>
+            </div>
+
+            <!--/* 遍历所有表单字段实体，根据实体类型渲染字段 */-->
+            <th:block th:each="formViewFieldEntity : ${formViewEntity.fields}">
+                <!--/* 渲染输入框 */-->
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.HiddenFieldEntity)}">
+                    <input th:field="*{__${formViewFieldEntity.field}__}" type="hidden"/>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.LabelFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='text')"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.NumberFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='number')"></div>
+                </th:block>
+                <th:block
+                        th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.PasswordFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='password')"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.TextFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='text')"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.DateFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='date')"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.TimeFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='time')"></div>
+                </th:block>
+                <th:block
+                        th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.DateTimeFieldEntity)}">
+                    <div th:replace=":: inputField(inputFieldEntity=${formViewFieldEntity}, inputFieldType='datetime')"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.FileFieldEntity)}">
+                    <div th:replace=":: fileField(fileFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.CaptchaFieldEntity)}">
+                    <div th:replace=":: captchaField(captchaFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.SwitchFieldEntity)}">
+                    <div th:replace=":: switchFiled(switchFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.TextAreaEntity)}">
+                    <div th:replace=":: textAreaFiled(textAreaFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.SelectFieldEntity)}">
+                    <div th:replace=":: selectFiled(selectFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.ListFieldEntity)}">
+                    <div th:replace=":: listField(listFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.AlbumFieldEntity)}">
+                    <div th:replace=":: albumField(albumFiledEntity=${formViewFieldEntity})"></div>
+                </th:block>
+                <th:block th:if="${formViewFieldEntity instanceof T(com.qxcmp.framework.view.form.HtmlFieldEntity)}">
+                    <div th:replace=":: htmlField(htmlFieldEntity=${formViewFieldEntity})"></div>
+                </th:block>
+            </th:block>
+
+            <!--/* 表单提交按钮 */-->
+            <div class="row" th:object="${formViewEntity}">
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        <span th:unless="*{disableSubmitTitle}" th:utext="*{submitTitle}"></span>
+                        <i th:unless="*{disableSubmitIcon}" class="material-icons left" th:utext="*{submitIcon}"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</th:block>
+
+<!--
+    表单输入框组件
+
+    必选参数：
+        ${inputFieldEntity}  : 字段渲染实体对象
+-->
+<!--/*@thymesVar id="inputFieldEntity" type="com.qxcmp.framework.view.form.FormViewFieldEntity"*/-->
+<th:block th:fragment="inputField">
+    <div class="row">
+        <div th:class="|input-field ${inputFieldEntity.className ?: 'col s12'}|">
+            <input th:field="*{__${inputFieldEntity.field}__}"
+                   th:type="${inputFieldType}"
+                   th:attr="data-length=${inputFieldEntity.maxLength gt 0 ? inputFieldEntity.maxLength : null}"
+                   th:step="${inputFieldEntity.step > 0 ? inputFieldEntity.step : _}"
+                   th:max="${inputFieldEntity.max}"
+                   th:min="${inputFieldEntity.min}"
+                   th:autofocus="${inputFieldEntity.autoFocus}"
+                   th:readonly="${inputFieldEntity.readOnly}"
+                   th:required="${inputFieldEntity.required}"
+                   th:disabled="${inputFieldEntity.disabled}"
+                   th:placeholder="${inputFieldEntity.placeholder}"
+                   th:alt="${inputFieldEntity.alt}"
+                   th:class="${#fields.hasErrors(inputFieldEntity.field) ? 'validate invalid' : 'validate'}"/>
+            <label th:attr="data-error=${#fields.hasErrors(inputFieldEntity.field) ? (#lists.size(#fields.errors(inputFieldEntity.field)) gt 1 ? #fields.errors(inputFieldEntity.field) : #fields.errors(inputFieldEntity.field).get(0)) : null}"
+                   th:for="${inputFieldEntity.field}"
+                   th:class="${inputFieldType eq 'date' or inputFieldType eq 'time' or inputFieldType eq 'datetime'} ? 'active'"
+                   th:utext="${inputFieldEntity.label}">
+            </label>
+        </div>
+    </div>
+</th:block>
+
+<!--
+    表单验证码组件
+
+    必选参数：
+        ${captchaFiledEntity}  : 字段渲染实体对象
+-->
+<!--/*@thymesVar id="captchaFiledEntity" type="com.qxcmp.framework.view.form.CaptchaFieldEntity"*/-->
+<th:block th:fragment="captchaField">
+    <div class="row captcha">
+        <div th:class="|input-field ${captchaFiledEntity.className ?: 'col s6'}|">
+            <input th:field="*{__${captchaFiledEntity.field}__}" type="text"
+                   th:required="${captchaFiledEntity.required}"
+                   th:placeholder="${captchaFiledEntity.placeholder}"
+                   th:class="${#fields.hasErrors(captchaFiledEntity.field) ? 'validate invalid' : 'validate'}"/>
+            <label th:attr="data-error=${#fields.hasErrors(captchaFiledEntity.field) ? (#lists.size(#fields.errors(captchaFiledEntity.field)) gt 1 ? #fields.errors(captchaFiledEntity.field) : #fields.errors(captchaFiledEntity.field).get(0)) : null}"
+                   th:for="${captchaFiledEntity.field}"
+                   th:utext="${captchaFiledEntity.label}">
+            </label>
+        </div>
+        <div class="col s6">
+            <th:block th:if="${captchaFiledEntity.captchaType.name eq 'image'}">
+                <a id="changeCaptcha" href="#">
+                    <img id="captchaImage" th:src="@{${captchaFiledEntity.url}}"/>
+                </a>
+            </th:block>
+            <th:block th:if="${captchaFiledEntity.captchaType.name eq 'phone'}">
+                <button id="getPhoneCaptcha" class="btn waves-effect waves-light" type="button">获取验证码</button>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+
+<!--
+    下拉框组件
+
+    必选参数：
+        ${selectFiledEntity}  : 字段渲染实体对象
+-->
+<!--/*@thymesVar id="selectFiledEntity" type="com.qxcmp.framework.view.form.SelectFieldEntity"*/-->
+<th:block th:fragment="selectFiled">
+    <div class="row">
+        <div th:class="|input-field ${selectFiledEntity.className ?: 'col s12'}|">
+            <select th:field="*{__${selectFiledEntity.field}__}" class="qxcmp"
+                    th:multiple="${selectFiledEntity.multiple}"
+                    th:disabled="${selectFiledEntity.disabled}">
+                <option th:disabled="true" th:selected="true" value=""
+                        th:utext="${selectFiledEntity.placeholder}"></option>
+                <option th:each="item : ${selectFiledEntity.candidates}"
+                        th:value="${item.__${selectFiledEntity.candidateValueIndex}__}"
+                        th:utext="${selectFiledEntity.candidateI18n} ? #{${item.__${selectFiledEntity.candidateTextIndex}__}} : ${item.__${selectFiledEntity.candidateTextIndex}__}">
+                </option>
+            </select>
+            <label th:utext="${selectFiledEntity.label}"></label>
+        </div>
+    </div>
+</th:block>
+
+<!--
+    布尔值开关组件
+
+    必选参数：
+        ${switchFiledEntity}  : 字段渲染实体对象
+-->
+<!--/*@thymesVar id="switchFiledEntity" type="com.qxcmp.framework.view.form.SwitchFieldEntity"*/-->
+<th:block th:fragment="switchFiled">
+    <div class="row">
+        <div th:class="${switchFiledEntity.className ?: 'col s12'}">
+            <div class="row">
+                <label class="col s12" th:utext="${switchFiledEntity.label}"></label>
+            </div>
+            <div class="switch">
+                <label>
+                    <span th:utext="${switchFiledEntity.labelOff}"></span>
+                    <input type="checkbox" th:id="${switchFiledEntity.field}" th:name="${switchFiledEntity.field}"
+                           th:checked="*{__${switchFiledEntity.field}__}">
+                    <span class="lever"></span>
+                    <span th:utext="${switchFiledEntity.labelOn}"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<!--
+    文本域组件
+
+    必选参数：
+        ${textAreaFiledEntity}  : 字段渲染实体对象
+-->
+<th:block th:fragment="textAreaFiled">
+    <div class="row">
+        <!--/*@thymesVar id="textAreaFiledEntity" type="com.qxcmp.framework.view.form.TextAreaEntity"*/-->
+        <div th:class="|input-field ${textAreaFiledEntity.className ?: 'col s12'}|">
+            <textarea th:field="*{__${textAreaFiledEntity.field}__}"
+                      th:attr="data-length=${textAreaFiledEntity.maxLength gt 0 ? textAreaFiledEntity.maxLength : null}"
+                      th:rows="${textAreaFiledEntity.rows}"
+                      class="materialize-textarea"></textarea>
+            <label th:attr="data-error=${#fields.hasErrors(textAreaFiledEntity.field) ? (#lists.size(#fields.errors(textAreaFiledEntity.field)) gt 1 ? #fields.errors(textAreaFiledEntity.field) : #fields.errors(textAreaFiledEntity.field).get(0)) : null}"
+                   th:for="${textAreaFiledEntity.field}"
+                   th:utext="${textAreaFiledEntity.label}">
+            </label>
+        </div>
+    </div>
+</th:block>
+
+<!--
+    文件选择组件
+
+    必选参数：
+        ${fileFieldEntity}  : 字段渲染实体对象
+-->
+<th:block th:fragment="fileField">
+    <!--/*@thymesVar id="fileFiledEntity" type="com.qxcmp.framework.view.form.FileFieldEntity"*/-->
+    <div th:class="${fileFiledEntity.className ?: 'file-field input-field'}">
+        <div class="btn">
+            <span th:utext="${fileFiledEntity.label}">File</span>
+            <input th:field="*{__${fileFiledEntity.field}__}" type="file"/>
+        </div>
+        <div class="file-path-wrapper">
+            <input type="text"
+                   th:value="${#fields.hasErrors(fileFiledEntity.field) ? (#lists.size(#fields.errors(fileFiledEntity.field)) gt 1 ? #fields.errors(fileFiledEntity.field) : #fields.errors(fileFiledEntity.field).get(0)) : null}"
+                   th:class="${#fields.hasErrors(fileFiledEntity.field) ? 'file-path validate invalid' : 'file-path validate'}"/>
+        </div>
+    </div>
+</th:block>
+
+<!--
+    列表组件
+
+    必选参数：
+        ${listFieldEntity}  : 字段渲染实体对象
+-->
+<!--/*@thymesVar id="listFiledEntity" type="com.qxcmp.framework.view.form.ListFieldEntity"*/-->
+<th:block th:fragment="listField">
+    <table>
+        <thead>
+        <tr>
+            <td th:colspan="${listFiledEntity.listField.size()} + 1" th:utext="${listFiledEntity.label}"></td>
+        </tr>
+        <tr>
+            <th th:each="listLabel : ${listFiledEntity.listFieldLabel}" th:utext="${listLabel}"></th>
+            <td>
+                <button class="btn waves-effect waves-light" type="submit"
+                        th:name="|add_${listFiledEntity.field}|" th:value="|add|">新建
+                </button>
+            </td>
+        </tr>
+        <tr th:if="${#fields.hasErrors(listFiledEntity.field)}">
+            <td class="red-text" th:colspan="${listFiledEntity.listField.size()} + 1"
+                th:utext="${#lists.size(#fields.errors(listFiledEntity.field)) gt 1 ? #fields.errors(listFiledEntity.field) : #fields.errors(listFiledEntity.field).get(0)}"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row, rowStat : *{__${listFiledEntity.field}__}">
+            <td th:each="listField : ${listFiledEntity.listField}">
+                <input th:if="${listFiledEntity.isRawType()}"
+                       th:field="*{__${listFiledEntity.field}__[__${rowStat.index}__]}"/>
+                <input th:unless="${listFiledEntity.isRawType()}"
+                       th:field="*{__${listFiledEntity.field}__[__${rowStat.index}__].__${listField}__}"/>
+            </td>
+            <td>
+                <button class="btn waves-effect waves-light" type="submit"
+                        th:name="|remove_${listFiledEntity.field}|"
+                        th:value="${rowStat.index}">删除
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+
+<!--
+    图片集组件
+
+    必选参数：
+        ${albumFiledEntity}  : 字段渲染实体对象
+-->
+<!--/*@thymesVar id="albumFiledEntity" type="com.qxcmp.framework.view.form.AlbumFieldEntity"*/-->
+<th:block th:fragment="albumField">
+    <table>
+        <thead>
+        <tr>
+            <td colspan="2" th:utext="${albumFiledEntity.label}"></td>
+        </tr>
+        <tr>
+            <th>
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span th:utext="${albumFiledEntity.label}">File</span>
+                        <input th:field="*{__${albumFiledEntity.albumFieldName}__}" type="file"/>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input type="text"
+                               th:value="${#fields.hasErrors(albumFiledEntity.albumFieldName) ? (#lists.size(#fields.errors(albumFiledEntity.albumFieldName)) gt 1 ? #fields.errors(albumFiledEntity.albumFieldName) : #fields.errors(albumFiledEntity.albumFieldName).get(0)) : null}"
+                               th:class="${#fields.hasErrors(albumFiledEntity.albumFieldName) ? 'file-path validate invalid' : 'file-path validate'}"/>
+                    </div>
+                </div>
+            </th>
+            <td>
+                <button class="btn waves-effect waves-light" type="submit"
+                        th:name="|upload_${albumFiledEntity.field}|" th:value="|add|">添加图片
+                </button>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row, rowStat : *{__${albumFiledEntity.field}__}">
+            <td>
+                <input type="hidden" th:field="*{__${albumFiledEntity.field}__[__${rowStat.index}__]}"/>
+                <img th:src="@{*{__${albumFiledEntity.field}__[__${rowStat.index}__]}}"/>
+            </td>
+            <td>
+                <button class="btn waves-effect waves-light" type="submit"
+                        th:name="|remove_album_${albumFiledEntity.field}|"
+                        th:value="${rowStat.index}">删除
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+
+<!--/*
+    HTML编辑器
+*/-->
+<!--/*@thymesVar id="htmlFieldEntity" type="com.qxcmp.framework.view.form.HtmlFieldEntity"*/-->
+<th:block th:fragment="htmlField">
+    <p th:utext="${htmlFieldEntity.label}"></p>
+    <input type="hidden" th:field="*{__${htmlFieldEntity.field}__}"/>
+    <input type="hidden" th:field="*{htmlContent}"/>
+    <input type="file" style="display: none" id="quillImageFile"
+           accept="image/png, image/gif, image/jpeg, image/jpg"/>
+    <div class="quill-container">
+        <div id="quill"></div>
+    </div>
+</th:block>
+</body>
+</html>
