@@ -90,6 +90,9 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public static final String PRIVILEGE_CHANNEL_CREATE = "栏目创建权限";
     public static final String PRIVILEGE_CHANNEL_CREATE_DESCRIPTION = "该权限可以创建新的栏目";
 
+    public static final String PRIVILEGE_WECHAT_MANAGEMENT = "微信公众平台管理权限";
+    public static final String PRIVILEGE_WECHAT_MANAGEMENT_DESCRIPTION = "该权限可以对微信公众平台进行管理";
+
     /**
      * 平台认证过滤器
      * <p>
@@ -186,6 +189,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(PRIVILEGE_LOG_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(PRIVILEGE_REDEEM_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(PRIVILEGE_WECHAT_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(PRIVILEGE_ARTICLE_AUDIT)
                 .antMatchers(QXCMP_BACKEND_URL + "/article/publish").hasRole(PRIVILEGE_ARTICLE_AUDIT)
                 .antMatchers(QXCMP_BACKEND_URL + "/article/disable").hasRole(PRIVILEGE_ARTICLE_AUDIT)
@@ -224,13 +228,28 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
         navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/article/published", LinkTarget.SELF, 70);
         navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disabled", LinkTarget.SELF, 80);
 
+        navigation = navigationService.get(Navigation.Type.SIDEBAR, "微信公众平台", 91000);
+        navigationService.add(navigation, "素材管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", LinkTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "用户管理", "", "", QXCMP_BACKEND_URL + "/weixin/user", LinkTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "公众号设置", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", LinkTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
+
+        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号素材管理", 1);
+        navigationService.add(navigation, "图文管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", LinkTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "图片管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/image", LinkTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "视频管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/video", LinkTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "语音管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/voice", LinkTarget.SELF, 40, PRIVILEGE_WECHAT_MANAGEMENT);
+
+        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号设置", 1);
+        navigationService.add(navigation, "公众号参数", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", LinkTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "自定义菜单", "", "", QXCMP_BACKEND_URL + "/weixin/settings/menu", LinkTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
+        navigationService.add(navigation, "微信支付", "", "", QXCMP_BACKEND_URL + "/finance/payment/weixin/settings", LinkTarget.SELF, 30, PRIVILEGE_FINANCE_CONFIG_MANAGEMENT);
+
         navigation = navigationService.get(Navigation.Type.SIDEBAR, "系统设置", 10000);
         navigationService.add(navigation, "网站设置", "", "", QXCMP_BACKEND_URL + "/site/config", LinkTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
         navigationService.add(navigation, "系统工具", "", "", QXCMP_BACKEND_URL + "/tool", LinkTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
         navigationService.add(navigation, "消息服务", "", "", QXCMP_BACKEND_URL + "/message", LinkTarget.SELF, 60, PRIVILEGE_MESSAGE_MANAGEMENT);
         navigationService.add(navigation, "安全设置", "", "", QXCMP_BACKEND_URL + "/security", LinkTarget.SELF, 80, PRIVILEGE_SECURITY_MANAGEMENT);
         navigationService.add(navigation, "系统日志", "", "", QXCMP_BACKEND_URL + "/log/audit", LinkTarget.SELF, 90, PRIVILEGE_LOG_MANAGEMENT);
-        navigationService.add(navigation, "微信支付", "", "", QXCMP_BACKEND_URL + "/finance/payment/weixin/settings", LinkTarget.SELF, 40, PRIVILEGE_FINANCE_CONFIG_MANAGEMENT);
 
         navigation = navigationService.get(Navigation.Type.ACTION, "核心操作", 15000);
         navigationService.add(navigation, "个人中心", "", "", QXCMP_BACKEND_URL + "/account", LinkTarget.SELF, 10);

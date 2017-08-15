@@ -6,7 +6,13 @@ import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.security.PrivilegeAutowired;
+import com.qxcmp.framework.weixin.WechatMpMessageHandler;
 import lombok.RequiredArgsConstructor;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +49,8 @@ public class QXCMPConfiguration {
      * 平台后端根Url
      */
     public static final String QXCMP_BACKEND_URL = "/admin";
+
+    private final WechatMpMessageHandler defaultMessageHandler;
 
     /**
      * 是否开放用户名注册
@@ -306,6 +314,41 @@ public class QXCMPConfiguration {
     public static String SYSTEM_CONFIG_WECHAT_APP_ID = "wechat.app.id";
 
     /**
+     * 微信公众号 App Secret
+     */
+    public static String SYSTEM_CONFIG_WECHAT_SECRET = "";
+
+    /**
+     * 微信公众号 Token
+     */
+    public static String SYSTEM_CONFIG_WECHAT_TOKEN = "";
+
+    /**
+     * 微信公众号 AES Key
+     */
+    public static String SYSTEM_CONFIG_WECHAT_AES_KEY = "";
+
+    /**
+     * 微信公众号网页授权回调 URL
+     */
+    public static String SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL = "";
+
+    /**
+     * 微信公众号网页授权URL，用户在微信客户端点击该链接后将出现网页授权指示
+     */
+    public static String SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL;
+
+    /**
+     * 微信公众号关注欢迎语
+     */
+    public static String SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE = "";
+
+    /**
+     * 是否开启微信调试模式
+     */
+    public static String SYSTEM_CONFIG_WECHAT_DEBUG = "";
+
+    /**
      * 微信支付 - 商户号
      */
     public static String SYSTEM_CONFIG_WECHAT_MCH_ID = "wechat.mch.id";
@@ -474,6 +517,45 @@ public class QXCMPConfiguration {
 
         javaMailSender.setJavaMailProperties(properties);
         return javaMailSender;
+    }
+
+    /**
+     * 微信服务实例配置，全局唯一
+     *
+     * @return 微信服务实例
+     */
+    @Bean
+    public WxMpService wxMpService() {
+        WxMpService wxMpService = new WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(wxMpConfigStorage());
+        return wxMpService;
+    }
+
+    /**
+     * 微信公众号配置实例，全局唯一
+     *
+     * @return 微信公众号配置实例
+     */
+    @Bean
+    public WxMpConfigStorage wxMpConfigStorage() {
+        WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
+        configStorage.setAppId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
+        configStorage.setSecret(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SECRET).orElse(""));
+        configStorage.setToken(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_TOKEN).orElse(""));
+        configStorage.setAesKey(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_AES_KEY).orElse(""));
+        return configStorage;
+    }
+
+    /**
+     * 微信公众号消息路由配置
+     *
+     * @return 微信公众号消息路由
+     */
+    @Bean
+    public WxMpMessageRouter wxMpMessageRouter() {
+        WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxMpService());
+        wxMpMessageRouter.rule().async(false).handler(defaultMessageHandler).end();
+        return wxMpMessageRouter;
     }
 
     /**

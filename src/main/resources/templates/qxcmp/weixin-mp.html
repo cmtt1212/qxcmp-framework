@@ -1,0 +1,34 @@
+<!--/*
+    微信公众号开发相关组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*
+
+    引入微信公众号 JS 文件并进行相关配置
+
+    在调用任何微信公众号 JS-SDK 接口的时候必须先引入该模板
+
+*/-->
+<!--/*@thymesVar id="jsApiSignature" type="com.qxcmp.module.weixin.mp.WechatMpCGI.WxJsapiSignature"*/-->
+<th:block th:fragment="config">
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script th:inline="javascript">
+        var url = location.href.split('#')[0];
+        $.get("/api/weixin/mp/jsapi", {url: url}, function (jsApiSignature) {
+            wx.config({
+                debug: jsApiSignature.debug,
+                appId: jsApiSignature.appId,
+                timestamp: jsApiSignature.timestamp,
+                nonceStr: jsApiSignature.nonceStr,
+                signature: jsApiSignature.signature,
+                jsApiList: /*[[${apiList}]]*/ ""
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
