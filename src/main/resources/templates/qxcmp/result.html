@@ -1,0 +1,42 @@
+<!--/*
+    超链接组件
+
+    实现版本： Materialize CSS
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet"
+          href="../../../../../../qxcmp-ui-default-style/src/main/websrc/node_modules/materialize-css/dist/css/materialize.css"/>
+</head>
+<body>
+<!--/*@thymesVar id="result" type="com.qxcmp.framework.view.result.Result"*/-->
+
+<!--/*
+    结果视图组件渲染
+*/-->
+<th:block th:fragment="basic" th:if="${result ne null}">
+    <div class="center-align section">
+        <h4 th:if="!${#strings.isEmpty(result.title)}" th:utext="${result.title}"></h4>
+        <h5 th:if="!${#strings.isEmpty(result.subTitle)}" th:utext="${result.subTitle}"></h5>
+        <p th:if="!${#strings.isEmpty(result.description)}" th:utext="${result.description}"></p>
+    </div>
+</th:block>
+
+<!--/*
+    结果视图导航组件
+*/-->
+<!--/*@thymesVar id="resultNavigation" type="com.qxcmp.framework.view.result.ResultNavigation"*/-->
+<th:block th:fragment="navigation">
+    <div class="center-align section">
+        <div class="divider"></div>
+        <div class="section">
+            <th:block th:each="link : ${resultNavigation.links}">
+                <div th:replace="~{qxcmp/link :: button(${link})}"></div>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

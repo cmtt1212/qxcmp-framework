@@ -1,0 +1,226 @@
+<!--/*
+    表格视图组件
+
+    实现版本： Materialize CSS
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet"
+          href="../../../../../../qxcmp-ui-default-style/src/main/websrc/node_modules/materialize-css/dist/css/materialize.css"/>
+</head>
+<body>
+<!--/*@thymesVar id="tableViewEntity" type="com.qxcmp.framework.view.table.TableViewEntity"*/-->
+<!--/*@thymesVar id="actionEntity" type="com.qxcmp.framework.view.table.TableViewActionEntity"*/-->
+
+
+<!--/*
+
+    操作表格组件
+
+    用于快速渲染表格组件，支持CRUD操作
+
+    必选参数：
+      ${tableViewEntity}    : 表格视图实体对象，包含创建表格所需的所以信息
+
+*/-->
+<th:block th:fragment="basic" th:object="${tableViewEntity}">
+    <!--/* 局部变量定义 */-->
+    <th:block th:with="colspan=*{#bools.isFalse(disableAction) ? #lists.size(heads) + 1 : #lists.size(heads)}">
+        <div class="section">
+            <div class="table-caption row">
+                <div class="col s12">
+                    <h4 class="caption" th:utext="*{caption}"></h4>
+                    <!--/* 渲染表级操作 */-->
+                    <th:block th:unless="*{disableAction or tableActions.isEmpty()}">
+                        <div class="fixed-action-btn horizontal click-to-toggle"
+                             style="position: relative;float: right;right: 0;bottom: 0;padding: 0">
+                            <a class="btn-floating btn-large secondary">
+                                <i class="material-icons">menu</i>
+                            </a>
+                            <ul>
+                                <li th:each="actionEntity : *{tableActions}"
+                                    th:unless="${actionEntity.disabled}"
+                                    th:object="${actionEntity}">
+                                    <th:block th:if="*{not form}">
+                                        <a class="btn-floating center-align"
+                                           th:title="*{title}" th:utext="*{title}"
+                                           th:href="@{|*{urlPrefix}*{urlSuffix}|}">
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="*{form}">
+                                        <form th:method="*{formMethod}" class="action-table-cell"
+                                              th:action="@{|*{urlPrefix}*{urlSuffix}|}"
+                                              data-th-show-dialog="${actionEntity.showDialog}"
+                                              data-th-title="${actionEntity.dialogTitle}"
+                                              data-th-desc="${actionEntity.dialogDescription}">
+                                            <button class="btn-floating center-align" th:utext="*{title}"></button>
+                                        </form>
+                                    </th:block>
+                                </li>
+                            </ul>
+                        </div>
+                    </th:block>
+                </div>
+                <!--/* 渲染搜索操作 */-->
+                <div th:unless="*{searchAction.disabled}" class="col s12">
+                    <form th:method="*{searchAction.formMethod}">
+                        <div class="input-field">
+                            <input th:id="*{searchAction.queryParameter}"
+                                   th:name="*{searchAction.queryParameter}"
+                                   th:placeholder="*{searchAction.title}"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="highlight responsive-table">
+
+                <!--/* 渲染表格头部 */-->
+                <thead>
+                <tr>
+                    <!--/*@thymesVar id="head" type="com.qxcmp.framework.view.table.TableViewHeadEntity"*/-->
+                    <th th:each="head : *{heads}" th:object="${head}">
+                        <!--/* 开启排序 */-->
+                        <th:block th:unless="*{disableSort}">
+                            <span th:utext="*{title}"></span>
+                            <a th:href="@{*{sortUrl}|}">
+                                <i class="material-icons" th:if="*{direction.name() eq 'DESC'}">arrow_drop_down</i>
+                                <i class="material-icons" th:if="*{direction.name() eq 'ASC'}">arrow_drop_up</i>
+                            </a>
+                        </th:block>
+                        <!--/* 未开启排序 */-->
+                        <th:block th:if="*{disableSort}">
+                            <span th:utext="*{title}"></span>
+                        </th:block>
+                    </th>
+                    <th th:unless="*{disableAction}" th:utext="*{actionColumnTitle}"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!--/* 如果没有内容，渲染无内容单元格 */-->
+                <tr th:if="*{#lists.isEmpty(items)}">
+                    <td th:colspan="${colspan}" class="center-align primary-text">暂无内容</td>
+                </tr>
+
+                <!--/* 渲染表格单元格 */-->
+                <tr th:each="item : *{items}">
+                    <td th:each="fieldEntity : *{fields}">
+                        <span th:replace="~{:: objectFieldText(object=${item}, fieldEntity=${fieldEntity})}"></span>
+                    </td>
+                    <td th:unless="*{disableAction}">
+                        <!--/* 渲染行级操作 */-->
+                        <th:block th:each="actionEntity : *{rowActions}"
+                                  th:unless="${actionEntity.disabled}"
+                                  th:object="${actionEntity}">
+                            <th:block th:if="*{not form}">
+                                <th:block th:if="*{disableUrlEntityIndex}">
+                                    <a class="btn waves-effect waves-light"
+                                       th:utext="*{title}" th:target="*{urlTarget}"
+                                       th:href="@{|*{urlPrefix}*{urlSuffix}|}">
+                                    </a>
+                                </th:block>
+                                <th:block th:if="*{not disableUrlEntityIndex}">
+                                    <a class="btn waves-effect waves-light"
+                                       th:utext="*{title}" th:target="*{urlTarget}"
+                                       th:href="@{|*{urlPrefix}${item.__*{urlEntityIndex}__}*{urlSuffix}|}">
+                                    </a>
+                                </th:block>
+                            </th:block>
+                            <th:block th:if="*{form}">
+                                <th:block th:if="*{disableUrlEntityIndex}">
+                                    <form th:method="*{formMethod}" class="action-table-cell"
+                                          th:action="@{|*{urlPrefix}*{urlSuffix}|}"
+                                          data-th-show-dialog="${actionEntity.showDialog}"
+                                          data-th-title="${actionEntity.dialogTitle}"
+                                          data-th-desc="${actionEntity.dialogDescription}">
+                                        <button class="btn waves-effect waves-light" type="submit"
+                                                th:utext="*{title}"></button>
+                                    </form>
+                                </th:block>
+                                <th:block th:if="*{not disableUrlEntityIndex}">
+                                    <form th:method="*{formMethod}" class="action-table-cell"
+                                          th:action="@{|*{urlPrefix}${item.__*{urlEntityIndex}__}*{urlSuffix}|}"
+                                          data-th-show-dialog="${actionEntity.showDialog}"
+                                          data-th-title="${actionEntity.dialogTitle}"
+                                          data-th-desc="${actionEntity.dialogDescription}">
+                                        <button class="btn waves-effect waves-light" type="submit"
+                                                th:utext="*{title}"></button>
+                                    </form>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+
+                <!--/* 渲染表格页脚 */-->
+                <!--/*@thymesVar id="pagination" type="com.aaric.cms.utils.Pagination"*/-->
+                <tfoot th:fragment="tableFoot" th:if="*{#lists.size(pagination.paginationItems) &gt; 0}">
+                <tr>
+                    <td th:colspan="${colspan}">
+                        <div th:replace="~{qxcmp/common :: pagination(pagination=*{pagination})}"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </th:block>
+</th:block>
+
+<!--
+    对象字段显示组件
+
+    用于显示对象指定字段的文本
+
+    参数说明：
+        ${object}   : 目标对象
+        ${field}    : 对象的字段
+                        若字段名称以#开头，则表示取国际化字符串，e.g. #name
+                        若字段名称以@开头，则表示该字段为数组，以|分割数组项目字段，e.g.@users|name、@users|#name
+-->
+<!--/*@thymesVar id="fieldEntity" type="com.qxcmp.framework.view.table.TableViewFieldEntity"*/-->
+<th:block th:fragment="objectFieldText" th:object="${fieldEntity}">
+
+    <th:block th:if="*{getImage()}">
+        <img th:src="@{${object.__*{field}__}}"/>
+    </th:block>
+
+    <!--/* 处理非集合字段 */-->
+    <th:block th:if="*{not getImage() and not getCollection()}">
+        <th:block
+                th:with="text=*{i18n} ? #{${{object.__*{field}____*{fieldSuffix}__}}} : ${{object.__*{field}____*{fieldSuffix}__}}">
+            <!--/* 不生成URL */-->
+            <th:block th:unless="*{urlEnabled}">
+                <span th:utext="${text}"></span>
+            </th:block>
+            <!--/* 生成URL */-->
+            <th:block th:if="*{urlEnabled}">
+                <a th:target="*{urlTarget}" th:href="@{|*{urlPrefix}${object.__*{urlEntityIndex}__}*{urlSuffix}|}"
+                   th:utext="${text}"></a>
+            </th:block>
+        </th:block>
+    </th:block>
+
+    <!--/* 处理集合字段 */-->
+    <th:block th:if="*{not getImage() and getCollection()}">
+        <th:block th:each="collectionItem : ${object.__*{field}__}">
+            <th:block th:if="${collectionItemStat.count} le *{maxCollectionCount}"
+                      th:with="text=*{i18n} ? #{${{collectionItem.__*{collectionEntityIndex}__}}} : ${{collectionItem.__*{collectionEntityIndex}__}}">
+                <!--/* 不生成URL */-->
+                <th:block th:unless="*{urlEnabled}">
+                    <span class="chip" th:utext="${text}"></span>
+                </th:block>
+                <!--/* 生成URL */-->
+                <th:block th:if="*{urlEnabled}">
+                    <a th:target="*{urlTarget}"
+                       th:href="@{|*{urlPrefix}${collectionItem.__*{urlEntityIndex}__}*{urlSuffix}|}">
+                        <span class="chip" th:utext="${text}"></span>
+                    </a>
+                </th:block>
+            </th:block>
+        </th:block>
+    </th:block>
+</th:block>
+</body>
+</html>

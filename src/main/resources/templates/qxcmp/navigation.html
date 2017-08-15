@@ -1,0 +1,98 @@
+<!--/*
+
+    模板名称：   后端导航组件
+    实现框架：   Materialize CSS
+
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet"
+          href="../../../../../../qxcmp-ui-default-style/src/main/websrc/node_modules/materialize-css/dist/css/materialize.css"/>
+</head>
+<body>
+<!--/*@thymesVar id="normalNavigation" type="com.qxcmp.framework.view.nav.Navigation"*/-->
+
+<!--/*
+    页内导航栏组件
+*/-->
+<th:block th:fragment="normal">
+    <div class="section">
+        <h5 th:utext="${normalNavigation.name}"></h5>
+        <div class="divider"></div>
+    </div>
+    <div class="collection">
+        <a th:each="item : ${normalNavigation.items}"
+           th:class="|collection-item waves-effect waves-light ${#strings.equals(activeNavigationItem, item.title) ? 'primary white-text' : 'secondary-text'}|"
+           th:utext="${item.title}"
+           th:href="@{${item.link}}"> </a>
+    </div>
+</th:block>
+
+<!--/*
+    页内导航栏移动端组件
+*/-->
+<th:block th:fragment="normal-mobile">
+    <ul class="collapsible" data-collapsible="accordion">
+        <li>
+            <a class="collapsible-header waves-effect waves-light black-text" th:utext="${normalNavigation.name}"> </a>
+            <div class="collapsible-body" style="padding: 0">
+                <div class="collection">
+                    <a th:each="item : ${normalNavigation.items}"
+                       th:class="|collection-item waves-effect waves-light ${#strings.equals(activeNavigationItem, item.title) ? 'primary white-text' : 'secondary-text'}|"
+                       th:utext="${item.title}"
+                       th:href="@{${item.link}}"> </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</th:block>
+
+<!--/*
+    盒子导航栏
+*/-->
+<!--/*@thymesVar id="item" type="com.qxcmp.framework.view.nav.NavigationItem"*/-->
+<th:block th:fragment="box(navigation)">
+    <div class="center-align row">
+        <th:block th:each="item : ${navigation.items}">
+            <div th:if="${navigation.items.size() % 3} eq 0" class="col s4 m2 l1" style="padding: 1rem 0;">
+                <a th:href="@{${item.link}}">
+                    <img th:if="!${#strings.isEmpty(item.image)}" th:src="@{${item.image}}"/>
+                    <i th:if="!${#strings.isEmpty(item.icon)}" class="primary-text material-icons"
+                       th:utext="${item.icon}"></i>
+                    <div class="black-text" th:utext="${item.title}"></div>
+                </a>
+            </div>
+            <div th:unless="${navigation.items.size() % 3} eq 0" class="col s3 m2 l1" style="padding: 1rem 0;">
+                <a th:href="@{${item.link}}">
+                    <img th:if="!${#strings.isEmpty(item.image)}" th:src="@{${item.image}}"/>
+                    <i th:if="!${#strings.isEmpty(item.icon)}" class="primary-text material-icons"
+                       th:utext="${item.icon}"></i>
+                    <div class="black-text" th:utext="${item.title}"></div>
+                </a>
+            </div>
+        </th:block>
+    </div>
+</th:block>
+
+<!--/*
+    移动端底部导航栏
+*/-->
+<th:block th:fragment="mobile">
+    <!--/*@thymesVar id="mobileNavigation" type="com.qxcmp.framework.view.nav.Navigation"*/-->
+    <div class="center-align primary"
+         style="width: 100%;height:62px;position: fixed;bottom: 0;z-index: 100">
+        <div class="row" style="margin-top: 10px">
+            <div th:each="item : ${mobileNavigation.items}" th:class="|col s${12 / mobileNavigation.items.size()}|">
+                <a th:href="@{${item.link}}"
+                   th:class="${#strings.equals(activeNavigationItem, item.title) ? 'black-text' : 'white-text'}">
+                    <img th:if="!${#strings.isEmpty(item.image)}" th:src="@{${item.image}}"/>
+                    <i th:if="!${#strings.isEmpty(item.icon)}" class="material-icons" th:utext="${item.icon}"></i>
+                    <div th:utext="${item.title}"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
