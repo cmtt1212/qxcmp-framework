@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.qxcmp</groupId>
-    <artifactId>qxcmp</artifactId>
+    <artifactId>qxcmp-framework</artifactId>
     <version>1.0.0.RELEASE-SNAPSHOT</version>
-    <name>QingXing Content Management Platform</name>
+    <name>QingXing Content Management Platform Framework</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -41,8 +41,7 @@
     </properties>
 
     <scm>
-        <developerConnection>scm:git:git@code.aliyun.com:aaricchen/qxcmp.git</developerConnection>
-        <tag>1.0.4.RELEASE</tag>
+        <developerConnection>scm:git:git@code.aliyun.com:aaricchen/qxcmp-framework.git</developerConnection>
     </scm>
 
     <dependencies>
