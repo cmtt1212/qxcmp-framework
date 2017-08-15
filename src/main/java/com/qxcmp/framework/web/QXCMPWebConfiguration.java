@@ -99,6 +99,9 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public static final String PRIVILEGE_MALL_ORDER_MANAGEMENT = "商城订单管理权限";
     public static final String PRIVILEGE_MALL_ORDER_MANAGEMENT_DESCRIPTION = "该权限可以对商城订单进行管理";
 
+    public static final String PRIVILEGE_SPIDER_MANAGEMENT = "蜘蛛管理权限";
+    public static final String PRIVILEGE_SPIDER_MANAGEMENT_DESCRIPTION = "该权限可以查看";
+
     /**
      * 平台认证过滤器
      * <p>
@@ -204,6 +207,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers(QXCMP_BACKEND_URL + "/article/channel/new").hasRole(PRIVILEGE_CHANNEL_CREATE)
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/commodity/**").hasRole(PRIVILEGE_MALL_COMMODITY_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/order/**").hasRole(PRIVILEGE_MALL_ORDER_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(PRIVILEGE_SPIDER_MANAGEMENT)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -280,6 +284,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
 
         navigation = navigationService.get(Navigation.Type.NORMAL, "系统日志", 0);
         navigationService.add(navigation, "审计日志", "", "", QXCMP_BACKEND_URL + "/log/audit", LinkTarget.SELF, 10, PRIVILEGE_LOG_MANAGEMENT);
+        navigationService.add(navigation, "蜘蛛日志", "", "", QXCMP_BACKEND_URL + "/spider/log", LinkTarget.SELF, 30, PRIVILEGE_SPIDER_MANAGEMENT);
 
         navigation = navigationService.get(Navigation.Type.NORMAL, "安全设置", 0);
         navigationService.add(navigation, "用户状态管理", "", "", QXCMP_BACKEND_URL + "/security/user", LinkTarget.SELF, 10, PRIVILEGE_SECURITY_MANAGEMENT);
@@ -299,11 +304,15 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
         navigationService.add(navigation, "账户邀请码", "", "", QXCMP_BACKEND_URL + "/tool/account/invite", LinkTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
         navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", LinkTarget.SELF, 20, PRIVILEGE_ADVERTISEMENT_MANAGEMENT);
         navigationService.add(navigation, "兑换码管理", "", "", QXCMP_BACKEND_URL + "/redeem", LinkTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
+        navigationService.add(navigation, "蜘蛛管理", "", "", QXCMP_BACKEND_URL + "/spider", LinkTarget.SELF, 40, PRIVILEGE_SPIDER_MANAGEMENT);
 
         navigation = navigationService.get(Navigation.Type.NORMAL, "兑换码管理", 0);
         navigationService.add(navigation, "生成兑换码", "", "", QXCMP_BACKEND_URL + "/redeem/generate", LinkTarget.SELF, 10, PRIVILEGE_REDEEM_MANAGEMENT);
         navigationService.add(navigation, "兑换码列表", "", "", QXCMP_BACKEND_URL + "/redeem/list", LinkTarget.SELF, 20, PRIVILEGE_REDEEM_MANAGEMENT);
         navigationService.add(navigation, "兑换码设置", "", "", QXCMP_BACKEND_URL + "/redeem/settings", LinkTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
 
+        navigation = navigationService.get(Navigation.Type.NORMAL, "蜘蛛管理", 0);
+        navigationService.add(navigation, "蜘蛛状态", "", "", QXCMP_BACKEND_URL + "/spider/status", LinkTarget.SELF, 10, PRIVILEGE_SPIDER_MANAGEMENT);
+        navigationService.add(navigation, "蜘蛛配置", "", "", QXCMP_BACKEND_URL + "/spider/config", LinkTarget.SELF, 20, PRIVILEGE_SPIDER_MANAGEMENT);
     }
 }

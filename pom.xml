@@ -37,6 +37,7 @@
         <commons-csv.version>1.4</commons-csv.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <joda-time.version>2.9.9</joda-time.version>
+        <webmagic.version>0.7.2</webmagic.version>
     </properties>
 
     <scm>
@@ -155,7 +156,7 @@
             <artifactId>jodd-http</artifactId>
         </dependency>
 
-        <!-- Weixin Library -->
+        <!-- Weixin library -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
@@ -163,6 +164,16 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
+        </dependency>
+
+        <!-- Spider library -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
         </dependency>
 
         <dependency>
@@ -305,6 +316,24 @@
                         <artifactId>jodd-http</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!-- Spider library -->
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-core</artifactId>
+                <version>${webmagic.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-extension</artifactId>
+                <version>${webmagic.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
