@@ -363,6 +363,37 @@ public class QXCMPConfiguration {
      * 默认为否，引入支付宝依赖以后自动设为开启状态
      */
     public static boolean SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY_DEFAULT_VALUE = false;
+
+    /**
+     * 是否启用兑换码功能
+     */
+    public static String SYSTEM_CONFIG_REDEEM_ENABLE;
+
+    /**
+     * 默认启用兑换码功能
+     */
+    public static boolean SYSTEM_CONFIG_REDEEM_ENABLE_DEFAULT_VALUE = true;
+
+    /**
+     * 兑换码默认过期时长，单位为秒
+     */
+    public static String SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION;
+
+    /**
+     * 默认过期时长为2小时
+     */
+    public static int SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE = 7200;
+
+    /**
+     * 兑换码支持的业务类型列表，使用换行符分割
+     */
+    public static String SYSTEM_CONFIG_REDEEM_TYPE_LIST;
+
+    /**
+     * 默认没有任何业务类型
+     */
+    public static String SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE = "";
+
     /**
      * 平台默认名称
      * <p>

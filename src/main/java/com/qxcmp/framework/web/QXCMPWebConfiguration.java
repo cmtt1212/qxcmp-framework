@@ -78,6 +78,9 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public static final String PRIVILEGE_FINANCE_CONFIG_MANAGEMENT = "平台财务管理配置权限";
     public static final String PRIVILEGE_FINANCE_CONFIG_MANAGEMENT_DESCRIPTION = "该权限可以修改平台财务的配置";
 
+    public static final String PRIVILEGE_REDEEM_MANAGEMENT = "兑换码管理权限";
+    public static final String PRIVILEGE_REDEEM_MANAGEMENT_DESCRIPTION = "该权限可以生成和管理兑换码";
+
     /**
      * 平台认证过滤器
      * <p>
@@ -173,6 +176,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(PRIVILEGE_MESSAGE_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(PRIVILEGE_LOG_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(PRIVILEGE_REDEEM_MANAGEMENT)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -232,7 +236,13 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
 
         navigation = navigationService.get(Navigation.Type.NORMAL, "系统工具", 0);
         navigationService.add(navigation, "账户邀请码", "", "", QXCMP_BACKEND_URL + "/tool/account/invite", LinkTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", LinkTarget.SELF, 40, PRIVILEGE_ADVERTISEMENT_MANAGEMENT);
+        navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", LinkTarget.SELF, 20, PRIVILEGE_ADVERTISEMENT_MANAGEMENT);
+        navigationService.add(navigation, "兑换码管理", "", "", QXCMP_BACKEND_URL + "/redeem", LinkTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
+
+        navigation = navigationService.get(Navigation.Type.NORMAL, "兑换码管理", 0);
+        navigationService.add(navigation, "生成兑换码", "", "", QXCMP_BACKEND_URL + "/redeem/generate", LinkTarget.SELF, 10, PRIVILEGE_REDEEM_MANAGEMENT);
+        navigationService.add(navigation, "兑换码列表", "", "", QXCMP_BACKEND_URL + "/redeem/list", LinkTarget.SELF, 20, PRIVILEGE_REDEEM_MANAGEMENT);
+        navigationService.add(navigation, "兑换码设置", "", "", QXCMP_BACKEND_URL + "/redeem/settings", LinkTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
 
     }
 }
