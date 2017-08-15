@@ -81,6 +81,15 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public static final String PRIVILEGE_REDEEM_MANAGEMENT = "兑换码管理权限";
     public static final String PRIVILEGE_REDEEM_MANAGEMENT_DESCRIPTION = "该权限可以生成和管理兑换码";
 
+    public static final String PRIVILEGE_ARTICLE_CREATE = "文章创建权限";
+    public static final String PRIVILEGE_ARTICLE_CREATE_DESCRIPTION = "该权限控制用户能否看见创建文章的菜单";
+
+    public static final String PRIVILEGE_ARTICLE_AUDIT = "文章审核权限";
+    public static final String PRIVILEGE_ARTICLE_AUDIT_DESCRIPTION = "该权限可以审核所有待发布文章";
+
+    public static final String PRIVILEGE_CHANNEL_CREATE = "栏目创建权限";
+    public static final String PRIVILEGE_CHANNEL_CREATE_DESCRIPTION = "该权限可以创建新的栏目";
+
     /**
      * 平台认证过滤器
      * <p>
@@ -177,6 +186,12 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(PRIVILEGE_LOG_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(PRIVILEGE_REDEEM_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/publish").hasRole(PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/disable").hasRole(PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/new").hasRole(PRIVILEGE_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(PRIVILEGE_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/channel/new").hasRole(PRIVILEGE_CHANNEL_CREATE)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -194,7 +209,22 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
 
     @Override
     public void configureNavigation(NavigationService navigationService) {
-        Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "系统设置", 10000);
+        Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "内容管理", 9000);
+        navigationService.add(navigation, "文章管理", "", "", QXCMP_BACKEND_URL + "/article/draft", LinkTarget.SELF, 20, PRIVILEGE_ARTICLE_CREATE);
+        navigationService.add(navigation, "栏目管理", "", "", QXCMP_BACKEND_URL + "/article/channel", LinkTarget.SELF, 30, PRIVILEGE_CHANNEL_CREATE);
+
+        navigation = navigationService.get(Navigation.Type.NORMAL, "文章管理", 0);
+        navigationService.add(navigation, "文章审核", "", "", QXCMP_BACKEND_URL + "/article/audit", LinkTarget.SELF, 10, PRIVILEGE_ARTICLE_AUDIT);
+        navigationService.add(navigation, "已发布文章", "", "", QXCMP_BACKEND_URL + "/article/publish", LinkTarget.SELF, 20, PRIVILEGE_ARTICLE_AUDIT);
+        navigationService.add(navigation, "已禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disable", LinkTarget.SELF, 21, PRIVILEGE_ARTICLE_AUDIT);
+        navigationService.add(navigation, "新建文章", "", "", QXCMP_BACKEND_URL + "/article/new", LinkTarget.SELF, 30);
+        navigationService.add(navigation, "我的文章草稿", "", "", QXCMP_BACKEND_URL + "/article/draft", LinkTarget.SELF, 40);
+        navigationService.add(navigation, "我的待审核文章", "", "", QXCMP_BACKEND_URL + "/article/auditing", LinkTarget.SELF, 50);
+        navigationService.add(navigation, "我的未通过文章", "", "", QXCMP_BACKEND_URL + "/article/reject", LinkTarget.SELF, 60);
+        navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/article/published", LinkTarget.SELF, 70);
+        navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disabled", LinkTarget.SELF, 80);
+
+        navigation = navigationService.get(Navigation.Type.SIDEBAR, "系统设置", 10000);
         navigationService.add(navigation, "网站设置", "", "", QXCMP_BACKEND_URL + "/site/config", LinkTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
         navigationService.add(navigation, "系统工具", "", "", QXCMP_BACKEND_URL + "/tool", LinkTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
         navigationService.add(navigation, "消息服务", "", "", QXCMP_BACKEND_URL + "/message", LinkTarget.SELF, 60, PRIVILEGE_MESSAGE_MANAGEMENT);

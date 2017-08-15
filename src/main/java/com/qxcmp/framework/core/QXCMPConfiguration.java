@@ -395,6 +395,10 @@ public class QXCMPConfiguration {
     public static String SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE = "";
 
     /**
+     * 文章栏目分类
+     */
+    public static String SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG = "";
+    /**
      * 平台默认名称
      * <p>
      * 配置在 Spring Boot application.yml 文件里面
