@@ -316,17 +316,17 @@ public class QXCMPConfiguration {
     /**
      * 微信公众号 App Secret
      */
-    public static String SYSTEM_CONFIG_WECHAT_SECRET = "";
+    public static String SYSTEM_CONFIG_WECHAT_SECRET = "wechat.secret";
 
     /**
      * 微信公众号 Token
      */
-    public static String SYSTEM_CONFIG_WECHAT_TOKEN = "";
+    public static String SYSTEM_CONFIG_WECHAT_TOKEN = "wechat.token";
 
     /**
      * 微信公众号 AES Key
      */
-    public static String SYSTEM_CONFIG_WECHAT_AES_KEY = "";
+    public static String SYSTEM_CONFIG_WECHAT_AES_KEY = "wechat.aes.key";
 
     /**
      * 微信公众号网页授权回调 URL
