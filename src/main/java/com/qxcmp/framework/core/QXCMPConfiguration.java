@@ -1,5 +1,8 @@
 package com.qxcmp.framework.core;
 
+import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.security.PrivilegeAutowired;
@@ -286,6 +289,80 @@ public class QXCMPConfiguration {
     public static String SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE = "";
     public static int SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE = 14;
 
+
+    /**
+     * 是否开启微信支付功能
+     */
+    public static String SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE;
+
+    /**
+     * 默认为关闭微信支付功能
+     */
+    public static boolean SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE = false;
+
+    /**
+     * 微信公众号 App Id
+     */
+    public static String SYSTEM_CONFIG_WECHAT_APP_ID = "wechat.app.id";
+
+    /**
+     * 微信支付 - 商户号
+     */
+    public static String SYSTEM_CONFIG_WECHAT_MCH_ID = "wechat.mch.id";
+
+    /**
+     * 微信支付 - 商户密钥
+     */
+    public static String SYSTEM_CONFIG_WECHAT_MCH_KEY = "wechat.mch.key";
+
+    /**
+     * 服务商模式下的子商户公众账号ID
+     */
+    public static String SYSTEM_CONFIG_WECHAT_SUB_APP_ID = "wechat.sub.app.id";
+
+    /**
+     * 服务商模式下的子商户号
+     */
+    public static String SYSTEM_CONFIG_WECHAT_SUB_MCH_ID = "wechat.sub.mch.id";
+
+    /**
+     * apiclient_cert.p12的文件的绝对路径
+     */
+    public static String SYSTEM_CONFIG_WECHAT_KEY_PATH = "wechat.key.path";
+
+    /**
+     * 微信支付结果通知Url,Url以【域名】/api/pay/result/mp 的形式组成
+     */
+    public static String SYSTEM_CONFIG_WECHAT_NOTIFY_URL = "wechat.notify.url";
+
+    /**
+     * 平台是否开启微信支付
+     */
+    public static String SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN;
+
+    /**
+     * 默认为否，引入微信支付依赖以后自动设为开启状态
+     */
+    public static boolean SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN_DEFAULT_VALUE = false;
+
+    /**
+     * 平台微信支付默认使用的支付方式
+     */
+    public static String SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE;
+    /**
+     * 默认为扫描支付，如果为公众号开发需要修改为公众号支付
+     */
+    public static String SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE = "NATIVE";
+
+    /**
+     * 平台是否开始支付宝支付
+     */
+    public static String SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY;
+
+    /**
+     * 默认为否，引入支付宝依赖以后自动设为开启状态
+     */
+    public static boolean SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY_DEFAULT_VALUE = false;
     /**
      * 平台默认名称
      * <p>
@@ -362,5 +439,36 @@ public class QXCMPConfiguration {
 
         javaMailSender.setJavaMailProperties(properties);
         return javaMailSender;
+    }
+
+    /**
+     * 微信支付配置
+     *
+     * @return 微信支付配置实例
+     */
+    @Bean
+    public WxPayConfig wxPayConfig() {
+        WxPayConfig wxPayConfig = new WxPayConfig();
+        wxPayConfig.setAppId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
+        wxPayConfig.setMchId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_MCH_ID).orElse(""));
+        wxPayConfig.setMchKey(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_MCH_KEY).orElse(""));
+        wxPayConfig.setSubAppId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUB_APP_ID).orElse(""));
+        wxPayConfig.setSubMchId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUB_MCH_ID).orElse(""));
+        wxPayConfig.setNotifyUrl(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_NOTIFY_URL).orElse(""));
+        wxPayConfig.setKeyPath(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
+        wxPayConfig.setTradeType("JSAPI");
+        return wxPayConfig;
+    }
+
+    /**
+     * 微信支付服务实例配置，全局唯一
+     *
+     * @return 微信支付实例
+     */
+    @Bean
+    public WxPayService wxPayService() {
+        WxPayService wxPayService = new WxPayServiceImpl();
+        wxPayService.setConfig(wxPayConfig());
+        return wxPayService;
     }
 }

@@ -75,6 +75,9 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public static final String PRIVILEGE_ADVERTISEMENT_MANAGEMENT = "广告管理权限";
     public static final String PRIVILEGE_ADVERTISEMENT_MANAGEMENT_DESCRIPTION = "该权限可以对平台的广告进行管理";
 
+    public static final String PRIVILEGE_FINANCE_CONFIG_MANAGEMENT = "平台财务管理配置权限";
+    public static final String PRIVILEGE_FINANCE_CONFIG_MANAGEMENT_DESCRIPTION = "该权限可以修改平台财务的配置";
+
     /**
      * 平台认证过滤器
      * <p>
@@ -169,6 +172,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers(QXCMP_BACKEND_URL + "/security/**").hasRole(PRIVILEGE_SECURITY_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(PRIVILEGE_MESSAGE_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(PRIVILEGE_LOG_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -192,6 +196,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
         navigationService.add(navigation, "消息服务", "", "", QXCMP_BACKEND_URL + "/message", LinkTarget.SELF, 60, PRIVILEGE_MESSAGE_MANAGEMENT);
         navigationService.add(navigation, "安全设置", "", "", QXCMP_BACKEND_URL + "/security", LinkTarget.SELF, 80, PRIVILEGE_SECURITY_MANAGEMENT);
         navigationService.add(navigation, "系统日志", "", "", QXCMP_BACKEND_URL + "/log/audit", LinkTarget.SELF, 90, PRIVILEGE_LOG_MANAGEMENT);
+        navigationService.add(navigation, "微信支付", "", "", QXCMP_BACKEND_URL + "/finance/payment/weixin/settings", LinkTarget.SELF, 40, PRIVILEGE_FINANCE_CONFIG_MANAGEMENT);
 
         navigation = navigationService.get(Navigation.Type.ACTION, "核心操作", 15000);
         navigationService.add(navigation, "个人中心", "", "", QXCMP_BACKEND_URL + "/account", LinkTarget.SELF, 10);

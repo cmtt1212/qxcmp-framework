@@ -6,7 +6,6 @@
     <groupId>com.qxcmp</groupId>
     <artifactId>qxcmp</artifactId>
     <version>1.0.0.RELEASE-SNAPSHOT</version>
-
     <name>QingXing Content Management Platform</name>
 
     <parent>
@@ -150,7 +149,18 @@
             <artifactId>joda-time</artifactId>
         </dependency>
 
-        <!-- Default Database connector -->
+        <!-- Http client library -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-http</artifactId>
+        </dependency>
+
+        <!-- Weixin Library -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -247,11 +257,39 @@
                 <version>${jpinyin.version}</version>
             </dependency>
 
-            <!-- Date Time library -->
+            <!-- Date time library -->
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+            </dependency>
+
+            <!-- Http client library -->
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-http</artifactId>
+                <version>${jodd-http.version}</version>
+            </dependency>
+
+            <!-- Weixin Library -->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${weixin-java-mp.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jodd</groupId>
+                        <artifactId>jodd-http</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
