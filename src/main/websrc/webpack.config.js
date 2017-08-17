@@ -19,33 +19,37 @@ module.exports = {
     ],
 
     module: {
-        loaders: [
-            {
-                test: /\.js|jsx$/,
-                loader: "babel-loader",
-                query: {presets: ['es2015']}
-            }, {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            }, {
-                test: /\.scss$/,
-                loader: 'style-loader!css-loader!sass-loader'
-            }, {
-                test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 8192,
-                    publicPath: "/assets/scripts/",
-                    name: "[name].[ext]"
-                }
-            }, {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-                loader: 'file-loader',
-                query: {
-                    publicPath: "/assets/scripts/",
-                    name: "[name].[ext]"
-                }
+        rules: [{
+            test: /\.js|jsx$/,
+            loader: "babel-loader",
+            query: {presets: ['es2015']}
+        }, {
+            test: /\.css$/,
+            loader: 'style-loader!css-loader'
+        }, {
+            test: /\.(png|jpg|gif)$/,
+            loader: 'url-loader',
+            query: {
+                limit: 8192,
+                publicPath: "/assets/scripts/",
+                name: "[name].[ext]"
             }
-        ]
+        }, {
+            test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+            loader: 'file-loader',
+            query: {
+                publicPath: "/assets/scripts/",
+                name: "[name].[ext]"
+            }
+        }, {
+            test: /\.scss$/,
+            loader: 'style-loader!css-loader!sass-loader'
+        }, {
+            test: require.resolve('jquery'),
+            use: [{
+                loader: 'expose-loader',
+                options: '$'
+            }]
+        }]
     }
 };
