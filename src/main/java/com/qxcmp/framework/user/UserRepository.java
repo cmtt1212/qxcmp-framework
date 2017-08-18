@@ -23,4 +23,7 @@ interface UserRepository extends JpaRepository<User, String>, JpaSpecificationEx
     @Query("select user from User user join user.roles role inner join role.privileges privilege where privilege.name = :privilege")
     List<User> findByAuthority(@Param("privilege") String privilege);
 
+    @Query("select user from User user inner join user.roles role where role = :role")
+    List<User> findByRole(@Param("role") String role);
+
 }

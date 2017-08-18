@@ -83,10 +83,21 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      *
      * @param privilege 拥有的权限
      *
-     * @return 指定权限的用
+     * @return 指定权限的用户
      */
     public List<User> findByAuthority(String privilege) {
         return repository.findByAuthority(privilege);
+    }
+
+    /**
+     * 查找具有指定角色的用户
+     *
+     * @param role 拥有的角色
+     *
+     * @return 指定角色的用户
+     */
+    public List<User> findByRole(String role) {
+        return repository.findByRole(role);
     }
 
     public Optional<User> findById(String userId) {
