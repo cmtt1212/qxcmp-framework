@@ -13,7 +13,7 @@
     <version>1.0.0.RELEASE-SNAPSHOT</version>
 
     <name>QingXing Content Management Platform Framework</name>
-    <description>QingXing Content Management Platform Parent POM</description>
+    <description>QingXing Content Management Platform Framework</description>
     <url>https://github.com/AaricChen/qxcmp-framework</url>
 
     <scm>
