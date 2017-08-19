@@ -4,18 +4,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.qxcmp</groupId>
+        <groupId>com.github.aaricchen</groupId>
         <artifactId>qxcmp-parent</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <version>1.0.1.RELEASE</version>
     </parent>
 
     <artifactId>qxcmp-framework</artifactId>
     <version>1.0.0.RELEASE-SNAPSHOT</version>
-    
+
     <name>QingXing Content Management Platform Framework</name>
+    <description>QingXing Content Management Platform Parent POM</description>
+    <url>https://github.com/AaricChen/qxcmp-framework</url>
 
     <scm>
-        <developerConnection>scm:git:git@code.aliyun.com:aaricchen/qxcmp-framework.git</developerConnection>
+        <connection>scm:git:git@github.com:AaricChen/qxcmp-framework.git</connection>
+        <developerConnection>scm:git:git@github.com:AaricChen/qxcmp-framework.git</developerConnection>
+        <url>git@github.com:AaricChen/qxcmp-framework.git</url>
     </scm>
 
     <dependencies>
