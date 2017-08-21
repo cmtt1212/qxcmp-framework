@@ -20,9 +20,7 @@ nav {
   height: $navbar-height-mobile;
   line-height: $navbar-line-height-mobile;
 
-  a {
-    color: $navbar-font-color;
-  }
+  a { color: $navbar-font-color; }
 
   i,
   [class^="mdi-"], [class*="mdi-"],
@@ -39,10 +37,9 @@ nav {
   }
 
   @media #{$large-and-up} {
-    a.button-collapse {
-      display: none;
-    }
+    a.button-collapse { display: none; }
   }
+
 
   // Collapse button
   .button-collapse {
@@ -81,9 +78,7 @@ nav {
         transform: none;
       }
 
-      &.left {
-        left: 0.5rem;
-      }
+      &.left { left: 0.5rem; }
       &.right {
         right: 0.5rem;
         left: auto;
@@ -103,12 +98,14 @@ nav {
     }
   }
 
+
   // Title
   .nav-title {
     display: inline-block;
     font-size: 32px;
     padding: 28px 0;
   }
+
 
   // Navbar Links
   ul {
@@ -120,7 +117,7 @@ nav {
       padding: 0;
 
       &.active {
-        background-color: rgba(0, 0, 0, .1);
+        background-color: rgba(0,0,0,.1);
       }
     }
     a {
@@ -143,7 +140,7 @@ nav {
       }
 
       &:hover {
-        background-color: rgba(0, 0, 0, .1);
+        background-color: rgba(0,0,0,.1);
       }
     }
 
@@ -179,12 +176,10 @@ nav {
       left: 0;
 
       i {
-        color: rgba(255, 255, 255, .7);
+        color: rgba(255,255,255,.7);
         transition: color .3s;
       }
-      &.active i {
-        color: $navbar-font-color;
-      }
+      &.active i { color: $navbar-font-color; }
     }
   }
 }
@@ -199,7 +194,6 @@ nav {
     position: fixed;
   }
 }
-
 @media #{$medium-and-up} {
   nav.nav-extended .nav-wrapper {
     min-height: $navbar-height;

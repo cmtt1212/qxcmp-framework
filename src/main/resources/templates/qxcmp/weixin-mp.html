@@ -18,7 +18,7 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script th:inline="javascript">
         var url = location.href.split('#')[0];
-        $.get("/api/weixin/mp/jsapi", {url: url}, function (jsApiSignature) {
+        $.get("/api/wxmp-cgi/jsapi", {url: url}, function (jsApiSignature) {
             wx.config({
                 debug: jsApiSignature.debug,
                 appId: jsApiSignature.appId,

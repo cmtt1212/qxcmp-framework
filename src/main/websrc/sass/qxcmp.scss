@@ -1,6 +1,7 @@
 @import "./material-icons";
 @import "../materialize/sass/materialize";
-@import "./spanner";
+@import "./components/spanner";
+@import "./components/list";
 
 body {
   display: flex;

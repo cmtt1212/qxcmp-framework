@@ -5,7 +5,6 @@
 //}
 
 // Google Color Palette defined: http://www.google.com/design/spec/style/color.html
-
 $qxcmp-primary-color: rgb(172, 206, 34);
 $qxcmp-secondary-color: rgb(255, 153, 51);
 
@@ -388,7 +387,7 @@ $colors: (
         "blue-grey": $blue-grey,
         "grey": $grey,
         "shades": $shades
-);
+) !default;
 
 // Color Classes
 
@@ -432,7 +431,7 @@ $colors: (
       @return map-get($curr_color, $type);
     }
   }
-  @warn "Unknown `#{name}` in $colors.";
+  @warn "Unknown `#{$color}` - `#{$type}` in $colors.";
   @return null;
 }
 
