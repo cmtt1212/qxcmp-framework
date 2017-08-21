@@ -5209,7 +5209,8 @@ if (jQuery) {
             $tabs_wrapper,
             $tab_width = Math.max($tabs_width, $this[0].scrollWidth) / $links.length,
             $indicator,
-            index = prev_index = 0,
+            index = 0,
+            prev_index = 0,
             clicked = false,
             clickedTimeout,
             transition = 300;
