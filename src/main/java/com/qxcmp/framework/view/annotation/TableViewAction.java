@@ -72,7 +72,7 @@ public @interface TableViewAction {
     /**
      * @return 是否显示确认框，当操作为表单的时候生效
      */
-    boolean showDialog() default true;
+    boolean showDialog() default false;
 
     /**
      * @return 确认框标题

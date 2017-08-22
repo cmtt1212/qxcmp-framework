@@ -144,7 +144,7 @@ public class FinanceController extends QXCMPFrontendController {
 
         return builder().setTitle("充值中心")
                 .setResult("充值中心", "")
-                .addFragment("qxcmp/finance-widget", "deposit-form")
+                .addFragment("qxcmp/weixin-mp", "deposit-form")
                 .addObject("supportWeixin", supportWeixin)
                 .addObject("weixinAction", weixinActionUrl)
                 .addObject("supportAlipay", supportAlipay)

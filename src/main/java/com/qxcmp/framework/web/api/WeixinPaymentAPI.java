@@ -81,7 +81,7 @@ public class WeixinPaymentAPI extends QXCMPFrontendController {
         Map<String, String> wxPayInfo = doWeixinPayment("JSAPI", user, depositOrder);
         return builder().setTitle("支付中心")
                 .setResult("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")
-                .addFragment("qxcmp/finance-widget", "weixin-pay-script")
+                .addFragment("qxcmp/weixin-mp", "weixin-pay-script")
                 .addObject("successCallback", successCallback)
                 .addObject("failedCallback", failedCallback)
                 .addObject(depositOrder)

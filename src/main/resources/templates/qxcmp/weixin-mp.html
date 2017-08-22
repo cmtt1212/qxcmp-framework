@@ -30,5 +30,105 @@
         });
     </script>
 </th:block>
+
+<!--/*
+    钱包充值表单
+*/-->
+<th:block th:fragment="deposit-form">
+    <form name="deposit" method="post" th:action="${weixinAction}">
+        <input type="hidden" name="successCallback" th:value="${#request.getParameter('successCallback')}"/>
+        <input type="hidden" name="failedCallback" th:value="${#request.getParameter('failedCallback')}"/>
+        <div class="center-align row">
+            <div class="col s12">
+                <div class="input-field inline">
+                    <i class="green-text lighten-3 material-icons prefix">verified_user</i>
+                    <input id="fee" name="fee" placeholder="请输入充值金额" type="number" min="0" th:required="true"/>
+                    <label for="fee">充值金额</label>
+                </div>
+                <span style="font-size: 2rem;">元</span>
+            </div>
+        </div>
+        <ul class="list">
+            <li class="list-item">
+                <div class="list-item-content">
+                    <span class="title">请选择支付方式</span>
+                </div>
+            </li>
+            <li th:if="${supportWeixin}" class="list-item"
+                th:onclick="|document.getElementById('weixinpay').click();document.deposit.action='${weixinAction}'|">
+                <img class="tiny" th:src="@{/assets/images/weixinpay-logo.png}"/>
+                <div class="list-item-content">
+                    <span class="title">微信支付</span>
+                    <p class="grey-text">微信安全支付</p>
+                </div>
+                <div class="list-item-extra-content">
+                    <p>
+                        <input name="type" id="weixinpay" type="radio" value="weixinpay" th:checked="${true}"/>
+                        <label for="weixinpay"></label>
+                    </p>
+                </div>
+            </li>
+            <li th:if="${supportAlipay}" class="list-item" onclick="document.getElementById('alipay').click()">
+                <img class="tiny" th:src="@{/assets/images/alipay-logo.png}"/>
+                <div class="list-item-content">
+                    <span class="title">支付宝</span>
+                    <p class="grey-text">数亿人用户都在用，安全可托付</p>
+                </div>
+                <div class="list-item-extra-content">
+                    <p>
+                        <input name="type" id="alipay" type="radio" value="alipay"/>
+                        <label for="alipay"></label>
+                    </p>
+                </div>
+            </li>
+        </ul>
+        <button class="primary waves-effect waves-light fluid btn">确认充值</button>
+    </form>
+</th:block>
+
+<th:block th:fragment="weixin-pay-script">
+    <!--/*@thymesVar id="jsApiSignature" type="me.chanjar.weixin.common.bean.WxJsapiSignature"*/-->
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script th:inline="javascript">
+        var url = location.href.split('#')[0];
+        $.get("/api/wxmp-cgi/jsapi", {url: url}, function (jsApiSignature) {
+            wx.config({
+                debug: jsApiSignature.debug,
+                appId: jsApiSignature.appId,
+                timestamp: jsApiSignature.timestamp,
+                nonceStr: jsApiSignature.nonceStr,
+                signature: jsApiSignature.signature,
+                jsApiList: ['chooseWXPay']
+            });
+        });
+
+        wx.ready(function () {
+            wx.chooseWXPay({
+                timestamp: [[${wxPayInfo.get('timeStamp')}]], // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                nonceStr: [[${wxPayInfo.get('nonceStr')}]], // 支付签名随机串，不长于 32 位
+                package: [[${wxPayInfo.get('package')}]], // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                signType: [[${wxPayInfo.get('signType')}]], // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                paySign: [[${wxPayInfo.get('paySign')}]], // 支付签名
+                success: function () {
+                    setInterval(function () {
+                        $.get("/api/wxmp-cgi/pay/query", {outTradeNo: [[${depositOrder.id}]]}, function (response) {
+                            if (response === "SUCCESS") {
+                                Materialize.toast('充值成功，正在跳转', 1000, '', function () {
+                                    window.location = [[${successCallback}]];
+                                });
+                            }
+                        });
+                    }, 2000);
+                },
+                error: function (response) {
+                    Materialize.toast('充值失败:' + response, 1000, '', function () {
+                        window.location = [[${failedCallback}]];
+                    });
+                }
+            });
+        });
+    </script>
+</th:block>
 </body>
 </html>
