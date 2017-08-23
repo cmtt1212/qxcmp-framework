@@ -20,7 +20,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<String> getString(String userId, String name);
@@ -30,7 +29,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<Integer> getInteger(String userId, String name);
@@ -40,7 +38,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<Short> getShort(String userId, String name);
@@ -50,7 +47,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<Long> getLong(String userId, String name);
@@ -60,7 +56,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<Float> getFloat(String userId, String name);
@@ -70,7 +65,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<Double> getDouble(String userId, String name);
@@ -80,7 +74,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 当前系统配置，或者{@link Optional#empty()}
      */
     Optional<Boolean> getBoolean(String userId, String name);
@@ -90,7 +83,6 @@ public interface UserConfigService {
      *
      * @param userId 用户ID
      * @param name   配置主键
-     *
      * @return 如果没有配置则列表为空
      */
     List<String> getList(String userId, String name);
@@ -101,7 +93,6 @@ public interface UserConfigService {
      * @param userId 用户ID
      * @param name   配置主键
      * @param value  配置值
-     *
      * @return 创建后的系统配置，如果当前配置已经存在则返回{@link Optional#empty()}
      */
     Optional<UserConfig> create(String userId, String name, String value);
@@ -112,7 +103,6 @@ public interface UserConfigService {
      * @param userId 用户ID
      * @param name   配置主键
      * @param value  新的配置值
-     *
      * @return 修改后的配置，如果当前配置不存在则返回{@link Optional#empty()}
      */
     Optional<UserConfig> update(String userId, String name, String value);
@@ -123,8 +113,17 @@ public interface UserConfigService {
      * @param userId 用户ID
      * @param name   配置主键
      * @param value  新的配置值
-     *
      * @return 修改后的配置，如果当前配置不存在则返回{@link Optional#empty()}
      */
     List<String> update(String userId, String name, List<String> value);
+
+    /**
+     * 保存一个用户配置，如果不存在则自动创建
+     *
+     * @param userId 用户ID
+     * @param name   配置主键
+     * @param value  配置值
+     * @return 保存后的系统配置
+     */
+    Optional<UserConfig> save(String userId, String name, String value);
 }

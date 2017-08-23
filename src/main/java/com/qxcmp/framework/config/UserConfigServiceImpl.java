@@ -87,4 +87,13 @@ public class UserConfigServiceImpl implements UserConfigService {
     public List<String> update(String userId, String name, List<String> value) {
         return update(userId, name, StringUtils.join(value.stream().map(String::trim).collect(Collectors.toList()), SEPARATOR)).map(userConfig -> getList(userConfig.getUserId(), userConfig.getName())).orElse(Lists.newArrayList());
     }
+
+    @Override
+    public Optional<UserConfig> save(String userId, String name, String value) {
+        if (userConfigRepository.findByUserIdAndName(userId, name).isPresent()) {
+            return update(userId, name, value);
+        } else {
+            return create(userId, name, value);
+        }
+    }
 }
