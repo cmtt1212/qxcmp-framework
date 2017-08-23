@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaExpiredException;
@@ -61,6 +62,11 @@ public abstract class QXCMPController {
     protected SystemConfigService systemConfigService;
 
     /**
+     * 用户配置服务
+     */
+    protected UserConfigService userConfigService;
+
+    /**
      * 用户服务
      */
     protected UserService userService;
@@ -100,7 +106,6 @@ public abstract class QXCMPController {
      * 页面重定向
      *
      * @param redirectUrl 重定向位置
-     *
      * @return 页面重定向
      */
     protected ModelAndView redirect(String redirectUrl) {
@@ -111,7 +116,6 @@ public abstract class QXCMPController {
      * 获取一个模型视图生成器
      *
      * @param viewName 视图名称
-     *
      * @return 模型视图生成器
      */
     protected ModelAndViewBuilder builder(String viewName) {
@@ -125,7 +129,6 @@ public abstract class QXCMPController {
      *
      * @param status  HTTP错误代码
      * @param message 错误信息
-     *
      * @return 错误页面模型视图生成器
      */
     protected abstract ModelAndViewBuilder error(HttpStatus status, String message);
@@ -197,6 +200,11 @@ public abstract class QXCMPController {
     @Autowired
     public void setSystemConfigService(SystemConfigService systemConfigService) {
         this.systemConfigService = systemConfigService;
+    }
+
+    @Autowired
+    public void setUserConfigService(UserConfigService userConfigService) {
+        this.userConfigService = userConfigService;
     }
 
     @Autowired
