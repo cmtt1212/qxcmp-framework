@@ -23,7 +23,7 @@
 <!--/*@thymesVar id="link" type="com.qxcmp.framework.view.component.Link"*/-->
 <th:block th:fragment="button(link)">
     <a class="btn waves-effect waves-light"
-       th:href="${link.href}"
+       th:href="@{${link.href}}"
        th:target="${link.target}"
        th:utext="${link.title}"></a>
 </th:block>
