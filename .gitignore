@@ -4,6 +4,8 @@ node_modules/
 logs/
 *.releaseBackup
 *.versionsBackup
+QXCMPApplication.java
+application.yml
 release.properties
 ### STS ###
 .apt_generated
