@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: "./index.js",
@@ -15,6 +16,14 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery"
+        }),
+        new UglifyJSPlugin({
+            parallel: {
+                cache: true,
+                workers: 4
+            },
+            extractComments: true,
+            sourceMap: true
         })
     ],
 
