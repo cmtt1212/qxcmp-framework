@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     entry: "./index.js",
@@ -24,35 +26,66 @@ module.exports = {
             },
             extractComments: true,
             sourceMap: true
+        }),
+        new ExtractTextPlugin("qxcmp.css"),
+        new OptimizeCssAssetsPlugin({
+            cssProcessor: require("cssnano"),
+            cssProcessorOptions: {
+                discardComments: {
+                    removeAll: true
+                }
+            },
+            canPrint: true
         })
     ],
 
     module: {
         rules: [{
             test: /\.js|jsx$/,
-            loader: "babel-loader",
-            query: {presets: ['es2015']}
+            exclude: /(node_modules|bower_components)/,
+            use: [{
+                loader: "babel-loader",
+                options: {
+                    presets: ['es2015']
+                }
+            }]
         }, {
             test: /\.css$/,
-            loader: 'style-loader!css-loader'
+            use: ExtractTextPlugin.extract({
+                use: {
+                    loader: "css-loader",
+                    options: {
+                        minimize: true
+                    }
+                }
+            })
         }, {
             test: /\.(png|jpg|gif)$/,
-            loader: 'url-loader',
-            query: {
-                limit: 8192,
-                publicPath: "/assets/scripts/",
-                name: "[name].[ext]"
-            }
+            use: [{
+                loader: "url-loader",
+                options: {
+                    limit: 8192,
+                    publicPath: "/assets/scripts/",
+                    name: "[name].[ext]"
+                }
+            }]
         }, {
             test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-            loader: 'file-loader',
-            query: {
-                publicPath: "/assets/scripts/",
-                name: "[name].[ext]"
-            }
+            use: [{
+                loader: "file-loader",
+                options: {
+                    publicPath: "/assets/scripts/",
+                    name: "[name].[ext]"
+                }
+            }]
         }, {
             test: /\.scss$/,
-            loader: 'style-loader!css-loader!sass-loader'
+            use: ExtractTextPlugin.extract([{
+                loader: "css-loader",
+                options: {
+                    minimize: true
+                }
+            }, "sass-loader"])
         }, {
             test: require.resolve('jquery'),
             use: [{
