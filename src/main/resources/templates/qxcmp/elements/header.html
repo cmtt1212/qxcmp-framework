@@ -4,7 +4,7 @@
 <!--/*
     页面页眉
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.Header"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Header"*/-->
 <th:block th:fragment="default(component)" th:switch="${component.type.getTag()}">
     <div th:case="normal" th:class="${component.getClassName()}">
         <th:block th:if="${component.image ne null}">

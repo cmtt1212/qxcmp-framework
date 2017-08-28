@@ -12,5 +12,15 @@
         </th:block>
     </div>
 </th:block>
+
+<!--/*
+    分段组
+*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Segments"*/-->
+<div th:fragment="group(component)" th:class="${component.getClassName()}">
+    <th:block th:each="segment : ${component.segments}">
+        <div th:replace="~{:: default(${segment})}"></div>
+    </th:block>
+</div>
 </body>
 </html>
