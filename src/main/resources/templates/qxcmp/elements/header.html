@@ -6,9 +6,12 @@
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.PageHeader"*/-->
 <th:block th:fragment="page-header(component)" th:switch="${component.type.getTag()}">
-    <h1 th:case="h1" class="ui header"
-        th:classappend="|${component.color.getClassName()} ${component.alignment.getClassName()} ${component.floating.getClassName()} ${component.disabled ? 'disabled' : ''} ${component.dividing ? 'dividing' : ''} ${component.block ? 'block' : ''} ${component.attached ? 'attached' : ''} ${component.attachDirection.getClassName()} ${component.inverted ? 'inverted' : ''}|"
-        th:utext="${component.text}"></h1>
+    <h1 th:case="h1" th:class="${component.getClassName()}" th:utext="${component.text}"></h1>
+    <h2 th:case="h2" th:class="${component.getClassName()}" th:utext="${component.text}"></h2>
+    <h3 th:case="h3" th:class="${component.getClassName()}" th:utext="${component.text}"></h3>
+    <h4 th:case="h4" th:class="${component.getClassName()}" th:utext="${component.text}"></h4>
+    <h5 th:case="h5" th:class="${component.getClassName()}" th:utext="${component.text}"></h5>
+    <h6 th:case="h6" th:class="${component.getClassName()}" th:utext="${component.text}"></h6>
 </th:block>
 </body>
 </html>

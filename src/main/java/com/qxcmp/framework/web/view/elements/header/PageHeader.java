@@ -44,4 +44,9 @@ public class PageHeader extends AbstractHeader {
     public String getFragmentName() {
         return "page-header";
     }
+
+    @Override
+    public String getClassName() {
+        return "ui header" + " " + alignment.getClassName() + (disabled ? "disabled" : "") + (dividing ? "dividing" : "") + (block ? "block" : "") + (attached ? "attached" : "") + " " + attachDirection.getClassName() + " " + floating.getClassName() + " " + color.getClassName() + (inverted ? "inverted" : "");
+    }
 }

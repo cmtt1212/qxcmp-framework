@@ -18,4 +18,11 @@ public interface Component {
     default String getFragmentName() {
         return "default";
     }
+
+    /**
+     * @return 该组件的CSS名称
+     */
+    default String getClassName() {
+        return "";
+    }
 }
