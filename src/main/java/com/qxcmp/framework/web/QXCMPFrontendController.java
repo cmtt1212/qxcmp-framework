@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author aaric
  */
-public abstract class QXCMPFrontendController extends QXCMPController {
+public abstract class QXCMPFrontendController extends QXCMPController2 {
 
     /**
      * 平台前端页面默认视图名称

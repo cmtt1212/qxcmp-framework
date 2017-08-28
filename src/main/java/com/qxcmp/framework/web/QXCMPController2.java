@@ -10,6 +10,7 @@ import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.view.ModelAndViewBuilder;
+import com.qxcmp.framework.web.view.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * 页面路由器基础类
@@ -32,7 +34,7 @@ import java.util.Objects;
  * @author aaric
  * @see ModelAndViewBuilder
  */
-public abstract class QXCMPController {
+public abstract class QXCMPController2 {
 
     public static final String FORM_OBJECT = ModelAndViewBuilder.FORM_OBJECT;
 
@@ -106,16 +108,24 @@ public abstract class QXCMPController {
      * 页面重定向
      *
      * @param redirectUrl 重定向位置
+     *
      * @return 页面重定向
      */
     protected ModelAndView redirect(String redirectUrl) {
         return builder("redirect:" + redirectUrl).build();
     }
 
+    protected ModelAndViewBuilder page(Consumer<Page.PageBuilder> consumer) {
+        Page.PageBuilder pageBuilder = Page.builder();
+        consumer.accept(pageBuilder);
+        return builder("qxcmp").addObject(pageBuilder.build());
+    }
+
     /**
      * 获取一个模型视图生成器
      *
      * @param viewName 视图名称
+     *
      * @return 模型视图生成器
      */
     protected ModelAndViewBuilder builder(String viewName) {
@@ -129,6 +139,7 @@ public abstract class QXCMPController {
      *
      * @param status  HTTP错误代码
      * @param message 错误信息
+     *
      * @return 错误页面模型视图生成器
      */
     protected abstract ModelAndViewBuilder error(HttpStatus status, String message);

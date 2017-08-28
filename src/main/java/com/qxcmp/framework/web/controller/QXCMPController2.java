@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/redeem")
 @RequiredArgsConstructor
-public class RedeemModuleController extends QXCMPBackendController {
+public class QXCMPController2 extends QXCMPBackendController {
 
     private final RedeemKeyService redeemKeyService;
 
