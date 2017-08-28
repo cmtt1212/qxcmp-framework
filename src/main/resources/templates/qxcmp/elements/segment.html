@@ -2,11 +2,11 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 <!--/*
-    默认容器
+    默认分段
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Container"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Segment"*/-->
 <th:block th:fragment="default(component)">
-    <div class="ui container">
+    <div class="ui segment">
         <th:block th:each="component : ${component.components}">
             <div th:replace="~{qxcmp/globals/components :: component(${component})}"></div>
         </th:block>

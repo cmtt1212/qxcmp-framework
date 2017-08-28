@@ -2,3 +2,8 @@
 //  QXCMP style entry
 //
 @import "../semantic/dist/semantic.css";
+
+body {
+  display: flex;
+  flex-direction: column;
+}

@@ -11,13 +11,13 @@ import java.util.List;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class Container implements Component {
+public class Segment implements Component {
 
     @Singular
     private List<Component> components;
 
     @Override
     public String getFragmentFile() {
-        return "qxcmp/elements/container";
+        return "qxcmp/elements/segment";
     }
 }

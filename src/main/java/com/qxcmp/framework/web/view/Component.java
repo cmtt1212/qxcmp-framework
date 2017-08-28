@@ -15,5 +15,7 @@ public interface Component {
     /**
      * @return 该组件对应的渲染模板片段名称
      */
-    String getFragmentName();
+    default String getFragmentName() {
+        return "default";
+    }
 }
