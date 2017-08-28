@@ -1,14 +1,14 @@
 package com.qxcmp.framework.web.view.elements.header;
 
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.Icon;
 import com.qxcmp.framework.web.view.support.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = false)
 public class Header implements Component {
 
     /**
@@ -22,10 +22,9 @@ public class Header implements Component {
     private String subTitle;
 
     /**
-     * 对齐方式
+     * 可选：图标
      */
-    @Builder.Default
-    private TextAlignment alignment = TextAlignment.NONE;
+    private Icon icon;
 
     /**
      * 类型
@@ -34,10 +33,21 @@ public class Header implements Component {
     private HeaderType type = HeaderType.NORMAL;
 
     /**
+     * 对齐方式
+     */
+    @Builder.Default
+    private TextAlignment alignment = TextAlignment.NONE;
+
+    /**
      * 大小
      */
     @Builder.Default
     private Size size = Size.NONE;
+
+    /**
+     * 是否强调显示图标
+     */
+    private boolean iconHeader;
 
     /**
      * 是否禁用
@@ -89,6 +99,51 @@ public class Header implements Component {
 
     @Override
     public String getClassName() {
-        return "ui header" + " " + alignment.getClassName() + "" + size.getClassName() + (disabled ? "disabled" : "") + (dividing ? "dividing" : "") + (block ? "block" : "") + (attached ? "attached" : "") + " " + attachDirection.getClassName() + " " + floating.getClassName() + " " + color.getClassName() + (inverted ? "inverted" : "");
+        StringBuilder stringBuilder = new StringBuilder("ui header");
+
+        if (StringUtils.isNotBlank(alignment.getClassName())) {
+            stringBuilder.append(" ").append(alignment.getClassName());
+        }
+
+        if (StringUtils.isNotBlank(size.getClassName())) {
+            stringBuilder.append(" ").append(size.getClassName());
+        }
+
+        if (iconHeader) {
+            stringBuilder.append(" icon");
+        }
+
+        if (disabled) {
+            stringBuilder.append(" disabled");
+        }
+
+        if (dividing) {
+            stringBuilder.append(" dividing");
+        }
+
+        if (block) {
+            stringBuilder.append(" block");
+        }
+
+        if (attached) {
+            if (StringUtils.isNotBlank(attachDirection.getClassName())) {
+                stringBuilder.append(" ").append(attachDirection.getClassName());
+            }
+            stringBuilder.append(" attached");
+        }
+
+        if (StringUtils.isNotBlank(floating.getClassName())) {
+            stringBuilder.append(" ").append(floating.getClassName());
+        }
+
+        if (StringUtils.isNotBlank(color.getClassName())) {
+            stringBuilder.append(" ").append(color.getClassName());
+        }
+
+        if (inverted) {
+            stringBuilder.append(" inverted");
+        }
+
+        return stringBuilder.toString();
     }
 }

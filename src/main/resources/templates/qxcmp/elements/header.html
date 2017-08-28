@@ -7,9 +7,13 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.Header"*/-->
 <th:block th:fragment="default(component)" th:switch="${component.type.getTag()}">
     <div th:case="normal" th:class="${component.getClassName()}">
+        <th:block th:if="${component.icon ne null}">
+            <div th:replace="~{qxcmp/elements/icon :: default(${component.icon})}"></div>
+        </th:block>
         <div class="content">
             <span th:utext="${component.title}"></span>
-            <div th:unless="${#strings.isEmpty(component.subTitle)}" th:utext="${component.subTitle}"></div>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}"
+                 class="sub header" th:utext="${component.subTitle}"></div>
         </div>
     </div>
     <h1 th:case="h1" th:class="${component.getClassName()}" th:utext="${component.text}"></h1>
