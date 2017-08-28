@@ -2,9 +2,11 @@ package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
+import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,13 +25,13 @@ import java.util.Optional;
  */
 public abstract class QXCMPController {
 
-    private static final String DEFAULT_PAGE = "qxcmp";
-
     protected HttpServletRequest request;
 
     protected HttpServletResponse response;
 
     protected ApplicationContext applicationContext;
+
+    protected QXCMPConfiguration qxcmpConfiguration;
 
     protected UserService userService;
 
@@ -56,6 +58,29 @@ public abstract class QXCMPController {
         return Page.builder();
     }
 
+    /**
+     * 获取请求的IP地址
+     *
+     * @return 请求IP地址
+     */
+    public String getRequestAddress() {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+            //多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = ip.indexOf(",");
+            if (index != -1) {
+                return ip.substring(0, index);
+            } else {
+                return ip;
+            }
+        }
+        ip = request.getHeader("X-Real-IP");
+        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+            return ip;
+        }
+        return request.getRemoteAddr();
+    }
+
     @Autowired
     public void setRequest(HttpServletRequest request) {
         this.request = request;
@@ -69,6 +94,11 @@ public abstract class QXCMPController {
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
+    }
+
+    @Autowired
+    public void setQxcmpConfiguration(QXCMPConfiguration qxcmpConfiguration) {
+        this.qxcmpConfiguration = qxcmpConfiguration;
     }
 
     @Autowired

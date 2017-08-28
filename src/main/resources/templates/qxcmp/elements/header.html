@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*
+    页面页眉
+*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.PageHeader"*/-->
+<th:block th:fragment="page-header(component)" th:switch="${component.type.getTag()}">
+    <h1 th:case="h1" class="ui header"
+        th:classappend="|${component.color.getClassName()} ${component.alignment.getClassName()} ${component.floating.getClassName()} ${component.disabled ? 'disabled' : ''} ${component.dividing ? 'dividing' : ''} ${component.block ? 'block' : ''} ${component.attached ? 'attached' : ''} ${component.attachDirection.getClassName()} ${component.inverted ? 'inverted' : ''}|"
+        th:utext="${component.text}"></h1>
+</th:block>
+</body>
+</html>

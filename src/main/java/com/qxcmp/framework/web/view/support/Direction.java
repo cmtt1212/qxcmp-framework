@@ -1,0 +1,22 @@
+package com.qxcmp.framework.web.view.support;
+
+/**
+ * 方位
+ *
+ * @author Aaric
+ */
+public enum Direction {
+    NONE(""),
+    TOP("top"),
+    BOTTOM("bottom");
+
+    private String className;
+
+    Direction(String className) {
+        this.className = className;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+}
