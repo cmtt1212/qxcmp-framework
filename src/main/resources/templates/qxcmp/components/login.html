@@ -4,9 +4,15 @@
 <!--/*
     登录表单
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.BasicButton"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.Component"*/-->
 <th:block th:fragment="default(component)">
-    <button class="ui button" th:utext="${component.text}"></button>
+    <form class="ui form" th:action="@{/login}" method="post">
+        <div class="four wide column">用户名</div>
+        <div class="twelve wide column"><input name="username"/></div>
+        <div class="four wide column">密码</div>
+        <div class="twelve wide column"><input name="password" type="password"/></div>
+        <button class="ui button">登录</button>
+    </form>
 </th:block>
 </body>
 </html>
