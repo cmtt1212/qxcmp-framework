@@ -1,8 +1,6 @@
-package com.qxcmp.framework.web.view.elements.header;
+package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.elements.Icon;
-import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.support.*;
 import lombok.Builder;
 import lombok.Data;
