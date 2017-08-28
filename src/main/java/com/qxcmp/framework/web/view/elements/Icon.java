@@ -16,4 +16,9 @@ public class Icon implements Component {
     public String getFragmentFile() {
         return "qxcmp/elements/icon";
     }
+
+    @Override
+    public String getClassName() {
+        return icon + " icon";
+    }
 }

@@ -1,24 +1,19 @@
 package com.qxcmp.framework.web.view.support;
 
 /**
- * 大小
+ * 垂直对齐
  *
  * @author Aaric
  */
-public enum Size {
+public enum VerticalAlignment {
     NONE(""),
-    MINI("mini"),
-    TINY("tiny"),
-    SMALL("small"),
-    MEDIUM("medium"),
-    LARGE("large"),
-    BIG("big"),
-    HUGE("huge"),
-    MASSIVE("massive");
+    TOP("top aligned"),
+    MIDDLE("middle aligned"),
+    BOTTOM("bottom aligned");
 
     private String className;
 
-    Size(String className) {
+    VerticalAlignment(String className) {
         this.className = className;
     }
 

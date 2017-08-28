@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.view.elements.header;
 
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.Icon;
+import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.support.*;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,11 @@ public class Header implements Component {
      * 可选：图标
      */
     private Icon icon;
+
+    /**
+     * 可选：图片
+     */
+    private Image image;
 
     /**
      * 类型

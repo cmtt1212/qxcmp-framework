@@ -5,6 +5,6 @@
     图标
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Icon"*/-->
-<i th:fragment="default(component)" th:class="|${component.icon} icon|"></i>
+<i th:fragment="default(component)" th:class="${component.getClassName()}"></i>
 </body>
 </html>
