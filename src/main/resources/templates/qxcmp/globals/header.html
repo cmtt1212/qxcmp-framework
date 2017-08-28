@@ -1,0 +1,22 @@
+<!--/*
+    头部组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!--/* 元数据 */-->
+    <meta charset=" UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="keywords" th:content="${@QXCMPConfiguration.getKeywords()} ?: _"/>
+    <meta name="description" th:content="${@QXCMPConfiguration.getDescription()} ?: _"/>
+
+    <title th:text="${title} ?: ${@QXCMPConfiguration.getTitle()}"></title>
+
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{${@QXCMPConfiguration.getFavicon()}}"/>
+
+    <link rel="stylesheet" th:href="@{/assets/scripts/qxcmp.css}"/>
+
+    <script th:src="@{/assets/scripts/qxcmp.js}"></script>
+</head>
+</html>

@@ -91,7 +91,6 @@ public class CommonPageController extends QXCMPBackendController {
      *
      * @return 前端登录页面
      */
-    @GetMapping("/login")
     public ModelAndView frontendLogin() {
         return builder(ACCOUNT_PAGE)
                 .setResult(qxcmpConfiguration.getTitle(), "", "")

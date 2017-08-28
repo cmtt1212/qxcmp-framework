@@ -1,0 +1,17 @@
+<!--/*
+    页面组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--/*@thymesVar id="page" type="com.qxcmp.framework.web.view.Page"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.Component"*/-->
+<body th:fragment="body(page)">
+<th:block th:each="component : ${page.components}">
+    <div th:replace="~{:: component(${component})}"></div>
+</th:block>
+</body>
+
+<th:block th:fragment="component(component)">
+    <div th:replace="~{__${component.fragmentFile}__ :: __${component.fragmentName}__(${component})}"></div>
+</th:block>
+</html>

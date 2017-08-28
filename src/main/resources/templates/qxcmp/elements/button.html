@@ -1,0 +1,15 @@
+<!--/*
+    页面组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*
+    一般按钮
+*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.BasicButton"*/-->
+<th:block th:fragment="basic(component)">
+    <button class="ui button" th:utext="${component.text}"></button>
+</th:block>
+</body>
+</html>
