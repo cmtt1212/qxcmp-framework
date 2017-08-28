@@ -1,20 +1,21 @@
 package com.qxcmp.framework.web.view.support;
 
 /**
- * 文本对齐
+ * 大小
  *
  * @author Aaric
  */
-public enum TextAlignment {
+public enum Size {
     NONE(""),
-    LEFT("left aligned"),
-    RIGHT("right aligned"),
-    CENTER("center aligned"),
-    JUSTIFY("justified");
+    TINY("tiny"),
+    SMALL("small"),
+    MEDIUM("medium"),
+    LARGE("large"),
+    HUGE("huge");
 
     private String className;
 
-    TextAlignment(String className) {
+    Size(String className) {
         this.className = className;
     }
 

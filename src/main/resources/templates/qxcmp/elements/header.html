@@ -4,8 +4,14 @@
 <!--/*
     页面页眉
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.PageHeader"*/-->
-<th:block th:fragment="page-header(component)" th:switch="${component.type.getTag()}">
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.Header"*/-->
+<th:block th:fragment="default(component)" th:switch="${component.type.getTag()}">
+    <div th:case="normal" th:class="${component.getClassName()}">
+        <div class="content">
+            <span th:utext="${component.title}"></span>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}" th:utext="${component.subTitle}"></div>
+        </div>
+    </div>
     <h1 th:case="h1" th:class="${component.getClassName()}" th:utext="${component.text}"></h1>
     <h2 th:case="h2" th:class="${component.getClassName()}" th:utext="${component.text}"></h2>
     <h3 th:case="h3" th:class="${component.getClassName()}" th:utext="${component.text}"></h3>
