@@ -43,7 +43,6 @@ public class CommonPageController extends QXCMPBackendController {
      *
      * @return 视图 {@code qxcmp-dictionary}
      */
-    @GetMapping(QXCMP_BACKEND_URL)
     public ModelAndView home() {
         return builder().addDictionaryView(dictionaryViewBuilder -> {
             User user = currentUser();

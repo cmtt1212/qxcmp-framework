@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * 页面路由器基类
@@ -54,8 +55,10 @@ public abstract class QXCMPController {
         return new ModelAndView("redirect:" + url);
     }
 
-    protected Page.PageBuilder page() {
-        return Page.builder();
+    protected Page page(Consumer<Page.PageBuilder> consumer) {
+        Page.PageBuilder pageBuilder = Page.builder();
+        consumer.accept(pageBuilder);
+        return pageBuilder.build();
     }
 
     /**
