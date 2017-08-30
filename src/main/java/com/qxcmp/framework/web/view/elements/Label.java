@@ -1,25 +1,18 @@
-package com.qxcmp.framework.web.view.elements.html;
+package com.qxcmp.framework.web.view.elements;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-/**
- * 块级文档节
- *
- * @author aaric
- */
 @Getter
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Div extends BlockElement {
-
-    public Div() {
-        super("div");
+public class Label extends QXCMPComponent {
+    public Label() {
+        super("qxcmp/elements/label");
     }
 }

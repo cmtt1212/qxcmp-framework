@@ -4,7 +4,7 @@
 <!--/*
     菜单
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Menu"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.Menu"*/-->
 <th:block th:fragment="default(component)">
     <div th:class="${component.getClassName()}" th:style="${component.getStyle()}">
         <th:block th:each="item : ${component.items}">
@@ -16,7 +16,7 @@
 <!--/*
     菜单项
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.MenuItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.MenuItem"*/-->
 <div th:fragment="item(component)" class="item">
     <th:block th:if="${component.image ne null}">
         <div th:replace="~{qxcmp/elements/image :: default(${component.image})}"></div>

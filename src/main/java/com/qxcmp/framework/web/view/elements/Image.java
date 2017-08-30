@@ -5,16 +5,15 @@ import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Image extends QXCMPComponent {

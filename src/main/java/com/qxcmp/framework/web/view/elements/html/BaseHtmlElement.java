@@ -3,6 +3,11 @@ package com.qxcmp.framework.web.view.elements.html;
 import com.qxcmp.framework.web.view.QXCMPComponent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 基本HTML元素
@@ -11,8 +16,8 @@ import lombok.EqualsAndHashCode;
  *
  * @author aaric
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 public abstract class BaseHtmlElement extends QXCMPComponent {
 
     /**

@@ -7,16 +7,16 @@ import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class AbstractButton extends QXCMPComponent {
+@Getter
+@Setter
+public abstract class AbstractButton extends QXCMPComponent {
 
     private static final String TEMPLATE_FILE = "qxcmp/elements/button";
 
