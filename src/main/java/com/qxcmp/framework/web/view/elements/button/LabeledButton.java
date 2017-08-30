@@ -50,7 +50,7 @@ public class LabeledButton extends AbstractButton {
         final StringBuilder stringBuilder = new StringBuilder(super.getClassName()).append(" labeled");
 
         if (left) {
-            stringBuilder.append(" left");
+            stringBuilder.append(" left labeled");
         }
 
         return stringBuilder.toString();

@@ -8,10 +8,7 @@ import com.qxcmp.framework.web.view.containers.Segments;
 import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.Icon;
 import com.qxcmp.framework.web.view.elements.Image;
-import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
-import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.elements.button.IconButton;
-import com.qxcmp.framework.web.view.elements.button.LabeledButton;
+import com.qxcmp.framework.web.view.elements.button.*;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -164,6 +161,16 @@ public class LoginPageController extends QXCMPController {
         labeledButton.setLeft(true);
         labeledButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
         segment.getComponents().add(labeledButton);
+
+        LabeledIconButton labeledIconButton = nextComponent(LabeledIconButton.class, "按钮文本", "user");
+        labeledIconButton.setBasic(true);
+        labeledIconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        segment.getComponents().add(labeledIconButton);
+
+        labeledIconButton = nextComponent(LabeledIconButton.class, "按钮文本", "user");
+        labeledIconButton.setRightIcon(true);
+        labeledIconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        segment.getComponents().add(labeledIconButton);
 
         return segment;
     }

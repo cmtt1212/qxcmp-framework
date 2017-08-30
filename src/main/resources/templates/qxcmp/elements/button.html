@@ -48,5 +48,13 @@
         </th:block>
     </div>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.LabeledIconButton"*/-->
+<th:block th:fragment="label-icon(component)">
+    <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}">
+        <i th:class="|${component.icon} icon|"></i>
+        <span th:utext="${component.text}"></span>
+    </button>
+</th:block>
 </body>
 </html>
