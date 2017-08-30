@@ -6,9 +6,11 @@ import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;
 import com.qxcmp.framework.view.form.InputFiledType;
 import lombok.Data;
+import org.assertj.core.util.Sets;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
@@ -104,7 +106,7 @@ public class AdminMallCommodityForm {
      * 商品介绍相册
      */
     @FormViewField(label = "商品相册", type = InputFiledType.ALBUM)
-    private List<String> albums = Lists.newArrayList();
+    private Set<String> albums = Sets.newLinkedHashSet();
 
     @Image
     private MultipartFile albumsDefault;
