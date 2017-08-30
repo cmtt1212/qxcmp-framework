@@ -1,9 +1,9 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.Menu;
 import com.qxcmp.framework.web.view.elements.MenuItem;
-import com.qxcmp.framework.web.view.elements.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +18,10 @@ public class AdminPageController extends QXCMPController {
     @GetMapping("")
     public ModelAndView home() {
         return page(pageBuilder -> pageBuilder.component(Menu.builder()
+                .secondary(true).pointing(true)
                 .item(MenuItem.builder().image(Image.builder().source(qxcmpConfiguration.getLogo()).build()).build())
                 .item(MenuItem.builder().text("首页").url("/").build())
+                .item(MenuItem.builder().text("关于我们").url("/").build())
                 .build())).build();
     }
 }

@@ -2,11 +2,11 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 <!--/*
-    默认分段
+    菜单
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Menu"*/-->
 <th:block th:fragment="default(component)">
-    <div class="ui menu">
+    <div th:class="${component.getClassName()}" th:style="${component.getStyle()}">
         <th:block th:each="item : ${component.items}">
             <div th:replace="~{:: item(${item})}"></div>
         </th:block>
@@ -14,7 +14,7 @@
 </th:block>
 
 <!--/*
-    分段组
+    菜单项
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.MenuItem"*/-->
 <div th:fragment="item(component)" class="item">
