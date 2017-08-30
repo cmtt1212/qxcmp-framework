@@ -7,6 +7,8 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Direction {
     NONE(""),
+    LEFT("left"),
+    RIGHT("right"),
     TOP("top"),
     BOTTOM("bottom");
 

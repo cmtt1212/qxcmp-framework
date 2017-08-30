@@ -4,9 +4,10 @@
 <!--/*
     默认按钮
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Button"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.Button"*/-->
 <th:block th:fragment="default(component)">
-    <button class="ui button" th:utext="${component.text}"></button>
+    <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}"
+            th:utext="${component.text}"></button>
 </th:block>
 </body>
 </html>
