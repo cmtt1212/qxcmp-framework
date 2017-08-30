@@ -5,7 +5,7 @@ package com.qxcmp.framework.web.view.support;
  *
  * @author Aaric
  */
-public enum LinkTarget {
+public enum AnchorTarget {
     NONE(""),
     BLANK("_blank"),
     SELF("_self"),
@@ -14,7 +14,7 @@ public enum LinkTarget {
 
     private String value;
 
-    LinkTarget(String value) {
+    AnchorTarget(String value) {
         this.value = value;
     }
 

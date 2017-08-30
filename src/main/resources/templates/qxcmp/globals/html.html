@@ -1,0 +1,13 @@
+<!--/*
+    页面组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.Anchor"*/-->
+<th:block th:fragment="anchor(component)">
+    <a th:class="${component.className}" th:href="@{${component.href}}" th:attr="download=${component.download}"
+       th:utext="${component.text}"></a>
+</th:block>
+</body>
+</html>

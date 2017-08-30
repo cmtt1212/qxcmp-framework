@@ -1,10 +1,10 @@
 package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +36,7 @@ public class Image extends QXCMPComponent {
     /**
      * 图片链接打开方式
      *
-     * @see com.qxcmp.framework.web.view.support.LinkTarget
+     * @see AnchorTarget
      */
     private String urlTarget;
 
