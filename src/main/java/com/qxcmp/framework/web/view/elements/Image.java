@@ -1,16 +1,27 @@
 package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 
 @Data
-@Builder
-public class Image implements Component {
+@EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class Image extends QXCMPComponent {
+
+    public Image() {
+        super("qxcmp/elements/image");
+    }
 
     /**
      * 图片源
@@ -72,25 +83,17 @@ public class Image implements Component {
     /**
      * 垂直对齐方式
      */
-    @Builder.Default
     private VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
 
     /**
      * 浮动类型
      */
-    @Builder.Default
     private Floating floating = Floating.NONE;
 
     /**
      * 图片大小
      */
-    @Builder.Default
     private Size size = Size.NONE;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/elements/image";
-    }
 
     @Override
     public String getClassName() {

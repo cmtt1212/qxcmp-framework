@@ -1,19 +1,26 @@
 package com.qxcmp.framework.web.view.containers;
 
-import com.qxcmp.framework.web.view.Component;
+import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import com.qxcmp.framework.web.view.support.Alignment;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Singular;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
-public class Container implements Component {
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class Container extends QXCMPComponent {
+
+    public Container() {
+        super("qxcmp/containers/container");
+    }
 
     /**
      * 是否为文本容器，该容器比一般容器具有更窄的宽度
@@ -28,19 +35,12 @@ public class Container implements Component {
     /**
      * 容器子元素对齐方式
      */
-    @Builder.Default
     private Alignment alignment = Alignment.NONE;
 
     /**
      * 容器内容
      */
-    @Singular
-    private List<Component> components;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/containers/container";
-    }
+    private List<QXCMPComponent> components = Lists.newArrayList();
 
     @Override
     public String getClassName() {

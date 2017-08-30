@@ -5,8 +5,8 @@ import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -64,10 +64,10 @@ public abstract class QXCMPController {
      *
      * @return 生成后的页面
      */
-    protected Page page(Consumer<Page.PageBuilder> consumer) {
+    protected ModelAndView page(Consumer<Page.PageBuilder> consumer) {
         Page.PageBuilder pageBuilder = Page.builder();
         consumer.accept(pageBuilder);
-        return pageBuilder.build();
+        return pageBuilder.build().build();
     }
 
     /**
@@ -77,8 +77,20 @@ public abstract class QXCMPController {
      *
      * @return 生成后的页面
      */
-    protected Page page(Supplier<Component> consumer) {
-        return Page.builder().component(consumer.get()).build();
+    protected ModelAndView page(Supplier<QXCMPComponent> consumer) {
+        return Page.builder().component(consumer.get()).build().build();
+    }
+
+    /**
+     * 生成一个页面组件
+     *
+     * @param tClass 页面组件类型
+     * @param <T>    页面组件具体类型
+     *
+     * @return 页面组件
+     */
+    protected <T extends QXCMPComponent> T nextComponent(Class<T> tClass) {
+        return applicationContext.getBean(tClass);
     }
 
     /**

@@ -1,24 +1,26 @@
 package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.Component;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Data
-@Builder
-@AllArgsConstructor
-public class Icon implements Component {
+@EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class Icon extends QXCMPComponent {
+
+    public Icon() {
+        super("qxcmp/elements/icon");
+    }
 
     /**
      * 图片元素名称
      */
     private String icon;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/elements/icon";
-    }
 
     @Override
     public String getClassName() {

@@ -1,21 +1,24 @@
 package com.qxcmp.framework.web.view.containers;
 
-import com.qxcmp.framework.web.view.Component;
+import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Floating;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Singular;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Segment extends AbstractSegment {
 
     /**
@@ -101,25 +104,21 @@ public class Segment extends AbstractSegment {
     /**
      * 附着方向，当为附着区块的时候生效，方向仅支持 TOP, BOTTOM, NONE
      */
-    @Builder.Default
     private Direction attachedDirection = Direction.NONE;
 
     /**
      * 区块颜色
      */
-    @Builder.Default
     private Color color = Color.NONE;
 
     /**
      * 是否浮动
      */
-    @Builder.Default
     private Floating floating = Floating.NONE;
 
     /**
      * 区块子元素对齐方式
      */
-    @Builder.Default
     private Alignment alignment = Alignment.NONE;
 
     /**
@@ -130,8 +129,7 @@ public class Segment extends AbstractSegment {
     /**
      * 区块内容
      */
-    @Singular
-    private List<Component> components;
+    private List<QXCMPComponent> components = Lists.newArrayList();
 
     @Override
     public String getClassName() {

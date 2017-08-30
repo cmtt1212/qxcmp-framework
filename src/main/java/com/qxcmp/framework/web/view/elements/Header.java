@@ -1,14 +1,23 @@
 package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import com.qxcmp.framework.web.view.support.*;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Data
-@Builder
-public class Header implements Component {
+@EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class Header extends QXCMPComponent {
+
+    public Header() {
+        super("qxcmp/elements/header");
+    }
 
     /**
      * 标题文本
@@ -33,19 +42,16 @@ public class Header implements Component {
     /**
      * 类型
      */
-    @Builder.Default
     private HeaderType type = HeaderType.NORMAL;
 
     /**
      * 对齐方式
      */
-    @Builder.Default
     private Alignment alignment = Alignment.NONE;
 
     /**
      * 大小
      */
-    @Builder.Default
     private Size size = Size.NONE;
 
     /**
@@ -76,30 +82,22 @@ public class Header implements Component {
     /**
      * 附着方向
      */
-    @Builder.Default
     private Direction attachDirection = Direction.NONE;
 
     /**
      * 浮动类型
      */
-    @Builder.Default
     private Floating floating = Floating.NONE;
 
     /**
      * 颜色
      */
-    @Builder.Default
     private Color color = Color.NONE;
 
     /**
      * 是否为反色
      */
     private boolean inverted;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/elements/header";
-    }
 
     @Override
     public String getClassName() {

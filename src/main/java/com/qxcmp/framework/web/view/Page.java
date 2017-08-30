@@ -27,7 +27,7 @@ public class Page {
      * 页面组件，框架会依次渲染各个组件
      */
     @Singular
-    private List<Component> components;
+    private List<QXCMPComponent> components;
 
     public ModelAndView build() {
         modelAndView.addObject(this);

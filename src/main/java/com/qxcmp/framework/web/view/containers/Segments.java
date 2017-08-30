@@ -1,16 +1,23 @@
 package com.qxcmp.framework.web.view.containers;
 
-import lombok.Builder;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Singular;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Segments extends AbstractSegment {
+
+    public Segments() {
+        super("group");
+    }
 
     /**
      * 是否为水平区块组
@@ -40,13 +47,7 @@ public class Segments extends AbstractSegment {
     /**
      * 子区块
      */
-    @Singular
-    private List<Segment> segments;
-
-    @Override
-    public String getFragmentName() {
-        return "group";
-    }
+    private List<Segment> segments = Lists.newArrayList();
 
     @Override
     public String getClassName() {

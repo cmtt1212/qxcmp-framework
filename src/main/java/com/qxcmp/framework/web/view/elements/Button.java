@@ -1,13 +1,22 @@
 package com.qxcmp.framework.web.view.elements;
 
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
-public class Button extends AbstractButton {
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class Button extends QXCMPComponent {
+
+    public Button() {
+        super("qxcmp/elements/button");
+    }
 
     /**
      * 按钮文本

@@ -1,43 +1,42 @@
 package com.qxcmp.framework.web.view.containers;
 
-import com.qxcmp.framework.web.view.Component;
+import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.QXCMPComponent;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Width;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Singular;
+import lombok.EqualsAndHashCode;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Data
-@Builder
-public class Sidebar implements Component {
+@EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class Sidebar extends QXCMPComponent {
+
+    public Sidebar() {
+        super("qxcmp/containers/sidebar");
+    }
 
     private boolean visible;
 
     private boolean dimmed;
 
-    @Builder.Default
     private Direction direction = Direction.NONE;
 
-    @Builder.Default
     private Width width = Width.NONE;
 
-    private Component sidebarContent;
+    private QXCMPComponent sidebarContent;
 
-    @Singular
-    private List<Component> components;
+    private List<QXCMPComponent> components = Lists.newArrayList();
 
     private String context;
 
-    @Builder.Default
     private boolean closable = true;
 
-    @Builder.Default
     private boolean dimPage = true;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/containers/sidebar";
-    }
 }

@@ -1,17 +1,22 @@
 package com.qxcmp.framework.web.view.elements;
 
+import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.support.Direction;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Singular;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Menu extends AbstractMenu {
 
     /**
@@ -57,11 +62,10 @@ public class Menu extends AbstractMenu {
     /**
      * 附着方向，当为附着菜单的时候生效，方向仅支持 TOP, BOTTOM, NONE
      */
-    @Builder.Default
     private Direction attachDirection = Direction.NONE;
 
     @Singular
-    private List<MenuItem> items;
+    private List<MenuItem> items = Lists.newArrayList();
 
     @Override
     public String getClassName() {
