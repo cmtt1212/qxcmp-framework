@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.support.TextAlignment;
+import com.qxcmp.framework.web.view.support.Alignment;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,13 +15,25 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class Container implements Component {
 
+    /**
+     * 是否为文本容器，该容器比一般容器具有更窄的宽度
+     */
     private boolean textContainer;
 
+    /**
+     * 是否为流式容器，该容器会占满父容器的宽度
+     */
     private boolean fluid;
 
+    /**
+     * 容器子元素对齐方式
+     */
     @Builder.Default
-    private TextAlignment alignment = TextAlignment.NONE;
+    private Alignment alignment = Alignment.NONE;
 
+    /**
+     * 容器内容
+     */
     @Singular
     private List<Component> components;
 

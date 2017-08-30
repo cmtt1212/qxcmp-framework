@@ -10,6 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class Icon implements Component {
 
+    /**
+     * 图片元素名称
+     */
     private String icon;
 
     @Override

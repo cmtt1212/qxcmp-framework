@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class BasicButton extends AbstractButton {
+public class Button extends AbstractButton {
 
     /**
      * 按钮文本

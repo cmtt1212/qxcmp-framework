@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.qxcmp.framework.web.view.support.TextAlignment.CENTER;
+import static com.qxcmp.framework.web.view.support.Alignment.CENTER;
 
 @Controller
 public class LoginPageController extends QXCMPController {

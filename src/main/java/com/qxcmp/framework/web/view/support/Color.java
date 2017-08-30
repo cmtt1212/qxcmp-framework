@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.view.support;
 
 /**
- * 方位
+ * 颜色
  *
  * @author Aaric
  */

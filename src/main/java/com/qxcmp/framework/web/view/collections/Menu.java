@@ -12,6 +12,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class Menu extends AbstractMenu {
 
+    private boolean text;
+
     @Singular
     private List<MenuItem> items;
 

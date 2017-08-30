@@ -1,11 +1,11 @@
 package com.qxcmp.framework.web.view.support;
 
 /**
- * 文本对齐
+ * 对齐方式
  *
  * @author Aaric
  */
-public enum TextAlignment {
+public enum Alignment {
     NONE(""),
     LEFT("left aligned"),
     RIGHT("right aligned"),
@@ -14,7 +14,7 @@ public enum TextAlignment {
 
     private String className;
 
-    TextAlignment(String className) {
+    Alignment(String className) {
         this.className = className;
     }
 

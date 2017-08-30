@@ -12,16 +12,34 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class Segments extends AbstractSegment {
 
+    /**
+     * 是否为水平区块组
+     */
     private boolean horizontal;
 
+    /**
+     * 是否为上升样式
+     */
     private boolean raised;
 
+    /**
+     * 是否为堆叠样式
+     */
     private boolean stacked;
 
+    /**
+     * 是否为堆积样式
+     */
     private boolean piled;
 
+    /**
+     * 是否为紧凑区块组
+     */
     private boolean compact;
 
+    /**
+     * 子区块
+     */
     @Singular
     private List<Segment> segments;
 

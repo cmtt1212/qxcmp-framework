@@ -40,7 +40,7 @@ public class Header implements Component {
      * 对齐方式
      */
     @Builder.Default
-    private TextAlignment alignment = TextAlignment.NONE;
+    private Alignment alignment = Alignment.NONE;
 
     /**
      * 大小
