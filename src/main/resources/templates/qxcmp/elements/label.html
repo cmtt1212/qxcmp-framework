@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.label.Label"*/-->
+<th:block th:fragment="default(component)">
+    <div th:if="${#strings.isEmpty(component.url)}" th:class="${component.getClassName()}">
+        <th:block th:unless="${#strings.isEmpty(component.icon)}">
+            <i th:class="|${component.icon icon}|"></i>
+        </th:block>
+        <th:block th:unless="${#strings.isEmpty(component.image)}">
+            <img th:src="@{${component.image}}"/>
+        </th:block>
+        <span th:utext="${component.text}"></span>
+        <div class="details" th:utext="${component.details}"></div>
+    </div>
+
+    <a th:unless="${#strings.isEmpty(component.url)}" th:class="${component.getClassName()}"
+       th:href="@{${component.url}}" th:target="${component.urlTarget}">
+        <th:block th:unless="${#strings.isEmpty(component.icon)}">
+            <i th:class="|${component.icon icon}|"></i>
+        </th:block>
+        <th:block th:unless="${#strings.isEmpty(component.image)}">
+            <img th:src="@{${component.image}}"/>
+        </th:block>
+        <span th:utext="${component.text}"></span>
+        <div class="details" th:utext="${component.details}"></div>
+    </a>
+</th:block>
+</body>
+</html>

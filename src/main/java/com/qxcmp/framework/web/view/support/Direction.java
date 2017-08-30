@@ -10,7 +10,8 @@ public enum Direction {
     LEFT("left"),
     RIGHT("right"),
     TOP("top"),
-    BOTTOM("bottom");
+    BOTTOM("bottom"),
+    BELOW("below");
 
     private String className;
 
