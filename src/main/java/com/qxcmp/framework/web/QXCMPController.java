@@ -89,8 +89,8 @@ public abstract class QXCMPController {
      *
      * @return 页面组件
      */
-    protected <T extends QXCMPComponent> T nextComponent(Class<T> tClass) {
-        return applicationContext.getBean(tClass);
+    protected <T extends QXCMPComponent> T nextComponent(Class<T> tClass, Object... objects) {
+        return applicationContext.getBean(tClass, objects);
     }
 
     /**

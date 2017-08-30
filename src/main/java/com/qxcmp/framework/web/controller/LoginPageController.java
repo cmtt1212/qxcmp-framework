@@ -10,6 +10,7 @@ import com.qxcmp.framework.web.view.elements.Icon;
 import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
+import com.qxcmp.framework.web.view.elements.button.IconButton;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
@@ -102,6 +103,9 @@ public class LoginPageController extends QXCMPController {
         animatedButton.setAnimatedType(AnimatedButton.AnimatedType.FADE);
         segment.getComponents().add(animatedButton);
 
+        IconButton iconButton = nextComponent(IconButton.class, "download");
+        iconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        segment.getComponents().add(iconButton);
         return segment;
     }
 }

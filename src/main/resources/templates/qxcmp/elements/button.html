@@ -27,5 +27,12 @@
         </div>
     </button>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.IconButton"*/-->
+<th:block th:fragment="icon(component)">
+    <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}">
+        <i th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></i>
+    </button>
+</th:block>
 </body>
 </html>
