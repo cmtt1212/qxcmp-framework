@@ -10,6 +10,7 @@ import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.Icon;
 import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.button.*;
+import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -95,6 +96,10 @@ public class LoginPageController extends QXCMPController {
         }
         segment.getComponents().add(labels);
 
+        HorizontalDivider horizontalDivider = nextComponent(HorizontalDivider.class, "水平分隔符");
+        horizontalDivider.setSection(true);
+        segment.getComponents().add(horizontalDivider);
+
         labels = nextComponent(Labels.class);
         labels.setTag(true);
         for (int i = 0; i < 5; i++) {
@@ -103,6 +108,7 @@ public class LoginPageController extends QXCMPController {
             labels.getLabels().add(label);
         }
         segment.getComponents().add(labels);
+        segment.getComponents().add(nextComponent(HorizontalDivider.class, "水平图标分隔符", "cloud"));
 
         labels = nextComponent(Labels.class);
         labels.setCircular(true);

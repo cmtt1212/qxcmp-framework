@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.divider.HorizontalDivider"*/-->
+<th:block th:fragment="default(component)">
+    <th:block th:if="${component.header eq null}">
+        <div th:class="${component.getClassName()}">
+            <i th:if="${component.icon ne null}" th:class="|${component.icon} icon|"></i>
+            [[${component.text}]]
+        </div>
+    </th:block>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.divider.VerticalDivider"*/-->
+<th:block th:fragment="vertical(component)">
+    <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
+</th:block>
+</body>
+</html>
