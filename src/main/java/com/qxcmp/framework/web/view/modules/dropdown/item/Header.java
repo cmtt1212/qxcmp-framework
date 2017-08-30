@@ -1,6 +1,5 @@
-package com.qxcmp.framework.web.view.modules;
+package com.qxcmp.framework.web.view.modules.dropdown.item;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -11,8 +10,15 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Dropdown extends QXCMPComponent{
-    public Dropdown() {
-        super("qxcmp/modules/dropdown");
+public class Header extends AbstractItem {
+
+    /**
+     * 标题图标名称
+     */
+    private String icon;
+
+    @Override
+    public String getFragmentName() {
+        return "item-header";
     }
 }
