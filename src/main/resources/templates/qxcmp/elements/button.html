@@ -9,5 +9,23 @@
     <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}"
             th:utext="${component.text}"></button>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.AnimatedButton"*/-->
+<th:block th:fragment="animated(component)">
+    <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}">
+        <div class="visible content">
+            <th:block th:if="${component.visibleIcon ne null}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.visibleIcon})}"></div>
+            </th:block>
+            <span th:unless="${#strings.isEmpty(component.visibleText)}" th:utext="${component.visibleText}"></span>
+        </div>
+        <div class="hidden content">
+            <th:block th:if="${component.hiddenIcon ne null}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.hiddenIcon})}"></div>
+            </th:block>
+            <span th:unless="${#strings.isEmpty(component.hiddenText)}" th:utext="${component.hiddenText}"></span>
+        </div>
+    </button>
+</th:block>
 </body>
 </html>

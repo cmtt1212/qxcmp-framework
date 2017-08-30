@@ -6,9 +6,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-/**
- * 一般按钮
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Component
