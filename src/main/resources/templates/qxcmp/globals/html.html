@@ -29,5 +29,17 @@
 <th:block th:fragment="h6(component)">
     <h6 th:class="${component.className}" th:utext="${component.text}"></h6>
 </th:block>
+
+<th:block th:fragment="p(component)">
+    <p th:class="${component.className}" th:utext="${component.text}"></p>
+</th:block>
+
+<th:block th:fragment="div(component)">
+    <div th:class="${component.className}" th:utext="${component.text}"></div>
+</th:block>
+
+<th:block th:fragment="span(component)">
+    <span th:class="${component.className}" th:utext="${component.text}"></span>
+</th:block>
 </body>
 </html>

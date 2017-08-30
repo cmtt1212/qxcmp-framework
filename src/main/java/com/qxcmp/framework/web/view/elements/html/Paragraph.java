@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * 标题4
+ * 段落
  *
  * @author aaric
  */
@@ -15,10 +15,8 @@ import org.springframework.stereotype.Component;
 @EqualsAndHashCode(callSuper = false)
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class H4 extends HeaderElement {
-
-    public H4() {
-        super("h4");
+public class Paragraph extends BlockElement {
+    public Paragraph() {
+        super("p");
     }
-
 }

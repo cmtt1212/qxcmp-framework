@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * 标题3
+ *
+ * @author aaric
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

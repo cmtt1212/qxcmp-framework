@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * 标题4
+ * 块级文档节
  *
  * @author aaric
  */
@@ -15,10 +15,9 @@ import org.springframework.stereotype.Component;
 @EqualsAndHashCode(callSuper = false)
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class H4 extends HeaderElement {
+public class Div extends BlockElement {
 
-    public H4() {
-        super("h4");
+    public Div() {
+        super("div");
     }
-
 }
