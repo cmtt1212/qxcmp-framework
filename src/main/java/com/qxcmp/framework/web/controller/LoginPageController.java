@@ -11,6 +11,7 @@ import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.IconButton;
+import com.qxcmp.framework.web.view.elements.button.LabeledButton;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -154,6 +155,16 @@ public class LoginPageController extends QXCMPController {
         IconButton iconButton = nextComponent(IconButton.class, "download");
         iconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
         segment.getComponents().add(iconButton);
+
+        LabeledButton labeledButton = nextComponent(LabeledButton.class, "按钮文本", "标签文本");
+        labeledButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        segment.getComponents().add(labeledButton);
+
+        labeledButton = nextComponent(LabeledButton.class, "按钮文本", "标签文本");
+        labeledButton.setLeft(true);
+        labeledButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        segment.getComponents().add(labeledButton);
+
         return segment;
     }
 }

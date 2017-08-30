@@ -34,5 +34,19 @@
         <i th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></i>
     </button>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.LabeledButton"*/-->
+<th:block th:fragment="label(component)">
+    <div th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}">
+        <th:block th:if="${component.left}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.label})}"></div>
+            <div th:replace="~{qxcmp/globals/components :: component(${component.button})}"></div>
+        </th:block>
+        <th:block th:unless="${component.left}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.button})}"></div>
+            <div th:replace="~{qxcmp/globals/components :: component(${component.label})}"></div>
+        </th:block>
+    </div>
+</th:block>
 </body>
 </html>
