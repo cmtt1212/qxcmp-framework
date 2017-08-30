@@ -141,6 +141,10 @@ public class Label extends QXCMPComponent {
     public String getClassName() {
         final StringBuilder stringBuilder = new StringBuilder("ui label");
 
+        if (StringUtils.isNotBlank(image)) {
+            stringBuilder.append(" image");
+        }
+
         if (pointing) {
             stringBuilder.append(" pointing");
             if (StringUtils.isNotBlank(pointingDirection.getClassName())) {
