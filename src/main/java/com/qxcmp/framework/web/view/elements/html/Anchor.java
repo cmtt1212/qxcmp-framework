@@ -16,11 +16,6 @@ import org.springframework.stereotype.Component;
 public class Anchor extends InlineElement {
 
     /**
-     * 超链接文本
-     */
-    private String text;
-
-    /**
      * 超链接地址
      */
     private String href;

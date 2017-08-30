@@ -20,6 +20,11 @@ public abstract class BaseHtmlElement extends QXCMPComponent {
      */
     private String className;
 
+    /**
+     * 元素文本
+     */
+    private String text;
+
     public BaseHtmlElement(String fragmentName) {
         super("qxcmp/globals/html", fragmentName);
     }

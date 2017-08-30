@@ -1,5 +1,5 @@
 <!--/*
-    页面组件
+    基本HTML元素组件
 */-->
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
@@ -8,6 +8,26 @@
 <th:block th:fragment="anchor(component)">
     <a th:class="${component.className}" th:href="@{${component.href}}" th:attr="download=${component.download}"
        th:utext="${component.text}"></a>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.HeaderElement"*/-->
+<th:block th:fragment="h1(component)">
+    <h1 th:class="${component.className}" th:utext="${component.text}"></h1>
+</th:block>
+<th:block th:fragment="h2(component)">
+    <h2 th:class="${component.className}" th:utext="${component.text}"></h2>
+</th:block>
+<th:block th:fragment="h3(component)">
+    <h3 th:class="${component.className}" th:utext="${component.text}"></h3>
+</th:block>
+<th:block th:fragment="h4(component)">
+    <h4 th:class="${component.className}" th:utext="${component.text}"></h4>
+</th:block>
+<th:block th:fragment="h5(component)">
+    <h5 th:class="${component.className}" th:utext="${component.text}"></h5>
+</th:block>
+<th:block th:fragment="h6(component)">
+    <h6 th:class="${component.className}" th:utext="${component.text}"></h6>
 </th:block>
 </body>
 </html>
