@@ -108,7 +108,11 @@ public class LoginPageController extends QXCMPController {
             labels.getLabels().add(label);
         }
         segment.getComponents().add(labels);
-        segment.getComponents().add(nextComponent(HorizontalDivider.class, "水平图标分隔符", "cloud"));
+        Header dividerHeader = nextComponent(Header.class);
+        dividerHeader.setTitle("高级分隔符标题");
+        dividerHeader.setSubTitle("子标题");
+        dividerHeader.setIcon(nextComponent(Icon.class, "cloud"));
+        segment.getComponents().add(nextComponent(HorizontalDivider.class, dividerHeader));
 
         labels = nextComponent(Labels.class);
         labels.setCircular(true);

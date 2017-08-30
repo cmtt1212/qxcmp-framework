@@ -9,6 +9,11 @@
             [[${component.text}]]
         </div>
     </th:block>
+    <th:block th:unless="${component.header eq null}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+        </div>
+    </th:block>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.divider.VerticalDivider"*/-->

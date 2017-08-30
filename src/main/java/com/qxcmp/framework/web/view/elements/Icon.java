@@ -1,8 +1,6 @@
 package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.QXCMPComponent;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -15,14 +13,19 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Icon extends QXCMPComponent {
 
-    public Icon() {
-        super("qxcmp/elements/icon");
-    }
-
     /**
      * 图片元素名称
      */
     private String icon;
+
+    public Icon() {
+        super("qxcmp/elements/icon");
+    }
+
+    public Icon(String icon) {
+        this();
+        this.icon = icon;
+    }
 
     @Override
     public String getClassName() {
