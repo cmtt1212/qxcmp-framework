@@ -57,6 +57,7 @@ public class Menu extends AbstractMenu {
     /**
      * 附着方向，当为附着菜单的时候生效，方向仅支持 TOP, BOTTOM, NONE
      */
+    @Builder.Default
     private Direction attachDirection = Direction.NONE;
 
     @Singular

@@ -5,6 +5,7 @@ import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
+import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * 页面路由器基类
@@ -55,10 +57,28 @@ public abstract class QXCMPController {
         return new ModelAndView("redirect:" + url);
     }
 
+    /**
+     * 生成一个页面
+     *
+     * @param consumer 页面构建器消费者
+     *
+     * @return 生成后的页面
+     */
     protected Page page(Consumer<Page.PageBuilder> consumer) {
         Page.PageBuilder pageBuilder = Page.builder();
         consumer.accept(pageBuilder);
         return pageBuilder.build();
+    }
+
+    /**
+     * 生成一个页面
+     *
+     * @param consumer 页面根元素
+     *
+     * @return 生成后的页面
+     */
+    protected Page page(Supplier<Component> consumer) {
+        return Page.builder().component(consumer.get()).build();
     }
 
     /**

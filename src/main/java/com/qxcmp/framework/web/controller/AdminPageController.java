@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.view.containers.Container;
 import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.Menu;
 import com.qxcmp.framework.web.view.elements.MenuItem;
@@ -17,11 +18,11 @@ public class AdminPageController extends QXCMPController {
 
     @GetMapping("")
     public ModelAndView home() {
-        return page(pageBuilder -> pageBuilder.component(Menu.builder()
+        return page(() -> Container.builder().component(Menu.builder()
                 .secondary(true).pointing(true)
                 .item(MenuItem.builder().image(Image.builder().source(qxcmpConfiguration.getLogo()).build()).build())
                 .item(MenuItem.builder().text("首页").url("/").build())
                 .item(MenuItem.builder().text("关于我们").url("/").build())
-                .build())).build();
+                .build()).build()).build();
     }
 }
