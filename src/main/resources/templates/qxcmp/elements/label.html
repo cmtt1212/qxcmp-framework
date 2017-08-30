@@ -26,5 +26,14 @@
         <div th:unless="${#strings.isEmpty(component.details)}" class="detail" th:utext="${component.details}"></div>
     </a>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.label.Labels"*/-->
+<th:block th:fragment="group(component)">
+    <div th:class="${component.getClassName()}">
+        <th:block th:each="label : ${component.labels}">
+            <div th:replace="~{qxcmp/globals/components :: component(${label})}"></div>
+        </th:block>
+    </div>
+</th:block>
 </body>
 </html>

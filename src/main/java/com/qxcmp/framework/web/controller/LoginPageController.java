@@ -12,6 +12,7 @@ import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.IconButton;
 import com.qxcmp.framework.web.view.elements.label.Label;
+import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
@@ -66,48 +67,31 @@ public class LoginPageController extends QXCMPController {
         header.setTitle("标签测试");
         segment.getComponents().add(header);
 
-        Label label = nextComponent(Label.class);
-        label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
-        label.setText("标签文本");
-        label.setUrl("/admin");
-        segment.getComponents().add(label);
+        Labels labels = nextComponent(Labels.class);
+        for (int i = 0; i < 5; i++) {
+            Label label = nextComponent(Label.class, "标签文本", "/admin");
+            label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+            labels.getLabels().add(label);
+        }
+        segment.getComponents().add(labels);
 
-        label = nextComponent(Label.class);
-        label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
-        label.setText("标签文本");
-        label.setUrl("/admin");
-        label.setIcon("user");
-        segment.getComponents().add(label);
+        labels = nextComponent(Labels.class);
+        labels.setTag(true);
+        for (int i = 0; i < 5; i++) {
+            Label label = nextComponent(Label.class, "标签文本", "/admin");
+            label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+            labels.getLabels().add(label);
+        }
+        segment.getComponents().add(labels);
 
-        label = nextComponent(Label.class);
-        label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
-        label.setText("标签文本");
-        label.setUrl("/admin");
-        label.setImage(qxcmpConfiguration.getLogo());
-        segment.getComponents().add(label);
-
-        label = nextComponent(Label.class);
-        label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
-        label.setText("标签文本");
-        label.setUrl("/admin");
-        label.setDetails("标签详情");
-        segment.getComponents().add(label);
-
-        label = nextComponent(Label.class);
-        label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
-        label.setText("标签文本");
-        label.setUrl("/admin");
-        label.setIcon("user");
-        label.setDetails("标签详情");
-        segment.getComponents().add(label);
-
-        label = nextComponent(Label.class);
-        label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
-        label.setText("标签文本");
-        label.setUrl("/admin");
-        label.setImage(qxcmpConfiguration.getLogo());
-        label.setDetails("标签详情");
-        segment.getComponents().add(label);
+        labels = nextComponent(Labels.class);
+        labels.setCircular(true);
+        for (int i = 0; i < 5; i++) {
+            Label label = nextComponent(Label.class, String.valueOf(i), "/admin");
+            label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+            labels.getLabels().add(label);
+        }
+        segment.getComponents().add(labels);
 
         return segment;
     }

@@ -1,6 +1,5 @@
 package com.qxcmp.framework.web.view.elements.label;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Size;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Label extends QXCMPComponent {
+public class Label extends AbstractLabel {
 
     /**
      * 标签文本
@@ -133,8 +132,14 @@ public class Label extends QXCMPComponent {
      */
     private Size size = Size.NONE;
 
-    public Label() {
-        super("qxcmp/elements/label");
+    public Label(String text) {
+        super();
+        this.text = text;
+    }
+
+    public Label(String text, String url) {
+        this(text);
+        this.url = url;
     }
 
     @Override
