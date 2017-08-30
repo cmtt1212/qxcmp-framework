@@ -7,10 +7,10 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum DeviceVisibility {
     NONE(""),
-    LARGE_ONLY("computer"),
-    COMPUTER_ONLY("computer"),
-    TABLET_ONLY("tablet"),
-    MOBILE_ONLY("mobile");
+    LARGE_ONLY("large screen only"),
+    COMPUTER_ONLY("computer only"),
+    TABLET_ONLY("tablet only"),
+    MOBILE_ONLY("mobile only");
 
     private String className;
 

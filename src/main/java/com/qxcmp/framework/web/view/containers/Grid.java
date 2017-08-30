@@ -1,8 +1,6 @@
 package com.qxcmp.framework.web.view.containers;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.web.view.QXCMPComponent;
-import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import lombok.Getter;
@@ -78,21 +76,16 @@ public class Grid extends AbstractGrid {
     private boolean relaxed;
 
     /**
+     * 是否大幅增加槽宽度
+     */
+    private boolean veryRelaxed;
+
+    /**
      * 是否居中列元素
      * <p>
      * 当列没有占满行时，将居中显示列元素
      */
     private boolean centered;
-
-    /**
-     * 对齐方式
-     */
-    private Alignment alignment = Alignment.NONE;
-
-    /**
-     * 垂直对齐方式
-     */
-    private VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
 
     /**
      * 是否在非电脑端双倍排列列元素
@@ -139,8 +132,10 @@ public class Grid extends AbstractGrid {
 
     /**
      * 网格内容
+     * <p>
+     * 网格内容必须为行或者列
      */
-    private List<QXCMPComponent> components = Lists.newArrayList();
+    private List<AbstractGridElement> components = Lists.newArrayList();
 
     public Grid() {
         super("grid");
@@ -148,7 +143,7 @@ public class Grid extends AbstractGrid {
 
     @Override
     public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder("ui grid");
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
 
         if (divided) {
             stringBuilder.append(" divided");
@@ -194,8 +189,8 @@ public class Grid extends AbstractGrid {
             stringBuilder.append(" relaxed");
         }
 
-        if (centered) {
-            stringBuilder.append(" centered");
+        if (veryRelaxed) {
+            stringBuilder.append(" very relaxed");
         }
 
         if (StringUtils.isNotBlank(alignment.getClassName())) {
@@ -232,6 +227,8 @@ public class Grid extends AbstractGrid {
         if (mobileVerticallyReversed) {
             stringBuilder.append(" mobile vertically reversed");
         }
+
+        stringBuilder.append(" grid");
 
         return stringBuilder.toString();
     }

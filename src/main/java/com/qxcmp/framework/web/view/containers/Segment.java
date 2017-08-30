@@ -149,11 +149,11 @@ public class Segment extends AbstractSegment {
         }
 
         if (stacked) {
-            if (tallStacked) {
-                stringBuilder.append(" tall stacked");
-            } else {
-                stringBuilder.append(" stacked");
-            }
+            stringBuilder.append(" stacked");
+        }
+
+        if (tallStacked) {
+            stringBuilder.append(" tall stacked");
         }
 
         if (piled) {
@@ -185,11 +185,11 @@ public class Segment extends AbstractSegment {
         }
 
         if (padded) {
-            if (veryPadded) {
-                stringBuilder.append(" very padded");
-            } else {
-                stringBuilder.append(" padded");
-            }
+            stringBuilder.append(" padded");
+        }
+
+        if (veryPadded) {
+            stringBuilder.append(" very padded");
         }
 
         if (compact) {

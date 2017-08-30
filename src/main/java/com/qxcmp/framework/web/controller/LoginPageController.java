@@ -2,9 +2,10 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.QXCMPComponent;
-import com.qxcmp.framework.web.view.containers.Container;
+import com.qxcmp.framework.web.view.containers.Col;
+import com.qxcmp.framework.web.view.containers.Grid;
+import com.qxcmp.framework.web.view.containers.Row;
 import com.qxcmp.framework.web.view.containers.Segment;
-import com.qxcmp.framework.web.view.containers.Segments;
 import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.Icon;
 import com.qxcmp.framework.web.view.elements.Image;
@@ -14,6 +15,7 @@ import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
+import com.qxcmp.framework.web.view.support.Wide;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,14 +28,34 @@ public class LoginPageController extends QXCMPController {
     @GetMapping("/login")
     public ModelAndView loginPage() {
         return page(() -> {
-            Container container = nextComponent(Container.class);
-            Segments segments = nextComponent(Segments.class);
-            segments.getSegments().add(createHeaderSegment());
-            //segments.getSegments().add(createLoginForm());
-            segments.getSegments().add(createLabelSegment());
-            segments.getSegments().add(createButtonSegment());
-            container.getComponents().add(segments);
-            return container;
+            Grid grid = nextComponent(Grid.class);
+            grid.setContainer(true);
+            grid.setPadded(true);
+            grid.setDivided(true);
+            grid.setComputerReversed(true);
+            grid.setMobileVerticallyReversed(true);
+
+            Col headerCol = nextComponent(Col.class);
+            headerCol.getComponents().add(createHeaderSegment());
+
+            Col labelCol = nextComponent(Col.class);
+            labelCol.setGeneralWide(Wide.EIGHT);
+            labelCol.getComponents().add(createLabelSegment());
+
+            Col buttonCol = nextComponent(Col.class);
+            buttonCol.setGeneralWide(Wide.EIGHT);
+            buttonCol.getComponents().add(createButtonSegment());
+
+            Row headerRow = nextComponent(Row.class);
+            headerRow.getColumns().add(headerCol);
+
+            Row contentRow = nextComponent(Row.class);
+            contentRow.getColumns().add(labelCol);
+            contentRow.getColumns().add(buttonCol);
+
+            grid.getComponents().add(headerRow);
+            grid.getComponents().add(contentRow);
+            return grid;
         });
     }
 

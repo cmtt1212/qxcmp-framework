@@ -7,22 +7,22 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Wide {
     NONE(""),
-    ONE("one wide column"),
-    TWO("two wide column"),
-    THREE("three wide column"),
-    FOUR("four wide column"),
-    FIVE("five wide column"),
-    SIX("six wide column"),
-    SEVEN("seven wide column"),
-    EIGHT("eight wide column"),
-    NINE("nine wide column"),
-    TEN("ten wide column"),
-    ELEVEN("eleven wide column"),
-    TWELVE("twelve wide column"),
-    THIRTEEN("thirteen wide column"),
-    FOURTEEN("fourteen wide column"),
-    FIFTEEN("fifteen wide column"),
-    SIXTEEN("sixteen wide column");
+    ONE("one wide"),
+    TWO("two wide"),
+    THREE("three wide"),
+    FOUR("four wide"),
+    FIVE("five wide"),
+    SIX("six wide"),
+    SEVEN("seven wide"),
+    EIGHT("eight wide"),
+    NINE("nine wide"),
+    TEN("ten wide"),
+    ELEVEN("eleven wide"),
+    TWELVE("twelve wide"),
+    THIRTEEN("thirteen wide"),
+    FOURTEEN("fourteen wide"),
+    FIFTEEN("fifteen wide"),
+    SIXTEEN("sixteen wide");
 
     private String className;
 
