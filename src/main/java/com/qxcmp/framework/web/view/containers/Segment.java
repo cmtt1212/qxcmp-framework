@@ -6,8 +6,6 @@ import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Floating;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -129,6 +127,11 @@ public class Segment extends AbstractSegment {
     private boolean clearing;
 
     /**
+     * 是否为容器样式
+     */
+    private boolean container;
+
+    /**
      * 区块内容
      */
     private List<QXCMPComponent> components = Lists.newArrayList();
@@ -218,6 +221,10 @@ public class Segment extends AbstractSegment {
 
         if (clearing) {
             stringBuilder.append(" clearing");
+        }
+
+        if (container) {
+            stringBuilder.append(" container");
         }
 
         return stringBuilder.toString();
