@@ -8,8 +8,7 @@ import com.qxcmp.framework.web.view.containers.Segments;
 import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.elements.html.Anchor;
-import com.qxcmp.framework.web.view.elements.html.H1;
+import com.qxcmp.framework.web.view.elements.html.Paragraph;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Size;
@@ -44,7 +43,7 @@ public class LoginPageController extends QXCMPController {
             button1.setText("测试按钮");
             button1.setPrimary(true);
             button1.setSize(Size.LARGE);
-            H1 h1 = nextComponent(H1.class);
+            Paragraph h1 = nextComponent(Paragraph.class);
             h1.setText("测试标题1");
             buttonSegment.getComponents().add(button1);
             buttonSegment.getComponents().add(h1);

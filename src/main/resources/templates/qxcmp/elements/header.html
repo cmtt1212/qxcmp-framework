@@ -8,10 +8,10 @@
 <th:block th:fragment="default(component)" th:switch="${component.type.getTag()}">
     <div th:case="normal" th:class="${component.getClassName()}">
         <th:block th:if="${component.image ne null}">
-            <div th:replace="~{qxcmp/elements/image :: default(${component.image})}"></div>
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
         </th:block>
         <th:block th:if="${component.icon ne null}">
-            <div th:replace="~{qxcmp/elements/icon :: default(${component.icon})}"></div>
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
         </th:block>
         <div class="content">
             <span th:utext="${component.title}"></span>
