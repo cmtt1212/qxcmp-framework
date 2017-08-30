@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.collections;
+package com.qxcmp.framework.web.view.elements;
 
 import lombok.Builder;
 import lombok.Data;

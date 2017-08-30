@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.elements;
+package com.qxcmp.framework.web.view.containers;
 
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -39,7 +39,7 @@ public class Container implements Component {
 
     @Override
     public String getFragmentFile() {
-        return "qxcmp/elements/container";
+        return "qxcmp/containers/container";
     }
 
     @Override

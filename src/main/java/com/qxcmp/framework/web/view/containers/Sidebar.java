@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.modules;
+package com.qxcmp.framework.web.view.containers;
 
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Direction;
@@ -38,6 +38,6 @@ public class Sidebar implements Component {
 
     @Override
     public String getFragmentFile() {
-        return "qxcmp/modules/sidebar";
+        return "qxcmp/containers/sidebar";
     }
 }

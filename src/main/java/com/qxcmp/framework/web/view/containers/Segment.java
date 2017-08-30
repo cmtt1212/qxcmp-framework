@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.elements;
+package com.qxcmp.framework.web.view.containers;
 
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Alignment;

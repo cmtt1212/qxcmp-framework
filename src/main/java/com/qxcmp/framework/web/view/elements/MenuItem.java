@@ -1,6 +1,5 @@
-package com.qxcmp.framework.web.view.collections;
+package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.elements.Image;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

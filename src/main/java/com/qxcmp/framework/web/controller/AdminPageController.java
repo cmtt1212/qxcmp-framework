@@ -1,8 +1,8 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.collections.Menu;
-import com.qxcmp.framework.web.view.collections.MenuItem;
+import com.qxcmp.framework.web.view.elements.Menu;
+import com.qxcmp.framework.web.view.elements.MenuItem;
 import com.qxcmp.framework.web.view.elements.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
