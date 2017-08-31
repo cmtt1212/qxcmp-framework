@@ -14,6 +14,7 @@ import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown;
+import com.qxcmp.framework.web.view.modules.dropdown.DropdownConfig;
 import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.SelectDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.item.*;
@@ -309,14 +310,16 @@ public class LoginPageController extends QXCMPController {
         mSelectDropdown.setSearch(true);
         mSelectDropdown.setMultiple(true);
         mSelectDropdown.setFluid(true);
-        mSelectDropdown.getItems().add(textDropdownItem);
-        mSelectDropdown.getItems().add(textDropdownItem);
-        mSelectDropdown.getItems().add(iconDropdownItem);
-        mSelectDropdown.getItems().add(imageDropdownItem);
-        mSelectDropdown.getItems().add(labelDropdownItem);
-        mSelectDropdown.getItems().add(iconDropdownItem);
-        mSelectDropdown.getItems().add(imageDropdownItem);
-        mSelectDropdown.getItems().add(labelDropdownItem);
+        mSelectDropdown.setDropdownConfig(DropdownConfig.builder().maxSelections(5).allowAdditions(true).fullTextSearch(true).transition(Transition.JIGGLE.getValue()).build());
+
+        for (int i = 0; i < 20; i++) {
+            ImageDropdownItem item = nextComponent(ImageDropdownItem.class);
+            item.setText("多选项" + (i + 1));
+            item.setValue(String.valueOf(i + 1));
+            item.setAvatar(true);
+            item.setImage(qxcmpConfiguration.getLogo());
+            mSelectDropdown.getItems().add(item);
+        }
 
         segment.getComponents().add(menuDropdown);
         segment.getComponents().add(buttonDropdown);

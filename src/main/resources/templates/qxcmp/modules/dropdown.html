@@ -124,7 +124,8 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             var dropdownId = /*[[|#dropdown-${dropdown.id}|]]*/ "";
-            $(dropdownId).dropdown();
+            var dropdownConfig = /*[[${dropdown.dropdownConfig}]]*/ {};
+            $(dropdownId).dropdown(dropdownConfig);
         });
     </script>
 </th:block>

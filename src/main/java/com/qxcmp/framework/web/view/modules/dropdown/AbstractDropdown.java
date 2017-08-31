@@ -49,6 +49,11 @@ public abstract class AbstractDropdown extends QXCMPComponent {
      */
     private boolean error;
 
+    /**
+     * JS 配置
+     */
+    private DropdownConfig dropdownConfig;
+
     public AbstractDropdown() {
         super("qxcmp/modules/dropdown");
     }
