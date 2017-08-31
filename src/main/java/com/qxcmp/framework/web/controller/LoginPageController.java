@@ -72,7 +72,6 @@ public class LoginPageController extends QXCMPController {
         Image image = nextComponent(Image.class);
         image.setSource(qxcmpConfiguration.getLogo());
         image.setUrl("/");
-        image.setUrlTarget(AnchorTarget.BLANK.getValue());
         header.setIconHeader(true);
         header.setTitle(qxcmpConfiguration.getTitle());
         header.setAlignment(Alignment.CENTER);

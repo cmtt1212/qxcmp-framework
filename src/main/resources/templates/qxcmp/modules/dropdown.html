@@ -3,7 +3,7 @@
 <body>
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown"*/-->
 <th:block th:fragment="menu(component)">
-    <div th:class="${component.getClassName()}">
+    <div th:id="|dropdown-${component.id}|" th:class="${component.getClassName()}">
         <span class="text" th:utext="${component.text}"></span>
         <i class="dropdown icon"></i>
         <div class="menu">
@@ -12,12 +12,12 @@
             </th:block>
         </div>
     </div>
-    <script th:replace="~{:: scripts}"></script>
+    <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown"*/-->
 <th:block th:fragment="button(component)">
-    <div th:class="${component.getClassName()}">
+    <div th:id="|dropdown-${component.id}|" th:class="${component.getClassName()}">
         <i th:unless="${#strings.isEmpty(component.icon)}" th:class="|${component.icon} icon|"></i>
         <span th:unless="${#strings.isEmpty(component.text)}" class="text" th:utext="${component.text}"></span>
         <div class="menu">
@@ -26,12 +26,12 @@
             </th:block>
         </div>
     </div>
-    <script th:replace="~{:: scripts}"></script>
+    <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.SelectDropdown"*/-->
 <th:block th:fragment="select(component)">
-    <div th:class="${component.getClassName()}">
+    <div th:id="|dropdown-${component.id}|" th:class="${component.getClassName()}">
         <input th:name="${component.name}"/>
         <i class="dropdown icon"></i>
         <div class="default text" th:utext="${component.placeholder}"></div>
@@ -41,7 +41,7 @@
             </th:block>
         </div>
     </div>
-    <script th:replace="~{:: scripts}"></script>
+    <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.TextDropdownItem"*/-->
@@ -119,10 +119,14 @@
     </div>
 </th:block>
 
-<script th:fragment="scripts">
-    $(document).ready(function () {
-        $(".ui.dropdown").dropdown();
-    });
-</script>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.AbstractDropdown"*/-->
+<th:block th:fragment="scripts(dropdown)">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var dropdownId = /*[[|#dropdown-${dropdown.id}|]]*/ "";
+            $(dropdownId).dropdown();
+        });
+    </script>
+</th:block>
 </body>
 </html>
