@@ -18,7 +18,10 @@ import com.qxcmp.framework.web.view.modules.dropdown.DropdownConfig;
 import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.SelectDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.item.*;
-import com.qxcmp.framework.web.view.support.*;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Color;
+import com.qxcmp.framework.web.view.support.Direction;
+import com.qxcmp.framework.web.view.support.Wide;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -310,7 +313,7 @@ public class LoginPageController extends QXCMPController {
         mSelectDropdown.setSearch(true);
         mSelectDropdown.setMultiple(true);
         mSelectDropdown.setFluid(true);
-        mSelectDropdown.setDropdownConfig(DropdownConfig.builder().maxSelections(5).allowAdditions(true).fullTextSearch(true).transition(Transition.JIGGLE.getValue()).build());
+        mSelectDropdown.setDropdownConfig(DropdownConfig.builder().maxSelections(5).allowAdditions(true).fullTextSearch(true).build());
 
         for (int i = 0; i < 20; i++) {
             ImageDropdownItem item = nextComponent(ImageDropdownItem.class);
