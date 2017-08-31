@@ -15,6 +15,7 @@ import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
+import com.qxcmp.framework.web.view.modules.dropdown.SelectDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.item.*;
 import com.qxcmp.framework.web.view.support.*;
 import org.springframework.stereotype.Controller;
@@ -227,20 +228,28 @@ public class LoginPageController extends QXCMPController {
         InputDropdownItem inputDropdownItem = nextComponent(InputDropdownItem.class);
         inputDropdownItem.setPlaceholder("搜索选项");
 
+        TextDropdownItem textDropdownItem = nextComponent(TextDropdownItem.class);
+        textDropdownItem.setText("文本选项");
+        textDropdownItem.setDescription("=");
+        textDropdownItem.setValue("1");
+
         IconDropdownItem iconDropdownItem = nextComponent(IconDropdownItem.class);
         iconDropdownItem.setIcon("user");
         iconDropdownItem.setText("图标选项");
         iconDropdownItem.setDescription("=");
+        iconDropdownItem.setValue("1");
 
         ImageDropdownItem imageDropdownItem = nextComponent(ImageDropdownItem.class);
         imageDropdownItem.setImage(qxcmpConfiguration.getLogo());
         imageDropdownItem.setAvatar(true);
         imageDropdownItem.setText("图片选项");
         imageDropdownItem.setDescription("=");
+        imageDropdownItem.setValue("1");
 
         LabelDropdownItem labelDropdownItem = nextComponent(LabelDropdownItem.class);
         labelDropdownItem.setText("标签选项");
         labelDropdownItem.setDescription("=");
+        labelDropdownItem.setValue("1");
 
         MenuDropdownItem menuDropdownItem = nextComponent(MenuDropdownItem.class);
         menuDropdownItem.setDirection(Direction.LEFT);
@@ -262,6 +271,7 @@ public class LoginPageController extends QXCMPController {
         menuDropdown.getItems().add(inputDropdownItem);
         menuDropdown.getItems().add(dHeader2);
         menuDropdown.getItems().add(dividerDropdownItem);
+        menuDropdown.getItems().add(textDropdownItem);
         menuDropdown.getItems().add(iconDropdownItem);
         menuDropdown.getItems().add(imageDropdownItem);
         menuDropdown.getItems().add(labelDropdownItem);
@@ -271,6 +281,7 @@ public class LoginPageController extends QXCMPController {
         ButtonDropdown buttonDropdown = nextComponent(ButtonDropdown.class);
         buttonDropdown.setText("立即下载资源");
         buttonDropdown.setIcon("download");
+        buttonDropdown.setSearch(true);
         buttonDropdown.setColor(randomColor());
         buttonDropdown.setPointing(true);
 
@@ -279,14 +290,39 @@ public class LoginPageController extends QXCMPController {
         buttonDropdown.getItems().add(inputDropdownItem);
         buttonDropdown.getItems().add(dHeader2);
         buttonDropdown.getItems().add(dividerDropdownItem);
+        buttonDropdown.getItems().add(textDropdownItem);
         buttonDropdown.getItems().add(iconDropdownItem);
         buttonDropdown.getItems().add(imageDropdownItem);
         buttonDropdown.getItems().add(labelDropdownItem);
         buttonDropdown.getItems().add(dHeader3);
         buttonDropdown.getItems().add(menuDropdownItem);
 
+        SelectDropdown selectDropdown = nextComponent(SelectDropdown.class);
+        selectDropdown.setPlaceholder("输入框");
+        selectDropdown.setSearch(true);
+        selectDropdown.getItems().add(textDropdownItem);
+        selectDropdown.getItems().add(iconDropdownItem);
+        selectDropdown.getItems().add(imageDropdownItem);
+        selectDropdown.getItems().add(labelDropdownItem);
+
+        SelectDropdown mSelectDropdown = nextComponent(SelectDropdown.class);
+        mSelectDropdown.setPlaceholder("多选输入框");
+        mSelectDropdown.setSearch(true);
+        mSelectDropdown.setMultiple(true);
+        mSelectDropdown.setFluid(true);
+        mSelectDropdown.getItems().add(textDropdownItem);
+        mSelectDropdown.getItems().add(textDropdownItem);
+        mSelectDropdown.getItems().add(iconDropdownItem);
+        mSelectDropdown.getItems().add(imageDropdownItem);
+        mSelectDropdown.getItems().add(labelDropdownItem);
+        mSelectDropdown.getItems().add(iconDropdownItem);
+        mSelectDropdown.getItems().add(imageDropdownItem);
+        mSelectDropdown.getItems().add(labelDropdownItem);
+
         segment.getComponents().add(menuDropdown);
         segment.getComponents().add(buttonDropdown);
+        segment.getComponents().add(selectDropdown);
+        segment.getComponents().add(mSelectDropdown);
 
         return segment;
     }

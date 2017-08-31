@@ -10,10 +10,19 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public abstract class TextDropdownItem extends AbstractTextDropdownItem {
+public class TextDropdownItem extends AbstractSelectionItem {
 
     @Override
     public String getFragmentName() {
         return "item-text";
+    }
+
+    @Override
+    public String getClassName() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+
+        stringBuilder.append(" item");
+
+        return stringBuilder.toString();
     }
 }

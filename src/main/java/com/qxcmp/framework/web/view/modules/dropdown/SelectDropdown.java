@@ -21,7 +21,7 @@ import java.util.List;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Selection extends AbstractDropdown {
+public class SelectDropdown extends AbstractDropdown {
 
     /**
      * 下拉选择框 name - 用于表单提交
@@ -50,11 +50,23 @@ public class Selection extends AbstractDropdown {
 
     @Override
     public String getFragmentName() {
-        return "selection";
+        return "select";
     }
 
     @Override
     public String getClassName() {
-        return super.getClassName();
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+
+        if (search) {
+            stringBuilder.append(" search");
+        }
+
+        if (multiple) {
+            stringBuilder.append(" multiple");
+        }
+
+        stringBuilder.append(" selection dropdown");
+
+        return stringBuilder.toString();
     }
 }
