@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Divider extends AbstractItem {
+public class DividerDropdownItem extends AbstractItem {
 
     @Override
     public String getFragmentName() {

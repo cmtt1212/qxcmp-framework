@@ -13,6 +13,8 @@ import com.qxcmp.framework.web.view.elements.button.*;
 import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
+import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
+import com.qxcmp.framework.web.view.modules.dropdown.item.HeaderDropdownItem;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
@@ -47,12 +49,17 @@ public class LoginPageController extends QXCMPController {
             buttonCol.setGeneralWide(Wide.EIGHT);
             buttonCol.getComponents().add(createButtonSegment());
 
+            Col dropdownCol = nextComponent(Col.class);
+            dropdownCol.setGeneralWide(Wide.SIXTEEN);
+            dropdownCol.getComponents().add(createDropdownSegment());
+
             Row headerRow = nextComponent(Row.class);
             headerRow.getColumns().add(headerCol);
 
             Row contentRow = nextComponent(Row.class);
             contentRow.getColumns().add(labelCol);
             contentRow.getColumns().add(buttonCol);
+            contentRow.getColumns().add(dropdownCol);
 
             grid.getComponents().add(headerRow);
             grid.getComponents().add(contentRow);
@@ -203,6 +210,18 @@ public class LoginPageController extends QXCMPController {
         labeledIconButton.setRightIcon(true);
         labeledIconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
         segment.getComponents().add(labeledIconButton);
+
+        return segment;
+    }
+
+    private Segment createDropdownSegment() {
+        Segment segment = nextComponent(Segment.class);
+
+        MenuDropdown menuDropdown = nextComponent(MenuDropdown.class);
+        HeaderDropdownItem dHeader = nextComponent(HeaderDropdownItem.class);
+        menuDropdown.getItems().add(dHeader);
+
+        segment.getComponents().add(menuDropdown);
 
         return segment;
     }

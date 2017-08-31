@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.Button"*/-->
+<th:block th:fragment="default(component)">
+    <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}"
+            th:utext="${component.text}"></button>
+</th:block>
+</body>
+</html>

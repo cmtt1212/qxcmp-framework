@@ -1,27 +1,24 @@
 package com.qxcmp.framework.web.view.modules.dropdown.item;
 
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Menu extends AbstractItem {
+public class IconDropdownItem extends AbstractSelectionItem {
 
     /**
-     * 子选项
+     * 选项图标名称
      */
-    private List<AbstractItem> items = Lists.newArrayList();
+    private String icon;
 
     @Override
     public String getFragmentName() {
-        return "item-menu";
+        return "item-icon";
     }
 }

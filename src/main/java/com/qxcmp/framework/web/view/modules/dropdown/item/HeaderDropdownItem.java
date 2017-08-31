@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Header extends AbstractItem {
+public class HeaderDropdownItem extends AbstractItem {
 
     /**
      * 标题图标名称

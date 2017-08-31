@@ -10,20 +10,22 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Input extends AbstractItem {
+public class ImageDropdownItem extends AbstractSelectionItem {
 
     /**
-     * 输入框 name - 用于表单提交
+     * 图片源
      */
-    private String name;
+    private String image;
 
     /**
-     * 输入框图标名称
+     * 是否为头像
+     * <p>
+     * 该属性会将图片渲染为圆形
      */
-    private String icon;
+    private boolean avatar;
 
     @Override
     public String getFragmentName() {
-        return "item-input";
+        return "item-image";
     }
 }

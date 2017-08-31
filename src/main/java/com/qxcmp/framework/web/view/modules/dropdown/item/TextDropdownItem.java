@@ -10,22 +10,10 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Image extends AbstractSelectionItem {
-
-    /**
-     * 图片源
-     */
-    private String image;
-
-    /**
-     * 是否为头像
-     * <p>
-     * 该属性会将图片渲染为圆形
-     */
-    private boolean avatar;
+public class TextDropdownItem extends AbstractSelectionItem {
 
     @Override
     public String getFragmentName() {
-        return "item-image";
+        return "item-text";
     }
 }

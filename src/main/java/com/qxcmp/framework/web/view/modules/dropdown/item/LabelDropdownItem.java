@@ -11,24 +11,24 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class LabelItem extends AbstractSelectionItem {
+public class LabelDropdownItem extends AbstractSelectionItem {
 
     /**
      * 选项标签内容，默认为空标签
      */
     private Label label;
 
-    public LabelItem() {
+    public LabelDropdownItem() {
         Label label = new Label("");
         label.setEmptyCircular(true);
         this.label = label;
     }
 
-    public LabelItem(String text) {
+    public LabelDropdownItem(String text) {
         this.label = new Label(text);
     }
 
-    public LabelItem(Label label) {
+    public LabelDropdownItem(Label label) {
         this.label = label;
     }
 
