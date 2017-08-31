@@ -15,8 +15,7 @@ import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
-import com.qxcmp.framework.web.view.modules.dropdown.item.HeaderDropdownItem;
-import com.qxcmp.framework.web.view.modules.dropdown.item.IconDropdownItem;
+import com.qxcmp.framework.web.view.modules.dropdown.item.*;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
@@ -100,7 +99,7 @@ public class LoginPageController extends QXCMPController {
         Labels labels = nextComponent(Labels.class);
         for (int i = 0; i < 5; i++) {
             Label label = nextComponent(Label.class, "标签文本", "/admin");
-            label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+            label.setColor(randomColor());
             labels.getLabels().add(label);
         }
         segment.getComponents().add(labels);
@@ -113,7 +112,7 @@ public class LoginPageController extends QXCMPController {
         labels.setTag(true);
         for (int i = 0; i < 5; i++) {
             Label label = nextComponent(Label.class, "标签文本", "/admin");
-            label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+            label.setColor(randomColor());
             labels.getLabels().add(label);
         }
         segment.getComponents().add(labels);
@@ -127,7 +126,7 @@ public class LoginPageController extends QXCMPController {
         labels.setCircular(true);
         for (int i = 0; i < 5; i++) {
             Label label = nextComponent(Label.class, String.valueOf(i), "/admin");
-            label.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+            label.setColor(randomColor());
             labels.getLabels().add(label);
         }
         segment.getComponents().add(labels);
@@ -143,17 +142,17 @@ public class LoginPageController extends QXCMPController {
 
         Button button = nextComponent(Button.class);
         button.setText("测试按钮");
-        button.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        button.setColor(randomColor());
         segment.getComponents().add(button);
 
         AnimatedButton animatedButton = nextComponent(AnimatedButton.class);
-        animatedButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        animatedButton.setColor(randomColor());
         animatedButton.setVisibleText("下载");
         animatedButton.setHiddenText("点击下载");
         segment.getComponents().add(animatedButton);
 
         animatedButton = nextComponent(AnimatedButton.class);
-        animatedButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        animatedButton.setColor(randomColor());
         animatedButton.setVisibleText("下载");
         Icon icon = nextComponent(Icon.class);
         icon.setIcon("download");
@@ -162,7 +161,7 @@ public class LoginPageController extends QXCMPController {
         segment.getComponents().add(animatedButton);
 
         animatedButton = nextComponent(AnimatedButton.class);
-        animatedButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        animatedButton.setColor(randomColor());
         animatedButton.setHiddenText("下载");
         icon = nextComponent(Icon.class);
         icon.setIcon("download");
@@ -171,7 +170,7 @@ public class LoginPageController extends QXCMPController {
         segment.getComponents().add(animatedButton);
 
         animatedButton = nextComponent(AnimatedButton.class);
-        animatedButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        animatedButton.setColor(randomColor());
         animatedButton.setVisibleText("下载");
         icon = nextComponent(Icon.class);
         icon.setIcon("download");
@@ -181,7 +180,7 @@ public class LoginPageController extends QXCMPController {
         segment.getComponents().add(animatedButton);
 
         animatedButton = nextComponent(AnimatedButton.class);
-        animatedButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        animatedButton.setColor(randomColor());
         animatedButton.setVisibleText("可见内容");
         icon = nextComponent(Icon.class);
         icon.setIcon("download");
@@ -191,26 +190,26 @@ public class LoginPageController extends QXCMPController {
         segment.getComponents().add(animatedButton);
 
         IconButton iconButton = nextComponent(IconButton.class, "download");
-        iconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        iconButton.setColor(randomColor());
         segment.getComponents().add(iconButton);
 
         LabeledButton labeledButton = nextComponent(LabeledButton.class, "按钮文本", "标签文本");
-        labeledButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        labeledButton.setColor(randomColor());
         segment.getComponents().add(labeledButton);
 
         labeledButton = nextComponent(LabeledButton.class, "按钮文本", "标签文本");
         labeledButton.setLeft(true);
-        labeledButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        labeledButton.setColor(randomColor());
         segment.getComponents().add(labeledButton);
 
         LabeledIconButton labeledIconButton = nextComponent(LabeledIconButton.class, "按钮文本", "user");
         labeledIconButton.setBasic(true);
-        labeledIconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        labeledIconButton.setColor(randomColor());
         segment.getComponents().add(labeledIconButton);
 
         labeledIconButton = nextComponent(LabeledIconButton.class, "按钮文本", "user");
         labeledIconButton.setRightIcon(true);
-        labeledIconButton.setColor(Color.values()[new Random().nextInt(Color.values().length)]);
+        labeledIconButton.setColor(randomColor());
         segment.getComponents().add(labeledIconButton);
 
         return segment;
@@ -219,29 +218,55 @@ public class LoginPageController extends QXCMPController {
     private Segment createDropdownSegment() {
         Segment segment = nextComponent(Segment.class);
 
-        MenuDropdown menuDropdown = nextComponent(MenuDropdown.class);
-        menuDropdown.setText("文件...");
-        HeaderDropdownItem dHeader = nextComponent(HeaderDropdownItem.class);
-        dHeader.setText("下拉选项");
+        DividerDropdownItem dividerDropdownItem = nextComponent(DividerDropdownItem.class);
+
+        HeaderDropdownItem dHeader1 = nextComponent(HeaderDropdownItem.class);
+        dHeader1.setText("选项组一");
+        HeaderDropdownItem dHeader2 = nextComponent(HeaderDropdownItem.class);
+        dHeader2.setText("选项组二");
+
         IconDropdownItem iconDropdownItem = nextComponent(IconDropdownItem.class);
         iconDropdownItem.setIcon("user");
-        iconDropdownItem.setText("选项一");
-        menuDropdown.getItems().add(dHeader);
+        iconDropdownItem.setText("图标选项");
+        iconDropdownItem.setDescription("说明描述");
+
+        ImageDropdownItem imageDropdownItem = nextComponent(ImageDropdownItem.class);
+        imageDropdownItem.setImage(qxcmpConfiguration.getLogo());
+        imageDropdownItem.setAvatar(true);
+        imageDropdownItem.setText("图片选项");
+        imageDropdownItem.setDescription("说明描述");
+
+        LabelDropdownItem labelDropdownItem = nextComponent(LabelDropdownItem.class);
+        labelDropdownItem.setText("标签选项");
+        labelDropdownItem.setDescription("说明描述");
+
+        MenuDropdown menuDropdown = nextComponent(MenuDropdown.class);
+        menuDropdown.setText("文件...");
+
+        menuDropdown.getItems().add(dHeader1);
+        menuDropdown.getItems().add(dividerDropdownItem);
         menuDropdown.getItems().add(iconDropdownItem);
+        menuDropdown.getItems().add(imageDropdownItem);
+        menuDropdown.getItems().add(labelDropdownItem);
 
         ButtonDropdown buttonDropdown = nextComponent(ButtonDropdown.class);
-        dHeader = nextComponent(HeaderDropdownItem.class);
-        dHeader.setText("下拉选项");
-        iconDropdownItem = nextComponent(IconDropdownItem.class);
-        iconDropdownItem.setIcon("user");
-        iconDropdownItem.setText("选项一");
-        buttonDropdown.getItems().add(dHeader);
-        buttonDropdown.getItems().add(iconDropdownItem);
+        buttonDropdown.setText("下载");
+        buttonDropdown.setIcon("download");
+        buttonDropdown.setColor(randomColor());
 
+        buttonDropdown.getItems().add(dHeader1);
+        buttonDropdown.getItems().add(dividerDropdownItem);
+        buttonDropdown.getItems().add(iconDropdownItem);
+        buttonDropdown.getItems().add(imageDropdownItem);
+        buttonDropdown.getItems().add(labelDropdownItem);
 
         segment.getComponents().add(menuDropdown);
         segment.getComponents().add(buttonDropdown);
 
         return segment;
+    }
+
+    private Color randomColor() {
+        return Color.values()[new Random().nextInt(Color.values().length)];
     }
 }

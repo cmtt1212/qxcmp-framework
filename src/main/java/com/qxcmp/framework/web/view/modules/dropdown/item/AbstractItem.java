@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class AbstractItem extends QXCMPComponent {
+public abstract class AbstractItem extends QXCMPComponent {
 
     public AbstractItem() {
         super("qxcmp/modules/dropdown");

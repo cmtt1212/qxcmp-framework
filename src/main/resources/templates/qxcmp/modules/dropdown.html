@@ -27,12 +27,28 @@
     </div>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.TextDropdownItem"*/-->
+<th:block th:fragment="item-text(component)">
+    <div th:class="${component.getClassName()}">
+        [[${component.text}]]
+        <span th:unless="${#strings.isEmpty(component.description)}" class="description"
+              th:utext="${component.description}"></span>
+    </div>
+</th:block>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.HeaderDropdownItem"*/-->
 <th:block th:fragment="item-header(component)">
     <div th:class="${component.getClassName()}">
         <i th:unless="${#strings.isEmpty(component.icon)}" th:class="|${component.icon} icon|"></i>
         [[${component.text}]]
+        <span th:unless="${#strings.isEmpty(component.description)}" class="description"
+              th:utext="${component.description}"></span>
     </div>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.DividerDropdownItem"*/-->
+<th:block th:fragment="item-divider(component)">
+    <div class="divider"></div>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.IconDropdownItem"*/-->
@@ -40,6 +56,28 @@
     <div th:class="${component.getClassName()}">
         <i th:class="|${component.icon} icon|"></i>
         [[${component.text}]]
+        <span th:unless="${#strings.isEmpty(component.description)}" class="description"
+              th:utext="${component.description}"></span>
+    </div>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.ImageDropdownItem"*/-->
+<th:block th:fragment="item-image(component)">
+    <div th:class="${component.getClassName()}">
+        <img th:class="|ui ${component.avatar ? 'avatar' : ''} image|" th:src="@{${component.image}}"/>
+        [[${component.text}]]
+        <span th:unless="${#strings.isEmpty(component.description)}" class="description"
+              th:utext="${component.description}"></span>
+    </div>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.LabelDropdownItem"*/-->
+<th:block th:fragment="item-label(component)">
+    <div th:class="${component.getClassName()}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.label})}"></div>
+        [[${component.text}]]
+        <span th:unless="${#strings.isEmpty(component.description)}" class="description"
+              th:utext="${component.description}"></span>
     </div>
 </th:block>
 </body>

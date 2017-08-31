@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-public abstract class AbstractSelectionItem extends AbstractTextDropdownItem {
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public abstract class TextDropdownItem extends AbstractTextDropdownItem {
 
-    /**
-     * 数据值，一般对选项对象主键
-     */
-    private String value;
+    @Override
+    public String getFragmentName() {
+        return "item-text";
+    }
 }

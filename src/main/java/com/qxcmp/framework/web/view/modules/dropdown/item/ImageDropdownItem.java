@@ -28,4 +28,13 @@ public class ImageDropdownItem extends AbstractSelectionItem {
     public String getFragmentName() {
         return "item-image";
     }
+
+    @Override
+    public String getClassName() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+
+        stringBuilder.append(" item");
+
+        return stringBuilder.toString();
+    }
 }
