@@ -91,6 +91,19 @@
     </div>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.MenuDropdownItem"*/-->
+<th:block th:fragment="item-menu(component)">
+    <div th:class="${component.getClassName()}">
+        <i th:class="|${component.direction.getClassName()} dropdown icon|"></i>
+        <span class="text" th:utext="${component.text}"></span>
+        <div th:class="|${component.direction.getClassName()} menu|">
+            <th:block th:each="item : ${component.items}">
+                <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+
 <script th:fragment="scripts">
     $(document).ready(function () {
         $(".ui.dropdown").dropdown();

@@ -16,10 +16,7 @@ import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.item.*;
-import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.AnchorTarget;
-import com.qxcmp.framework.web.view.support.Color;
-import com.qxcmp.framework.web.view.support.Wide;
+import com.qxcmp.framework.web.view.support.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -62,8 +59,8 @@ public class LoginPageController extends QXCMPController {
             dropdownRow.getColumns().add(dropdownCol);
 
             grid.getComponents().add(headerRow);
-            grid.getComponents().add(contentRow);
             grid.getComponents().add(dropdownRow);
+            grid.getComponents().add(contentRow);
             return grid;
         });
     }
@@ -224,6 +221,8 @@ public class LoginPageController extends QXCMPController {
         dHeader1.setText("选项组一");
         HeaderDropdownItem dHeader2 = nextComponent(HeaderDropdownItem.class);
         dHeader2.setText("选项组二");
+        HeaderDropdownItem dHeader3 = nextComponent(HeaderDropdownItem.class);
+        dHeader3.setText("选项组二");
 
         InputDropdownItem inputDropdownItem = nextComponent(InputDropdownItem.class);
         inputDropdownItem.setPlaceholder("搜索选项");
@@ -243,6 +242,17 @@ public class LoginPageController extends QXCMPController {
         labelDropdownItem.setText("标签选项");
         labelDropdownItem.setDescription("=");
 
+        MenuDropdownItem menuDropdownItem = nextComponent(MenuDropdownItem.class);
+        menuDropdownItem.setDirection(Direction.LEFT);
+        menuDropdownItem.setText("子菜单");
+        menuDropdownItem.getItems().add(dHeader1);
+        menuDropdownItem.getItems().add(dividerDropdownItem);
+        menuDropdownItem.getItems().add(inputDropdownItem);
+        menuDropdownItem.getItems().add(dHeader2);
+        menuDropdownItem.getItems().add(iconDropdownItem);
+        menuDropdownItem.getItems().add(imageDropdownItem);
+        menuDropdownItem.getItems().add(labelDropdownItem);
+
         MenuDropdown menuDropdown = nextComponent(MenuDropdown.class);
         menuDropdown.setText("文件");
         menuDropdown.setPointing(true);
@@ -255,14 +265,14 @@ public class LoginPageController extends QXCMPController {
         menuDropdown.getItems().add(iconDropdownItem);
         menuDropdown.getItems().add(imageDropdownItem);
         menuDropdown.getItems().add(labelDropdownItem);
+        menuDropdown.getItems().add(dHeader3);
+        menuDropdown.getItems().add(menuDropdownItem);
 
         ButtonDropdown buttonDropdown = nextComponent(ButtonDropdown.class);
         buttonDropdown.setText("立即下载资源");
         buttonDropdown.setIcon("download");
         buttonDropdown.setColor(randomColor());
         buttonDropdown.setPointing(true);
-
-        inputDropdownItem.setRightIcon(true);
 
         buttonDropdown.getItems().add(dHeader1);
         buttonDropdown.getItems().add(dividerDropdownItem);
@@ -272,6 +282,8 @@ public class LoginPageController extends QXCMPController {
         buttonDropdown.getItems().add(iconDropdownItem);
         buttonDropdown.getItems().add(imageDropdownItem);
         buttonDropdown.getItems().add(labelDropdownItem);
+        buttonDropdown.getItems().add(dHeader3);
+        buttonDropdown.getItems().add(menuDropdownItem);
 
         segment.getComponents().add(menuDropdown);
         segment.getComponents().add(buttonDropdown);
