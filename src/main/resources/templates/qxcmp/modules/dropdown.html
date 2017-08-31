@@ -12,6 +12,7 @@
             </th:block>
         </div>
     </div>
+    <script th:replace="~{:: scripts}"></script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown"*/-->
@@ -25,6 +26,7 @@
             </th:block>
         </div>
     </div>
+    <script th:replace="~{:: scripts}"></script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.TextDropdownItem"*/-->
@@ -80,5 +82,19 @@
               th:utext="${component.description}"></span>
     </div>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.InputDropdownItem"*/-->
+<th:block th:fragment="item-input(component)">
+    <div th:class="${component.getClassName()}">
+        <i th:class="|${component.icon} icon|"></i>
+        <input th:name="${component.name}" th:placeholder="${component.placeholder}"/>
+    </div>
+</th:block>
+
+<script th:fragment="scripts">
+    $(document).ready(function () {
+        $(".ui.dropdown").dropdown();
+    });
+</script>
 </body>
 </html>

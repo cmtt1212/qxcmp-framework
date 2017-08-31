@@ -199,10 +199,11 @@ public class Label extends AbstractLabel {
         }
 
         if (circular) {
-            if (emptyCircular) {
-                stringBuilder.append(" empty");
-            }
             stringBuilder.append(" circular");
+        }
+
+        if (emptyCircular) {
+            stringBuilder.append(" empty circular");
         }
 
         if (StringUtils.isNotBlank(size.getClassName())) {

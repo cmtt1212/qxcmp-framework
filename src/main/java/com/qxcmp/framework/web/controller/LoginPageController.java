@@ -34,10 +34,7 @@ public class LoginPageController extends QXCMPController {
         return page(() -> {
             Grid grid = nextComponent(Grid.class);
             grid.setContainer(true);
-            grid.setPadded(true);
-            grid.setDivided(true);
-            grid.setComputerReversed(true);
-            grid.setMobileVerticallyReversed(true);
+            grid.setStackable(true);
 
             Col headerCol = nextComponent(Col.class);
             headerCol.getComponents().add(createHeaderSegment());
@@ -60,10 +57,13 @@ public class LoginPageController extends QXCMPController {
             Row contentRow = nextComponent(Row.class);
             contentRow.getColumns().add(labelCol);
             contentRow.getColumns().add(buttonCol);
-            contentRow.getColumns().add(dropdownCol);
+
+            Row dropdownRow = nextComponent(Row.class);
+            dropdownRow.getColumns().add(dropdownCol);
 
             grid.getComponents().add(headerRow);
             grid.getComponents().add(contentRow);
+            grid.getComponents().add(dropdownRow);
             return grid;
         });
     }
@@ -225,36 +225,49 @@ public class LoginPageController extends QXCMPController {
         HeaderDropdownItem dHeader2 = nextComponent(HeaderDropdownItem.class);
         dHeader2.setText("选项组二");
 
+        InputDropdownItem inputDropdownItem = nextComponent(InputDropdownItem.class);
+        inputDropdownItem.setPlaceholder("搜索选项");
+
         IconDropdownItem iconDropdownItem = nextComponent(IconDropdownItem.class);
         iconDropdownItem.setIcon("user");
         iconDropdownItem.setText("图标选项");
-        iconDropdownItem.setDescription("说明描述");
+        iconDropdownItem.setDescription("=");
 
         ImageDropdownItem imageDropdownItem = nextComponent(ImageDropdownItem.class);
         imageDropdownItem.setImage(qxcmpConfiguration.getLogo());
         imageDropdownItem.setAvatar(true);
         imageDropdownItem.setText("图片选项");
-        imageDropdownItem.setDescription("说明描述");
+        imageDropdownItem.setDescription("=");
 
         LabelDropdownItem labelDropdownItem = nextComponent(LabelDropdownItem.class);
         labelDropdownItem.setText("标签选项");
-        labelDropdownItem.setDescription("说明描述");
+        labelDropdownItem.setDescription("=");
 
         MenuDropdown menuDropdown = nextComponent(MenuDropdown.class);
-        menuDropdown.setText("文件...");
+        menuDropdown.setText("文件");
+        menuDropdown.setPointing(true);
 
         menuDropdown.getItems().add(dHeader1);
+        menuDropdown.getItems().add(dividerDropdownItem);
+        menuDropdown.getItems().add(inputDropdownItem);
+        menuDropdown.getItems().add(dHeader2);
         menuDropdown.getItems().add(dividerDropdownItem);
         menuDropdown.getItems().add(iconDropdownItem);
         menuDropdown.getItems().add(imageDropdownItem);
         menuDropdown.getItems().add(labelDropdownItem);
 
         ButtonDropdown buttonDropdown = nextComponent(ButtonDropdown.class);
-        buttonDropdown.setText("下载");
+        buttonDropdown.setText("立即下载资源");
         buttonDropdown.setIcon("download");
         buttonDropdown.setColor(randomColor());
+        buttonDropdown.setPointing(true);
+
+        inputDropdownItem.setRightIcon(true);
 
         buttonDropdown.getItems().add(dHeader1);
+        buttonDropdown.getItems().add(dividerDropdownItem);
+        buttonDropdown.getItems().add(inputDropdownItem);
+        buttonDropdown.getItems().add(dHeader2);
         buttonDropdown.getItems().add(dividerDropdownItem);
         buttonDropdown.getItems().add(iconDropdownItem);
         buttonDropdown.getItems().add(imageDropdownItem);
