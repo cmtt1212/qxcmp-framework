@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.Button"*/-->
-<th:block th:fragment="default(component)">
-    <button th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}"
-            th:utext="${component.text}"></button>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown"*/-->
+<th:block th:fragment="menu(component)">
+    <div th:class="${component.getClassName()}">
+        <span class="text" th:utext="${component.text}"></span>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <th:block th:each="item : ${component.items}">
+                <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown"*/-->
+<th:block th:fragment="button(component)">
+    <div th:class="${component.getClassName()}">
+        <i th:unless="${#strings.isEmpty(component.icon)}" th:class="|${component.icon} icon|"></i>
+        <span th:unless="${#strings.isEmpty(component.text)}" class="text" th:utext="${component.text}"></span>
+        <div class="menu">
+            <th:block th:each="item : ${component.items}">
+                <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.HeaderDropdownItem"*/-->
+<th:block th:fragment="item-header(component)">
+    <div th:class="${component.getClassName()}">
+        <i th:unless="${#strings.isEmpty(component.icon)}" th:class="|${component.icon} icon|"></i>
+        [[${component.text}]]
+    </div>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.IconDropdownItem"*/-->
+<th:block th:fragment="item-icon(component)">
+    <div th:class="${component.getClassName()}">
+        <i th:class="|${component.icon} icon|"></i>
+        [[${component.text}]]
+    </div>
 </th:block>
 </body>
 </html>

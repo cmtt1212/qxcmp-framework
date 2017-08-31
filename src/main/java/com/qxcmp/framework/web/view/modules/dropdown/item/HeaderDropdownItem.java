@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class HeaderDropdownItem extends AbstractItem {
+public class HeaderDropdownItem extends AbstractTextDropdownItem {
 
     /**
      * 标题图标名称
@@ -20,5 +20,14 @@ public class HeaderDropdownItem extends AbstractItem {
     @Override
     public String getFragmentName() {
         return "item-header";
+    }
+
+    @Override
+    public String getClassName() {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(" header");
+
+        return stringBuilder.toString();
     }
 }

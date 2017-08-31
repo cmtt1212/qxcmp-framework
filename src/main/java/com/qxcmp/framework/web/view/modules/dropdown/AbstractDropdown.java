@@ -46,4 +46,35 @@ public abstract class AbstractDropdown extends QXCMPComponent {
     public AbstractDropdown() {
         super("qxcmp/modules/dropdown");
     }
+
+    @Override
+    public String getClassName() {
+        final StringBuilder stringBuilder = new StringBuilder("ui");
+
+        if (scrolling) {
+            stringBuilder.append(" scrolling");
+        }
+
+        if (compact) {
+            stringBuilder.append(" compact");
+        }
+
+        if (fluid) {
+            stringBuilder.append(" fluid");
+        }
+
+        if (inline) {
+            stringBuilder.append(" inline");
+        }
+
+        if (loading) {
+            stringBuilder.append(" loading");
+        }
+
+        if (error) {
+            stringBuilder.append(" error");
+        }
+
+        return stringBuilder.toString();
+    }
 }

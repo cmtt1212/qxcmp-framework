@@ -13,8 +13,10 @@ import com.qxcmp.framework.web.view.elements.button.*;
 import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
+import com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.item.HeaderDropdownItem;
+import com.qxcmp.framework.web.view.modules.dropdown.item.IconDropdownItem;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
@@ -218,10 +220,27 @@ public class LoginPageController extends QXCMPController {
         Segment segment = nextComponent(Segment.class);
 
         MenuDropdown menuDropdown = nextComponent(MenuDropdown.class);
+        menuDropdown.setText("文件...");
         HeaderDropdownItem dHeader = nextComponent(HeaderDropdownItem.class);
+        dHeader.setText("下拉选项");
+        IconDropdownItem iconDropdownItem = nextComponent(IconDropdownItem.class);
+        iconDropdownItem.setIcon("user");
+        iconDropdownItem.setText("选项一");
         menuDropdown.getItems().add(dHeader);
+        menuDropdown.getItems().add(iconDropdownItem);
+
+        ButtonDropdown buttonDropdown = nextComponent(ButtonDropdown.class);
+        dHeader = nextComponent(HeaderDropdownItem.class);
+        dHeader.setText("下拉选项");
+        iconDropdownItem = nextComponent(IconDropdownItem.class);
+        iconDropdownItem.setIcon("user");
+        iconDropdownItem.setText("选项一");
+        buttonDropdown.getItems().add(dHeader);
+        buttonDropdown.getItems().add(iconDropdownItem);
+
 
         segment.getComponents().add(menuDropdown);
+        segment.getComponents().add(buttonDropdown);
 
         return segment;
     }

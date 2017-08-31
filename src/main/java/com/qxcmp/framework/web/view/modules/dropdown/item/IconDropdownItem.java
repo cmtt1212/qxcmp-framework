@@ -21,4 +21,13 @@ public class IconDropdownItem extends AbstractSelectionItem {
     public String getFragmentName() {
         return "item-icon";
     }
+
+    @Override
+    public String getClassName() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+
+        stringBuilder.append(" item");
+
+        return stringBuilder.toString();
+    }
 }

@@ -13,16 +13,6 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class AbstractItem extends QXCMPComponent {
 
-    /**
-     * 选项文本
-     */
-    private String text;
-
-    /**
-     * 选项描述，靠右侧显示
-     */
-    private String description;
-
     public AbstractItem() {
         super("qxcmp/modules/dropdown");
     }

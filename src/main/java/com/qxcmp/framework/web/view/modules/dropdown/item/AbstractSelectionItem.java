@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class AbstractSelectionItem extends AbstractItem {
+public class AbstractSelectionItem extends AbstractTextDropdownItem {
 
     /**
      * 数据值，一般对选项对象主键
