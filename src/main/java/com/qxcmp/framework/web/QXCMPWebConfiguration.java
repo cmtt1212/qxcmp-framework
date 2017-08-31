@@ -9,6 +9,7 @@ import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.view.nav.NavigationConfigurator;
 import com.qxcmp.framework.view.nav.NavigationService;
 import com.qxcmp.framework.web.auth.AuthenticationFilter;
+import com.qxcmp.framework.web.filter.CompressResponseFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -139,6 +140,11 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
         registration.setFilter(springSecurityFilterChain);
         registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
         return registration;
+    }
+
+    @Bean
+    public Filter compressResponseFilter() {
+        return new CompressResponseFilter();
     }
 
     /**

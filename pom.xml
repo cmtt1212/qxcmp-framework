@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.aaricchen</groupId>
         <artifactId>qxcmp-parent</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>1.0.2.RELEASE</version>
     </parent>
 
     <artifactId>qxcmp-framework</artifactId>
