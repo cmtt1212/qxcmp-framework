@@ -46,7 +46,7 @@ public interface Component {
      * @return 该组件经过计算后的组件 CSS class 名称
      */
     default String getClassName() {
-        return (getClassPrefix() + " " + getClassContent() + " " + getClassSuffix()).trim().replaceAll("\\s+", "\\s");
+        return (getClassPrefix() + " " + getClassContent() + " " + getClassSuffix()).trim().replaceAll("\\s+", " ");
     }
 
 }
