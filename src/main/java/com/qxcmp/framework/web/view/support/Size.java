@@ -7,22 +7,23 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Size {
     NONE(""),
-    MINI("mini"),
-    TINY("tiny"),
-    SMALL("small"),
-    MEDIUM("medium"),
-    LARGE("large"),
-    BIG("big"),
-    HUGE("huge"),
-    MASSIVE("massive");
+    MINI(" mini"),
+    TINY(" tiny"),
+    SMALL(" small"),
+    MEDIUM(" medium"),
+    LARGE(" large"),
+    BIG(" big"),
+    HUGE(" huge"),
+    MASSIVE(" massive");
 
-    private String className;
+    private String value;
 
-    Size(String className) {
-        this.className = className;
+    Size(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }

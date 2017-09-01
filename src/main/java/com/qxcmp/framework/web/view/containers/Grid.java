@@ -195,9 +195,7 @@ public class Grid extends AbstractGrid {
             stringBuilder.append(" ").append(alignment.toString());
         }
 
-        if (StringUtils.isNotBlank(verticalAlignment.getClassName())) {
-            stringBuilder.append(" ").append(verticalAlignment.getClassName());
-        }
+        stringBuilder.append(verticalAlignment.toString());
 
         if (doubling) {
             stringBuilder.append(" doubling");

@@ -39,9 +39,7 @@ public class AbstractGrid extends AbstractComponent {
             stringBuilder.append(" ").append(alignment.toString());
         }
 
-        if (StringUtils.isNotBlank(verticalAlignment.getClassName())) {
-            stringBuilder.append(" ").append(verticalAlignment.getClassName());
-        }
+        stringBuilder.append(verticalAlignment.toString());
 
         return stringBuilder.toString();
     }

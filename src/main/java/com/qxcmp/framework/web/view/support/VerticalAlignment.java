@@ -7,17 +7,18 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum VerticalAlignment {
     NONE(""),
-    TOP("top aligned"),
-    MIDDLE("middle aligned"),
-    BOTTOM("bottom aligned");
+    TOP(" top aligned"),
+    MIDDLE(" middle aligned"),
+    BOTTOM(" bottom aligned");
 
-    private String className;
+    private String value;
 
-    VerticalAlignment(String className) {
-        this.className = className;
+    VerticalAlignment(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }

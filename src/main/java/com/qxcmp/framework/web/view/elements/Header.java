@@ -1,13 +1,11 @@
 package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -105,9 +103,7 @@ public class Header extends AbstractComponent {
             stringBuilder.append(" ").append(alignment.toString());
         }
 
-        if (StringUtils.isNotBlank(size.getClassName())) {
-            stringBuilder.append(" ").append(size.getClassName());
-        }
+        stringBuilder.append(size.toString());
 
         if (iconHeader) {
             stringBuilder.append(" icon");

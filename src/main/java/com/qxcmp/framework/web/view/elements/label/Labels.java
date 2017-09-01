@@ -49,9 +49,7 @@ public class Labels extends AbstractLabel {
     public String getClassName() {
         final StringBuilder stringBuilder = new StringBuilder("ui labels");
 
-        if (StringUtils.isNotBlank(size.getClassName())) {
-            stringBuilder.append(" ").append(size.getClassName());
-        }
+        stringBuilder.append(size.toString());
 
         stringBuilder.append(color.toString());
 
