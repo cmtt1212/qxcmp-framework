@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.view.containers;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
@@ -134,7 +134,7 @@ public class Segment extends AbstractSegment {
     /**
      * 区块内容
      */
-    private List<QXCMPComponent> components = Lists.newArrayList();
+    private List<AbstractComponent> components = Lists.newArrayList();
 
     @Override
     public String getClassName() {

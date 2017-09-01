@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Icon extends QXCMPComponent {
+public class Icon extends AbstractComponent {
 
     /**
      * 图片元素名称

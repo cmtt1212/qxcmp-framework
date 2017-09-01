@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Size;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Image extends QXCMPComponent {
+public class Image extends AbstractComponent {
 
     public Image() {
         super("qxcmp/elements/image");

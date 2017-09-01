@@ -1,13 +1,8 @@
 package com.qxcmp.framework.web.view.containers;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import com.qxcmp.framework.web.view.AbstractComponent;
 
-public abstract class AbstractSegment extends QXCMPComponent {
+public abstract class AbstractSegment extends AbstractComponent {
 
     private static final String TEMPLATE_FILE = "qxcmp/containers/segment";
 

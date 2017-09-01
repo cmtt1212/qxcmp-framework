@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.divider;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public abstract class AbstractDivider extends QXCMPComponent {
+public abstract class AbstractDivider extends AbstractComponent {
 
     /**
      * 分隔符文本

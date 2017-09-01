@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <!--/*@thymesVar id="page" type="com.qxcmp.framework.web.view.Page"*/-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.QXCMPComponent"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.AbstractComponent"*/-->
 <body th:fragment="body(page)">
 <th:block th:each="component : ${page.components}">
     <div th:replace="~{:: component(${component})}"></div>

@@ -1,9 +1,7 @@
 package com.qxcmp.framework.web.view.elements;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Header extends QXCMPComponent {
+public class Header extends AbstractComponent {
 
     public Header() {
         super("qxcmp/elements/header");

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.modules.dropdown;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public abstract class AbstractDropdown extends QXCMPComponent {
+public abstract class AbstractDropdown extends AbstractComponent {
 
     /**
      * 每个下拉框拥有一个10位数字的随机ID

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.containers;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @Setter
-public class AbstractGrid extends QXCMPComponent {
+public class AbstractGrid extends AbstractComponent {
 
     private static final String TEMPLATE_FILE = "qxcmp/containers/grid";
 

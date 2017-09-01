@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.view.containers;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
@@ -47,7 +47,7 @@ public class Col extends AbstractGridElement {
     /**
      * 容器内容
      */
-    private List<QXCMPComponent> components = Lists.newArrayList();
+    private List<AbstractComponent> components = Lists.newArrayList();
 
     public Col() {
         super("col");

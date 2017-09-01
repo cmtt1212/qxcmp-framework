@@ -6,7 +6,7 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.Page;
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -77,7 +77,7 @@ public abstract class QXCMPController {
      *
      * @return 生成后的页面
      */
-    protected ModelAndView page(Supplier<QXCMPComponent> consumer) {
+    protected ModelAndView page(Supplier<AbstractComponent> consumer) {
         return Page.builder().component(consumer.get()).build().build();
     }
 
@@ -89,7 +89,7 @@ public abstract class QXCMPController {
      *
      * @return 页面组件
      */
-    protected <T extends QXCMPComponent> T nextComponent(Class<T> tClass, Object... objects) {
+    protected <T extends AbstractComponent> T nextComponent(Class<T> tClass, Object... objects) {
         return applicationContext.getBean(tClass, objects);
     }
 

@@ -10,7 +10,7 @@ import lombok.Data;
  * @author aaric
  */
 @Data
-public abstract class QXCMPComponent {
+public abstract class AbstractComponent implements Component {
 
     /**
      * 该组件对应的渲染模板文件名称
@@ -22,11 +22,11 @@ public abstract class QXCMPComponent {
      */
     private String fragmentName;
 
-    public QXCMPComponent(String fragmentFile) {
+    public AbstractComponent(String fragmentFile) {
         this(fragmentFile, "default");
     }
 
-    public QXCMPComponent(String fragmentFile, String fragmentName) {
+    public AbstractComponent(String fragmentFile, String fragmentName) {
         this.fragmentFile = fragmentFile;
         this.fragmentName = fragmentName;
     }
@@ -38,10 +38,4 @@ public abstract class QXCMPComponent {
         return "";
     }
 
-    /**
-     * @return 该组件经过计算后的CSS Style
-     */
-    public String getStyle() {
-        return "";
-    }
 }

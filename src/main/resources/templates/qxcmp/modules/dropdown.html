@@ -53,7 +53,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.HeaderDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.AbstractComponent"*/-->
 <th:block th:fragment="item-header(component)">
     <div th:class="${component.getClassName()}">
         <i th:unless="${#strings.isEmpty(component.icon)}" th:class="|${component.icon} icon|"></i>

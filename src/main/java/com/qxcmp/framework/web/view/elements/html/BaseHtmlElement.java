@@ -1,13 +1,8 @@
 package com.qxcmp.framework.web.view.elements.html;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * 基本HTML元素
@@ -18,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Getter
 @Setter
-public abstract class BaseHtmlElement extends QXCMPComponent {
+public abstract class BaseHtmlElement extends AbstractComponent {
 
     /**
      * 元素 CSS class 名称

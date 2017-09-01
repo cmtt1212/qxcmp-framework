@@ -1,12 +1,12 @@
 package com.qxcmp.framework.web.view.elements.menu;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AbstractMenu extends QXCMPComponent {
+public abstract class AbstractMenu extends AbstractComponent {
 
     private static final String TEMPLATE_FILE = "qxcmp/elements/menu";
 

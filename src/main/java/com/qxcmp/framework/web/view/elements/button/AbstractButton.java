@@ -1,22 +1,17 @@
 package com.qxcmp.framework.web.view.elements.button;
 
-import com.qxcmp.framework.web.view.QXCMPComponent;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Floating;
 import com.qxcmp.framework.web.view.support.Size;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-public abstract class AbstractButton extends QXCMPComponent {
+public abstract class AbstractButton extends AbstractComponent {
 
     private static final String TEMPLATE_FILE = "qxcmp/elements/button";
 
