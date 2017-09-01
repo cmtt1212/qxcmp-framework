@@ -87,7 +87,7 @@ public class Header extends AbstractComponent {
     /**
      * 浮动类型
      */
-    private Floating floating = Floating.NONE;
+    private Floated floating = Floated.NONE;
 
     /**
      * 颜色

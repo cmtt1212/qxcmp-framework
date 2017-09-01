@@ -5,7 +5,7 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.containers.Col;
 import com.qxcmp.framework.web.view.containers.Grid;
 import com.qxcmp.framework.web.view.containers.Row;
-import com.qxcmp.framework.web.view.containers.Segment;
+import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.menu.Menu;

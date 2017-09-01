@@ -2,7 +2,7 @@ package com.qxcmp.framework.web.view.containers;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
-import com.qxcmp.framework.web.view.support.Floating;
+import com.qxcmp.framework.web.view.support.Floated;
 import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +42,7 @@ public class Col extends AbstractGridElement {
     /**
      * 浮动类型
      */
-    private Floating floating = Floating.NONE;
+    private Floated floating = Floated.NONE;
 
     /**
      * 容器内容

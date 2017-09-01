@@ -4,7 +4,7 @@
 <!--/*
     默认分段
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.containers.Segment"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.segment.Segment"*/-->
 <th:block th:fragment="default(component)">
     <div class="ui segment">
         <th:block th:each="component : ${component.components}">
@@ -16,7 +16,7 @@
 <!--/*
     分段组
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.containers.Segments"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.segment.Segments"*/-->
 <div th:fragment="group(component)" th:class="${component.getClassName()}">
     <th:block th:each="segment : ${component.segments}">
         <div th:replace="~{:: default(${segment})}"></div>

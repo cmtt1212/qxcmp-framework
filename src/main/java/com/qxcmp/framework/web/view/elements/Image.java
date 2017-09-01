@@ -2,7 +2,7 @@ package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
-import com.qxcmp.framework.web.view.support.Floating;
+import com.qxcmp.framework.web.view.support.Floated;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import lombok.Getter;
@@ -87,7 +87,7 @@ public class Image extends AbstractComponent {
     /**
      * 浮动类型
      */
-    private Floating floating = Floating.NONE;
+    private Floated floating = Floated.NONE;
 
     /**
      * 图片大小

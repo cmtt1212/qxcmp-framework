@@ -3,7 +3,7 @@ package com.qxcmp.framework.web.view.elements.button;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
-import com.qxcmp.framework.web.view.support.Floating;
+import com.qxcmp.framework.web.view.support.Floated;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -93,7 +93,7 @@ public abstract class AbstractButton extends AbstractComponent {
     /**
      * 浮动类型
      */
-    private Floating floating = Floating.NONE;
+    private Floated floating = Floated.NONE;
 
     /**
      * 是否为附着按钮
