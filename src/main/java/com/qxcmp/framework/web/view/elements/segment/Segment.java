@@ -1,14 +1,10 @@
 package com.qxcmp.framework.web.view.elements.segment;
 
-import com.google.common.collect.Lists;
-import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Attached;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-
-import java.util.List;
 
 /**
  * 片段一般用来创建一组相关的内容
@@ -19,8 +15,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@org.springframework.stereotype.Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Segment extends AbstractSegment {
 
     /**
@@ -35,9 +29,16 @@ public class Segment extends AbstractSegment {
      */
     private Attached attached = Attached.NONE;
 
-    /**
-     * 片段内容
-     */
-    private List<Component> components = Lists.newArrayList();
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
 
+        if (inverted) {
+            stringBuilder.append(" inverted");
+        }
+
+        stringBuilder.append(attached.toString());
+
+        return stringBuilder.toString();
+    }
 }

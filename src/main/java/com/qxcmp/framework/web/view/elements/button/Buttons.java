@@ -10,7 +10,5 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Buttons {
 }

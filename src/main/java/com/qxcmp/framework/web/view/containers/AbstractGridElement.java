@@ -28,9 +28,7 @@ public class AbstractGridElement extends AbstractGrid {
     public String getClassName() {
         final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
 
-        if (StringUtils.isNotBlank(color.getClassName())) {
-            stringBuilder.append(" ").append(color.getClassName());
-        }
+        stringBuilder.append(" ").append(color.toString());
 
         if (StringUtils.isNotBlank(deviceVisibility.getClassName())) {
             stringBuilder.append(" ").append(deviceVisibility.getClassName());

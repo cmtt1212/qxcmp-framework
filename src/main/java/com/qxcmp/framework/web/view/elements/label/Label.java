@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Label extends AbstractLabel {
 
     /**
@@ -161,9 +159,7 @@ public class Label extends AbstractLabel {
             stringBuilder.append(" basic");
         }
 
-        if (StringUtils.isNotBlank(color.getClassName())) {
-            stringBuilder.append(" ").append(color.getClassName());
-        }
+        stringBuilder.append(color.toString());
 
         if (corner) {
             if (StringUtils.isNotBlank(cornerDirection.getClassName())) {

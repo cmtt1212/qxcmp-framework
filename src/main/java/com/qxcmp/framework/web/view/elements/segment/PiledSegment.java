@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
  * @author aaric
  * @see Segment
  */
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PiledSegment extends AbstractSegment {
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " piled";
+    }
 }

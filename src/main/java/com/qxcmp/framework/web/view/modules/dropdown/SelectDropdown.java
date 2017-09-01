@@ -19,8 +19,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SelectDropdown extends AbstractDropdown {
 
     /**

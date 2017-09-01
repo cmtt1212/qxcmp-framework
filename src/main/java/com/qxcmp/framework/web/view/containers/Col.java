@@ -15,8 +15,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Col extends AbstractGridElement {
 
     /**
@@ -73,9 +71,7 @@ public class Col extends AbstractGridElement {
             stringBuilder.append(" ").append(mobileWide.getClassName()).append(" mobile");
         }
 
-        if (StringUtils.isNotBlank(floating.getClassName())) {
-            stringBuilder.append(" ").append(floating.getClassName());
-        }
+        stringBuilder.append(floating.toString());
 
         stringBuilder.append(" column");
 

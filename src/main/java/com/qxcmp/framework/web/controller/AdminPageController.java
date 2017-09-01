@@ -16,26 +16,4 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @RequestMapping(QXCMP_BACKEND_URL)
 public class AdminPageController extends QXCMPController {
 
-    @GetMapping("")
-    public ModelAndView home() {
-        return page(() -> {
-            Container container = nextComponent(Container.class);
-            Menu menu = nextComponent(Menu.class);
-            MenuItem menuItem1 = nextComponent(MenuItem.class);
-            Image image = nextComponent(Image.class);
-            image.setSource(qxcmpConfiguration.getLogo());
-            menuItem1.setImage(image);
-            MenuItem menuItem2 = nextComponent(MenuItem.class);
-            menuItem2.setText("首页");
-            menuItem2.setUrl("/admin");
-            MenuItem menuItem3 = nextComponent(MenuItem.class);
-            menuItem3.setText("关于我们");
-            menuItem3.setUrl("/admin");
-            menu.getItems().add(menuItem1);
-            menu.getItems().add(menuItem2);
-            menu.getItems().add(menuItem3);
-            container.getComponents().add(menu);
-            return container;
-        });
-    }
 }

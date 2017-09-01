@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Header extends AbstractComponent {
 
     public Header() {
@@ -134,13 +132,8 @@ public class Header extends AbstractComponent {
             stringBuilder.append(" attached");
         }
 
-        if (StringUtils.isNotBlank(floating.getClassName())) {
-            stringBuilder.append(" ").append(floating.getClassName());
-        }
-
-        if (StringUtils.isNotBlank(color.getClassName())) {
-            stringBuilder.append(" ").append(color.getClassName());
-        }
+        stringBuilder.append(floating.toString());
+        stringBuilder.append(color.toString());
 
         if (inverted) {
             stringBuilder.append(" inverted");

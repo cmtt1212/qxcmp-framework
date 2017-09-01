@@ -15,8 +15,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Segments extends AbstractComponent implements Segmentable {
 
     /**

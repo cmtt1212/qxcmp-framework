@@ -1,11 +1,15 @@
 package com.qxcmp.framework.web.view.elements.segment;
 
+import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Floated;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 片段基类
@@ -79,8 +83,13 @@ public class AbstractSegment extends AbstractComponent implements Segmentable {
      */
     private Alignment alignment = Alignment.NONE;
 
+    /**
+     * 片段内容
+     */
+    private List<Component> components = Lists.newArrayList();
+
     public AbstractSegment() {
-        super("qxcmp/containers/segment");
+        super("qxcmp/elements/segment");
     }
 
     @Override
@@ -95,7 +104,46 @@ public class AbstractSegment extends AbstractComponent implements Segmentable {
 
     @Override
     public String getClassContent() {
-        return "";
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        if (disabled) {
+            stringBuilder.append(" disabled");
+        }
+
+        if (loading) {
+            stringBuilder.append(" loading");
+        }
+
+        if (padded) {
+            stringBuilder.append(" padded");
+        }
+
+        if (veryPadded) {
+            stringBuilder.append(" very padded");
+        }
+
+        if (compact) {
+            stringBuilder.append(" compact");
+        }
+
+        stringBuilder.append(color.toString());
+
+        if (secondary) {
+            stringBuilder.append(" secondary");
+        }
+
+        if (tertiary) {
+            stringBuilder.append(" tertiary");
+        }
+
+        if (clearing) {
+            stringBuilder.append(" clearing");
+        }
+
+        stringBuilder.append(floated.toString());
+        stringBuilder.append(alignment.toString());
+
+        return stringBuilder.toString();
     }
 
     @Override

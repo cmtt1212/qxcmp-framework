@@ -7,8 +7,8 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Floated {
     NONE(""),
-    LEFT("left floated"),
-    RIGHT("right floated");
+    LEFT(" left floated"),
+    RIGHT(" right floated");
 
     private String value;
 

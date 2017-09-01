@@ -22,8 +22,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ButtonDropdown extends AbstractDropdown {
 
     /**
@@ -98,9 +96,8 @@ public class ButtonDropdown extends AbstractDropdown {
             stringBuilder.append(" multiple");
         }
 
-        if (StringUtils.isNotBlank(color.getClassName())) {
-            stringBuilder.append(" ").append(color.getClassName());
-        }
+
+        stringBuilder.append(color.toString());
 
         if (pointing) {
             if (StringUtils.isNotBlank(pointingDirection.getClassName())) {

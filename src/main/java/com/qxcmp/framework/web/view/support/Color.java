@@ -7,27 +7,28 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Color {
     NONE(""),
-    RED("red"),
-    ORANGE("orange"),
-    YELLOW("yelow"),
-    OLIVE("olive"),
-    GREEN("green"),
-    TEAL("teal"),
-    BLUE("blue"),
-    VIOLET("violet"),
-    PURPLE("purple"),
-    PINK("pink"),
-    BROWN("brown"),
-    GREY("grey"),
-    BLACK("black");
+    RED(" red"),
+    ORANGE(" orange"),
+    YELLOW(" yellow"),
+    OLIVE(" olive"),
+    GREEN(" green"),
+    TEAL(" teal"),
+    BLUE(" blue"),
+    VIOLET(" violet"),
+    PURPLE(" purple"),
+    PINK(" pink"),
+    BROWN(" brown"),
+    GREY(" grey"),
+    BLACK(" black");
 
-    private String className;
+    private String value;
 
-    Color(String className) {
-        this.className = className;
+    Color(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }

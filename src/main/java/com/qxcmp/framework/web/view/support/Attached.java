@@ -7,9 +7,9 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Attached {
     NONE(""),
-    ATTACHED("attached"),
-    TOP("top attached"),
-    BOTTOM("bottom attached");
+    ATTACHED(" attached"),
+    TOP(" top attached"),
+    BOTTOM(" bottom attached");
 
     private String value;
 

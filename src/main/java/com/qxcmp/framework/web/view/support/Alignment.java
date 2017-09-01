@@ -7,10 +7,10 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Alignment {
     NONE(""),
-    LEFT("left aligned"),
-    RIGHT("right aligned"),
-    CENTER("center aligned"),
-    JUSTIFY("justified");
+    LEFT(" left aligned"),
+    RIGHT(" right aligned"),
+    CENTER(" center aligned"),
+    JUSTIFY(" justified");
 
     private String value;
 

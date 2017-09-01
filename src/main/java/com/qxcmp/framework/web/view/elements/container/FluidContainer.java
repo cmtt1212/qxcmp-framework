@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
  *
  * @author aaric
  */
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FluidContainer extends AbstractContainer {
 
     @Override

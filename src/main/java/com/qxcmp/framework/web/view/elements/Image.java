@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Image extends AbstractComponent {
 
     public Image() {
@@ -134,9 +132,7 @@ public class Image extends AbstractComponent {
             stringBuilder.append(" ").append(verticalAlignment.getClassName());
         }
 
-        if (StringUtils.isNotBlank(floating.getClassName())) {
-            stringBuilder.append(" ").append(floating.getClassName());
-        }
+        stringBuilder.append(floating.toString());
 
         if (StringUtils.isNotBlank(size.getClassName())) {
             stringBuilder.append(" ").append(size.getClassName());

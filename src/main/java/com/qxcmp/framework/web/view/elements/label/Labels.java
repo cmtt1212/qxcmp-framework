@@ -14,8 +14,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Labels extends AbstractLabel {
 
     /**
@@ -55,9 +53,7 @@ public class Labels extends AbstractLabel {
             stringBuilder.append(" ").append(size.getClassName());
         }
 
-        if (StringUtils.isNotBlank(color.getClassName())) {
-            stringBuilder.append(" ").append(color.getClassName());
-        }
+        stringBuilder.append(color.toString());
 
         if (tag) {
             stringBuilder.append(" tag");

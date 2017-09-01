@@ -5,17 +5,13 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.containers.Col;
 import com.qxcmp.framework.web.view.containers.Grid;
 import com.qxcmp.framework.web.view.containers.Row;
-import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.Image;
-import com.qxcmp.framework.web.view.elements.menu.Menu;
+import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.Color;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Random;
 
 @Controller
 public class LoginPageController extends QXCMPController {
@@ -23,39 +19,32 @@ public class LoginPageController extends QXCMPController {
     @GetMapping("/login")
     public ModelAndView loginPage() {
         return page(() -> {
-            Grid grid = nextComponent(Grid.class);
+            Grid grid = new Grid();
             grid.setContainer(true);
             grid.setStackable(true);
 
-            Col headerCol = nextComponent(Col.class);
+            Col headerCol = new Col();
             headerCol.getComponents().add(createHeaderSegment());
 
-            Row headerRow = nextComponent(Row.class);
+            Row headerRow = new Row();
             headerRow.getColumns().add(headerCol);
 
-            Col menuCol = nextComponent(Col.class);
-            menuCol.getComponents().add(createMenu());
+            Col formCol = new Col();
+            formCol.getComponents().add(createLoginForm());
 
-            Row menuRow = nextComponent(Row.class);
-            menuRow.getColumns().add(menuCol);
+            Row formRow = new Row();
+            formRow.getColumns().add(formCol);
 
             grid.getComponents().add(headerRow);
-            grid.getComponents().add(menuRow);
+            grid.getComponents().add(formRow);
             return grid;
         });
     }
 
-    private Menu createMenu() {
-        Menu menu = nextComponent(Menu.class);
-
-
-        return menu;
-    }
-
     private Segment createHeaderSegment() {
-        Segment headerSegment = nextComponent(Segment.class);
-        Header header = nextComponent(Header.class);
-        Image image = nextComponent(Image.class);
+        Segment headerSegment = new Segment();
+        Header header = new Header();
+        Image image = new Image();
         image.setSource(qxcmpConfiguration.getLogo());
         image.setUrl("/");
         header.setIconHeader(true);
@@ -67,13 +56,10 @@ public class LoginPageController extends QXCMPController {
     }
 
     private Segment createLoginForm() {
-        Segment segment = nextComponent(Segment.class);
+        Segment segment = new Segment();
         segment.getComponents().add(new AbstractComponent("qxcmp/components/login") {
         });
         return segment;
     }
 
-    private Color randomColor() {
-        return Color.values()[new Random().nextInt(Color.values().length)];
-    }
 }

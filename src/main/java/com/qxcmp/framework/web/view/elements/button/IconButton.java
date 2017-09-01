@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class IconButton extends AbstractButton {
 
     private Icon icon;

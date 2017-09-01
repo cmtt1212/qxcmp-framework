@@ -189,7 +189,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/assets/**", "/login/**", "/api/**", "/account/**").permitAll()
+                .antMatchers("/assets/**", "/login/**", "/api/**", "/account/**", "/sample").permitAll()
                 .antMatchers(QXCMP_BACKEND_URL + "/**").hasRole(PRIVILEGE_SYSTEM_ADMIN)
                 .antMatchers(QXCMP_BACKEND_URL + "/ad/**").hasRole(PRIVILEGE_ADVERTISEMENT_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/site/**").hasRole(PRIVILEGE_SITE_MANAGEMENT)

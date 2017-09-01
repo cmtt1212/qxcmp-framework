@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
  * @author aaric
  * @see StackedSegment
  */
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class TallStackedSegment extends AbstractSegment {
+public class TallStackedSegment extends StackedSegment {
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " tall";
+    }
 }

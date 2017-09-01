@@ -149,17 +149,13 @@ public abstract class AbstractButton extends AbstractComponent {
             stringBuilder.append(" loading");
         }
 
-        if (StringUtils.isNotBlank(color.getClassName())) {
-            stringBuilder.append(" ").append(color.getClassName());
-        }
 
         if (StringUtils.isNotBlank(size.getClassName())) {
             stringBuilder.append(" ").append(size.getClassName());
         }
 
-        if (StringUtils.isNotBlank(floating.getClassName())) {
-            stringBuilder.append(" ").append(floating.getClassName());
-        }
+        stringBuilder.append(floating.toString());
+        stringBuilder.append(color.toString());
 
         if (attached) {
             if (StringUtils.isNotBlank(attacheDirection.getClassName())) {
