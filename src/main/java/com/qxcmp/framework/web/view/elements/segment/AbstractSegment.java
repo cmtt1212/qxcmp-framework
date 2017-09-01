@@ -88,6 +88,11 @@ public class AbstractSegment extends AbstractComponent implements Segmentable {
      */
     private List<Component> components = Lists.newArrayList();
 
+    public AbstractSegment addComponent(Component component) {
+        components.add(component);
+        return this;
+    }
+
     public AbstractSegment() {
         super("qxcmp/elements/segment");
     }

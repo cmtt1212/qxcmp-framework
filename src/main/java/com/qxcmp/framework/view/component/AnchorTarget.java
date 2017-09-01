@@ -3,7 +3,7 @@ package com.qxcmp.framework.view.component;
 /**
  * 超链接打开方式枚举
  */
-public enum LinkTarget {
+public enum AnchorTarget {
     /**
      * 浏览器总在一个新打开、未命名的窗口中载入目标文档。
      */
@@ -23,11 +23,12 @@ public enum LinkTarget {
 
     private String value;
 
-    LinkTarget(String value) {
+    AnchorTarget(String value) {
         this.value = value;
     }
 
-    public String getValue() {
+    @Override
+    public String toString() {
         return value;
     }
 }

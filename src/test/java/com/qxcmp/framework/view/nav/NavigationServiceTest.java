@@ -1,6 +1,6 @@
 package com.qxcmp.framework.view.nav;
 
-import com.qxcmp.framework.view.component.LinkTarget;
+import com.qxcmp.framework.view.component.AnchorTarget;
 import org.junit.Test;
 
 import java.util.List;
@@ -46,12 +46,12 @@ public class NavigationServiceTest {
     @Test
     public void testAddItem() throws Exception {
         Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "sidebar", 0);
-        navigationService.add(navigation, "Settings", "", "", "/setting", LinkTarget.SELF, 3);
-        navigationService.add(navigation, "Settings", "", "", "/setting", LinkTarget.SELF, 3);
-        navigationService.add(navigation, "Profile", "", "", "/profile", LinkTarget.SELF, 2);
-        navigationService.add(navigation, "Profile", "", "", "/profile", LinkTarget.SELF, 2);
-        navigationService.add(navigation, "Message", "", "", "/message", LinkTarget.SELF, 1);
-        navigationService.add(navigation, "Message", "", "", "/message", LinkTarget.SELF, 1);
+        navigationService.add(navigation, "Settings", "", "", "/setting", AnchorTarget.SELF, 3);
+        navigationService.add(navigation, "Settings", "", "", "/setting", AnchorTarget.SELF, 3);
+        navigationService.add(navigation, "Profile", "", "", "/profile", AnchorTarget.SELF, 2);
+        navigationService.add(navigation, "Profile", "", "", "/profile", AnchorTarget.SELF, 2);
+        navigationService.add(navigation, "Message", "", "", "/message", AnchorTarget.SELF, 1);
+        navigationService.add(navigation, "Message", "", "", "/message", AnchorTarget.SELF, 1);
 
         assertEquals(3, navigation.getItems().size());
         assertEquals("Message", navigation.getItems().get(0).getTitle());

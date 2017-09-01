@@ -1,29 +1,22 @@
 package com.qxcmp.framework.web.view.elements;
 
+import com.qxcmp.framework.view.component.AnchorTarget;
 import com.qxcmp.framework.web.view.AbstractComponent;
-import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Floated;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
 public class Image extends AbstractComponent {
 
-    public Image() {
-        super("qxcmp/elements/image");
-    }
-
     /**
      * 图片源
      */
-    private String source;
+    private String image;
 
     /**
      * 图片链接
@@ -33,7 +26,7 @@ public class Image extends AbstractComponent {
     /**
      * 图片链接打开方式
      *
-     * @see AnchorTarget
+     * @see com.qxcmp.framework.web.view.support.AnchorTarget
      */
     private String urlTarget;
 
@@ -91,6 +84,25 @@ public class Image extends AbstractComponent {
      * 图片大小
      */
     private Size size = Size.NONE;
+
+    private Image() {
+        super("qxcmp/elements/image");
+    }
+
+    public Image(String image) {
+        this();
+        this.image = image;
+    }
+
+    public Image(String image, String url) {
+        this(image);
+        this.url = url;
+    }
+
+    public Image(String image, String url, AnchorTarget target) {
+        this(image, url);
+        this.urlTarget = target.toString();
+    }
 
     @Override
     public String getClassName() {

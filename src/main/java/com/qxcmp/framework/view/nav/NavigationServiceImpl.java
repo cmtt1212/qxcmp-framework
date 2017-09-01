@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.view.component.LinkTarget;
+import com.qxcmp.framework.view.component.AnchorTarget;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -62,14 +62,14 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public void add(Navigation navigation, String title, String image, String icon, String link, LinkTarget target, int order, String... privileges) {
+    public void add(Navigation navigation, String title, String image, String icon, String link, AnchorTarget target, int order, String... privileges) {
         List<NavigationItem> items = navigation.getItems();
 
         if (items.stream().anyMatch(navigationItem -> StringUtils.equals(title, navigationItem.getTitle()))) {
             return;
         }
 
-        items.add(new NavigationItem(title, image, icon, link, target.getValue(), order, Sets.newHashSet(Arrays.asList(privileges))));
+        items.add(new NavigationItem(title, image, icon, link, target.toString(), order, Sets.newHashSet(Arrays.asList(privileges))));
 
         items.sort(Comparator.comparingInt(NavigationItem::getOrder));
     }

@@ -7,10 +7,10 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Image"*/-->
 <th:block th:fragment="default(component)">
     <img th:if="${#strings.isEmpty(component.url)}"
-         th:class="${component.getClassName()}" th:src="@{${component.source}}"/>
+         th:class="${component.getClassName()}" th:src="@{${component.image}}"/>
     <a th:unless="${#strings.isEmpty(component.url)}" th:href="@{${component.url}}"
        th:target="${component.urlTarget}" th:class="${component.getClassName()}">
-        <img th:src="@{${component.source}}"/>
+        <img th:src="@{${component.image}}"/>
     </a>
 </th:block>
 </body>

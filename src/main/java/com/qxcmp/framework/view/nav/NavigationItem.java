@@ -1,7 +1,7 @@
 package com.qxcmp.framework.view.nav;
 
 import com.google.common.collect.Sets;
-import com.qxcmp.framework.view.component.LinkTarget;
+import com.qxcmp.framework.view.component.AnchorTarget;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -39,7 +39,7 @@ public class NavigationItem {
     /**
      * 超链接打开方式
      */
-    private String target = LinkTarget.SELF.getValue();
+    private String target = AnchorTarget.SELF.toString();
 
     /**
      * 项目在导航栏中的顺序
