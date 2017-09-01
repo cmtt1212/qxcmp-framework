@@ -1,7 +1,5 @@
 package com.qxcmp.framework.web.view;
 
-import lombok.Data;
-
 /**
  * 页面组件基本类
  * <p>
@@ -9,7 +7,6 @@ import lombok.Data;
  *
  * @author aaric
  */
-@Data
 public abstract class AbstractComponent implements Component {
 
     /**
@@ -23,7 +20,7 @@ public abstract class AbstractComponent implements Component {
     private String fragmentName;
 
     public AbstractComponent(String fragmentFile) {
-        this(fragmentFile, "default");
+        this(fragmentFile, DEFAULT_FRAGMENT_NAME);
     }
 
     public AbstractComponent(String fragmentFile, String fragmentName) {
@@ -31,11 +28,13 @@ public abstract class AbstractComponent implements Component {
         this.fragmentName = fragmentName;
     }
 
-    /**
-     * @return 该组件经过计算后的CSS ClassName
-     */
-    public String getClassName() {
-        return "";
+    @Override
+    public String getFragmentFile() {
+        return fragmentFile;
     }
 
+    @Override
+    public String getFragmentName() {
+        return fragmentName;
+    }
 }

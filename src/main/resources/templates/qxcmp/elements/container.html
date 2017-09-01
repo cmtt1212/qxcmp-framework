@@ -4,7 +4,7 @@
 <!--/*
     默认容器
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.containers.Container"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.container.Container"*/-->
 <div th:fragment="default(component)" th:class="${component.getClassName()}">
     <th:block th:each="component : ${component.components}">
         <div th:replace="~{qxcmp/globals/components :: component(${component})}"></div>

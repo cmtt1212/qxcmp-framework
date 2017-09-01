@@ -35,8 +35,8 @@ public class AbstractGrid extends AbstractComponent {
     public String getClassName() {
         final StringBuilder stringBuilder = new StringBuilder("ui");
 
-        if (StringUtils.isNotBlank(alignment.getClassName())) {
-            stringBuilder.append(" ").append(alignment.getClassName());
+        if (StringUtils.isNotBlank(alignment.toString())) {
+            stringBuilder.append(" ").append(alignment.toString());
         }
 
         if (StringUtils.isNotBlank(verticalAlignment.getClassName())) {

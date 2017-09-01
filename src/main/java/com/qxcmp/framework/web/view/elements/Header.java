@@ -103,8 +103,8 @@ public class Header extends AbstractComponent {
     public String getClassName() {
         StringBuilder stringBuilder = new StringBuilder("ui header");
 
-        if (StringUtils.isNotBlank(alignment.getClassName())) {
-            stringBuilder.append(" ").append(alignment.getClassName());
+        if (StringUtils.isNotBlank(alignment.toString())) {
+            stringBuilder.append(" ").append(alignment.toString());
         }
 
         if (StringUtils.isNotBlank(size.getClassName())) {

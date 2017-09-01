@@ -193,8 +193,8 @@ public class Grid extends AbstractGrid {
             stringBuilder.append(" very relaxed");
         }
 
-        if (StringUtils.isNotBlank(alignment.getClassName())) {
-            stringBuilder.append(" ").append(alignment.getClassName());
+        if (StringUtils.isNotBlank(alignment.toString())) {
+            stringBuilder.append(" ").append(alignment.toString());
         }
 
         if (StringUtils.isNotBlank(verticalAlignment.getClassName())) {

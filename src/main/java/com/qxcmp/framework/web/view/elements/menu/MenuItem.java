@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MenuItem extends AbstractMenu {
 
-    public MenuItem() {
-        super("item");
-    }
 
     /**
      * 菜单项文本

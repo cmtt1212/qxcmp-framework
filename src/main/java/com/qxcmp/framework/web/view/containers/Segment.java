@@ -215,8 +215,8 @@ public class Segment extends AbstractSegment {
             stringBuilder.append(" ").append(floating.getClassName());
         }
 
-        if (StringUtils.isNotBlank(alignment.getClassName())) {
-            stringBuilder.append(" ").append(alignment.getClassName());
+        if (StringUtils.isNotBlank(alignment.toString())) {
+            stringBuilder.append(" ").append(alignment.toString());
         }
 
         if (clearing) {

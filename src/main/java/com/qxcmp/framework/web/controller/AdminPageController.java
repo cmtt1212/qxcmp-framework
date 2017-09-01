@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.containers.Container;
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.Image;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.MenuItem;

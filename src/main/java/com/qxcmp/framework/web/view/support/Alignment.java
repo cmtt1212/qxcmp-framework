@@ -12,13 +12,14 @@ public enum Alignment {
     CENTER("center aligned"),
     JUSTIFY("justified");
 
-    private String className;
+    private String value;
 
-    Alignment(String className) {
-        this.className = className;
+    Alignment(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }
