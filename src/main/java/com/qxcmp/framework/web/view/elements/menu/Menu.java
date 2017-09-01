@@ -1,8 +1,11 @@
 package com.qxcmp.framework.web.view.elements.menu;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Direction;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Singular;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -53,14 +56,44 @@ public class Menu extends AbstractMenu {
     private boolean vertical;
 
     /**
-     * 是否为附着菜单
+     * 是否为固定菜单
+     * <p>
+     * 固定菜单将不会随滚动条滚动
      */
-    private boolean attached;
+    private boolean fixed;
 
     /**
-     * 附着方向，当为附着菜单的时候生效，方向仅支持 TOP, BOTTOM, NONE
+     * 固定方向
+     * <p>
+     * 若固定方向为左右，应该使用垂直菜单
      */
-    private Direction attachDirection = Direction.NONE;
+    private Direction fixDirection = Direction.NONE;
+
+    /**
+     * 是否自动堆叠
+     * <p>
+     * 堆叠已经将变成垂直菜单
+     * <p>
+     * 自动堆叠的菜单应该只使用简单菜单项
+     */
+    private boolean stackable;
+
+    /**
+     * 是否翻转颜色
+     */
+    private boolean inverted;
+
+    /**
+     * 菜单颜色
+     * <p>
+     * 仅渲染在激活菜单项上面
+     */
+    private Color color = Color.NONE;
+
+    /**
+     * 是否为图标菜单
+     */
+    private boolean icon;
 
     @Singular
     private List<MenuItem> items = Lists.newArrayList();
@@ -87,13 +120,6 @@ public class Menu extends AbstractMenu {
 
         if (vertical) {
             stringBuilder.append(" vertical");
-        }
-
-        if (attached) {
-            if (StringUtils.isNotBlank(attachDirection.getClassName())) {
-                stringBuilder.append(" ").append(attachDirection.getClassName());
-            }
-            stringBuilder.append(" attached");
         }
 
         return stringBuilder.toString();
