@@ -6,7 +6,7 @@
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.Menu"*/-->
 <th:block th:fragment="default(component)">
-    <div th:class="${component.getClassName()}" th:style="${component.getStyle()}">
+    <div th:class="${component.getClassName()}">
         <th:block th:each="item : ${component.items}">
             <div th:replace="~{:: item(${item})}"></div>
         </th:block>

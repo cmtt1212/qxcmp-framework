@@ -5,6 +5,7 @@ import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
+import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.Page;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import org.apache.commons.lang3.StringUtils;
@@ -89,7 +90,7 @@ public abstract class QXCMPController {
      *
      * @return 页面组件
      */
-    protected <T extends AbstractComponent> T nextComponent(Class<T> tClass, Object... objects) {
+    protected <T extends Component> T nextComponent(Class<T> tClass, Object... objects) {
         return applicationContext.getBean(tClass, objects);
     }
 
