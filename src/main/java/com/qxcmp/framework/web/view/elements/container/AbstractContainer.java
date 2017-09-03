@@ -27,6 +27,11 @@ public class AbstractContainer extends AbstractComponent {
         super("qxcmp/elements/container");
     }
 
+    public AbstractContainer addComponent(Component component) {
+        components.add(component);
+        return this;
+    }
+
     @Override
     public String getClassPrefix() {
         return "ui";

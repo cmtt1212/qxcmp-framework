@@ -48,14 +48,28 @@ public class Col extends AbstractGridItem {
      */
     private List<Component> components = Lists.newArrayList();
 
+    public Col() {
+        super();
+    }
+
+    public Col(Wide generalWide) {
+        this();
+        this.generalWide = generalWide;
+    }
+
+    public Col addComponent(Component component) {
+        components.add(component);
+        return this;
+    }
+
     @Override
     public String getFragmentName() {
         return "col";
     }
 
     @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
 
         stringBuilder.append(generalWide.toString()).append(computerWide.toString()).append(tabletWide.toString()).append(mobileWide.toString()).append(floating.toString());
 
@@ -64,6 +78,6 @@ public class Col extends AbstractGridItem {
 
     @Override
     public String getClassSuffix() {
-        return "col";
+        return "column";
     }
 }

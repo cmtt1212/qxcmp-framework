@@ -131,6 +131,11 @@ public abstract class AbstractGrid extends AbstractComponent {
         super("qxcmp/containers/grid");
     }
 
+    public AbstractGrid addItem(AbstractGridItem item) {
+        items.add(item);
+        return this;
+    }
+
     @Override
     public String getFragmentName() {
         return "grid";

@@ -18,27 +18,7 @@ public class LoginPageController extends QXCMPController {
 
     @GetMapping("/login")
     public ModelAndView loginPage() {
-        return page(() -> {
-            Grid grid = new Grid();
-            grid.setContainer(true);
-            grid.setStackable(true);
-
-            Col headerCol = new Col();
-            headerCol.getComponents().add(createHeaderSegment());
-
-            Row headerRow = new Row();
-            headerRow.getColumns().add(headerCol);
-
-            Col formCol = new Col();
-            formCol.getComponents().add(createLoginForm());
-
-            Row formRow = new Row();
-            formRow.getColumns().add(formCol);
-
-            grid.getComponents().add(headerRow);
-            grid.getComponents().add(formRow);
-            return grid;
-        });
+        return page(() -> new Grid().addItem(new Row().addCol(new Col().addComponent(createHeaderSegment())).addCol(new Col().addComponent(createLoginForm()))));
     }
 
     private Segment createHeaderSegment() {

@@ -40,14 +40,19 @@ public class Row extends AbstractGridItem {
      */
     private List<Col> columns = Lists.newArrayList();
 
+    public Row addCol(Col col) {
+        columns.add(col);
+        return this;
+    }
+
     @Override
     public String getFragmentName() {
         return "row";
     }
 
     @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
 
         if (stretched) {
             stringBuilder.append(" stretched");

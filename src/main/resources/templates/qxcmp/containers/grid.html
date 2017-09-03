@@ -3,7 +3,7 @@
 <body>
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.containers.grid.Grid"*/-->
 <div th:fragment="grid(component)" th:class="${component.getClassName()}">
-    <th:block th:each="component : ${component.components}">
+    <th:block th:each="component : ${component.items}">
         <div th:replace="~{qxcmp/globals/components :: component(${component})}"></div>
     </th:block>
 </div>
