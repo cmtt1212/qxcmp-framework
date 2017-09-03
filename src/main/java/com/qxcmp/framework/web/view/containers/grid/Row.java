@@ -1,19 +1,20 @@
-package com.qxcmp.framework.web.view.containers;
+package com.qxcmp.framework.web.view.containers.grid;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 网格行组件
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
-public class Row extends AbstractGridElement {
+public class Row extends AbstractGridItem {
 
     /**
      * 行的列数
@@ -39,17 +40,14 @@ public class Row extends AbstractGridElement {
      */
     private List<Col> columns = Lists.newArrayList();
 
-    public Row() {
-        super("row");
+    @Override
+    public String getFragmentName() {
+        return "row";
     }
 
     @Override
     public String getClassName() {
         final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
-
-        if (StringUtils.isNotBlank(columnCount.getClassName())) {
-            stringBuilder.append(" ").append(columnCount.getClassName());
-        }
 
         if (stretched) {
             stringBuilder.append(" stretched");
@@ -59,8 +57,13 @@ public class Row extends AbstractGridElement {
             stringBuilder.append(" centered");
         }
 
-        stringBuilder.append(" row");
+        stringBuilder.append(columnCount.toString());
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String getClassPrefix() {
+        return "row";
     }
 }

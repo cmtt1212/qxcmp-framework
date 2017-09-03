@@ -2,9 +2,9 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.AbstractComponent;
-import com.qxcmp.framework.web.view.containers.Col;
-import com.qxcmp.framework.web.view.containers.Grid;
-import com.qxcmp.framework.web.view.containers.Row;
+import com.qxcmp.framework.web.view.containers.grid.Col;
+import com.qxcmp.framework.web.view.containers.grid.Grid;
+import com.qxcmp.framework.web.view.containers.grid.Row;
 import com.qxcmp.framework.web.view.elements.Header;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.segment.Segment;

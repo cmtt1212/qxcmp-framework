@@ -7,30 +7,31 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Wide {
     NONE(""),
-    ONE("one wide"),
-    TWO("two wide"),
-    THREE("three wide"),
-    FOUR("four wide"),
-    FIVE("five wide"),
-    SIX("six wide"),
-    SEVEN("seven wide"),
-    EIGHT("eight wide"),
-    NINE("nine wide"),
-    TEN("ten wide"),
-    ELEVEN("eleven wide"),
-    TWELVE("twelve wide"),
-    THIRTEEN("thirteen wide"),
-    FOURTEEN("fourteen wide"),
-    FIFTEEN("fifteen wide"),
-    SIXTEEN("sixteen wide");
+    ONE(" one wide"),
+    TWO(" two wide"),
+    THREE(" three wide"),
+    FOUR(" four wide"),
+    FIVE(" five wide"),
+    SIX(" six wide"),
+    SEVEN(" seven wide"),
+    EIGHT(" eight wide"),
+    NINE(" nine wide"),
+    TEN(" ten wide"),
+    ELEVEN(" eleven wide"),
+    TWELVE(" twelve wide"),
+    THIRTEEN(" thirteen wide"),
+    FOURTEEN(" fourteen wide"),
+    FIFTEEN(" fifteen wide"),
+    SIXTEEN(" sixteen wide");
 
-    private String className;
+    private String value;
 
-    Wide(String className) {
-        this.className = className;
+    Wide(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }
