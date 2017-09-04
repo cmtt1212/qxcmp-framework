@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.elements;
+package com.qxcmp.framework.web.view.elements.header;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -8,9 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 抬头
+ * <p>
+ * 抬头用来对一部分内容进行概述
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
-public class Header extends AbstractComponent {
+public abstract class AbstractHeader extends AbstractComponent {
 
     /**
      * 标题文本

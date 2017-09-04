@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.elements;
+package com.qxcmp.framework.web.view.elements.header;
 
 public enum HeaderType {
     NORMAL("normal"),
