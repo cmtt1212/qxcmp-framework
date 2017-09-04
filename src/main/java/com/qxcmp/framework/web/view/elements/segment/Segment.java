@@ -39,4 +39,14 @@ public class Segment extends AbstractSegment {
 
         return stringBuilder.toString();
     }
+
+    public Segment setInverted() {
+        this.inverted = true;
+        return this;
+    }
+
+    public Segment setAttached(Attached attached) {
+        this.attached = attached;
+        return this;
+    }
 }

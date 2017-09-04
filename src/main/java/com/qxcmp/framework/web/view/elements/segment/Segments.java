@@ -26,6 +26,11 @@ public class Segments extends AbstractComponent implements Segmentable {
      */
     private List<Segmentable> items = Lists.newArrayList();
 
+    public Segments addItem(Segmentable item) {
+        items.add(item);
+        return this;
+    }
+
     @Override
     public String getFragmentFile() {
         return "qxcmp/elements/segment";
@@ -49,5 +54,10 @@ public class Segments extends AbstractComponent implements Segmentable {
     @Override
     public String getClassSuffix() {
         return "segments";
+    }
+
+    public Segments setCompact() {
+        this.compact = true;
+        return this;
     }
 }

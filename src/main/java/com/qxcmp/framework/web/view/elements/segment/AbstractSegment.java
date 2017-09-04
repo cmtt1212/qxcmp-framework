@@ -122,9 +122,7 @@ public class AbstractSegment extends AbstractComponent implements Segmentable {
 
         if (padded) {
             stringBuilder.append(" padded");
-        }
-
-        if (veryPadded) {
+        } else if (veryPadded) {
             stringBuilder.append(" very padded");
         }
 
@@ -155,5 +153,60 @@ public class AbstractSegment extends AbstractComponent implements Segmentable {
     @Override
     public String getClassSuffix() {
         return "segment";
+    }
+
+    public AbstractSegment setDisabled() {
+        this.disabled = true;
+        return this;
+    }
+
+    public AbstractSegment setLoading() {
+        this.loading = true;
+        return this;
+    }
+
+    public AbstractSegment setPadded() {
+        this.padded = true;
+        return this;
+    }
+
+    public AbstractSegment setVeryPadded() {
+        this.veryPadded = true;
+        return this;
+    }
+
+    public AbstractSegment setCompact() {
+        this.compact = true;
+        return this;
+    }
+
+    public AbstractSegment setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public AbstractSegment setSecondary() {
+        this.secondary = true;
+        return this;
+    }
+
+    public AbstractSegment setTertiary() {
+        this.tertiary = true;
+        return this;
+    }
+
+    public AbstractSegment setClearing() {
+        this.clearing = true;
+        return this;
+    }
+
+    public AbstractSegment setFloated(Floated floated) {
+        this.floated = floated;
+        return this;
+    }
+
+    public AbstractSegment setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
     }
 }
