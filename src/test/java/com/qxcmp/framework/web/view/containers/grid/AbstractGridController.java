@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/test/grid")
+@RequestMapping("/test/containers/grid")
 public class AbstractGridController extends QXCMPController {
 
     @GetMapping("/1")
