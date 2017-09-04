@@ -1,7 +1,8 @@
 package com.qxcmp.framework.web.view;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.Singular;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,7 +15,8 @@ import java.util.List;
  *
  * @author aaric
  */
-@Data
+@Getter
+@Setter
 @Builder
 public class Page {
 
