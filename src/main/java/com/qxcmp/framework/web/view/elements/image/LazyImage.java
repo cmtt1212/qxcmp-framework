@@ -1,6 +1,9 @@
 package com.qxcmp.framework.web.view.elements.image;
 
 import com.qxcmp.framework.view.component.AnchorTarget;
+import com.qxcmp.framework.web.view.support.Transition;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
@@ -10,6 +13,8 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * @author Aaric
  */
+@Getter
+@Setter
 public class LazyImage extends Image {
 
     /**
@@ -19,20 +24,40 @@ public class LazyImage extends Image {
      */
     private String id = "lazy-image-" + RandomStringUtils.randomAlphanumeric(10);
 
+    /**
+     * 图片出现动画
+     */
+    private Transition transition = Transition.FADE_IN;
+
+    /**
+     * 图片出现时长
+     */
+    private int duration = 1000;
+
     public LazyImage(String source) {
         super(source);
     }
 
-    public LazyImage(String image, String url) {
-        super(image, url);
+    public LazyImage(String source, String url) {
+        super(source, url);
     }
 
-    public LazyImage(String image, String url, AnchorTarget target) {
-        super(image, url, target);
+    public LazyImage(String source, String url, AnchorTarget target) {
+        super(source, url, target);
     }
 
     @Override
     public String getFragmentName() {
         return "lazy-image";
+    }
+
+    public LazyImage setTransition(Transition transition) {
+        this.transition = transition;
+        return this;
+    }
+
+    public LazyImage setDuration(int duration) {
+        this.duration = duration;
+        return this;
     }
 }

@@ -20,15 +20,25 @@
          th:id="${component.id}"
          th:class="${component.getClassName()}"
          th:attr="data-src=@{${component.source}}"
-         th:src="@{/assets/image/placeholder.png}"/>
+         th:src="@{/assets/images/placeholder.png}"/>
     <a th:unless="${#strings.isEmpty(component.url)}"
        th:href="@{${component.url}}"
        th:target="${component.urlTarget}"
        th:class="${component.getClassName()}">
         <img th:id="${component.id}"
              th:attr="data-src=@{${component.source}}"
-             th:src="@{/assets/image/placeholder.png}"/>
+             th:src="@{/assets/images/placeholder.png}"/>
     </a>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var imageId = /*[[|#${component.id}|]]*/ "";
+            $(imageId).visibility({
+                type: 'image',
+                transition: /*[[${component.transition.toString()}]]*/ 'fade in',
+                duration: /*[[${component.duration}]]*/ 1000
+            });
+        });
+    </script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.image.Images"*/-->

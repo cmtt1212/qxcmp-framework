@@ -86,7 +86,7 @@ public class DropdownConfig {
      * @see Transition
      */
     @Builder.Default
-    private String transition = Transition.FADE.getValue();
+    private String transition = Transition.FADE.toString();
 
     /**
      * 下拉框的打开方式

@@ -9,6 +9,7 @@ public enum Transition {
     NONE(""),
     SCALE("scale"),
     FADE("fade"),
+    FADE_IN("fade in"),
     FADE_UP("fade up"),
     FADE_DOWN("fade down"),
     FADE_LEFT("fade left"),
@@ -42,7 +43,8 @@ public enum Transition {
         this.value = value;
     }
 
-    public String getValue() {
+    @Override
+    public String toString() {
         return value;
     }
 }
