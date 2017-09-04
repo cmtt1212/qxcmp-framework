@@ -26,8 +26,9 @@ public class Segments extends AbstractComponent implements Segmentable {
      */
     private List<Segmentable> items = Lists.newArrayList();
 
-    public Segments() {
-        super("qxcmp/elements/segment");
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/segment";
     }
 
     @Override

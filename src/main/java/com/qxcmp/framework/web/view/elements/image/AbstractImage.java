@@ -37,7 +37,6 @@ public abstract class AbstractImage extends AbstractComponent {
     private boolean disabled;
 
     private AbstractImage() {
-        super("qxcmp/elements/image");
     }
 
     public AbstractImage(String source) {
@@ -53,6 +52,11 @@ public abstract class AbstractImage extends AbstractComponent {
     public AbstractImage(String image, String url, AnchorTarget target) {
         this(image, url);
         this.urlTarget = target.toString();
+    }
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/image";
     }
 
     @Override

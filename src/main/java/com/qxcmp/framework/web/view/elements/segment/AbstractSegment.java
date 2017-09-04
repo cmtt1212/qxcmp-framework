@@ -93,8 +93,9 @@ public class AbstractSegment extends AbstractComponent implements Segmentable {
         return this;
     }
 
-    public AbstractSegment() {
-        super("qxcmp/elements/segment");
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/segment";
     }
 
     @Override

@@ -5,10 +5,6 @@ import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -41,8 +37,9 @@ public class Labels extends AbstractLabel {
      */
     private List<Label> labels = Lists.newArrayList();
 
-    public Labels() {
-        super("group");
+    @Override
+    public String getFragmentName() {
+        return "labels";
     }
 
     @Override

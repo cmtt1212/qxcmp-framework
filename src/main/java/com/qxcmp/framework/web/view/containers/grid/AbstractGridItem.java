@@ -33,8 +33,9 @@ public abstract class AbstractGridItem extends AbstractComponent {
      */
     protected VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
 
-    public AbstractGridItem() {
-        super("qxcmp/containers/grid");
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/containers/grid";
     }
 
     @Override

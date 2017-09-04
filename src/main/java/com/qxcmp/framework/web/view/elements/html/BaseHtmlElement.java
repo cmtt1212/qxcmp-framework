@@ -17,6 +17,10 @@ public abstract class BaseHtmlElement extends AbstractComponent {
 
     /**
      * 元素 CSS class 名称
+     * <p>
+     * 该属性用于定制化一些基本HTML元素
+     * <p>
+     * 当需要在基本元素上增加一些 class 名称的时候使用该属性
      */
     private String className;
 
@@ -25,7 +29,15 @@ public abstract class BaseHtmlElement extends AbstractComponent {
      */
     private String text;
 
-    public BaseHtmlElement(String fragmentName) {
-        super("qxcmp/globals/html", fragmentName);
+    public BaseHtmlElement() {
+    }
+
+    public BaseHtmlElement(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/globals/html";
     }
 }

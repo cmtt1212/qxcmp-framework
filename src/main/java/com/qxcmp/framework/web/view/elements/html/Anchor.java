@@ -1,12 +1,7 @@
 package com.qxcmp.framework.web.view.elements.html;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * 超链接
@@ -34,9 +29,26 @@ public class Anchor extends InlineElement {
      */
     private String download;
 
-    public Anchor() {
-        super("anchor");
+    public Anchor(String text, String href) {
+        super(text);
+        this.href = href;
     }
 
+    public Anchor(String text, String href, String target) {
+        super(text);
+        this.href = href;
+        this.target = target;
+    }
 
+    public Anchor(String text, String href, String target, String download) {
+        super(text);
+        this.href = href;
+        this.target = target;
+        this.download = download;
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "anchor";
+    }
 }

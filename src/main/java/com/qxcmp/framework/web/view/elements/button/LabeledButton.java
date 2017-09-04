@@ -4,9 +4,6 @@ import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.support.Color;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
@@ -20,16 +17,16 @@ public class LabeledButton extends AbstractButton {
 
     private Label label;
 
-    public LabeledButton() {
-        super("label");
-    }
-
     public LabeledButton(String buttonText, String labelText) {
-        this();
         Button button = new Button();
         button.setText(buttonText);
         this.button = button;
         this.label = new Label(labelText);
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "label";
     }
 
     @Override

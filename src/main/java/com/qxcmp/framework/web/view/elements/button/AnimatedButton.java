@@ -1,14 +1,9 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.elements.Icon;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -43,8 +38,9 @@ public class AnimatedButton extends AbstractButton {
      */
     private Icon hiddenIcon;
 
-    public AnimatedButton() {
-        super("animated");
+    @Override
+    public String getFragmentName() {
+        return "animated";
     }
 
     @Override

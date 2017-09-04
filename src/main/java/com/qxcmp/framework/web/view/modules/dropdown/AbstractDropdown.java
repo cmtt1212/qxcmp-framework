@@ -4,9 +4,6 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -52,8 +49,9 @@ public abstract class AbstractDropdown extends AbstractComponent {
      */
     private DropdownConfig dropdownConfig;
 
-    public AbstractDropdown() {
-        super("qxcmp/modules/dropdown");
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/modules/dropdown";
     }
 
     @Override

@@ -1,13 +1,8 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.elements.Icon;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -16,10 +11,12 @@ public class IconButton extends AbstractButton {
     private Icon icon;
 
     public IconButton(String iconName) {
-        super("icon");
-        final Icon icon = new Icon();
-        icon.setIcon(iconName);
-        this.icon = icon;
+        this.icon = new Icon(iconName);
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "icon";
     }
 
     @Override

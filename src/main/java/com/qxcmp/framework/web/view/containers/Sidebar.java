@@ -6,19 +6,12 @@ import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Width;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Getter
 @Setter
 public class Sidebar extends AbstractComponent {
-
-    public Sidebar() {
-        super("qxcmp/containers/sidebar");
-    }
 
     private boolean visible;
 
@@ -37,4 +30,9 @@ public class Sidebar extends AbstractComponent {
     private boolean closable = true;
 
     private boolean dimPage = true;
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/containers/sidebar";
+    }
 }

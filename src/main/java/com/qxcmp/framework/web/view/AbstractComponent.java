@@ -8,33 +8,4 @@ package com.qxcmp.framework.web.view;
  * @author aaric
  */
 public abstract class AbstractComponent implements Component {
-
-    /**
-     * 该组件对应的渲染模板文件名称
-     */
-    private String fragmentFile;
-
-    /**
-     * 该组件对应的渲染模板片段名称
-     */
-    private String fragmentName;
-
-    public AbstractComponent(String fragmentFile) {
-        this(fragmentFile, DEFAULT_FRAGMENT_NAME);
-    }
-
-    public AbstractComponent(String fragmentFile, String fragmentName) {
-        this.fragmentFile = fragmentFile;
-        this.fragmentName = fragmentName;
-    }
-
-    @Override
-    public String getFragmentFile() {
-        return fragmentFile;
-    }
-
-    @Override
-    public String getFragmentName() {
-        return fragmentName;
-    }
 }

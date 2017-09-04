@@ -39,7 +39,8 @@ public abstract class AbstractMenu extends AbstractComponent {
      */
     private Size size = Size.NONE;
 
-    public AbstractMenu() {
-        super("qxcmp/elements/menu");
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/menu";
     }
 }

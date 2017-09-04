@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class HeaderElement extends BlockElement {
-    public HeaderElement(String fragmentName) {
-        super(fragmentName);
+    public HeaderElement(String text) {
+        super(text);
     }
 }

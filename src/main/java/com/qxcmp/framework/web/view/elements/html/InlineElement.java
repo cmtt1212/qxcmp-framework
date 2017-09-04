@@ -1,7 +1,5 @@
 package com.qxcmp.framework.web.view.elements.html;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class InlineElement extends BaseHtmlElement {
-    public InlineElement(String fragmentName) {
-        super(fragmentName);
+    public InlineElement(String text) {
+        super(text);
     }
 }

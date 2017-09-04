@@ -127,13 +127,14 @@ public abstract class AbstractGrid extends AbstractComponent {
      */
     private List<AbstractGridItem> items = Lists.newArrayList();
 
-    public AbstractGrid() {
-        super("qxcmp/containers/grid");
-    }
-
     public AbstractGrid addItem(AbstractGridItem item) {
         items.add(item);
         return this;
+    }
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/containers/grid";
     }
 
     @Override

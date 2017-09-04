@@ -2,9 +2,6 @@ package com.qxcmp.framework.web.view.elements.button;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -26,9 +23,13 @@ public class LabeledIconButton extends AbstractButton {
     private boolean rightIcon;
 
     public LabeledIconButton(String text, String icon) {
-        super("label-icon");
         this.text = text;
         this.icon = icon;
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "label-icon";
     }
 
     @Override

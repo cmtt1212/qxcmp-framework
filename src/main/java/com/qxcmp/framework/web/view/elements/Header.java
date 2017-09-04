@@ -11,10 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 public class Header extends AbstractComponent {
 
-    public Header() {
-        super("qxcmp/elements/header");
-    }
-
     /**
      * 标题文本
      */
@@ -94,6 +90,11 @@ public class Header extends AbstractComponent {
      * 是否为反色
      */
     private boolean inverted;
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/header";
+    }
 
     @Override
     public String getClassName() {

@@ -8,13 +8,8 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractLabel extends AbstractComponent {
 
-    private static final String TEMPLATE_FILE = "qxcmp/elements/label";
-
-    public AbstractLabel() {
-        this("default");
-    }
-
-    public AbstractLabel(String fragmentName) {
-        super(TEMPLATE_FILE, fragmentName);
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/label";
     }
 }

@@ -23,13 +23,14 @@ public class AbstractContainer extends AbstractComponent {
      */
     private List<Component> components = Lists.newArrayList();
 
-    public AbstractContainer() {
-        super("qxcmp/elements/container");
-    }
-
     public AbstractContainer addComponent(Component component) {
         components.add(component);
         return this;
+    }
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/container";
     }
 
     @Override

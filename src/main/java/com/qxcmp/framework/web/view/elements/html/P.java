@@ -4,20 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 块级文档节
+ * 段落
  *
  * @author aaric
  */
 @Getter
 @Setter
-public class Div extends BlockElement {
-
-    public Div(String text) {
+public class P extends BlockElement {
+    public P(String text) {
         super(text);
     }
 
     @Override
     public String getFragmentName() {
-        return "div";
+        return "p";
     }
 }

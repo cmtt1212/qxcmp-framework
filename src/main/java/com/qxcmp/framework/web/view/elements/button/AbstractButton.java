@@ -13,16 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 public abstract class AbstractButton extends AbstractComponent {
 
-    private static final String TEMPLATE_FILE = "qxcmp/elements/button";
-
-    public AbstractButton() {
-        this("default");
-    }
-
-    public AbstractButton(String fragmentName) {
-        super(TEMPLATE_FILE, fragmentName);
-    }
-
     /**
      * 按键索引
      */
@@ -104,6 +94,11 @@ public abstract class AbstractButton extends AbstractComponent {
      * 附着方向，当为附着按钮的时候生效，方向仅支持 TOP, BOTTOM, LEFT, RIGHT, NONE
      */
     private Direction attacheDirection = Direction.NONE;
+
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/elements/button";
+    }
 
     @Override
     public String getClassName() {

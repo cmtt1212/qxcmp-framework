@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.CustomComponent;
 import com.qxcmp.framework.web.view.containers.grid.Col;
 import com.qxcmp.framework.web.view.containers.grid.Grid;
 import com.qxcmp.framework.web.view.containers.grid.Row;
@@ -36,7 +36,7 @@ public class LoginPageController extends QXCMPController {
 
     private Segment createLoginForm() {
         Segment segment = new Segment();
-        segment.getComponents().add(new AbstractComponent("qxcmp/components/login") {
+        segment.getComponents().add(new CustomComponent("qxcmp/components/login") {
         });
         return segment;
     }

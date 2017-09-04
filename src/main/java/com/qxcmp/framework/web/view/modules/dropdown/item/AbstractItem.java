@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractItem extends AbstractComponent {
 
-    public AbstractItem() {
-        super("qxcmp/modules/dropdown");
+    @Override
+    public String getFragmentFile() {
+        return "qxcmp/modules/dropdown";
     }
 }
