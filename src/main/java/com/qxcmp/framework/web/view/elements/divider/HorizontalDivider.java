@@ -4,6 +4,8 @@ import com.qxcmp.framework.web.view.elements.header.AbstractHeader;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 /**
  * 水平分隔符
  *
@@ -40,6 +42,6 @@ public class HorizontalDivider extends Divider {
 
     @Override
     public String getClassContent() {
-        return super.getClassContent() + " header horizontal";
+        return super.getClassContent() + (Objects.isNull(header) ? "horizontal" : " header horizontal");
     }
 }
