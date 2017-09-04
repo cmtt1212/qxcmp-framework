@@ -17,8 +17,8 @@
     分段组
 */-->
 <!--/*@thymesVar id="segments" type="com.qxcmp.framework.web.view.elements.segment.Segments"*/-->
-<div th:fragment="group(component)" th:class="${component.getClassName()}">
-    <th:block th:each="segment : ${component.segments}">
+<div th:fragment="segments(component)" th:class="${component.getClassName()}">
+    <th:block th:each="segment : ${component.items}">
         <div th:replace="~{:: default(${segment})}"></div>
     </th:block>
 </div>

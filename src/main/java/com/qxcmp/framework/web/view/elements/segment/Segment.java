@@ -3,8 +3,6 @@ package com.qxcmp.framework.web.view.elements.segment;
 import com.qxcmp.framework.web.view.support.Attached;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 
 /**
  * 片段一般用来创建一组相关的内容

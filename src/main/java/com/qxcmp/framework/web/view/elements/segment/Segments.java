@@ -4,9 +4,6 @@ import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -30,11 +27,26 @@ public class Segments extends AbstractComponent implements Segmentable {
     private List<Segmentable> items = Lists.newArrayList();
 
     public Segments() {
-        super("qxcmp/containers/segment");
+        super("qxcmp/elements/segment");
     }
 
     @Override
     public String getFragmentName() {
+        return "segments";
+    }
+
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        return compact ? " compact" : "";
+    }
+
+    @Override
+    public String getClassSuffix() {
         return "segments";
     }
 }
