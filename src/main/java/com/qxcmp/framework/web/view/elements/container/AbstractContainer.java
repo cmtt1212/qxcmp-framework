@@ -47,4 +47,9 @@ public class AbstractContainer extends AbstractComponent {
     public String getClassSuffix() {
         return "container";
     }
+
+    public AbstractContainer setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
+    }
 }

@@ -218,4 +218,99 @@ public abstract class AbstractGrid extends AbstractComponent {
     public String getClassSuffix() {
         return "grid";
     }
+
+    public AbstractGrid setEqualWidth() {
+        this.equalWidth = true;
+        return this;
+    }
+
+    public AbstractGrid setPadded() {
+        this.padded = true;
+        return this;
+    }
+
+    public AbstractGrid setVerticallyPadded() {
+        this.verticallyPadded = true;
+        return this;
+    }
+
+    public AbstractGrid setHorizontallyPadded() {
+        this.horizontallyPadded = true;
+        return this;
+    }
+
+    public AbstractGrid setRelaxed() {
+        this.relaxed = true;
+        return this;
+    }
+
+    public AbstractGrid setVeryRelaxed() {
+        this.veryRelaxed = true;
+        return this;
+    }
+
+    public AbstractGrid setCentered() {
+        this.centered = true;
+        return this;
+    }
+
+    public AbstractGrid setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
+    }
+
+    public AbstractGrid setVerticalAlignment(VerticalAlignment verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+        return this;
+    }
+
+    public AbstractGrid setContainer() {
+        this.container = true;
+        return this;
+    }
+
+    public AbstractGrid setColumnCount(ColumnCount columnCount) {
+        this.columnCount = columnCount;
+        return this;
+    }
+
+    public AbstractGrid setDoubling() {
+        this.doubling = true;
+        return this;
+    }
+
+    public AbstractGrid setStackable() {
+        this.stackable = true;
+        return this;
+    }
+
+    public AbstractGrid setComputerReversed() {
+        this.computerReversed = true;
+        return this;
+    }
+
+    public AbstractGrid setTableReversed() {
+        this.tabletReversed = true;
+        return this;
+    }
+
+    public AbstractGrid setMobileReversed() {
+        this.mobileReversed = true;
+        return this;
+    }
+
+    public AbstractGrid setComputerVerticallyReversed() {
+        this.computerVerticallyReversed = true;
+        return this;
+    }
+
+    public AbstractGrid setTabletVerticallyReversed() {
+        this.tabletVerticallyReversed = true;
+        return this;
+    }
+
+    public AbstractGrid setMobileVerticallyReversed() {
+        this.mobileVerticallyReversed = true;
+        return this;
+    }
 }

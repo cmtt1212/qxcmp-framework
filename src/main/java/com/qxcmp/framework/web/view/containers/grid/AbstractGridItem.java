@@ -46,4 +46,19 @@ public abstract class AbstractGridItem extends AbstractComponent {
 
         return stringBuilder.toString();
     }
+
+    public AbstractGridItem setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public AbstractGridItem setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
+    }
+
+    public AbstractGridItem setVerticalAlignment(VerticalAlignment verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+        return this;
+    }
 }

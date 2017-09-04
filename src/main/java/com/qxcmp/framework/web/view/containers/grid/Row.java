@@ -71,4 +71,19 @@ public class Row extends AbstractGridItem {
     public String getClassPrefix() {
         return "row";
     }
+
+    public Row setColumnCount(ColumnCount columnCount) {
+        this.columnCount = columnCount;
+        return this;
+    }
+
+    public Row setStretched() {
+        this.stretched = true;
+        return this;
+    }
+
+    public Row setCentered() {
+        this.centered = true;
+        return this;
+    }
 }

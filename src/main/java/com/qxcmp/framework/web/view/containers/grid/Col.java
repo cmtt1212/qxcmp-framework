@@ -41,7 +41,7 @@ public class Col extends AbstractGridItem {
     /**
      * 浮动类型
      */
-    private Floated floating = Floated.NONE;
+    private Floated floated = Floated.NONE;
 
     /**
      * 容器内容
@@ -71,7 +71,7 @@ public class Col extends AbstractGridItem {
     public String getClassContent() {
         final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
 
-        stringBuilder.append(generalWide.toString()).append(computerWide.toString()).append(tabletWide.toString()).append(mobileWide.toString()).append(floating.toString());
+        stringBuilder.append(generalWide.toString()).append(computerWide.toString()).append(tabletWide.toString()).append(mobileWide.toString()).append(floated.toString());
 
         return stringBuilder.toString();
     }
@@ -79,5 +79,25 @@ public class Col extends AbstractGridItem {
     @Override
     public String getClassSuffix() {
         return "column";
+    }
+
+    public Col setComputerWide(Wide wide) {
+        this.computerWide = wide;
+        return this;
+    }
+
+    public Col setTabletWide(Wide wide) {
+        this.tabletWide = wide;
+        return this;
+    }
+
+    public Col setMobileWide(Wide wide) {
+        this.mobileWide = wide;
+        return this;
+    }
+
+    public Col setFloated(Floated floated) {
+        this.floated = floated;
+        return this;
     }
 }
