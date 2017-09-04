@@ -41,13 +41,6 @@ public abstract class AbstractImage extends AbstractComponent {
      */
     private boolean disabled;
 
-    /**
-     * 是否禁用懒加载
-     * <p>
-     * 默认开启图片懒加载，当浏览器滚动到图片位置时候才下载图片
-     */
-    private boolean disableLazyLoading;
-
     private AbstractImage() {
     }
 
@@ -103,11 +96,6 @@ public abstract class AbstractImage extends AbstractComponent {
 
     public AbstractImage setDisabled() {
         this.disabled = true;
-        return this;
-    }
-
-    public AbstractImage disableLazyLoading() {
-        this.disableLazyLoading = true;
         return this;
     }
 }
