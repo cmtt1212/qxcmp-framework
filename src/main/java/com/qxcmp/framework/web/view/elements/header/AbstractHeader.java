@@ -146,7 +146,7 @@ public abstract class AbstractHeader extends AbstractComponent {
     }
 
     public AbstractHeader setDisabled() {
-        this.dividing = true;
+        this.disabled = true;
         return this;
     }
 

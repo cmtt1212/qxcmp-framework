@@ -4,14 +4,19 @@ import com.qxcmp.framework.web.view.elements.header.AbstractHeader;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 水平分隔符
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
-public class HorizontalDivider extends AbstractDivider {
+public class HorizontalDivider extends Divider {
 
     /**
-     * 分隔符图标
+     * 分隔符文本
      */
-    private String icon;
+    private String text;
 
     /**
      * 分隔符标题元素
@@ -20,43 +25,8 @@ public class HorizontalDivider extends AbstractDivider {
      */
     private AbstractHeader header;
 
-    /**
-     * 是否为反转颜色
-     */
-    private boolean inverted;
-
-    /**
-     * 是否取消边距
-     */
-    private boolean fitted;
-
-    /**
-     * 是否为隐藏状态
-     * <p>
-     * 此属性将保留边距
-     */
-    private boolean hidden;
-
-    /**
-     * 是否增加边距
-     */
-    private boolean section;
-
-    /**
-     * 是否清除浮动
-     */
-    private boolean clearing;
-
-    public HorizontalDivider() {
-    }
-
     public HorizontalDivider(String text) {
-        super(text);
-    }
-
-    public HorizontalDivider(String text, String icon) {
-        super(text);
-        this.icon = icon;
+        this.text = text;
     }
 
     public HorizontalDivider(AbstractHeader header) {
@@ -64,31 +34,12 @@ public class HorizontalDivider extends AbstractDivider {
     }
 
     @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
+    public String getFragmentName() {
+        return "horizontal";
+    }
 
-        if (inverted) {
-            stringBuilder.append(" inverted");
-        }
-
-        if (fitted) {
-            stringBuilder.append(" fitted");
-        }
-
-        if (hidden) {
-            stringBuilder.append(" hidden");
-        }
-
-        if (section) {
-            stringBuilder.append(" section");
-        }
-
-        if (clearing) {
-            stringBuilder.append(" clearing");
-        }
-
-        stringBuilder.append(" horizontal divider");
-
-        return stringBuilder.toString();
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " header horizontal";
     }
 }

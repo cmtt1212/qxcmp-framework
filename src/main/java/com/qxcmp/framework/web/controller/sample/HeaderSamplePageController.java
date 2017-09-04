@@ -35,7 +35,7 @@ public class HeaderSamplePageController extends AbstractSamplePageController {
     }
 
     private Component createSubHeaderSegment() {
-        return new Segment().addComponent(new ContentHeader("子抬头", Size.LARGE).setDisabled())
+        return new Segment().addComponent(new ContentHeader("子抬头", Size.LARGE).setDividing())
                 .addComponent(new SubHeader("抬头标题"))
                 .addComponent(new SubHeader("抬头标题").setImage(new Image(qxcmpConfiguration.getLogo())).setColor(randomColor()))
                 .addComponent(new SubHeader("抬头标题").setIcon(new Icon("cloud").setColor(randomColor())).setColor(randomColor()))
@@ -45,7 +45,7 @@ public class HeaderSamplePageController extends AbstractSamplePageController {
     }
 
     private Component createIconHeaderSegment() {
-        return new Segment().addComponent(new ContentHeader("图标抬头", Size.LARGE).setDisabled())
+        return new Segment().addComponent(new ContentHeader("图标抬头", Size.LARGE).setDividing())
                 .addComponent(new IconHeader("图标抬头", new Icon("settings").setColor(randomColor())).setAlignment(Alignment.CENTER).setColor(randomColor()))
                 .addComponent(new IconHeader("图标抬头", new Icon("setting").setColor(randomColor()).setLoading()).setAlignment(Alignment.CENTER).setColor(randomColor()))
                 .addComponent(new IconHeader("图标抬头", new CircularIcon("users").setColor(randomColor())).setAlignment(Alignment.CENTER).setColor(randomColor()))
@@ -53,7 +53,7 @@ public class HeaderSamplePageController extends AbstractSamplePageController {
     }
 
     private Component createContentHeaderSegment() {
-        return new Segment().addComponent(new ContentHeader("内容抬头", Size.LARGE).setDisabled())
+        return new Segment().addComponent(new ContentHeader("内容抬头", Size.LARGE).setDividing())
                 .addComponent(new ContentHeader("抬头标题", Size.SMALL))
                 .addComponent(new ContentHeader("抬头标题", Size.SMALL).setImage(new Image(qxcmpConfiguration.getLogo())).setColor(randomColor()))
                 .addComponent(new ContentHeader("抬头标题", Size.SMALL).setIcon(new Icon("cloud").setColor(randomColor())).setColor(randomColor()))
@@ -63,7 +63,7 @@ public class HeaderSamplePageController extends AbstractSamplePageController {
     }
 
     private AbstractSegment createPageHeaderSegment() {
-        return new Segment().addComponent(new ContentHeader("页面抬头", Size.LARGE).setDisabled())
+        return new Segment().addComponent(new ContentHeader("页面抬头", Size.LARGE).setDividing())
                 .addComponent(new PageHeader(HeaderType.H4, "抬头标题"))
                 .addComponent(new PageHeader(HeaderType.H4, "抬头标题").setImage(new Image(qxcmpConfiguration.getLogo())).setColor(randomColor()))
                 .addComponent(new PageHeader(HeaderType.H4, "抬头标题").setIcon(new Icon("cloud").setColor(randomColor())).setColor(randomColor()))
