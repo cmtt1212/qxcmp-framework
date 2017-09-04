@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements.image;
 
 import com.qxcmp.framework.view.component.AnchorTarget;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * 懒加载图片
@@ -10,18 +11,28 @@ import com.qxcmp.framework.view.component.AnchorTarget;
  * @author Aaric
  */
 public class LazyImage extends Image {
+
+    /**
+     * 懒加载图片ID
+     * <p>
+     * 用于初始化懒加载
+     */
+    private String id = "lazy-image-" + RandomStringUtils.randomAlphanumeric(10);
+
     public LazyImage(String source) {
         super(source);
-        this.setLazyLoading();
     }
 
     public LazyImage(String image, String url) {
         super(image, url);
-        this.setLazyLoading();
     }
 
     public LazyImage(String image, String url, AnchorTarget target) {
         super(image, url, target);
-        this.setLazyLoading();
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "lazy-image";
     }
 }

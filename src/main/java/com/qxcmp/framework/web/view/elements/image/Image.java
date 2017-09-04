@@ -37,6 +37,11 @@ public class Image extends AbstractImage {
     private boolean centered;
 
     /**
+     * 是否为圆形
+     */
+    private boolean circular;
+
+    /**
      * 垂直对齐方式
      */
     private VerticalAlignment verticalAlignment = VerticalAlignment.NONE;
@@ -50,13 +55,6 @@ public class Image extends AbstractImage {
      * 图片大小
      */
     private Size size = Size.NONE;
-
-    /**
-     * 是否开启懒加载模式
-     * <p>
-     * 开启后当浏览器滚动到图片位置时候才下载图片
-     */
-    private boolean lazyLoading;
 
     public Image(String source) {
         super(source);
@@ -90,6 +88,10 @@ public class Image extends AbstractImage {
             stringBuilder.append(" centered");
         }
 
+        if (circular) {
+            stringBuilder.append(" circular");
+        }
+
         stringBuilder.append(verticalAlignment.toString()).append(floated.toString()).append(size.toString());
 
         return stringBuilder.toString();
@@ -115,6 +117,11 @@ public class Image extends AbstractImage {
         return this;
     }
 
+    public Image setCircular() {
+        this.circular = true;
+        return this;
+    }
+
     public Image setVerticalAlignment(VerticalAlignment verticalAlignment) {
         this.verticalAlignment = verticalAlignment;
         return this;
@@ -127,11 +134,6 @@ public class Image extends AbstractImage {
 
     public Image setSize(Size size) {
         this.size = size;
-        return this;
-    }
-
-    public Image setLazyLoading() {
-        this.lazyLoading = true;
         return this;
     }
 }
