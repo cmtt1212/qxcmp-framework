@@ -38,7 +38,7 @@ public class Icons extends AbstractComponent {
 
     @Override
     public String getFragmentFile() {
-        return "qxcmp/element/icon";
+        return "qxcmp/elements/icon";
     }
 
     @Override
@@ -58,5 +58,10 @@ public class Icons extends AbstractComponent {
     @Override
     public String getClassSuffix() {
         return "icons";
+    }
+
+    public Icons setSize(Size size) {
+        this.size = size;
+        return this;
     }
 }

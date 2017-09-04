@@ -1,6 +1,5 @@
 package com.qxcmp.framework.web.controller.sample;
 
-import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.containers.grid.Col;
 import com.qxcmp.framework.web.view.containers.grid.Grid;
 import com.qxcmp.framework.web.view.containers.grid.Row;
@@ -17,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test/sample/html")
-public class HtmlSamplePageController extends QXCMPController {
+public class HtmlSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {

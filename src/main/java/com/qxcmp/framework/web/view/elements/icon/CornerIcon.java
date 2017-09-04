@@ -18,13 +18,17 @@ public class CornerIcon extends Icon {
      */
     private Corner corner = Corner.BOTTOM_RIGHT;
 
-    public CornerIcon(String icon, Corner corner) {
+    public CornerIcon(String icon) {
         super(icon);
-        this.corner = corner;
     }
 
     @Override
     public String getClassContent() {
         return super.getClassContent() + corner.toString();
+    }
+
+    public CornerIcon setCorner(Corner corner) {
+        this.corner = corner;
+        return this;
     }
 }

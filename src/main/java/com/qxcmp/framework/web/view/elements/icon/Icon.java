@@ -77,11 +77,6 @@ public class Icon extends AbstractComponent {
         this.icon = icon;
     }
 
-    public Icon(String icon, Color color) {
-        this.icon = icon;
-        this.color = color;
-    }
-
     @Override
     public String getFragmentFile() {
         return "qxcmp/elements/icon";
@@ -127,4 +122,50 @@ public class Icon extends AbstractComponent {
     public String getClassSuffix() {
         return "icon";
     }
+
+    public Icon setDisabled() {
+        this.disabled = true;
+        return this;
+    }
+
+    public Icon setLoading() {
+        this.loading = true;
+        return this;
+    }
+
+    public Icon setFitted() {
+        this.fitted = true;
+        return this;
+    }
+
+    public Icon setLink() {
+        this.link = true;
+        return this;
+    }
+
+    public Icon setInverted() {
+        this.inverted = true;
+        return this;
+    }
+
+    public Icon setSize(Size size) {
+        this.size = size;
+        return this;
+    }
+
+    public Icon setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public Icon setFlipped(Flipped flipped) {
+        this.flipped = flipped;
+        return this;
+    }
+
+    public Icon setRotated(Rotated rotated) {
+        this.rotated = rotated;
+        return this;
+    }
+
 }
