@@ -6,7 +6,10 @@
 <body>
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.Anchor"*/-->
 <th:block th:fragment="anchor(component)">
-    <a th:class="${component.className}" th:href="@{${component.href}}" th:attr="download=${component.download}"
+    <a th:class="${component.className}"
+       th:href="@{${component.href}}"
+       th:target="${component.target}"
+       th:attr="download=${component.download}"
        th:utext="${component.text}"></a>
 </th:block>
 

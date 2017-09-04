@@ -3,6 +3,11 @@ package com.qxcmp.framework.web.view.elements.button;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 带标签的图标按钮
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public class LabeledIconButton extends AbstractButton {

@@ -9,6 +9,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 按钮基本类
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public abstract class AbstractButton extends AbstractComponent {
@@ -17,23 +22,6 @@ public abstract class AbstractButton extends AbstractComponent {
      * 按键索引
      */
     private int tabIndex;
-
-    /**
-     * 是否为主要按钮
-     */
-    private boolean primary;
-
-    /**
-     * 是否为次要按钮
-     */
-    private boolean secondary;
-
-    /**
-     * 是否为基本按钮
-     * <p>
-     * 该属性将移除多余的强调内容
-     */
-    private boolean basic;
 
     /**
      * 是否为紧凑按钮
@@ -103,18 +91,6 @@ public abstract class AbstractButton extends AbstractComponent {
     @Override
     public String getClassName() {
         final StringBuilder stringBuilder = new StringBuilder("ui button");
-
-        if (primary) {
-            stringBuilder.append(" primary");
-        }
-
-        if (secondary) {
-            stringBuilder.append(" secondary");
-        }
-
-        if (basic) {
-            stringBuilder.append(" basic");
-        }
 
         if (compact) {
             stringBuilder.append(" compact");

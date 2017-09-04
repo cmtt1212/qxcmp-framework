@@ -4,6 +4,11 @@ import com.qxcmp.framework.web.view.elements.Icon;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 图标按钮
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public class IconButton extends AbstractButton {

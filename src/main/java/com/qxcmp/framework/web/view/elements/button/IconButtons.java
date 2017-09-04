@@ -1,13 +1,13 @@
 package com.qxcmp.framework.web.view.elements.button;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+/**
+ * 图标按钮组
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public class IconButtons {

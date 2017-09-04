@@ -5,6 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 动效按钮
+ * <p>
+ * 该按钮可以设置可见部分和隐藏部分
+ * <p>
+ * 当鼠标悬浮在按钮上是，显示隐藏部分
+ * <p>
+ * 按钮的宽度根据可见部分决定
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public class AnimatedButton extends AbstractButton {

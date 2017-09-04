@@ -7,6 +7,11 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+/**
+ * 带标签的按钮
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public class LabeledButton extends AbstractButton {
