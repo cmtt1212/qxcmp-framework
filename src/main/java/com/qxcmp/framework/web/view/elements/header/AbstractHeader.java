@@ -3,10 +3,12 @@ package com.qxcmp.framework.web.view.elements.header;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
-import com.qxcmp.framework.web.view.support.*;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Attached;
+import com.qxcmp.framework.web.view.support.Color;
+import com.qxcmp.framework.web.view.support.Floated;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 抬头
@@ -25,7 +27,7 @@ public abstract class AbstractHeader extends AbstractComponent {
     private String title;
 
     /**
-     * 子标题文本
+     * 可选：子标题文本
      */
     private String subTitle;
 
@@ -40,24 +42,9 @@ public abstract class AbstractHeader extends AbstractComponent {
     private Image image;
 
     /**
-     * 类型
-     */
-    private HeaderType type = HeaderType.NORMAL;
-
-    /**
      * 对齐方式
      */
     private Alignment alignment = Alignment.NONE;
-
-    /**
-     * 大小
-     */
-    private Size size = Size.NONE;
-
-    /**
-     * 是否强调显示图标
-     */
-    private boolean iconHeader;
 
     /**
      * 是否禁用
@@ -75,19 +62,14 @@ public abstract class AbstractHeader extends AbstractComponent {
     private boolean block;
 
     /**
-     * 是否为附着状态
+     * 附着类型
      */
-    private boolean attached;
-
-    /**
-     * 附着方向
-     */
-    private Direction attachDirection = Direction.NONE;
+    private Attached attached = Attached.NONE;
 
     /**
      * 浮动类型
      */
-    private Floated floating = Floated.NONE;
+    private Floated floated = Floated.NONE;
 
     /**
      * 颜色
@@ -99,24 +81,23 @@ public abstract class AbstractHeader extends AbstractComponent {
      */
     private boolean inverted;
 
+    public AbstractHeader(String title) {
+        this.title = title;
+    }
+
     @Override
     public String getFragmentFile() {
         return "qxcmp/elements/header";
     }
 
     @Override
-    public String getClassName() {
-        StringBuilder stringBuilder = new StringBuilder("ui header");
+    public String getClassPrefix() {
+        return "ui";
+    }
 
-        if (StringUtils.isNotBlank(alignment.toString())) {
-            stringBuilder.append(" ").append(alignment.toString());
-        }
-
-        stringBuilder.append(size.toString());
-
-        if (iconHeader) {
-            stringBuilder.append(" icon");
-        }
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder();
 
         if (disabled) {
             stringBuilder.append(" disabled");
@@ -130,20 +111,72 @@ public abstract class AbstractHeader extends AbstractComponent {
             stringBuilder.append(" block");
         }
 
-        if (attached) {
-            if (StringUtils.isNotBlank(attachDirection.getClassName())) {
-                stringBuilder.append(" ").append(attachDirection.getClassName());
-            }
-            stringBuilder.append(" attached");
-        }
-
-        stringBuilder.append(floating.toString());
-        stringBuilder.append(color.toString());
-
         if (inverted) {
             stringBuilder.append(" inverted");
         }
 
+        stringBuilder.append(alignment.toString()).append(attached.toString()).append(floated.toString()).append(color.toString());
+
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "header";
+    }
+
+    public AbstractHeader setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+        return this;
+    }
+
+    public AbstractHeader setIcon(Icon icon) {
+        this.icon = icon;
+        return this;
+    }
+
+    public AbstractHeader setImage(Image image) {
+        this.image = image;
+        return this;
+    }
+
+    public AbstractHeader setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
+    }
+
+    public AbstractHeader setDisabled() {
+        this.dividing = true;
+        return this;
+    }
+
+    public AbstractHeader setDividing() {
+        this.dividing = true;
+        return this;
+    }
+
+    public AbstractHeader setBlock() {
+        this.block = true;
+        return this;
+    }
+
+    public AbstractHeader setAttached(Attached attached) {
+        this.attached = attached;
+        return this;
+    }
+
+    public AbstractHeader setFloated(Floated floating) {
+        this.floated = floating;
+        return this;
+    }
+
+    public AbstractHeader setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public AbstractHeader setInverted() {
+        this.inverted = true;
+        return this;
     }
 }

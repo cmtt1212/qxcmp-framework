@@ -27,6 +27,7 @@ public class SamplePageController extends AbstractSamplePageController {
             grid
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("无行为元素"))).addCol(new Col(Wide.SIXTEEN)
                             .addComponent(new Anchor("基本元素", "/test/sample/html"))
+                            .addComponent(new Anchor("页眉", "/test/sample/header"))
                             .addComponent(new Anchor("图标", "/test/sample/icon"))
                             .addComponent(new Anchor("图片", "/test/sample/image"))
                     ))

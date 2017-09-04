@@ -1,7 +1,6 @@
 package com.qxcmp.framework.web.view.elements.header;
 
 public enum HeaderType {
-    NORMAL("normal"),
     H1("h1"),
     H2("h2"),
     H3("h3"),

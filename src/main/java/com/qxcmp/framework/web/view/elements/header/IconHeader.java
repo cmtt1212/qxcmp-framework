@@ -1,5 +1,7 @@
 package com.qxcmp.framework.web.view.elements.header;
 
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+
 /**
  * 图标抬头
  * <p>
@@ -8,4 +10,14 @@ package com.qxcmp.framework.web.view.elements.header;
  * @author Aaric
  */
 public class IconHeader extends AbstractHeader {
+
+    public IconHeader(String title, Icon icon) {
+        super(title);
+        setIcon(icon);
+    }
+
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " icon";
+    }
 }

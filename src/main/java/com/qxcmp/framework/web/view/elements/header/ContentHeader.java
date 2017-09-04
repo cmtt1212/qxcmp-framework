@@ -1,5 +1,9 @@
 package com.qxcmp.framework.web.view.elements.header;
 
+import com.qxcmp.framework.web.view.support.Size;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 内容抬头
  * <p>
@@ -9,5 +13,22 @@ package com.qxcmp.framework.web.view.elements.header;
  *
  * @author Aaric
  */
+@Getter
+@Setter
 public class ContentHeader extends AbstractHeader {
+
+    /**
+     * 大小，只支持 Huge, Large, Medium, Small, Tiny
+     */
+    private Size size = Size.NONE;
+
+    public ContentHeader(String title, Size size) {
+        super(title);
+        this.size = size;
+    }
+
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + size.toString();
+    }
 }

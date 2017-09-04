@@ -1,11 +1,8 @@
 package com.qxcmp.framework.web.view.elements.divider;
 
-import com.qxcmp.framework.web.view.elements.Header;
+import com.qxcmp.framework.web.view.elements.header.AbstractHeader;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -21,7 +18,7 @@ public class HorizontalDivider extends AbstractDivider {
      * <p>
      * 用于高级形式的显示
      */
-    private Header header;
+    private AbstractHeader header;
 
     /**
      * 是否为反转颜色
@@ -62,7 +59,7 @@ public class HorizontalDivider extends AbstractDivider {
         this.icon = icon;
     }
 
-    public HorizontalDivider(Header header) {
+    public HorizontalDivider(AbstractHeader header) {
         this.header = header;
     }
 

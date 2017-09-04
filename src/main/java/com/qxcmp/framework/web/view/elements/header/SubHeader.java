@@ -7,5 +7,14 @@ package com.qxcmp.framework.web.view.elements.header;
  *
  * @author Aaric
  */
-public class SubHeader {
+public class SubHeader extends AbstractHeader {
+
+    public SubHeader(String title) {
+        super(title);
+    }
+
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " sub";
+    }
 }

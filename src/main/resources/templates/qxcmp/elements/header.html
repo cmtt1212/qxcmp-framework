@@ -4,9 +4,24 @@
 <!--/*
     页面页眉
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Header"*/-->
-<th:block th:fragment="default(component)" th:switch="${component.type.getTag()}">
-    <div th:case="normal" th:class="${component.getClassName()}">
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.AbstractHeader"*/-->
+<div th:fragment="default(component)" th:class="${component.getClassName()}">
+    <th:block th:if="${component.image ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+    </th:block>
+    <th:block th:if="${component.icon ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+    </th:block>
+    <div class="content">
+        <span th:utext="${component.title}"></span>
+        <div th:unless="${#strings.isEmpty(component.subTitle)}"
+             class="sub header" th:utext="${component.subTitle}"></div>
+    </div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.PageHeader"*/-->
+<th:block th:fragment="page-header(component)" th:switch="${component.type.getTag()}">
+    <h1 th:case="h1" th:class="${component.getClassName()}">
         <th:block th:if="${component.image ne null}">
             <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
         </th:block>
@@ -18,13 +33,72 @@
             <div th:unless="${#strings.isEmpty(component.subTitle)}"
                  class="sub header" th:utext="${component.subTitle}"></div>
         </div>
-    </div>
-    <h1 th:case="h1" th:class="${component.getClassName()}" th:utext="${component.text}"></h1>
-    <h2 th:case="h2" th:class="${component.getClassName()}" th:utext="${component.text}"></h2>
-    <h3 th:case="h3" th:class="${component.getClassName()}" th:utext="${component.text}"></h3>
-    <h4 th:case="h4" th:class="${component.getClassName()}" th:utext="${component.text}"></h4>
-    <h5 th:case="h5" th:class="${component.getClassName()}" th:utext="${component.text}"></h5>
-    <h6 th:case="h6" th:class="${component.getClassName()}" th:utext="${component.text}"></h6>
+    </h1>
+    <h2 th:case="h2" th:class="${component.getClassName()}">
+        <th:block th:if="${component.image ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+        </th:block>
+        <th:block th:if="${component.icon ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </th:block>
+        <div class="content">
+            <span th:utext="${component.title}"></span>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}"
+                 class="sub header" th:utext="${component.subTitle}"></div>
+        </div>
+    </h2>
+    <h3 th:case="h3" th:class="${component.getClassName()}">
+        <th:block th:if="${component.image ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+        </th:block>
+        <th:block th:if="${component.icon ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </th:block>
+        <div class="content">
+            <span th:utext="${component.title}"></span>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}"
+                 class="sub header" th:utext="${component.subTitle}"></div>
+        </div>
+    </h3>
+    <h4 th:case="h4" th:class="${component.getClassName()}">
+        <th:block th:if="${component.image ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+        </th:block>
+        <th:block th:if="${component.icon ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </th:block>
+        <div class="content">
+            <span th:utext="${component.title}"></span>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}"
+                 class="sub header" th:utext="${component.subTitle}"></div>
+        </div>
+    </h4>
+    <h5 th:case="h5" th:class="${component.getClassName()}">
+        <th:block th:if="${component.image ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+        </th:block>
+        <th:block th:if="${component.icon ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </th:block>
+        <div class="content">
+            <span th:utext="${component.title}"></span>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}"
+                 class="sub header" th:utext="${component.subTitle}"></div>
+        </div>
+    </h5>
+    <h6 th:case="h6" th:class="${component.getClassName()}">
+        <th:block th:if="${component.image ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+        </th:block>
+        <th:block th:if="${component.icon ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </th:block>
+        <div class="content">
+            <span th:utext="${component.title}"></span>
+            <div th:unless="${#strings.isEmpty(component.subTitle)}"
+                 class="sub header" th:utext="${component.subTitle}"></div>
+        </div>
+    </h6>
 </th:block>
 </body>
 </html>

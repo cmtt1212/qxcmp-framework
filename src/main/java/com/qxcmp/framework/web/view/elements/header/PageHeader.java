@@ -1,5 +1,8 @@
 package com.qxcmp.framework.web.view.elements.header;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 页面抬头
  * <p>
@@ -9,5 +12,19 @@ package com.qxcmp.framework.web.view.elements.header;
  *
  * @author Aaric
  */
-public class PageHeader extends AbstractHeader{
+@Getter
+@Setter
+public class PageHeader extends AbstractHeader {
+
+    private HeaderType type;
+
+    public PageHeader(HeaderType type, String title) {
+        super(title);
+        this.type = type;
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "page-header";
+    }
 }
