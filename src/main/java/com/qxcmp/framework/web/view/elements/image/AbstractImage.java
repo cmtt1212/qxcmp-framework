@@ -5,6 +5,11 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 图片抽象类
+ *
+ * @author aaric
+ */
 @Getter
 @Setter
 public abstract class AbstractImage extends AbstractComponent {
@@ -36,6 +41,13 @@ public abstract class AbstractImage extends AbstractComponent {
      */
     private boolean disabled;
 
+    /**
+     * 是否禁用懒加载
+     * <p>
+     * 默认开启图片懒加载，当浏览器滚动到图片位置时候才下载图片
+     */
+    private boolean disableLazyLoading;
+
     private AbstractImage() {
     }
 
@@ -44,13 +56,13 @@ public abstract class AbstractImage extends AbstractComponent {
         this.source = source;
     }
 
-    public AbstractImage(String image, String url) {
-        this(image);
+    public AbstractImage(String source, String url) {
+        this(source);
         this.url = url;
     }
 
-    public AbstractImage(String image, String url, AnchorTarget target) {
-        this(image, url);
+    public AbstractImage(String source, String url, AnchorTarget target) {
+        this(source, url);
         this.urlTarget = target.toString();
     }
 
@@ -82,5 +94,20 @@ public abstract class AbstractImage extends AbstractComponent {
     @Override
     public String getClassSuffix() {
         return "image";
+    }
+
+    public AbstractImage setHidden() {
+        this.hidden = true;
+        return this;
+    }
+
+    public AbstractImage setDisabled() {
+        this.disabled = true;
+        return this;
+    }
+
+    public AbstractImage disableLazyLoading() {
+        this.disableLazyLoading = true;
+        return this;
     }
 }

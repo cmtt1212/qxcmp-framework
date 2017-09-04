@@ -7,6 +7,11 @@ import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 一般图片
+ *
+ * @author aaric
+ */
 @Getter
 @Setter
 public class Image extends AbstractImage {
@@ -81,5 +86,40 @@ public class Image extends AbstractImage {
         stringBuilder.append(verticalAlignment.toString()).append(floated.toString()).append(size.toString());
 
         return stringBuilder.toString();
+    }
+
+    public Image setBordered() {
+        this.bordered = true;
+        return this;
+    }
+
+    public Image setFluid() {
+        this.fluid = true;
+        return this;
+    }
+
+    public Image setRounded() {
+        this.rounded = true;
+        return this;
+    }
+
+    public Image setCentered() {
+        this.centered = true;
+        return this;
+    }
+
+    public Image setVerticalAlignment(VerticalAlignment verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+        return this;
+    }
+
+    public Image setFloated(Floated floated) {
+        this.floated = floated;
+        return this;
+    }
+
+    public Image setSize(Size size) {
+        this.size = size;
+        return this;
     }
 }
