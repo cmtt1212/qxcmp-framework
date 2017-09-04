@@ -60,29 +60,4 @@ public class AbstractSegmentTest {
     public void testPage8() throws Exception {
         mockMvc.perform(get("/test/elements/segment/8")).andExpect(status().isOk()).andExpect(content().string(containsString("ui stacked tall segment")));
     }
-
-    @Test
-    public void testPage9() throws Exception {
-        mockMvc.perform(get("/test/elements/segments/1")).andExpect(status().isOk()).andExpect(content().string(containsString("ui segments")));
-    }
-
-    @Test
-    public void testPage10() throws Exception {
-        mockMvc.perform(get("/test/elements/segments/2")).andExpect(status().isOk()).andExpect(content().string(containsString("ui horizontal segments")));
-    }
-
-    @Test
-    public void testPage11() throws Exception {
-        mockMvc.perform(get("/test/elements/segments/3")).andExpect(status().isOk()).andExpect(content().string(containsString("ui piled segments")));
-    }
-
-    @Test
-    public void testPage12() throws Exception {
-        mockMvc.perform(get("/test/elements/segments/4")).andExpect(status().isOk()).andExpect(content().string(containsString("ui raised segments")));
-    }
-
-    @Test
-    public void testPage13() throws Exception {
-        mockMvc.perform(get("/test/elements/segments/5")).andExpect(status().isOk()).andExpect(content().string(containsString("ui stacked segments")));
-    }
 }

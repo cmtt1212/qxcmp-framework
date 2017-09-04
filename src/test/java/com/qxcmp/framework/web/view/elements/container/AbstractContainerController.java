@@ -1,9 +1,6 @@
 package com.qxcmp.framework.web.view.elements.container;
 
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.containers.grid.DividedGrid;
-import com.qxcmp.framework.web.view.containers.grid.Grid;
-import com.qxcmp.framework.web.view.containers.grid.VerticallyDividedGrid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +12,16 @@ public class AbstractContainerController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(() -> new Container().addComponent(new Grid()));
+        return page(Container::new);
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(() -> new TextContainer().addComponent(new DividedGrid()));
+        return page(TextContainer::new);
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(() -> new FluidContainer().addComponent(new VerticallyDividedGrid()));
+        return page(FluidContainer::new);
     }
 }
