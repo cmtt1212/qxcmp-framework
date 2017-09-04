@@ -30,4 +30,9 @@ public class AbstractImageTest {
     public void testPage2() throws Exception {
         mockMvc.perform(get("/test/elements/image/2")).andExpect(status().isOk()).andExpect(content().string(containsString("ui image")));
     }
+
+    @Test
+    public void testPage3() throws Exception {
+        mockMvc.perform(get("/test/elements/image/3")).andExpect(status().isOk()).andExpect(content().string(containsString("ui images")));
+    }
 }

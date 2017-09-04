@@ -19,4 +19,9 @@ public class AbstractImageController extends QXCMPController {
     public ModelAndView testPage2() {
         return page(() -> new Image(qxcmpConfiguration.getLogo()));
     }
+
+    @GetMapping("/3")
+    public ModelAndView testPage3() {
+        return page(Images::new);
+    }
 }

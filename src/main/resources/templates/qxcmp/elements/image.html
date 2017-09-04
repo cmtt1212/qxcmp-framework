@@ -34,7 +34,7 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.image.Images"*/-->
 <div th:fragment="images(component)" th:class="${component.getClassName()}">
     <th:block th:each="image : ${component.images}">
-        <div th:replace="~{qxcmp/globals/components : component(${image})}"></div>
+        <div th:replace="~{qxcmp/globals/components :: component(${image})}"></div>
     </th:block>
 </div>
 </body>
