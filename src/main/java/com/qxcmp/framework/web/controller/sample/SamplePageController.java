@@ -28,6 +28,7 @@ public class SamplePageController extends QXCMPController {
             grid
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("无行为元素"))).addCol(new Col(Wide.SIXTEEN)
                             .addComponent(new Anchor("基本元素", "/test/sample/html"))
+                            .addComponent(new Anchor("图标", "/test/sample/icon"))
                     ))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("集合元素"))).addCol(new Col(Wide.SIXTEEN)))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("常用视图"))).addCol(new Col(Wide.SIXTEEN)))

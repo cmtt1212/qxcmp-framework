@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.*;
 import lombok.Getter;

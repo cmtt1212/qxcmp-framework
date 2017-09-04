@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.button;
 
-import com.qxcmp.framework.web.view.elements.Icon;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import lombok.Getter;
 import lombok.Setter;
 

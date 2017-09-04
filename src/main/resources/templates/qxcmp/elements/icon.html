@@ -5,6 +5,12 @@
     图标
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Icon"*/-->
-<i th:fragment="default(component)" th:class="${component.getClassName()}"></i>
+<i th:fragment="icon(component)" th:class="${component.getClassName()}"></i>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.Icons"*/-->
+<i th:fragment="icons(component)" th:class="${component.getClassName()}">
+    <i th:replace="~{qxcmp/globals/components :: component(${component.icon1})}"></i>
+    <i th:replace="~{qxcmp/globals/components :: component(${component.icon2})}"></i>
+</i>
 </body>
 </html>

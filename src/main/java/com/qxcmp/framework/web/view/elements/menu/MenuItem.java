@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.menu;
 
-import com.qxcmp.framework.web.view.elements.Icon;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import lombok.Getter;
 import lombok.Setter;
