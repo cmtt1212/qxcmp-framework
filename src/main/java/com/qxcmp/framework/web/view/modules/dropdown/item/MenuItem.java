@@ -7,9 +7,16 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * 子菜单项
+ * <p>
+ * 可嵌套
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
-public class MenuDropdownItem extends AbstractTextDropdownItem {
+public class MenuItem extends AbstractTextDropdownItem implements DropdownItem {
 
     /**
      * 子菜单打开方向，只支持 LEFT, RIGHT
@@ -21,17 +28,23 @@ public class MenuDropdownItem extends AbstractTextDropdownItem {
      */
     private List<AbstractDropdownItem> items = Lists.newArrayList();
 
+    public MenuItem addItem(AbstractDropdownItem item) {
+        items.add(item);
+        return this;
+    }
+
+    public MenuItem(String text) {
+        super(text);
+    }
+
     @Override
     public String getFragmentName() {
         return "item-menu";
     }
 
-    @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder(super.getClassName());
-
-        stringBuilder.append(" item");
-
-        return stringBuilder.toString();
+    public MenuItem setDirection(Direction direction) {
+        this.direction = direction;
+        return this;
     }
+
 }

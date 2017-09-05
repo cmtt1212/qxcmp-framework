@@ -22,4 +22,9 @@ public abstract class AbstractDropdownMenu extends AbstractComponent {
     public String getFragmentName() {
         return "menu";
     }
+
+    @Override
+    public String getClassSuffix() {
+        return "menu";
+    }
 }

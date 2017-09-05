@@ -104,10 +104,6 @@ public class DropdownConfig {
         hover, click
     }
 
-    public enum TransitionEnum {
-        auto
-    }
-
     public enum MatchEnum {
         both, value, text
     }

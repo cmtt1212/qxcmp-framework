@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.TextDropdown"*/-->
-<th:block th:fragment="menu(component)">
-    <div th:id="|dropdown-${component.id}|" th:class="${component.getClassName()}">
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Dropdown"*/-->
+<th:block th:fragment="dropdown(component)">
+    <div th:id="${component.id}" th:class="${component.getClassName()}">
         <span class="text" th:utext="${component.text}"></span>
         <i class="dropdown icon"></i>
-        <div class="menu">
-            <th:block th:each="item : ${component.items}">
-                <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
-            </th:block>
-        </div>
+        <div th:replace="~{qxcmp/globals/components :: component(${component.menu})}"></div>
     </div>
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
@@ -29,22 +25,16 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Selection"*/-->
-<th:block th:fragment="select(component)">
-    <div th:id="|dropdown-${component.id}|" th:class="${component.getClassName()}">
-        <input th:name="${component.name}"/>
-        <i class="dropdown icon"></i>
-        <div class="default text" th:utext="${component.placeholder}"></div>
-        <div class="menu">
-            <th:block th:each="item : ${component.items}">
-                <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
-            </th:block>
-        </div>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.DropdownMenu"*/-->
+<th:block th:fragment="menu(component)">
+    <div th:class="${component.getClassName()}">
+        <th:block th:each="item : ${component.items}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.item})}"></div>
+        </th:block>
     </div>
-    <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.TextDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.TextItem"*/-->
 <th:block th:fragment="item-text(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         [[${component.text}]]
@@ -106,7 +96,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.MenuDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.MenuItem"*/-->
 <th:block th:fragment="item-menu(component)">
     <div th:class="${component.getClassName()}">
         <i th:class="|${component.direction.getClassName()} dropdown icon|"></i>

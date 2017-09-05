@@ -7,19 +7,20 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Direction {
     NONE(""),
-    LEFT("left"),
-    RIGHT("right"),
-    TOP("top"),
-    BOTTOM("bottom"),
-    BELOW("below");
+    LEFT(" left"),
+    RIGHT(" right"),
+    TOP(" top"),
+    BOTTOM(" bottom"),
+    BELOW(" below");
 
-    private String className;
+    private String value;
 
-    Direction(String className) {
-        this.className = className;
+    Direction(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }
