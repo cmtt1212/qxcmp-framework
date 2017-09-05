@@ -7,6 +7,8 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Corner {
     NONE(""),
+    LEFT(" left corner"),
+    RIGHT(" right corner"),
     TOP_LEFT(" top left corner"),
     TOP_RIGHT(" top right corner"),
     BOTTOM_LEFT(" bottom left corner"),

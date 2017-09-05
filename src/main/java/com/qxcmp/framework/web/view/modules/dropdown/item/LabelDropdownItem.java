@@ -18,7 +18,6 @@ public class LabelDropdownItem extends AbstractSelectionItem {
 
     public LabelDropdownItem() {
         Label label = new Label("");
-        label.setEmptyCircular(true);
         this.label = label;
     }
 
