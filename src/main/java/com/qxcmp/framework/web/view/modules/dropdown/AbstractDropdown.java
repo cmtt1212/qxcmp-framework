@@ -10,29 +10,16 @@ import org.apache.commons.lang3.RandomStringUtils;
 public abstract class AbstractDropdown extends AbstractComponent {
 
     /**
-     * 每个下拉框拥有一个10位数字的随机ID
+     * 下拉框ID
+     * <p>
+     * 用于 JS 初始化
      */
-    private String id = RandomStringUtils.randomAlphanumeric(10);
+    private String id = "dropdown-" + RandomStringUtils.randomAlphanumeric(10);
 
     /**
-     * 是否显示滚动条
+     * JS 配置
      */
-    private boolean scrolling;
-
-    /**
-     * 是否为紧凑样式
-     */
-    private boolean compact;
-
-    /**
-     * 是否占满父容器
-     */
-    private boolean fluid;
-
-    /**
-     * 是否为内敛显示
-     */
-    private boolean inline;
+    private DropdownConfig dropdownConfig;
 
     /**
      * 是否为加载状态
@@ -45,43 +32,30 @@ public abstract class AbstractDropdown extends AbstractComponent {
     private boolean error;
 
     /**
-     * JS 配置
+     * 是否为禁用状态
      */
-    private DropdownConfig dropdownConfig;
+    private boolean disabled;
+
+    /**
+     * 是否显示滚动条
+     */
+    private boolean scrolling;
+
+    /**
+     * 是否移除最小宽度
+     * <p>
+     * 将根据内容的宽度自动调整
+     */
+    private boolean compact;
+
+    /**
+     * 是否占满父容器
+     */
+    private boolean fluid;
 
     @Override
     public String getFragmentFile() {
         return "qxcmp/modules/dropdown";
     }
 
-    @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder("ui");
-
-        if (scrolling) {
-            stringBuilder.append(" scrolling");
-        }
-
-        if (compact) {
-            stringBuilder.append(" compact");
-        }
-
-        if (fluid) {
-            stringBuilder.append(" fluid");
-        }
-
-        if (inline) {
-            stringBuilder.append(" inline");
-        }
-
-        if (loading) {
-            stringBuilder.append(" loading");
-        }
-
-        if (error) {
-            stringBuilder.append(" error");
-        }
-
-        return stringBuilder.toString();
-    }
 }

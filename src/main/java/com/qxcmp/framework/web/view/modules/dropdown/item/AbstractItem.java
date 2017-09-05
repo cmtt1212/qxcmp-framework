@@ -8,6 +8,11 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractItem extends AbstractComponent {
 
+    /**
+     * 是否为禁用状态
+     */
+    private boolean disabled;
+
     @Override
     public String getFragmentFile() {
         return "qxcmp/modules/dropdown";
