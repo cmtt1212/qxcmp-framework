@@ -1,5 +1,6 @@
-package com.qxcmp.framework.web.controller.sample;
+package com.qxcmp.framework.web.controller.sample.elements;
 
+import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.containers.grid.Col;
 import com.qxcmp.framework.web.view.containers.grid.Grid;
