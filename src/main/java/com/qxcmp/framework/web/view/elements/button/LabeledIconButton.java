@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view.elements.button;
 
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class LabeledIconButton extends AbstractButton {
     /**
      * 按钮图标
      */
-    private String icon;
+    private Icon icon;
 
     /**
      * 按钮文本
@@ -27,9 +28,9 @@ public class LabeledIconButton extends AbstractButton {
      */
     private boolean rightIcon;
 
-    public LabeledIconButton(String text, String icon) {
-        this.text = text;
+    public LabeledIconButton(String text, Icon icon) {
         this.icon = icon;
+        this.text = text;
     }
 
     @Override
@@ -38,13 +39,12 @@ public class LabeledIconButton extends AbstractButton {
     }
 
     @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder(super.getClassName()).append(" labeled icon");
+    public String getClassContent() {
+        return super.getClassContent() + (rightIcon ? " right labeled icon" : " labeled icon");
+    }
 
-        if (rightIcon) {
-            stringBuilder.append(" right labeled");
-        }
-
-        return stringBuilder.toString();
+    public LabeledIconButton setRightIcon() {
+        this.rightIcon = true;
+        return this;
     }
 }

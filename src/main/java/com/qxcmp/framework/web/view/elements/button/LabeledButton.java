@@ -5,8 +5,6 @@ import com.qxcmp.framework.web.view.support.Color;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Objects;
-
 /**
  * 带标签的按钮
  *
@@ -16,17 +14,29 @@ import java.util.Objects;
 @Setter
 public class LabeledButton extends AbstractButton {
 
-    private boolean left;
+    /**
+     * 标签是否靠左
+     */
+    private boolean leftLabel;
 
+    /**
+     * 按钮类型
+     */
     private AbstractButton button;
 
+    /**
+     * 标签类型
+     */
     private Label label;
 
     public LabeledButton(String buttonText, String labelText) {
-        Button button = new Button();
-        button.setText(buttonText);
-        this.button = button;
+        this.button = new Button(buttonText);
         this.label = new Label(labelText);
+    }
+
+    public LabeledButton(AbstractButton button, Label label) {
+        this.button = button;
+        this.label = label;
     }
 
     @Override
@@ -35,24 +45,19 @@ public class LabeledButton extends AbstractButton {
     }
 
     @Override
-    public void setColor(Color color) {
-        if (Objects.nonNull(button)) {
-            button.setColor(color);
-        }
-
-        if (Objects.nonNull(label)) {
-            label.setColor(color);
-        }
+    public String getClassContent() {
+        return super.getClassContent() + (leftLabel ? " left labeled" : " labeled");
     }
 
     @Override
-    public String getClassName() {
-        final StringBuilder stringBuilder = new StringBuilder(super.getClassName()).append(" labeled");
+    public AbstractButton setColor(Color color) {
+        this.button.setColor(color);
+        this.label.setColor(color);
+        return super.setColor(color);
+    }
 
-        if (left) {
-            stringBuilder.append(" left labeled");
-        }
-
-        return stringBuilder.toString();
+    public LabeledButton setLeftLabel() {
+        this.leftLabel = true;
+        return this;
     }
 }

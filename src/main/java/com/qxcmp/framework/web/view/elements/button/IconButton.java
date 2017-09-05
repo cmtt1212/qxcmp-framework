@@ -19,13 +19,17 @@ public class IconButton extends AbstractButton {
         this.icon = new Icon(iconName);
     }
 
+    public IconButton(Icon icon) {
+        this.icon = icon;
+    }
+
     @Override
     public String getFragmentName() {
         return "icon";
     }
 
     @Override
-    public String getClassName() {
-        return super.getClassName() + " icon";
+    public String getClassContent() {
+        return super.getClassContent() + " icon";
     }
 }

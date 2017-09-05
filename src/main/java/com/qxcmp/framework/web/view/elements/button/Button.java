@@ -16,4 +16,8 @@ public class Button extends AbstractButton {
      * 按钮文本
      */
     private String text;
+
+    public Button(String text) {
+        this.text = text;
+    }
 }
