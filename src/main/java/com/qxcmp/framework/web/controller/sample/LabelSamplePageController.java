@@ -7,7 +7,7 @@ import com.qxcmp.framework.web.view.containers.grid.Row;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
-import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.elements.label.ImageLabel;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
@@ -26,16 +26,23 @@ public class LabelSamplePageController extends AbstractSamplePageController {
         return page(() -> new Container().addComponent(new Grid().setColumnCount(ColumnCount.TWO)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createLabelSegment()))
+                        .addCol(new Col().addComponent(createImageLabelSegment()))
                 )));
     }
 
     private Component createLabelSegment() {
         return new Segment().addComponent(new ContentHeader("标准标签", Size.LARGE))
-                .addComponent(new Label("标签文本").setColor(randomColor()))
-                .addComponent(new Label("标签文本").setIcon(new Icon("user")).setColor(randomColor()))
-                .addComponent(new Label("标签文本").setIcon(new Icon("user")).setDetails("标签详情").setColor(randomColor()))
-                .addComponent(new Label("标签文本").setImage(qxcmpConfiguration.getLogo()).setColor(randomColor()))
-                .addComponent(new Label("标签文本").setImage(qxcmpConfiguration.getLogo()).setDetails("标签详情").setColor(randomColor()))
+                .addComponent(new Label("标签文本").setColor(randomColor()).setUrl("#"))
+                .addComponent(new Label("标签文本").setDetails("标签详情").setColor(randomColor()).setUrl("#"))
+                .addComponent(new Label("标签文本").setIcon(new Icon("user")).setColor(randomColor()).setUrl("#"))
+                .addComponent(new Label("标签文本").setImage(qxcmpConfiguration.getLogo()).setColor(randomColor()).setUrl("#"))
+                ;
+    }
+
+    private Component createImageLabelSegment() {
+        return new Segment().addComponent(new ContentHeader("图片标签", Size.LARGE))
+                .addComponent(new ImageLabel("标签文本", qxcmpConfiguration.getLogo()).setColor(randomColor()).setUrl("#"))
+                .addComponent(new ImageLabel("标签文本", qxcmpConfiguration.getLogo()).setDetails("标签详情").setColor(randomColor()).setUrl("#"))
                 ;
     }
 

@@ -10,4 +10,9 @@ public class ImageLabel extends Label {
         super(text);
         setImage(image);
     }
+
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " image";
+    }
 }

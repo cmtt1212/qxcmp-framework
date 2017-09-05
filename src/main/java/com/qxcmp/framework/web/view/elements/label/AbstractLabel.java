@@ -24,6 +24,8 @@ public abstract class AbstractLabel extends AbstractComponent {
 
     /**
      * 标签补充文本
+     * <p>
+     * 补充文本仅只用于标准标签
      */
     private String details;
 
