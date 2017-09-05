@@ -19,7 +19,7 @@ public abstract class AbstractDropdown extends AbstractComponent {
     /**
      * JS 配置
      */
-    private DropdownConfig dropdownConfig;
+    private DropdownConfig config;
 
     /**
      * 下拉框文本
@@ -109,6 +109,11 @@ public abstract class AbstractDropdown extends AbstractComponent {
     @Override
     public String getClassSuffix() {
         return "dropdown";
+    }
+
+    public AbstractDropdown setConfig(DropdownConfig config) {
+        this.config = config;
+        return this;
     }
 
     public AbstractDropdown setLoading() {

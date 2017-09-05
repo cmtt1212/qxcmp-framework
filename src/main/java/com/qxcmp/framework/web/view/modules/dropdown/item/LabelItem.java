@@ -23,6 +23,16 @@ public class LabelItem extends AbstractTextDropdownItem implements DropdownItem,
         this.label = label;
     }
 
+    public LabelItem(String text, String value, String labelText) {
+        super(text, value);
+        this.label = new Label(labelText);
+    }
+
+    public LabelItem(String text, String value, AbstractLabel label) {
+        super(text, value);
+        this.label = label;
+    }
+
     @Override
     public String getFragmentName() {
         return "item-label";

@@ -27,6 +27,16 @@ public class IconItem extends AbstractTextDropdownItem implements DropdownItem, 
         this.icon = icon;
     }
 
+    public IconItem(String text, String value, String iconName) {
+        super(text, value);
+        this.icon = new Icon(iconName);
+    }
+
+    public IconItem(String text, String value, Icon icon) {
+        super(text, value);
+        this.icon = icon;
+    }
+
     @Override
     public String getFragmentName() {
         return "item-icon";

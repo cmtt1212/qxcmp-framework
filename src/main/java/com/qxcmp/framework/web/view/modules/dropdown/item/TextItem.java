@@ -11,6 +11,10 @@ public class TextItem extends AbstractTextDropdownItem implements DropdownItem, 
         super(text);
     }
 
+    public TextItem(String text, String value) {
+        super(text, value);
+    }
+
     @Override
     public String getFragmentName() {
         return "item-text";

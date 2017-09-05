@@ -33,6 +33,11 @@ public class MenuItem extends AbstractTextDropdownItem implements DropdownItem {
         return this;
     }
 
+    public MenuItem addItems(List<? extends AbstractDropdownItem> items) {
+        this.items.addAll(items);
+        return this;
+    }
+
     public MenuItem(String text) {
         super(text);
     }

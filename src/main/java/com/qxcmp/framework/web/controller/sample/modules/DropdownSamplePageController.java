@@ -10,12 +10,10 @@ import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.label.EmptyCircularLabel;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.modules.dropdown.Dropdown;
-import com.qxcmp.framework.web.view.modules.dropdown.DropdownMenu;
-import com.qxcmp.framework.web.view.modules.dropdown.Selection;
-import com.qxcmp.framework.web.view.modules.dropdown.SelectionMenu;
+import com.qxcmp.framework.web.view.modules.dropdown.*;
 import com.qxcmp.framework.web.view.modules.dropdown.item.*;
 import com.qxcmp.framework.web.view.support.ColumnCount;
+import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Size;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
@@ -42,6 +40,7 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
     private Component createSelectionSegment() {
         return new Segment().addComponent(new ContentHeader("选择框", Size.LARGE).setDividing())
                 .addComponent(new Selection("国家").setMenu(createSelectionMenu()))
+                .addComponent(new Selection("国家").setMenu(createSelectionMenu()).setSearch().setMultiple().setConfig(DropdownConfig.builder().maxSelections(3).build()).setFluid())
                 ;
     }
 
@@ -74,6 +73,8 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
                 .addItem(new HeaderItem("第四组问题", "help"))
                 .addItem(new DividerItem())
                 .addItems(createLabelItems())
+                .addItem(new DividerItem())
+                .addItem(createSubMenu())
                 ;
     }
 
@@ -81,7 +82,7 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
         List<TextItem> items = Lists.newArrayList();
         int count = new Random().nextInt(3) + 1;
         for (int i = 0; i < count; i++) {
-            items.add(new TextItem(RandomStringUtils.randomAlphabetic(5, 10)));
+            items.add(new TextItem("选项文本", RandomStringUtils.randomAlphabetic(5)));
         }
         return items;
     }
@@ -90,7 +91,7 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
         List<IconItem> items = Lists.newArrayList();
         int count = new Random().nextInt(3) + 1;
         for (int i = 0; i < count; i++) {
-            items.add(new IconItem("选项文本", "user"));
+            items.add(new IconItem("选项文本", RandomStringUtils.randomAlphabetic(5), "user"));
         }
         return items;
     }
@@ -99,7 +100,7 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
         List<ImageItem> items = Lists.newArrayList();
         int count = new Random().nextInt(3) + 1;
         for (int i = 0; i < count; i++) {
-            items.add(new ImageItem("选项文本", qxcmpConfiguration.getLogo()));
+            items.add(new ImageItem("选项文本", RandomStringUtils.randomAlphabetic(5), qxcmpConfiguration.getLogo()));
         }
         return items;
     }
@@ -108,8 +109,17 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
         List<LabelItem> items = Lists.newArrayList();
         int count = new Random().nextInt(3) + 1;
         for (int i = 0; i < count; i++) {
-            items.add(new LabelItem("选项文本", new EmptyCircularLabel().setColor(randomColor())));
+            items.add(new LabelItem("选项文本", RandomStringUtils.randomAlphabetic(5), new EmptyCircularLabel().setColor(randomColor())));
         }
         return items;
+    }
+
+    private MenuItem createSubMenu() {
+        return new MenuItem("子菜单").setDirection(Direction.LEFT)
+                .addItems(createTextItems())
+                .addItems(createIconItems())
+                .addItems(createImageItems())
+                .addItems(createLabelItems())
+                ;
     }
 }

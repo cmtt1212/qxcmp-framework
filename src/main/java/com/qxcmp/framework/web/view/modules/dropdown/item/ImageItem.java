@@ -23,6 +23,17 @@ public class ImageItem extends AbstractTextDropdownItem implements DropdownItem,
         this.image = image;
     }
 
+    public ImageItem(String text, String value, String source) {
+        super(text, value);
+        this.image = new Image(source);
+    }
+
+
+    public ImageItem(String text, String value, AbstractImage image) {
+        super(text, value);
+        this.image = image;
+    }
+
     @Override
     public String getFragmentName() {
         return "item-image";
