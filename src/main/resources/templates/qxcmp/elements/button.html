@@ -56,5 +56,14 @@
         <span th:utext="${component.text}"></span>
     </button>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.AbstractButtons"*/-->
+<th:block th:fragment="buttons(component)">
+    <div th:class="${component.getClassName()}">
+        <th:block th:each="button : ${component.buttons}">
+            <div th:replace="~{qxcmp/globals/components :: component(${button})}"></div>
+        </th:block>
+    </div>
+</th:block>
 </body>
 </html>

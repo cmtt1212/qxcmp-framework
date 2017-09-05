@@ -6,6 +6,7 @@ import com.qxcmp.framework.web.view.containers.grid.Grid;
 import com.qxcmp.framework.web.view.containers.grid.Row;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.IconButton;
+import com.qxcmp.framework.web.view.elements.button.IconButtons;
 import com.qxcmp.framework.web.view.elements.button.LabeledButton;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
@@ -30,7 +31,17 @@ public class ButtonSamplePageController extends AbstractSamplePageController {
                         .addCol(new Col().addComponent(createStandardButtonSegment()))
                         .addCol(new Col().addComponent(createIconButtonSegment()))
                         .addCol(new Col().addComponent(createLabeledButtonSegment()))
+                        .addCol(new Col().addComponent(createIconButtonsSegment()))
                 )));
+    }
+
+    private Component createIconButtonsSegment() {
+        return new Segment().addComponent(new ContentHeader("图标按钮组", Size.LARGE).setDividing())
+                .addComponent(new IconButtons().setColor(randomColor())
+                        .addButton(new IconButton("play"))
+                        .addButton(new IconButton("pause"))
+                        .addButton(new IconButton("shuffle"))
+                );
     }
 
     private Component createStandardButtonSegment() {

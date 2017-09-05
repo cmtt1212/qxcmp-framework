@@ -10,5 +10,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class IconButtons {
+public class IconButtons extends Buttons {
+
+    public AbstractButtons addButton(IconButton button) {
+        return super.addButton(button);
+    }
+
+    @Override
+    public String getClassContent() {
+        return super.getClassContent() + " icon";
+    }
 }

@@ -7,30 +7,31 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum ItemCount {
     NONE(""),
-    ONE("one item"),
-    TWO("two item"),
-    THREE("three item"),
-    FOUR("four item"),
-    FIVE("five item"),
-    SIX("six item"),
-    SEVEN("seven item"),
-    EIGHT("eight item"),
-    NINE("nine item"),
-    TEN("ten item"),
-    ELEVEN("eleven item"),
-    TWELVE("twelve item"),
-    THIRTEEN("thirteen item"),
-    FOURTEEN("fourteen item"),
-    FIFTEEN("fifteen item"),
-    SIXTEEN("sixteen item");
+    ONE(" one item"),
+    TWO(" two item"),
+    THREE(" three item"),
+    FOUR(" four item"),
+    FIVE(" five item"),
+    SIX(" six item"),
+    SEVEN(" seven item"),
+    EIGHT(" eight item"),
+    NINE(" nine item"),
+    TEN(" ten item"),
+    ELEVEN(" eleven item"),
+    TWELVE(" twelve item"),
+    THIRTEEN(" thirteen item"),
+    FOURTEEN(" fourteen item"),
+    FIFTEEN(" fifteen item"),
+    SIXTEEN(" sixteen item");
 
-    private String className;
+    private String value;
 
-    ItemCount(String className) {
-        this.className = className;
+    ItemCount(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }

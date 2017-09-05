@@ -10,5 +10,5 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Buttons {
+public class Buttons extends AbstractButtons {
 }
