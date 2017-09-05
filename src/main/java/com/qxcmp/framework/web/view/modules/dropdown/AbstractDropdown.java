@@ -58,4 +58,74 @@ public abstract class AbstractDropdown extends AbstractComponent {
         return "qxcmp/modules/dropdown";
     }
 
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        if (loading) {
+            stringBuilder.append(" loading");
+        }
+
+        if (error) {
+            stringBuilder.append(" error");
+        }
+
+        if (disabled) {
+            stringBuilder.append(" disabled");
+        }
+
+        if (scrolling) {
+            stringBuilder.append(" scrolling");
+        }
+
+        if (compact) {
+            stringBuilder.append(" compact");
+        }
+
+        if (fluid) {
+            stringBuilder.append(" fluid");
+        }
+
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "dropdown";
+    }
+
+    public AbstractDropdown setLoading() {
+        this.loading = true;
+        return this;
+    }
+
+    public AbstractDropdown setError() {
+        setError(true);
+        return this;
+    }
+
+    public AbstractDropdown setDisabled() {
+        setDisabled(true);
+        return this;
+    }
+
+    public AbstractDropdown setScrolling() {
+        setScrolling(true);
+        return this;
+    }
+
+    public AbstractDropdown setCompact() {
+        setCompact(true);
+        return this;
+    }
+
+    public AbstractDropdown setFluid() {
+        setFluid(true);
+        return this;
+    }
 }

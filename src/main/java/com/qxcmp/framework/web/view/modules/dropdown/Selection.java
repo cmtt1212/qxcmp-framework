@@ -39,4 +39,38 @@ public class Selection extends AbstractDropdown {
      */
     private SelectionMenu menu;
 
+    @Override
+    public String getFragmentName() {
+        return "selection";
+    }
+
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
+
+        if (search) {
+            stringBuilder.append(" search");
+        }
+
+        if (multiple) {
+            stringBuilder.append(" multiple");
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public Selection setSearch() {
+        setSearch(true);
+        return this;
+    }
+
+    public Selection setMultiple() {
+        setMultiple(true);
+        return this;
+    }
+
+    public Selection setMenu(SelectionMenu menu) {
+        this.menu = menu;
+        return this;
+    }
 }

@@ -63,12 +63,12 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.DividerDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.DividerItem"*/-->
 <th:block th:fragment="item-divider(component)">
     <div class="divider"></div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.IconDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.IconItem"*/-->
 <th:block th:fragment="item-icon(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         <i th:class="|${component.icon} icon|"></i>
@@ -78,7 +78,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.ImageDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.ImageItem"*/-->
 <th:block th:fragment="item-image(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         <img th:class="|ui ${component.avatar ? 'avatar' : ''} image|" th:src="@{${component.image}}"/>
@@ -88,7 +88,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.LabelDropdownItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.LabelItem"*/-->
 <th:block th:fragment="item-label(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.label})}"></div>

@@ -36,4 +36,30 @@ public class Dropdown extends AbstractDropdown {
      */
     private DropdownMenu menu;
 
+    @Override
+    public String getFragmentName() {
+        return "dropdown";
+    }
+
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
+
+        if (inline) {
+            stringBuilder.append(" inline");
+        }
+
+        if (floating) {
+            stringBuilder.append(" floating");
+        }
+
+        stringBuilder.append(pointing);
+
+        return stringBuilder.toString();
+    }
+
+    public Dropdown setMenu(DropdownMenu menu) {
+        this.menu = menu;
+        return this;
+    }
 }
