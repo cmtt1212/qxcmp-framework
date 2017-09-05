@@ -17,4 +17,9 @@ public class SelectionMenu extends AbstractDropdownMenu {
         items.add(item);
         return this;
     }
+
+    public SelectionMenu addItems(List<? extends SelectionItem> items) {
+        this.items.addAll(items);
+        return this;
+    }
 }
