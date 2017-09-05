@@ -20,11 +20,6 @@ public class Selection extends AbstractDropdown {
     private String name;
 
     /**
-     * 默认文本
-     */
-    private String placeholder;
-
-    /**
      * 是否开启搜索
      */
     private boolean search;
@@ -38,6 +33,13 @@ public class Selection extends AbstractDropdown {
      * 选择框选项菜单
      */
     private SelectionMenu menu;
+
+    public Selection() {
+    }
+
+    public Selection(String text) {
+        super(text);
+    }
 
     @Override
     public String getFragmentName() {
@@ -57,6 +59,11 @@ public class Selection extends AbstractDropdown {
         }
 
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "selection dropdown";
     }
 
     public Selection setSearch() {

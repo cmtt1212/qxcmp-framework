@@ -11,16 +11,13 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Dropdown"*/-->
-<th:block th:fragment="button(component)">
-    <div th:id="|dropdown-${component.id}|" th:class="${component.getClassName()}">
-        <i th:unless="${#strings.isEmpty(component.icon)}" th:class="|${component.icon} icon|"></i>
-        <span th:unless="${#strings.isEmpty(component.text)}" class="text" th:utext="${component.text}"></span>
-        <div class="menu">
-            <th:block th:each="item : ${component.items}">
-                <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
-            </th:block>
-        </div>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Selection"*/-->
+<th:block th:fragment="selection(component)">
+    <div th:id="${component.id}" th:class="${component.getClassName()}">
+        <input th:name="${component.name}" type="hidden"/>
+        <i class="dropdown icon"></i>
+        <div class="default text" th:utext="${component.text}"></div>
+        <div th:replace="~{qxcmp/globals/components :: component(${component.menu})}"></div>
     </div>
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
@@ -113,7 +110,7 @@
 <th:block th:fragment="scripts(dropdown)">
     <script th:inline="javascript">
         $(document).ready(function () {
-            var dropdownId = /*[[|#dropdown-${dropdown.id}|]]*/ "";
+            var dropdownId = /*[[|#${dropdown.id}|]]*/ "";
             var dropdownConfig = /*[[${dropdown.dropdownConfig}]]*/ {};
             $(dropdownId).dropdown(dropdownConfig);
         });

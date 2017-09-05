@@ -16,11 +16,6 @@ import lombok.Setter;
 public class Dropdown extends AbstractDropdown {
 
     /**
-     * 下拉框文本
-     */
-    private String text;
-
-    /**
      * 是否为内敛显示
      */
     private boolean inline;
@@ -40,8 +35,11 @@ public class Dropdown extends AbstractDropdown {
      */
     private DropdownMenu menu;
 
+    public Dropdown() {
+    }
+
     public Dropdown(String text) {
-        this.text = text;
+        super(text);
     }
 
     @Override

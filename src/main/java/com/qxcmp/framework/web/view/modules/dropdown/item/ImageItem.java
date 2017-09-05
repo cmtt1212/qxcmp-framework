@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ImageItem extends AbstractTextDropdownItem {
+public class ImageItem extends AbstractTextDropdownItem implements DropdownItem, SelectionItem {
 
     /**
      * 图片

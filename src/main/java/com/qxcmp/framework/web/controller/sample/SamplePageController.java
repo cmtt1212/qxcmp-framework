@@ -26,18 +26,18 @@ public class SamplePageController extends AbstractSamplePageController {
             grid.setAlignment(Alignment.CENTER);
             grid
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("无行为元素"))).addCol(new Col(Wide.SIXTEEN)
-                            .addComponent(new BasicLabel("基本元素").setUrl("/test/sample/html"))
-                            .addComponent(new BasicLabel("按钮").setUrl("/test/sample/button"))
-                            .addComponent(new BasicLabel("分隔符").setUrl("/test/sample/divider"))
-                            .addComponent(new BasicLabel("页眉").setUrl("/test/sample/header"))
-                            .addComponent(new BasicLabel("图标").setUrl("/test/sample/icon"))
-                            .addComponent(new BasicLabel("图片").setUrl("/test/sample/image"))
-                            .addComponent(new BasicLabel("标签").setUrl("/test/sample/label"))
+                            .addComponent(new BasicLabel("基本元素").setUrl("/test/sample/html").setColor(randomColor()))
+                            .addComponent(new BasicLabel("按钮").setUrl("/test/sample/button").setColor(randomColor()))
+                            .addComponent(new BasicLabel("分隔符").setUrl("/test/sample/divider").setColor(randomColor()))
+                            .addComponent(new BasicLabel("页眉").setUrl("/test/sample/header").setColor(randomColor()))
+                            .addComponent(new BasicLabel("图标").setUrl("/test/sample/icon").setColor(randomColor()))
+                            .addComponent(new BasicLabel("图片").setUrl("/test/sample/image").setColor(randomColor()))
+                            .addComponent(new BasicLabel("标签").setUrl("/test/sample/label").setColor(randomColor()))
                     ))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("集合元素"))).addCol(new Col(Wide.SIXTEEN)))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("常用视图"))).addCol(new Col(Wide.SIXTEEN)))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("带行为组件"))).addCol(new Col(Wide.SIXTEEN)
-                            .addComponent(new BasicLabel("下拉框").setUrl("/test/sample/dropdown"))
+                            .addComponent(new BasicLabel("下拉框").setUrl("/test/sample/dropdown").setColor(randomColor()))
                     ));
 
             return new Container().addComponent(grid);

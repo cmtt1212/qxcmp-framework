@@ -10,6 +10,8 @@ import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.dropdown.Dropdown;
 import com.qxcmp.framework.web.view.modules.dropdown.DropdownMenu;
+import com.qxcmp.framework.web.view.modules.dropdown.Selection;
+import com.qxcmp.framework.web.view.modules.dropdown.SelectionMenu;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Size;
 import org.springframework.stereotype.Controller;
@@ -19,14 +21,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test/sample/dropdown")
-public class DropdownSamplePageController extends AbstractSamplePageController{
+public class DropdownSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
         return page(() -> new Container().addComponent(new Grid().setColumnCount(ColumnCount.TWO)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createDropdownSegment()))
+                        .addCol(new Col().addComponent(createSelectionSegment()))
                 )));
+    }
+
+    private Component createSelectionSegment() {
+        return new Segment().addComponent(new ContentHeader("选择框", Size.LARGE).setDividing())
+                .addComponent(new Selection("国家").setMenu(new SelectionMenu()))
+                ;
     }
 
     private Component createDropdownSegment() {

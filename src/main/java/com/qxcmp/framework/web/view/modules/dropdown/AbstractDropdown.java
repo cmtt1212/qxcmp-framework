@@ -22,6 +22,11 @@ public abstract class AbstractDropdown extends AbstractComponent {
     private DropdownConfig dropdownConfig;
 
     /**
+     * 下拉框文本
+     */
+    private String text;
+
+    /**
      * 是否为加载状态
      */
     private boolean loading;
@@ -52,6 +57,13 @@ public abstract class AbstractDropdown extends AbstractComponent {
      * 是否占满父容器
      */
     private boolean fluid;
+
+    public AbstractDropdown() {
+    }
+
+    public AbstractDropdown(String text) {
+        this.text = text;
+    }
 
     @Override
     public String getFragmentFile() {

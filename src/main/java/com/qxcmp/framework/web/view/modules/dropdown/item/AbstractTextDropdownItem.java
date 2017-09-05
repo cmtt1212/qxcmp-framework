@@ -13,6 +13,13 @@ public abstract class AbstractTextDropdownItem extends AbstractDropdownItem {
     private String text;
 
     /**
+     * 选项值
+     * <p>
+     * 当选项支持选择框选项时需要使用该值
+     */
+    private String value;
+
+    /**
      * 选项描述，靠右侧显示
      * <p>
      * 当使用该属性且下拉框为按钮形式的时候，需要保证下拉框的宽度足够
@@ -26,6 +33,12 @@ public abstract class AbstractTextDropdownItem extends AbstractDropdownItem {
 
     public AbstractTextDropdownItem(String text) {
         this.text = text;
+        this.value = text;
+    }
+
+    public AbstractTextDropdownItem(String text, String value) {
+        this.text = text;
+        this.value = value;
     }
 
     @Override
