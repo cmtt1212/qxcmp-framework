@@ -25,7 +25,7 @@
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.label.Labels"*/-->
-<th:block th:fragment="group(component)">
+<th:block th:fragment="labels(component)">
     <div th:class="${component.getClassName()}">
         <th:block th:each="label : ${component.labels}">
             <div th:replace="~{qxcmp/globals/components :: component(${label})}"></div>
