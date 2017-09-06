@@ -10,6 +10,8 @@ import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.input.IconInput;
 import com.qxcmp.framework.web.view.elements.label.EmptyCircularLabel;
+import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
+import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.dropdown.*;
 import com.qxcmp.framework.web.view.modules.dropdown.item.*;
@@ -56,7 +58,15 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
 
     private Component createDropdownSegment() {
         return new Segment().addComponent(new ContentHeader("下拉框", Size.LARGE).setDividing())
-                .addComponent(new Dropdown("密保问题").setMenu(createDropdownMenu()))
+                .addComponent(new Dropdown("密保问题").setFloating().setMenu(createDropdownMenu()))
+                .addComponent(new Dropdown("密保问题").setFloating().setMenu(createMessageDropdownMenu()))
+                ;
+    }
+
+    private DropdownMenu createMessageDropdownMenu() {
+        return new DropdownMenu()
+                .addItem(new MessageItem(new InfoMessage("您有一条新的消息", "这里是消息内容").setIcon("inbox")))
+                .addItem(new MessageItem(new ErrorMessage("您有一条新的消息", "这里是消息内容").setIcon("inbox")))
                 ;
     }
 
