@@ -1,13 +1,14 @@
 package com.qxcmp.framework.web.view.elements.html;
 
+import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 基本HTML元素
- * <p>
- * 基本元素不支持嵌套，如果嵌套需要自行组合
  *
  * @author aaric
  */
@@ -28,6 +29,20 @@ public abstract class BaseHtmlElement extends AbstractComponent {
      * 元素文本
      */
     private String text;
+
+    /**
+     * 嵌套元素
+     * <p>
+     * 嵌套元素仅支持内联元素
+     * <p>
+     * 若使用嵌套，则会忽略 text 属性，直接渲染嵌套元素
+     */
+    private List<InlineElement> inlineElements = Lists.newArrayList();
+
+    public BaseHtmlElement addInlineElement(InlineElement inlineElement) {
+        inlineElements.add(inlineElement);
+        return this;
+    }
 
     public BaseHtmlElement() {
     }

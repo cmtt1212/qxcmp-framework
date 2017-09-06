@@ -7,42 +7,69 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.Anchor"*/-->
 <th:block th:fragment="anchor(component)">
     <a th:class="${component.className}"
-       th:href="@{${component.href}}"
-       th:target="${component.target}"
-       th:attr="download=${component.download}"
-       th:utext="${component.text}"></a>
+       th:href="@{${component.href}}" th:target="${component.target}" th:attr="download=${component.download}">
+        <div th:replace="~{:: element-body(${component})}"></div>
+    </a>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.HeaderElement"*/-->
 <th:block th:fragment="h1(component)">
-    <h1 th:class="${component.className}" th:utext="${component.text}"></h1>
+    <h1 th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </h1>
 </th:block>
 <th:block th:fragment="h2(component)">
-    <h2 th:class="${component.className}" th:utext="${component.text}"></h2>
+    <h2 th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </h2>
 </th:block>
 <th:block th:fragment="h3(component)">
-    <h3 th:class="${component.className}" th:utext="${component.text}"></h3>
+    <h3 th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </h3>
 </th:block>
 <th:block th:fragment="h4(component)">
-    <h4 th:class="${component.className}" th:utext="${component.text}"></h4>
+    <h4 th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </h4>
 </th:block>
 <th:block th:fragment="h5(component)">
-    <h5 th:class="${component.className}" th:utext="${component.text}"></h5>
+    <h5 th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </h5>
 </th:block>
 <th:block th:fragment="h6(component)">
-    <h6 th:class="${component.className}" th:utext="${component.text}"></h6>
+    <h6 th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </h6>
 </th:block>
 
 <th:block th:fragment="p(component)">
-    <p th:class="${component.className}" th:utext="${component.text}"></p>
+    <p th:class="${component.className}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </p>
 </th:block>
 
 <th:block th:fragment="div(component)">
-    <div th:class="${component.className}" th:utext="${component.text}"></div>
+    <div th:class="${component.className}">
+        <div th:replace="~{:: element-body(${component})}"></div>
+    </div>
 </th:block>
 
 <th:block th:fragment="span(component)">
-    <span th:class="${component.className}" th:utext="${component.text}"></span>
+    <span th:class="${component.className}" th:utext="${component.text}">
+        <span th:replace="~{:: element-body(${component})}"></span>
+    </span>
+</th:block>
+
+<th:block th:fragment="element-body(component)">
+    <th:block th:if="${#lists.isEmpty(component.inlineElements)}">
+        [[${component.text}]]
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(component.inlineElements)}"
+              th:each="element : ${component.inlineElements}">
+        <div th:replace="~{qxcmp/globals/components :: component(${element})}"></div>
+    </th:block>
 </th:block>
 </body>
 </html>
