@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.List"*/-->
+<div th:fragment="list(component)" th:class="${component.getClassName()}">
+    <th:block th:each="item : ${component.items}">
+        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+    </th:block>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.TextItem"*/-->
+<div th:fragment="item-text(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.IconTextItem"*/-->
+<div th:fragment="item-icon-text(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+    <div th:class="|${component.contentAlignment} content|">
+        [[${component.text}]]
+    </div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.ImageTextItem"*/-->
+<div th:fragment="item-image-text(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+    <div th:class="|${component.contentAlignment} content|">
+        [[${component.text}]]
+    </div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.IconHeaderItem"*/-->
+<div th:fragment="item-icon-header(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+    <div th:class="|${component.contentAlignment} content|">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+        <th:block th:if="${component.description ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
+        </th:block>
+    </div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.ImageHeaderItem"*/-->
+<div th:fragment="item-image-header(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+    <div th:class="|${component.contentAlignment} content|">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+        <th:block th:if="${component.description ne null}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

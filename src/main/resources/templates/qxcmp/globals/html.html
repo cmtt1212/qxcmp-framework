@@ -67,10 +67,9 @@
     <th:block th:if="${#lists.isEmpty(component.inlineElements)}">
         [[${component.text}]]
     </th:block>
-    <th:block th:unless="${#lists.isEmpty(component.inlineElements)}">
-        <th:block th:each="inlineElement : ${component.inlineElements}">
-            <div th:replace="~{qxcmp/globals/components :: component(${inlineElement})}"></div>
-        </th:block>
+    <th:block th:unless="${#lists.isEmpty(component.inlineElements)}"
+              th:each="inlineElement : ${component.inlineElements}">
+        <div th:replace="~{qxcmp/globals/components :: component(${inlineElement})}"></div>
     </th:block>
 </th:block>
 </body>

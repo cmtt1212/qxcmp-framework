@@ -34,6 +34,7 @@ public class SamplePageController extends AbstractSamplePageController {
                             .addComponent(new BasicLabel("图片").setUrl("/test/sample/image").setColor(randomColor()))
                             .addComponent(new BasicLabel("标签").setUrl("/test/sample/label").setColor(randomColor()))
                             .addComponent(new BasicLabel("输入框").setUrl("/test/sample/input").setColor(randomColor()))
+                            .addComponent(new BasicLabel("列表").setUrl("/test/sample/list").setColor(randomColor()))
                     ))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("集合元素"))).addCol(new Col(Wide.SIXTEEN)))
                     .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new H2("常用视图"))).addCol(new Col(Wide.SIXTEEN)))

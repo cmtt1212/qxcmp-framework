@@ -55,4 +55,9 @@ public abstract class BaseHtmlElement extends AbstractComponent {
     public String getFragmentFile() {
         return "qxcmp/globals/html";
     }
+
+    public BaseHtmlElement setClassName(String className) {
+        this.className = className;
+        return this;
+    }
 }
