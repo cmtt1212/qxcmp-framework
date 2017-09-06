@@ -28,7 +28,7 @@ import java.util.Set;
 @RequestMapping("/test/sample/list")
 public class ListSamplePageController extends AbstractSamplePageController {
 
-    private final static String PLACEHOLDER = "/assets/images/placeholder-paragraph.png";
+    private final static String PLACEHOLDER = "/assets/images/placeholder-square.png";
 
     @GetMapping("")
     public ModelAndView sample() {
