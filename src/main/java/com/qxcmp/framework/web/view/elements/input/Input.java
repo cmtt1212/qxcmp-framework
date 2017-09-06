@@ -18,8 +18,4 @@ public class Input extends AbstractInput {
         super(placeholder, name);
     }
 
-    @Override
-    public String getFragmentName() {
-        return "input";
-    }
 }
