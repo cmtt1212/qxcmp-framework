@@ -100,9 +100,10 @@
     </div>
 </th:block>
 
-<th:block th:fragment="item-input(component)">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
-</th:block>
+<div th:fragment="item-input(component)" th:class="${component.getClassName()}">
+    <i class="search icon"></i>
+    <input type="text" name="search" th:placeholder="${component.placeholder}"/>
+</div>
 
 <th:block th:fragment="item-message(component)">
     <div th:replace="~{qxcmp/globals/components :: component(${component.message})}"></div>

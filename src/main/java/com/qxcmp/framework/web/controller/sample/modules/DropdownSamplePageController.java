@@ -8,7 +8,6 @@ import com.qxcmp.framework.web.view.containers.grid.Grid;
 import com.qxcmp.framework.web.view.containers.grid.Row;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
-import com.qxcmp.framework.web.view.elements.input.IconInput;
 import com.qxcmp.framework.web.view.elements.label.EmptyCircularLabel;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
@@ -63,7 +62,7 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
                 .addComponent(new ButtonDropdown("wrench").setColor(randomColor()).setFloating().setMenu(createDropdownMenu()))
                 .addComponent(new ButtonDropdown("wrench", "密保问题").setColor(randomColor()).setBasic().setFloating().setMenu(createDropdownMenu()))
                 .addComponent(new ButtonDropdown("wrench").setColor(randomColor()).setBasic().setFloating().setMenu(createDropdownMenu()))
-                .addComponent(new ButtonDropdown("wrench", "密保问题").setSearch().setColor(randomColor()).setFloating().setMenu(createDropdownMenu()))
+                .addComponent(new ButtonDropdown("wrench", "密保问题").setSearch().setColor(randomColor()).setFloating().setMenu(createDropdownMenu2()))
                 ;
     }
 
@@ -77,7 +76,26 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
     private DropdownMenu createDropdownMenu() {
         return new DropdownMenu()
                 .addItem(new HeaderItem("搜索问题", "search"))
-                .addItem(new InputItem(new IconInput("search", "输入搜索选项")))
+                .addItem(new InputItem("输入搜索选项").setLeftIcon())
+                .addItem(new HeaderItem("第一组问题", "help"))
+                .addItem(new DividerItem())
+                .addItems(createTextItems())
+                .addItem(new HeaderItem("第二组问题", "help"))
+                .addItem(new DividerItem())
+                .addItems(createIconItems())
+                .addItem(new HeaderItem("第三组问题", "help"))
+                .addItem(new DividerItem())
+                .addItems(createImageItems())
+                .addItem(new HeaderItem("第四组问题", "help"))
+                .addItem(new DividerItem())
+                .addItems(createLabelItems())
+                .addItem(new DividerItem())
+                .addItem(createSubMenu())
+                ;
+    }
+
+    private DropdownMenu createDropdownMenu2() {
+        return new DropdownMenu()
                 .addItem(new HeaderItem("第一组问题", "help"))
                 .addItem(new DividerItem())
                 .addItems(createTextItems())
