@@ -8,6 +8,7 @@ import com.qxcmp.framework.web.view.containers.grid.Grid;
 import com.qxcmp.framework.web.view.containers.grid.Row;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
+import com.qxcmp.framework.web.view.elements.input.IconInput;
 import com.qxcmp.framework.web.view.elements.label.EmptyCircularLabel;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.dropdown.*;
@@ -61,6 +62,8 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
 
     private DropdownMenu createDropdownMenu() {
         return new DropdownMenu()
+                .addItem(new HeaderItem("搜索问题", "search"))
+                .addItem(new InputItem(new IconInput("search", "输入搜索选项")))
                 .addItem(new HeaderItem("第一组问题", "help"))
                 .addItem(new DividerItem())
                 .addItems(createTextItems())

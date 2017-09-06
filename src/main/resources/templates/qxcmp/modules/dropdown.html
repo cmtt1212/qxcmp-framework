@@ -90,6 +90,10 @@
     </div>
 </th:block>
 
+<th:block th:fragment="item-input(component)">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
+</th:block>
+
 <th:block th:fragment="item-description(component)" th:unless="${#strings.isEmpty(component.description)}">
     <span class="description" th:utext="${component.description}"></span>
 </th:block>
