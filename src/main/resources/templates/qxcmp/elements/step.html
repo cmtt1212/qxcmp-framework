@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.step.Step"*/-->
+<th:block th:fragment="step(component)" th:class="${component.getClassName()}">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}">
+            <th:block th:if="${component.icon ne null}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            </th:block>
+            <div class="content">
+                <div class="title" th:utext="${component.title}"></div>
+                <div class="description" th:utext="${component.description}"></div>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}}" th:target="${component.target}">
+            <th:block th:if="${component.icon ne null}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            </th:block>
+            <div class="content">
+                <div class="title" th:utext="${component.title}"></div>
+                <div class="description" th:utext="${component.description}"></div>
+            </div>
+        </a>
+    </th:block>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.step.Steps"*/-->
+<div th:fragment="steps(component)" th:class="${component.getClassName()}">
+    <th:block th:each="step : ${component.steps}">
+        <div th:replace="~{qxcmp/globals/components :: component(${step})}"></div>
+    </th:block>
+</div>
+</body>
+</html>
