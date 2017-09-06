@@ -39,14 +39,12 @@
 </div>
 
 <span th:fragment="span-element(component)" th:class="${component.className}">
-        <span th:replace="~{:: element-body(${component})}"></span>
+    <span th:replace="~{:: element-body(${component})}"></span>
 </span>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.BaseHtmlElement"*/-->
 <th:block th:fragment="element-body(component)">
-    <th:block th:if="${#lists.isEmpty(component.inlineElements)}">
-        [[${component.text}]]
-    </th:block>
+    <th:block th:if="${#lists.isEmpty(component.inlineElements)}" th:utext="${component.text}"/>
     <th:block th:unless="${#lists.isEmpty(component.inlineElements)}"
               th:each="inlineElement : ${component.inlineElements}">
         <div th:replace="~{qxcmp/globals/components :: component(${inlineElement})}"></div>
