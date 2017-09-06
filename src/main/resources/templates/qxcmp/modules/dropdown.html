@@ -11,6 +11,16 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown"*/-->
+<th:block th:fragment="button(component)">
+    <div th:id="${component.id}" th:class="${component.getClassName()}">
+        <span th:if="not ${#strings.isEmpty(component.text)}" class="text" th:utext="${component.text}"></span>
+        <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        <div th:replace="~{qxcmp/globals/components :: component(${component.menu})}"></div>
+    </div>
+    <script th:replace="~{:: scripts(${component})}"></script>
+</th:block>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Selection"*/-->
 <th:block th:fragment="selection(component)">
     <div th:id="${component.id}" th:class="${component.getClassName()}">

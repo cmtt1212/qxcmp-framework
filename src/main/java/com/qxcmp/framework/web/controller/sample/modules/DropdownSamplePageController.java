@@ -58,8 +58,12 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
 
     private Component createDropdownSegment() {
         return new Segment().addComponent(new ContentHeader("下拉框", Size.LARGE).setDividing())
-                .addComponent(new Dropdown("密保问题").setFloating().setMenu(createDropdownMenu()))
                 .addComponent(new Dropdown("密保问题").setFloating().setMenu(createMessageDropdownMenu()))
+                .addComponent(new ButtonDropdown("wrench", "密保问题").setColor(randomColor()).setFloating().setMenu(createDropdownMenu()))
+                .addComponent(new ButtonDropdown("wrench").setColor(randomColor()).setFloating().setMenu(createDropdownMenu()))
+                .addComponent(new ButtonDropdown("wrench", "密保问题").setColor(randomColor()).setBasic().setFloating().setMenu(createDropdownMenu()))
+                .addComponent(new ButtonDropdown("wrench").setColor(randomColor()).setBasic().setFloating().setMenu(createDropdownMenu()))
+                .addComponent(new ButtonDropdown("wrench", "密保问题").setSearch().setColor(randomColor()).setFloating().setMenu(createDropdownMenu()))
                 ;
     }
 
