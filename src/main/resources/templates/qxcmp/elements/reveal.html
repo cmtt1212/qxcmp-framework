@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.reveal.AbstractReveal"*/-->
+<div th:fragment="default(component)" th:class="${component.getClassName()}">
+    <div class="visible content">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.visibleContent})}"></div>
+    </div>
+    <div class="hidden content">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.hiddenContent})}"></div>
+    </div>
+</div>
+
+</body>
+</html>
