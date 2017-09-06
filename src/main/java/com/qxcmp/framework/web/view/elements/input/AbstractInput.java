@@ -32,6 +32,11 @@ public abstract class AbstractInput extends AbstractComponent {
     private String name;
 
     /**
+     * 默认值
+     */
+    private String value;
+
+    /**
      * 默认文本
      */
     private String placeholder;
@@ -131,13 +136,8 @@ public abstract class AbstractInput extends AbstractComponent {
         return "input";
     }
 
-    public AbstractInput setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public AbstractInput setPlaceholder(String placeholder) {
-        this.placeholder = placeholder;
+    public AbstractInput setValue(String value) {
+        this.value = value;
         return this;
     }
 

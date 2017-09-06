@@ -16,6 +16,11 @@ import lombok.Setter;
 public class ActionInput extends AbstractComponent {
 
     /**
+     * 输入框
+     */
+    private AbstractInput input;
+
+    /**
      * 按钮
      */
     private AbstractButton button;
@@ -30,6 +35,16 @@ public class ActionInput extends AbstractComponent {
      */
     private boolean leftAction;
 
+    public ActionInput(AbstractInput input, AbstractButton button) {
+        this.input = input;
+        this.button = button;
+    }
+
+    public ActionInput(AbstractInput input, Dropdown dropdown) {
+        this.input = input;
+        this.dropdown = dropdown;
+    }
+
     @Override
     public String getFragmentFile() {
         return "qxcmp/elements/input";
@@ -38,5 +53,25 @@ public class ActionInput extends AbstractComponent {
     @Override
     public String getFragmentName() {
         return "action";
+    }
+
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        return input.getClassContent() + (leftAction ? " left" : "");
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "action input";
+    }
+
+    public ActionInput setLeftAction() {
+        setLeftAction(true);
+        return this;
     }
 }

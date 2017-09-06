@@ -68,4 +68,19 @@ public class Dropdown extends AbstractDropdown {
         this.menu = menu;
         return this;
     }
+
+    public Dropdown setInline() {
+        setInline(true);
+        return this;
+    }
+
+    public Dropdown setFloating() {
+        setFloating(true);
+        return this;
+    }
+
+    public Dropdown setPointing(DropdownPointing pointing) {
+        this.pointing = pointing;
+        return this;
+    }
 }
