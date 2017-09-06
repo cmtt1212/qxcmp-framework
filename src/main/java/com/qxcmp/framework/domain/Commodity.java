@@ -6,9 +6,11 @@ import com.qxcmp.framework.view.annotation.TableView;
 import com.qxcmp.framework.view.annotation.TableViewAction;
 import com.qxcmp.framework.view.annotation.TableViewField;
 import lombok.Data;
+import org.assertj.core.util.Sets;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
@@ -98,14 +100,14 @@ public class Commodity {
     /**
      * 商品介绍相册
      */
-    @ElementCollection
-    private List<String> albums = Lists.newArrayList();
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> albums = Sets.newLinkedHashSet();
 
     /**
      * 商品图文详情
      * <p>
      * 当前平台商品尽支持图片描述
      */
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> details = Lists.newArrayList();
 }
