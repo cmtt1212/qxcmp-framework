@@ -42,6 +42,8 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
     private Component createSelectionSegment() {
         return new Segment().addComponent(new ContentHeader("选择框", Size.LARGE).setDividing())
                 .addComponent(new Selection("国家").setMenu(createSelectionMenu()))
+                .addComponent(new Selection("国家").setSearch().setMenu(createSelectionMenu()))
+                .addComponent(new Selection("国家").setSearch().setMenu(createSelectionMenu()).setConfig(DropdownConfig.builder().fullTextSearch(true).build()))
                 .addComponent(new Selection("国家").setMenu(createSelectionMenu()).setSearch().setMultiple().setConfig(DropdownConfig.builder().maxSelections(3).build()).setFluid())
                 ;
     }
