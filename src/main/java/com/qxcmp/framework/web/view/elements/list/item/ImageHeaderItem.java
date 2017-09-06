@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.view.elements.list.item;
 
 import com.qxcmp.framework.web.view.elements.html.Div;
-import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.elements.image.AbstractImage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +17,7 @@ public class ImageHeaderItem extends AbstractListItem {
     /**
      * 图片
      */
-    private Image image;
+    private AbstractImage image;
 
     /**
      * 标题
@@ -29,13 +29,13 @@ public class ImageHeaderItem extends AbstractListItem {
      */
     private Div description;
 
-    public ImageHeaderItem(Image image, Div header) {
+    public ImageHeaderItem(AbstractImage image, Div header) {
         this.image = image;
         this.header = header;
         this.header.setClassName("header");
     }
 
-    public ImageHeaderItem(Image image, Div header, Div description) {
+    public ImageHeaderItem(AbstractImage image, Div header, Div description) {
         this.image = image;
         this.header = header;
         this.description = description;
@@ -43,13 +43,13 @@ public class ImageHeaderItem extends AbstractListItem {
         this.description.setClassName("description");
     }
 
-    public ImageHeaderItem(Image image, String header) {
+    public ImageHeaderItem(AbstractImage image, String header) {
         this.image = image;
         this.header = new Div(header);
         this.header.setClassName("header");
     }
 
-    public ImageHeaderItem(Image image, String header, String description) {
+    public ImageHeaderItem(AbstractImage image, String header, String description) {
         this.image = image;
         this.header = new Div(header);
         this.description = new Div(description);

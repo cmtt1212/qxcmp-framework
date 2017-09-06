@@ -10,12 +10,9 @@ import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
-import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.elements.image.Avatar;
 import com.qxcmp.framework.web.view.elements.list.List;
-import com.qxcmp.framework.web.view.elements.list.item.AbstractListItem;
-import com.qxcmp.framework.web.view.elements.list.item.IconHeaderItem;
-import com.qxcmp.framework.web.view.elements.list.item.ImageHeaderItem;
-import com.qxcmp.framework.web.view.elements.list.item.TextItem;
+import com.qxcmp.framework.web.view.elements.list.item.*;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Size;
@@ -25,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
-import java.util.Random;
 import java.util.Set;
 
 @Controller
@@ -92,27 +88,26 @@ public class ListSamplePageController extends AbstractSamplePageController {
 
     private Collection<AbstractListItem> createImageItems() {
         Set<AbstractListItem> iconItems = Sets.newLinkedHashSet();
-        int count = new Random().nextInt(5) + 1;
-        for (int i = 0; i < count; i++) {
-            iconItems.add(new ImageHeaderItem(new Image(qxcmpConfiguration.getLogo()), "标题", "项目描述").setUrl("/test/sample/list"));
+        for (int i = 0; i < 3; i++) {
+            iconItems.add(new ImageHeaderItem(new Avatar(PLACEHOLDER), "标题", "项目描述").setUrl("/test/sample/list"));
         }
         return iconItems;
     }
 
     private Collection<AbstractListItem> createIconItems() {
         Set<AbstractListItem> iconItems = Sets.newLinkedHashSet();
-        int count = new Random().nextInt(5) + 1;
-        for (int i = 0; i < count; i++) {
-            iconItems.add(new IconHeaderItem(new Icon("users"), "标题", "项目描述").setUrl("/test/sample/list"));
+        for (int i = 0; i < 3; i++) {
+            iconItems.add(new IconHeaderItem(new Icon("users"), "标题", "项目描述").setUrl("/test/sample/list").addItem(new IconTextItem("user", "子项目")));
         }
         return iconItems;
     }
 
     private Collection<AbstractListItem> createListTextItems() {
         Set<AbstractListItem> textItems = Sets.newLinkedHashSet();
-        int count = new Random().nextInt(5) + 1;
-        for (int i = 0; i < count; i++) {
-            textItems.add(new TextItem("列表项目").setUrl("/test/sample/list"));
+        for (int i = 0; i < 3; i++) {
+            textItems.add(new TextItem("列表项目").setUrl("/test/sample/list")
+                    .addItem(new TextItem("子项目").addItem(new TextItem("子项目")))
+                    .addItem(new TextItem("子项目")));
         }
         return textItems;
     }

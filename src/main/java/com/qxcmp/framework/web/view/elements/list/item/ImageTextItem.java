@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements.list.item;
 
-import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.elements.image.AbstractImage;
+import com.qxcmp.framework.web.view.elements.image.Avatar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,20 +17,20 @@ public class ImageTextItem extends AbstractListItem {
     /**
      * 图片
      */
-    private Image image;
+    private AbstractImage image;
 
     /**
      * 文本
      */
     private String text;
 
-    public ImageTextItem(Image image, String text) {
+    public ImageTextItem(AbstractImage image, String text) {
         this.image = image;
         this.text = text;
     }
 
     public ImageTextItem(String source, String text) {
-        this.image = new Image(source);
+        this.image = new Avatar(source);
         this.text = text;
     }
 

@@ -14,11 +14,13 @@
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">
             <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+            <div th:replace="~{:: sub-items(${component.items})}"></div>
         </div>
     </th:block>
     <th:block th:unless="${#strings.isEmpty(component.url)}">
         <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}">
             <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+            <div th:replace="~{:: sub-items(${component.items})}"></div>
         </a>
     </th:block>
 </th:block>
@@ -30,6 +32,7 @@
             <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
             <div th:class="|${component.contentAlignment} content|">
                 [[${component.text}]]
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </div>
     </th:block>
@@ -38,6 +41,7 @@
             <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
             <div th:class="|${component.contentAlignment} content|">
                 [[${component.text}]]
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </a>
     </th:block>
@@ -50,6 +54,7 @@
             <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
             <div th:class="|${component.contentAlignment} content|">
                 [[${component.text}]]
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </div>
     </th:block>
@@ -58,6 +63,7 @@
             <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
             <div th:class="|${component.contentAlignment} content|">
                 [[${component.text}]]
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </a>
     </th:block>
@@ -73,6 +79,7 @@
                 <th:block th:if="${component.description ne null}">
                     <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
                 </th:block>
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </div>
     </th:block>
@@ -84,6 +91,7 @@
                 <th:block th:if="${component.description ne null}">
                     <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
                 </th:block>
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </a>
     </th:block>
@@ -99,6 +107,7 @@
                 <th:block th:if="${component.description ne null}">
                     <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
                 </th:block>
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </div>
     </th:block>
@@ -110,9 +119,17 @@
                 <th:block th:if="${component.description ne null}">
                     <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
                 </th:block>
+                <div th:replace="~{:: sub-items(${component.items})}"></div>
             </div>
         </a>
     </th:block>
 </th:block>
+
+<div th:fragment="sub-items(items)" th:if="${not #lists.isEmpty(items)}" class="list">
+    <th:block th:each="item : ${items}">
+        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+    </th:block>
+</div>
+
 </body>
 </html>
