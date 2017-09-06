@@ -2,12 +2,16 @@ package com.qxcmp.framework.web.view.elements.input;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 带标签的输入框
  *
  * @author Aaric
  */
+@Getter
+@Setter
 public class LabeledInput extends AbstractComponent {
 
     /**
@@ -30,6 +34,17 @@ public class LabeledInput extends AbstractComponent {
      */
     private boolean rightLabel;
 
+    public LabeledInput(AbstractInput input, AbstractLabel label) {
+        this.input = input;
+        this.label = label;
+    }
+
+    public LabeledInput(AbstractInput input, AbstractLabel label, AbstractLabel extraLabel) {
+        this.input = input;
+        this.label = label;
+        this.extraLabel = extraLabel;
+    }
+
     @Override
     public String getFragmentFile() {
         return "qxcmp/elements/input";
@@ -37,6 +52,26 @@ public class LabeledInput extends AbstractComponent {
 
     @Override
     public String getFragmentName() {
-        return "labeled";
+        return "label";
+    }
+
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        return input.getClassContent() + (rightLabel ? " right" : "");
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "labeled input";
+    }
+
+    public LabeledInput setRightLabel() {
+        setRightLabel(true);
+        return this;
     }
 }

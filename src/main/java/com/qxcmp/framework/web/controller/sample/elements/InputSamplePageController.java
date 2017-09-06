@@ -10,6 +10,8 @@ import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.input.IconInput;
 import com.qxcmp.framework.web.view.elements.input.Input;
+import com.qxcmp.framework.web.view.elements.input.LabeledInput;
+import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Size;
@@ -30,7 +32,17 @@ public class InputSamplePageController extends AbstractSamplePageController {
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createStandardInputSegment()))
                         .addCol(new Col().addComponent(createIconInputSegment()))
+                        .addCol(new Col().addComponent(createLabelInputSegment()))
                 )));
+    }
+
+    private Component createLabelInputSegment() {
+        return new Segment().addComponent(new ContentHeader("标签输入框", Size.LARGE).setDividing())
+                .addComponent(new LabeledInput(new Input(PLACEHOLDER), new Label("http://")))
+                .addComponent(new LabeledInput(new Input(PLACEHOLDER), new Label("kg")).setRightLabel())
+                .addComponent(new LabeledInput(new Input(PLACEHOLDER), new Label("0.00"), new Label("￥")))
+                .addComponent(new LabeledInput(new Input(PLACEHOLDER), new Label("0.00"), new Label("￥")).setRightLabel())
+                ;
     }
 
     private Component createIconInputSegment() {
@@ -43,7 +55,7 @@ public class InputSamplePageController extends AbstractSamplePageController {
     }
 
     private Component createStandardInputSegment() {
-        return new Segment().addComponent(new ContentHeader("标准输入框", Size.LARGE).setDividing())
+        return new Segment().addComponent(new ContentHeader("图标输入框", Size.LARGE).setDividing())
                 .addComponent(new Input(PLACEHOLDER))
                 .addComponent(new Input(PLACEHOLDER).setFocus())
                 .addComponent(new Input(PLACEHOLDER).setDisabled())
