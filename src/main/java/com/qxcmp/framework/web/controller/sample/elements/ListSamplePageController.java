@@ -46,7 +46,7 @@ public class ListSamplePageController extends AbstractSamplePageController {
 
     private Component createImageListSegment() {
         return new Segment().addComponent(new ContentHeader("图片列表", Size.LARGE).setDividing())
-                .addComponent(new List().setLink().addItems(createListTextItems()))
+                .addComponent(new List().setLink().addItems(createImageItems()))
                 .addComponent(new Divider())
                 .addComponent(new List().setLink().setHorizontal().addItems(createImageItems()))
                 .addComponent(new Divider())
@@ -61,8 +61,8 @@ public class ListSamplePageController extends AbstractSamplePageController {
     }
 
     private Component createIconListSegment() {
-        return new Segment().addComponent(new ContentHeader("文本列表", Size.LARGE).setDividing())
-                .addComponent(new List().setLink().addItems(createListTextItems()))
+        return new Segment().addComponent(new ContentHeader("图标列表", Size.LARGE).setDividing())
+                .addComponent(new List().setLink().addItems(createIconItems()))
                 .addComponent(new Divider())
                 .addComponent(new List().setLink().setHorizontal().addItems(createIconItems()))
                 .addComponent(new Divider())
@@ -77,7 +77,7 @@ public class ListSamplePageController extends AbstractSamplePageController {
     }
 
     private Component createStandardListSegment() {
-        return new Segment().addComponent(new ContentHeader("图标列表", Size.LARGE).setDividing())
+        return new Segment().addComponent(new ContentHeader("文本列表", Size.LARGE).setDividing())
                 .addComponent(new List().addItems(createListTextItems()))
                 .addComponent(new Divider())
                 .addComponent(new List().setHorizontal().addItems(createListTextItems()))
@@ -94,7 +94,7 @@ public class ListSamplePageController extends AbstractSamplePageController {
         Set<AbstractListItem> iconItems = Sets.newLinkedHashSet();
         int count = new Random().nextInt(5) + 1;
         for (int i = 0; i < count; i++) {
-            iconItems.add(new ImageHeaderItem(new Image(qxcmpConfiguration.getLogo()), "标题", "项目描述"));
+            iconItems.add(new ImageHeaderItem(new Image(qxcmpConfiguration.getLogo()), "标题", "项目描述").setUrl("/test/sample/list"));
         }
         return iconItems;
     }
@@ -103,16 +103,16 @@ public class ListSamplePageController extends AbstractSamplePageController {
         Set<AbstractListItem> iconItems = Sets.newLinkedHashSet();
         int count = new Random().nextInt(5) + 1;
         for (int i = 0; i < count; i++) {
-            iconItems.add(new IconHeaderItem(new Icon("users"), "标题", "项目描述"));
+            iconItems.add(new IconHeaderItem(new Icon("users"), "标题", "项目描述").setUrl("/test/sample/list"));
         }
         return iconItems;
     }
 
-    private Collection<TextItem> createListTextItems() {
-        Set<TextItem> textItems = Sets.newLinkedHashSet();
+    private Collection<AbstractListItem> createListTextItems() {
+        Set<AbstractListItem> textItems = Sets.newLinkedHashSet();
         int count = new Random().nextInt(5) + 1;
         for (int i = 0; i < count; i++) {
-            textItems.add(new TextItem("列表项目"));
+            textItems.add(new TextItem("列表项目").setUrl("/test/sample/list"));
         }
         return textItems;
     }

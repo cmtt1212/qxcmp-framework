@@ -10,46 +10,109 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.TextItem"*/-->
-<div th:fragment="item-text(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
-</div>
+<th:block th:fragment="item-text(component)">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+        </div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+        </a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.IconTextItem"*/-->
-<div th:fragment="item-icon-text(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
-    <div th:class="|${component.contentAlignment} content|">
-        [[${component.text}]]
-    </div>
-</div>
+<th:block th:fragment="item-icon-text(component)">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                [[${component.text}]]
+            </div>
+        </div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                [[${component.text}]]
+            </div>
+        </a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.ImageTextItem"*/-->
-<div th:fragment="item-image-text(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
-    <div th:class="|${component.contentAlignment} content|">
-        [[${component.text}]]
-    </div>
-</div>
+<th:block th:fragment="item-image-text(component)">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                [[${component.text}]]
+            </div>
+        </div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                [[${component.text}]]
+            </div>
+        </a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.IconHeaderItem"*/-->
-<div th:fragment="item-icon-header(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
-    <div th:class="|${component.contentAlignment} content|">
-        <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
-        <th:block th:if="${component.description ne null}">
-            <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
-        </th:block>
-    </div>
-</div>
+<th:block th:fragment="item-icon-header(component)">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+                <th:block th:if="${component.description ne null}">
+                    <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
+                </th:block>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+                <th:block th:if="${component.description ne null}">
+                    <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
+                </th:block>
+            </div>
+        </a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.ImageHeaderItem"*/-->
-<div th:fragment="item-image-header(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
-    <div th:class="|${component.contentAlignment} content|">
-        <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
-        <th:block th:if="${component.description ne null}">
-            <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
-        </th:block>
-    </div>
-</div>
+<th:block th:fragment="item-image-header(component)">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+                <th:block th:if="${component.description ne null}">
+                    <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
+                </th:block>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+            <div th:class="|${component.contentAlignment} content|">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+                <th:block th:if="${component.description ne null}">
+                    <div th:replace="~{qxcmp/globals/components :: component(${component.description})}"></div>
+                </th:block>
+            </div>
+        </a>
+    </th:block>
+</th:block>
 </body>
 </html>
