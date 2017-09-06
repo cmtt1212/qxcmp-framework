@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.input.Input"*/-->
+<th:block th:fragment="input(component)">
+    <div th:class="${component.getClassName()}">
+        <input type="text" th:name="${component.name}" th:placeholder="${component.placeholder}"/>
+    </div>
+</th:block>
+
+<th:block th:fragment="icon(component)">
+    <div th:class="${component.getClassName()}">
+        <input type="text" th:name="${component.name}" th:placeholder="${component.placeholder}"/>
+        <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+    </div>
+</th:block>
+</body>
+</html>
