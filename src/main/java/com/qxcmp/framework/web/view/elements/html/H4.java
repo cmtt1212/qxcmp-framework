@@ -12,6 +12,10 @@ import lombok.Setter;
 @Setter
 public class H4 extends HeaderElement {
 
+    public H4() {
+
+    }
+
     public H4(String text) {
         super(text);
     }

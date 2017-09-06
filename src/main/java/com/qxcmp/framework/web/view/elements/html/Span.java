@@ -11,12 +11,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Span extends InlineElement {
+
+    public Span() {
+    }
+
     public Span(String text) {
         super(text);
     }
 
     @Override
     public String getFragmentName() {
-        return "span";
+        return "span-element";
     }
 }

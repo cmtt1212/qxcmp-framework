@@ -8,7 +8,7 @@
 <th:block th:fragment="anchor(component)">
     <a th:class="${component.className}"
        th:href="@{${component.href}}" th:target="${component.target}" th:attr="download=${component.download}">
-        <div th:replace="~{:: element-body(${component})}"></div>
+        <span th:replace="~{:: element-body(${component})}"></span>
     </a>
 </th:block>
 
@@ -44,31 +44,33 @@
     </h6>
 </th:block>
 
-<th:block th:fragment="p(component)">
+<th:block th:fragment="paragraph(component)">
     <p th:class="${component.className}">
         <span th:replace="~{:: element-body(${component})}"></span>
     </p>
 </th:block>
 
-<th:block th:fragment="div(component)">
+<th:block th:fragment="division(component)">
     <div th:class="${component.className}">
         <div th:replace="~{:: element-body(${component})}"></div>
     </div>
 </th:block>
 
-<th:block th:fragment="span(component)">
-    <span th:class="${component.className}" th:utext="${component.text}">
+<th:block th:fragment="span-element(component)">
+    <span th:class="${component.className}">
         <span th:replace="~{:: element-body(${component})}"></span>
     </span>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.BaseHtmlElement"*/-->
 <th:block th:fragment="element-body(component)">
     <th:block th:if="${#lists.isEmpty(component.inlineElements)}">
         [[${component.text}]]
     </th:block>
-    <th:block th:unless="${#lists.isEmpty(component.inlineElements)}"
-              th:each="element : ${component.inlineElements}">
-        <div th:replace="~{qxcmp/globals/components :: component(${element})}"></div>
+    <th:block th:unless="${#lists.isEmpty(component.inlineElements)}">
+        <th:block th:each="inlineElement : ${component.inlineElements}">
+            <div th:replace="~{qxcmp/globals/components :: component(${inlineElement})}"></div>
+        </th:block>
     </th:block>
 </th:block>
 </body>

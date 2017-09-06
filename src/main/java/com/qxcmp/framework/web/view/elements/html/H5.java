@@ -12,6 +12,9 @@ import lombok.Setter;
 @Setter
 public class H5 extends HeaderElement {
 
+    public H5() {
+    }
+
     public H5(String text) {
         super(text);
     }

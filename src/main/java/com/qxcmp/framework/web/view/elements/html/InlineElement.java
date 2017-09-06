@@ -11,6 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class InlineElement extends BaseHtmlElement {
+    public InlineElement() {
+    }
+
     public InlineElement(String text) {
         super(text);
     }

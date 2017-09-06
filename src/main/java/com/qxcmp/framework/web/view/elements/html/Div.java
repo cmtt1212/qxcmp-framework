@@ -12,12 +12,15 @@ import lombok.Setter;
 @Setter
 public class Div extends BlockElement {
 
+    public Div() {
+    }
+
     public Div(String text) {
         super(text);
     }
 
     @Override
     public String getFragmentName() {
-        return "div";
+        return "division";
     }
 }
