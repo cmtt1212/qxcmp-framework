@@ -1,6 +1,5 @@
 package com.qxcmp.framework.web.view.modules.table;
 
-import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Device;
@@ -15,22 +14,22 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractTable extends AbstractComponent {
+public abstract class AbstractTable extends AbstractTableComponent {
 
     /**
      * 表头
      */
-    private AbstractTableSection header;
+    private AbstractTableHeader header;
 
     /**
      * 表格内容
      */
-    private AbstractTableSection body;
+    private AbstractTableBody body;
 
     /**
      * 表尾
      */
-    private AbstractTableSection footer;
+    private AbstractTableFooter footer;
 
     /**
      * 是否在单元格之间显示分隔符
@@ -132,9 +131,4 @@ public abstract class AbstractTable extends AbstractComponent {
      * 大小
      */
     private Size size = Size.NONE;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/modules/table";
-    }
 }

@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractTableCell extends AbstractComponent {
+public abstract class AbstractTableCell extends AbstractTableComponent {
 
     /**
      * 单元格内容
@@ -99,9 +99,4 @@ public abstract class AbstractTableCell extends AbstractComponent {
      * 单元格宽度
      */
     private Wide wide = Wide.NONE;
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/modules/table";
-    }
 }

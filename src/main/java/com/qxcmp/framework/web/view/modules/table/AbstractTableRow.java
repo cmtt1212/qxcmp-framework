@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class AbstractTableRow extends AbstractComponent {
+public abstract class AbstractTableRow extends AbstractTableComponent {
 
     /**
      * 是否为正确状态
@@ -62,9 +62,4 @@ public abstract class AbstractTableRow extends AbstractComponent {
      * 行单元格
      */
     private List<AbstractTableCell> cells = Lists.newArrayList();
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/modules/table";
-    }
 }

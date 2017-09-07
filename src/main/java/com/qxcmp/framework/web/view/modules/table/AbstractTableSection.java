@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class AbstractTableSection extends AbstractComponent {
+public abstract class AbstractTableSection extends AbstractTableComponent {
 
     /**
      * 是否占满宽度
@@ -31,9 +31,4 @@ public abstract class AbstractTableSection extends AbstractComponent {
      * 分区行元素
      */
     private List<AbstractTableRow> rows = Lists.newArrayList();
-
-    @Override
-    public String getFragmentFile() {
-        return "qxcmp/modules/table";
-    }
 }
