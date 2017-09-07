@@ -7,17 +7,18 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Device {
     NONE(""),
-    COMPUTER("computer"),
-    TABLET("tablet"),
-    MOBILE("mobile");
+    COMPUTER(" computer"),
+    TABLET(" tablet"),
+    MOBILE(" mobile");
 
-    private String className;
+    private String value;
 
-    Device(String className) {
-        this.className = className;
+    Device(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }
