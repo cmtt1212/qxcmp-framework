@@ -99,6 +99,17 @@ public abstract class AbstractTableCell extends AbstractTableComponent {
      */
     private Wide wide = Wide.NONE;
 
+    public AbstractTableCell() {
+    }
+
+    public AbstractTableCell(String content) {
+        this.content = content;
+    }
+
+    public AbstractTableCell(Component component) {
+        this.component = component;
+    }
+
     @Override
     public String getClassContent() {
         final StringBuilder stringBuilder = new StringBuilder();
@@ -136,16 +147,6 @@ public abstract class AbstractTableCell extends AbstractTableComponent {
         }
 
         return stringBuilder.append(alignment).append(verticalAlignment).append(wide).toString();
-    }
-
-    public AbstractTableCell setComponent(Component component) {
-        this.component = component;
-        return this;
-    }
-
-    public AbstractTableCell setContent(String content) {
-        this.content = content;
-        return this;
     }
 
     public AbstractTableCell setRowSpan(int rowSpan) {
