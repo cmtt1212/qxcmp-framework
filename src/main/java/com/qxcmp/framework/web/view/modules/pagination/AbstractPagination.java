@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.view.modules.pagination;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -73,6 +74,11 @@ public abstract class AbstractPagination extends AbstractComponent {
      */
     private int itemCount = 5;
 
+    /**
+     * 大小
+     */
+    private Size size = Size.NONE;
+
     public AbstractPagination(String url, int current, int total, int pageSize) {
         this.url = url;
         this.current = current;
@@ -114,8 +120,8 @@ public abstract class AbstractPagination extends AbstractComponent {
         if (current < centerCount) {
             start = 1;
             end = itemCount < totalPage ? itemCount : totalPage;
-        } else if (current > totalPage - centerCount) {
-            start = totalPage - itemCount;
+        } else if (current > totalPage - centerCount + 1) {
+            start = totalPage - itemCount + 1;
             end = totalPage;
         } else {
             start = current - centerCount + 1;
@@ -160,6 +166,21 @@ public abstract class AbstractPagination extends AbstractComponent {
         return "qxcmp/modules/pagination";
     }
 
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        return size.toString();
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "pagination menu";
+    }
+
     public AbstractPagination setPageSizeOptions(List<String> pageSizeOptions) {
         this.pageSizeOptions = pageSizeOptions;
         return this;
@@ -187,6 +208,11 @@ public abstract class AbstractPagination extends AbstractComponent {
 
     public AbstractPagination setItemCount(int itemCount) {
         this.itemCount = itemCount;
+        return this;
+    }
+
+    public AbstractPagination setSize(Size size) {
+        this.size = size;
         return this;
     }
 }

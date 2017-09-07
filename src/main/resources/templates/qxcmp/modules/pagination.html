@@ -3,8 +3,9 @@
 <body>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.pagination.Pagination"*/-->
-<div th:fragment="default(component)" class="ui pagination menu">
-    <a class="icon item" th:href="@{${component.getItemUrl(component.current - 1)}}"><i class="left chevron icon"></i></a>
+<div th:fragment="default(component)" th:class="${component.getClassName()}">
+    <a class="icon item" th:href="@{${component.getItemUrl(component.current - 1)}}"><i
+            class="left chevron icon"></i></a>
     <a th:each="item : ${component.getItemList()}" th:class="|${item.active ? 'active ' : ''}item|"
        th:href="${item.url}" th:utext="${item.page}"></a>
     <a class="icon item" th:href="@{${component.getItemUrl(component.current + 1)}}"><i

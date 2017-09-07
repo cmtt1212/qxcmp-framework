@@ -28,6 +28,6 @@ public class PaginationSamplePageController extends AbstractSamplePageController
     }
 
     private Component createPagination1(Pageable pageable) {
-        return new Pagination("/test/sample/pagination", pageable.getPageNumber() + 1, 500, pageable.getPageSize());
+        return new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize());
     }
 }
