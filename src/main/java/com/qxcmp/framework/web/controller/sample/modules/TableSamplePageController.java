@@ -30,6 +30,7 @@ public class TableSamplePageController extends AbstractSamplePageController {
         return new Table().setCelled().setSelectable().setColor(randomColor())
                 .setHeader(createTableHeader())
                 .setBody(createTableBody())
+                .setFooter(createTableFooter())
                 ;
     }
 
@@ -47,6 +48,13 @@ public class TableSamplePageController extends AbstractSamplePageController {
                         .addCell(new TableHead("用户名"))
                         .addCell(new TableHead("性别"))
                         .addCell(new TableHead("联系电话"))
+                );
+    }
+
+    private TableFooter createTableFooter() {
+        return (TableFooter) new TableFooter()
+                .addRow(new TableRow()
+                        .addCell(new TableHead("总计： 3人").setColSpan(3))
                 );
     }
 
