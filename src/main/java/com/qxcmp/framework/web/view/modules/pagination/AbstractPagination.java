@@ -5,6 +5,7 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.List;
 
@@ -16,6 +17,11 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class AbstractPagination extends AbstractComponent {
+
+    /**
+     * 分页组件ID
+     */
+    private String id = "pagination-" + RandomStringUtils.randomAlphanumeric(10);
 
     /**
      * 分页数据查找链接
@@ -58,14 +64,16 @@ public abstract class AbstractPagination extends AbstractComponent {
     private boolean showQuickJumper;
 
     /**
-     * 是否显示数据总量
+     * 是否显示总数
      */
     private boolean showTotal;
 
     /**
      * 数据总量显示的文本
+     * <p>
+     * ${total} 为总数占位符
      */
-    private String showTotalText;
+    private String showTotalText = "共${total}条";
 
     /**
      * 默认显示的项目数量
@@ -77,7 +85,7 @@ public abstract class AbstractPagination extends AbstractComponent {
     /**
      * 大小
      */
-    private Size size = Size.NONE;
+    private Size size = Size.MINI;
 
     public AbstractPagination(String url, int current, int total, int pageSize) {
         this.url = url;
@@ -121,7 +129,7 @@ public abstract class AbstractPagination extends AbstractComponent {
             start = 1;
             end = itemCount < totalPage ? itemCount : totalPage;
         } else if (current > totalPage - centerCount + 1) {
-            start = totalPage - itemCount + 1;
+            start = itemCount > totalPage ? 1 : (totalPage - itemCount + 1);
             end = totalPage;
         } else {
             start = current - centerCount + 1;
@@ -158,7 +166,15 @@ public abstract class AbstractPagination extends AbstractComponent {
             targetPage = page - 1;
         }
 
-        return String.format("?size=%d&page=%d", pageSize, targetPage) + queryString;
+        return String.format("%s?size=%d&page=%d", url, pageSize, targetPage) + queryString;
+    }
+
+    public String getChangeSizeUrl(String pageSize) {
+        return String.format("%s?size=%s&page=%d", url, pageSize, current) + queryString;
+    }
+
+    public String getTotalText() {
+        return showTotalText.replaceAll("\\$\\{total}", String.valueOf(total));
     }
 
     @Override

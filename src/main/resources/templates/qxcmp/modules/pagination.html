@@ -3,13 +3,40 @@
 <body>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.pagination.Pagination"*/-->
-<div th:fragment="default(component)" th:class="${component.getClassName()}">
-    <a class="icon item" th:href="@{${component.getItemUrl(component.current - 1)}}"><i
-            class="left chevron icon"></i></a>
-    <a th:each="item : ${component.getItemList()}" th:class="|${item.active ? 'active ' : ''}item|"
-       th:href="${item.url}" th:utext="${item.page}"></a>
-    <a class="icon item" th:href="@{${component.getItemUrl(component.current + 1)}}"><i
-            class="right chevron icon"></i></a>
+<div th:id="${component.id}" th:fragment="default(component)" class="ui menu">
+    <div th:if="${component.showTotal}" class="item" th:utext="${component.getTotalText()}"></div>
+    <div th:class="${component.getClassName()}">
+        <a class="icon item" th:href="@{${component.getItemUrl(component.current - 1)}}"><i
+                class="left chevron icon"></i></a>
+        <a th:each="item : ${component.getItemList()}" th:class="|${item.active ? 'active ' : ''}item|"
+           th:href="${item.url}" th:utext="${item.page}"></a>
+        <a class="icon item" th:href="@{${component.getItemUrl(component.current + 1)}}"><i
+                class="right chevron icon"></i></a>
+    </div>
+    <div th:if="${component.showSizeChanger}" class="ui floating mini dropdown basic button" style="margin-left: 1em">
+        <div class="text" th:utext="|${component.pageSize} 条/页|"></div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <a th:each="item : ${component.pageSizeOptions}" class="item"
+               th:utext="|${item} 条/页|"
+               th:href="${component.getChangeSizeUrl(item)}"></a>
+        </div>
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                var dropdownId = /*[[|#${component.id} .ui.dropdown|]]*/ "";
+                $(dropdownId).dropdown();
+            });
+        </script>
+    </div>
+    <div th:if="${component.showQuickJumper}" class="item">
+        <form>
+            <div class="ui mini action input">
+                <input name="page" type="number" min="1" th:max="${component.getTotalPage()}">
+                <input name="size" type="hidden" th:value="${component.pageSize}">
+                <button class="ui basic button">跳转</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 </body>
