@@ -6,6 +6,7 @@ import com.qxcmp.framework.web.view.support.Device;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 数据表格抽象类
@@ -131,4 +132,173 @@ public abstract class AbstractTable extends AbstractTableComponent {
      * 大小
      */
     private Size size = Size.NONE;
+
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        if (celled) {
+            stringBuilder.append(" celled");
+        }
+
+        if (basic) {
+            stringBuilder.append(" basic");
+        } else if (veryBasic) {
+            stringBuilder.append(" very basic");
+        }
+
+        if (singleLine) {
+            stringBuilder.append(" single line");
+        }
+
+        if (fixed) {
+            stringBuilder.append(" fixed");
+        }
+
+        if (StringUtils.isNotBlank(stackDevice.toString())) {
+            stringBuilder.append(" ").append(stackDevice).append(" stackable");
+        } else {
+            stringBuilder.append(" unstackable");
+        }
+
+        if (selectable) {
+            stringBuilder.append(" selectable");
+        }
+
+        if (striped) {
+            stringBuilder.append(" striped");
+        }
+
+        if (inverted) {
+            stringBuilder.append(" inverted");
+        }
+
+        if (collapsing) {
+            stringBuilder.append(" collapsing");
+        }
+
+        if (padded) {
+            stringBuilder.append(" padded");
+        } else if (veryPadded) {
+            stringBuilder.append(" very padded");
+        }
+
+        if (compact) {
+            stringBuilder.append(" compact");
+        } else if (veryCompact) {
+            stringBuilder.append(" very compact");
+        }
+
+        return stringBuilder.append(columnCount).append(color).append(size).toString();
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "table";
+    }
+
+    public AbstractTable setHeader(AbstractTableHeader header) {
+        this.header = header;
+        return this;
+    }
+
+    public AbstractTable setBody(AbstractTableBody body) {
+        this.body = body;
+        return this;
+    }
+
+    public AbstractTable setFooter(AbstractTableFooter footer) {
+        this.footer = footer;
+        return this;
+    }
+
+    public AbstractTable setCelled() {
+        setCelled(true);
+        return this;
+    }
+
+    public AbstractTable setBasic() {
+        setBasic(true);
+        return this;
+    }
+
+    public AbstractTable setVeryBasic() {
+        setVeryBasic(true);
+        return this;
+    }
+
+    public AbstractTable setSingleLine() {
+        setSingleLine(true);
+        return this;
+    }
+
+    public AbstractTable setFixed() {
+        setFixed(true);
+        return this;
+    }
+
+    public AbstractTable setStackDevice(Device device) {
+        this.stackDevice = device;
+        return this;
+    }
+
+    public AbstractTable setSelectable() {
+        setSelectable(true);
+        return this;
+    }
+
+    public AbstractTable setStriped() {
+        setStriped(true);
+        return this;
+    }
+
+    public AbstractTable setInverted() {
+        setInverted(true);
+        return this;
+    }
+
+    public AbstractTable setCollapsing() {
+        setCollapsing(true);
+        return this;
+    }
+
+    public AbstractTable setPadded() {
+        setPadded(true);
+        return this;
+    }
+
+    public AbstractTable setVeryPadded() {
+        setVeryPadded(true);
+        return this;
+    }
+
+    public AbstractTable setCompact() {
+        setCompact(true);
+        return this;
+    }
+
+    public AbstractTable setVeryCompact() {
+        setVeryCompact(true);
+        return this;
+    }
+
+    public AbstractTable setColumnCount(ColumnCount columnCount) {
+        this.columnCount = columnCount;
+        return this;
+    }
+
+    public AbstractTable setColor(Color color) {
+        this.color = color;
+        return this;
+    }
+
+    public AbstractTable setSize(Size size) {
+        this.size = size;
+        return this;
+    }
 }

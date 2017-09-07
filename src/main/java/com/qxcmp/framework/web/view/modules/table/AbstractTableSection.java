@@ -1,10 +1,10 @@
 package com.qxcmp.framework.web.view.modules.table;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -31,4 +31,19 @@ public abstract class AbstractTableSection extends AbstractTableComponent {
      * 分区行元素
      */
     private List<AbstractTableRow> rows = Lists.newArrayList();
+
+    public AbstractTableSection addRow(AbstractTableRow row) {
+        rows.add(row);
+        return this;
+    }
+
+    public AbstractTableSection addRows(Collection<? extends AbstractTableRow> rows) {
+        this.rows.addAll(rows);
+        return this;
+    }
+
+    @Override
+    public String getClassContent() {
+        return fullWidth ? "full-width" : "";
+    }
 }

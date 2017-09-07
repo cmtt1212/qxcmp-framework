@@ -40,9 +40,7 @@ public class SamplePageController extends AbstractSamplePageController {
                 ))
                 .addItem(new Col().addComponent(new Segment().addComponent(new ContentHeader("行为组件", Size.LARGE).setDividing())
                         .addComponent(new BasicLabel("下拉框").setUrl("/test/sample/dropdown").setColor(randomColor()))
-                ))
-                .addItem(new Col().addComponent(new Segment().addComponent(new ContentHeader("视图组件", Size.LARGE).setDividing())
-
+                        .addComponent(new BasicLabel("表格").setUrl("/test/sample/table").setColor(randomColor()))
                 ))
         ));
     }

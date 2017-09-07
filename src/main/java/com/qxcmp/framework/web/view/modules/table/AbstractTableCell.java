@@ -1,6 +1,5 @@
 package com.qxcmp.framework.web.view.modules.table;
 
-import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
@@ -99,4 +98,113 @@ public abstract class AbstractTableCell extends AbstractTableComponent {
      * 单元格宽度
      */
     private Wide wide = Wide.NONE;
+
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        if (positive) {
+            stringBuilder.append(" positive");
+        }
+
+        if (negative) {
+            stringBuilder.append(" negative");
+        }
+
+        if (error) {
+            stringBuilder.append(" error");
+        }
+
+        if (warning) {
+            stringBuilder.append(" warning");
+        }
+
+        if (active) {
+            stringBuilder.append(" active");
+        }
+
+        if (disabled) {
+            stringBuilder.append(" disabled");
+        }
+
+        if (collapsing) {
+            stringBuilder.append(" collapsing");
+        }
+
+        if (selectable) {
+            stringBuilder.append(" selectable");
+        }
+
+        return stringBuilder.append(alignment).append(verticalAlignment).append(wide).toString();
+    }
+
+    public AbstractTableCell setComponent(Component component) {
+        this.component = component;
+        return this;
+    }
+
+    public AbstractTableCell setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public AbstractTableCell setRowSpan(int rowSpan) {
+        this.rowSpan = rowSpan;
+        return this;
+    }
+
+    public AbstractTableCell setColSpan(int colSpan) {
+        this.colSpan = colSpan;
+        return this;
+    }
+
+    public AbstractTableCell setPositive() {
+        setPositive(true);
+        return this;
+    }
+
+    public AbstractTableCell setNegative() {
+        setNegative(true);
+        return this;
+    }
+
+    public AbstractTableCell setError() {
+        setError(true);
+        return this;
+    }
+
+    public AbstractTableCell setWarning() {
+        setWarning(true);
+        return this;
+    }
+
+    public AbstractTableCell setActive() {
+        setActive(true);
+        return this;
+    }
+
+    public AbstractTableCell setDisabled() {
+        setDisabled(true);
+        return this;
+    }
+
+    public AbstractTableCell setCollapsing() {
+        setCollapsing(true);
+        return this;
+    }
+
+    public AbstractTableCell setSelectable() {
+        setSelectable(true);
+        return this;
+    }
+
+    public AbstractTableCell setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
+    }
+
+    public AbstractTableCell setVerticalAlignment(VerticalAlignment verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+        return this;
+    }
 }
