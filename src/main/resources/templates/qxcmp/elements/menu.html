@@ -20,9 +20,9 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.DropdownItem"*/-->
-<div th:fragment="item-dropdown(component)" th:class="${component.getClassName()}">
+<th:block th:fragment="item-dropdown(component)">
     <div th:replace="~{qxcmp/globals/components :: component(${component.dropdown})}"></div>
-</div>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.HeaderItem"*/-->
 <div th:fragment="item-header(component)" th:class="${component.getClassName()}" th:utext="${component.text}"></div>

@@ -1,22 +1,27 @@
 package com.qxcmp.framework.web.controller.sample.elements;
 
+import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.containers.grid.Col;
 import com.qxcmp.framework.web.view.containers.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
+import com.qxcmp.framework.web.view.elements.input.IconInput;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
-import com.qxcmp.framework.web.view.elements.menu.item.ButtonItem;
-import com.qxcmp.framework.web.view.elements.menu.item.HeaderItem;
-import com.qxcmp.framework.web.view.elements.menu.item.ImageItem;
-import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
+import com.qxcmp.framework.web.view.elements.menu.item.*;
+import com.qxcmp.framework.web.view.modules.dropdown.DropdownMenu;
+import com.qxcmp.framework.web.view.modules.dropdown.MenuDropdown;
 import com.qxcmp.framework.web.view.support.ColumnCount;
+import com.qxcmp.framework.web.view.support.DropdownPointing;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping("/test/sample/menu")
@@ -34,40 +39,39 @@ public class MenuSamplePageController extends AbstractSamplePageController {
 
     private Component createSecondaryPointingMenu() {
         return new Menu().setSecondary().setPointing()
-                .addItem(new ImageItem(qxcmpConfiguration.getLogo()))
-                .addItem(new HeaderItem(qxcmpConfiguration.getTitle()))
-                .addItem(new TextItem("首页", "/test/sample").setActive())
-                .addItem(new TextItem("关于", "/test/sample"))
-                ;
+                .addItems(getItems()).setRightMenu(getRightMenu());
     }
 
     private Component createPointingMenu() {
         return new Menu().setPointing()
-                .addItem(new ImageItem(qxcmpConfiguration.getLogo()))
-                .addItem(new HeaderItem(qxcmpConfiguration.getTitle()))
-                .addItem(new TextItem("首页", "/test/sample").setActive())
-                .addItem(new TextItem("关于", "/test/sample"))
-                ;
+                .addItems(getItems()).setRightMenu(getRightMenu());
     }
 
     private Component createSecondaryMenu() {
         return new Menu().setSecondary()
-                .addItem(new ImageItem(qxcmpConfiguration.getLogo()))
-                .addItem(new HeaderItem(qxcmpConfiguration.getTitle()))
-                .addItem(new TextItem("首页", "/test/sample").setActive())
-                .addItem(new TextItem("关于", "/test/sample"))
-                ;
+                .addItems(getItems()).setRightMenu(getRightMenu());
     }
 
     private Component createStandardMenu() {
         return new Menu()
-                .addItem(new ImageItem(qxcmpConfiguration.getLogo()))
-                .addItem(new HeaderItem(qxcmpConfiguration.getTitle()))
-                .addItem(new TextItem("首页", "/test/sample").setActive())
-                .addItem(new TextItem("关于", "/test/sample"))
-                .setRightMenu((RightMenu) new RightMenu().addItem(new ButtonItem(new Button("注册").setBasic().setColor(randomColor()))))
-                ;
+                .addItems(getItems()).setRightMenu(getRightMenu());
     }
 
+    private Collection<? extends AbstractMenuItem> getItems() {
+        List<AbstractMenuItem> menuItems = Lists.newArrayList();
+        menuItems.add(new ImageItem(qxcmpConfiguration.getLogo()));
+        menuItems.add(new HeaderItem(qxcmpConfiguration.getTitle()));
+        menuItems.add(new TextItem("首页", "/test/sample").setActive());
+        menuItems.add(new DropdownItem(new MenuDropdown("产品中心").setFloating().setPointing(DropdownPointing.DEFAULT).setMenu(new DropdownMenu().addItem(new com.qxcmp.framework.web.view.modules.dropdown.item.TextItem("产品一")))));
+        menuItems.add(new TextItem("关于我们", "/test/sample"));
+        return menuItems;
+    }
+
+    private RightMenu getRightMenu() {
+        return (RightMenu) new RightMenu().setRightMenu((RightMenu) new RightMenu()
+                .addItem(new InputItem(new IconInput("search", "全站搜索...")))
+                .addItem(new ButtonItem(new Button("注册", "/login").setBasic().setColor(randomColor())))
+        );
+    }
 
 }
