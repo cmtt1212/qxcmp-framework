@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.containers.grid;
+package com.qxcmp.framework.web.view.elements.grid;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -35,7 +35,7 @@ public abstract class AbstractGridItem extends AbstractComponent {
 
     @Override
     public String getFragmentFile() {
-        return "qxcmp/containers/grid";
+        return "qxcmp/elements/grid";
     }
 
     @Override

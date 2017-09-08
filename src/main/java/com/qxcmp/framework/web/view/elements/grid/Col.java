@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.containers.grid;
+package com.qxcmp.framework.web.view.elements.grid;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.Component;

@@ -2,9 +2,9 @@ package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.containers.grid.Col;
-import com.qxcmp.framework.web.view.containers.grid.Grid;
-import com.qxcmp.framework.web.view.containers.grid.Row;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
+import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.IconButton;
 import com.qxcmp.framework.web.view.elements.button.LabeledIconButton;

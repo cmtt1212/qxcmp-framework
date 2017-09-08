@@ -2,8 +2,8 @@ package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.containers.grid.Col;
-import com.qxcmp.framework.web.view.containers.grid.DividedGrid;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.DividedGrid;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.html.H4;
 import com.qxcmp.framework.web.view.elements.image.Avatar;

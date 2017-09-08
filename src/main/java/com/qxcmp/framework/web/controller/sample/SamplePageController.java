@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.controller.sample;
 
-import com.qxcmp.framework.web.view.containers.grid.Col;
-import com.qxcmp.framework.web.view.containers.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;

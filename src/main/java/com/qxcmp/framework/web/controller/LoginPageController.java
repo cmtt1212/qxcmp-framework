@@ -2,9 +2,9 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.CustomComponent;
-import com.qxcmp.framework.web.view.containers.grid.Col;
-import com.qxcmp.framework.web.view.containers.grid.Grid;
-import com.qxcmp.framework.web.view.containers.grid.Row;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
+import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

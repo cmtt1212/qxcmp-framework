@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.containers.grid;
+package com.qxcmp.framework.web.view.elements.grid;
 
 import lombok.Getter;
 import lombok.Setter;

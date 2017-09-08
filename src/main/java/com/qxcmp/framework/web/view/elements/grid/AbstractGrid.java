@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.containers.grid;
+package com.qxcmp.framework.web.view.elements.grid;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
@@ -134,7 +134,7 @@ public abstract class AbstractGrid extends AbstractComponent {
 
     @Override
     public String getFragmentFile() {
-        return "qxcmp/containers/grid";
+        return "qxcmp/elements/grid";
     }
 
     @Override
