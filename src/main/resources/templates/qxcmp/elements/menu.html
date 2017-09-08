@@ -5,25 +5,66 @@
     菜单
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.Menu"*/-->
-<th:block th:fragment="default(component)">
-    <div th:class="${component.getClassName()}">
-        <th:block th:each="item : ${component.items}">
-            <div th:replace="~{:: item(${item})}"></div>
-        </th:block>
-    </div>
-</th:block>
-
-<!--/*
-    菜单项
-*/-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.MenuItem"*/-->
-<div th:fragment="item(component)" class="item">
-    <th:block th:if="${component.image ne null}">
-        <div th:replace="~{qxcmp/elements/image :: default(${component.image})}"></div>
+<div th:fragment="menu(component)" th:class="${component.getClassName()}">
+    <th:block th:each="item : ${component.items}">
+        <div th:replace="~{:: item(${item})}"></div>
     </th:block>
-    <span th:if="${#strings.isEmpty(component.url)}" th:utext="${component.text}"></span>
-    <a th:unless="${#strings.isEmpty(component.url)}" th:target="${component.urlTarget}"
-       th:href="@{${component.url}}" th:utext="${component.text}"></a>
+    <th:block th:if="${component.rightMenu ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.rightMenu})}"></div>
+    </th:block>
 </div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.ButtonItem"*/-->
+<div th:fragment="item-button(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.button})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.DropdownItem"*/-->
+<div th:fragment="item-dropdown(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.dropdown})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.HeaderItem"*/-->
+<div th:fragment="item-header(component)" th:class="${component.getClassName()}" th:utext="${component.text}"></div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.IconItem"*/-->
+<div th:fragment="item-icon(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.ImageItem"*/-->
+<div th:fragment="item-image(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.InputItem"*/-->
+<div th:fragment="item-input(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem"*/-->
+<div th:fragment="item-labeled-icon(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
+    [[${component.label}]]
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.TextItem"*/-->
+<div th:fragment="item-text(component)" th:class="${component.getClassName()}">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        [[${component.text}]]
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:href="@{${component.url}}" th:target="${component.urlTarget}" th:utext="${component.text}"></a>
+    </th:block>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem"*/-->
+<div th:fragment="item-sub-menu(component)" th:class="${component.getClassName()}">
+    [[${component.label}]]
+    <th:block th:each="item : ${component.items}">
+        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+    </th:block>
+</div>
+
 </body>
 </html>
