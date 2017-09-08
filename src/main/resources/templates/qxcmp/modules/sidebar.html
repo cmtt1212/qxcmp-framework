@@ -3,6 +3,12 @@
 <body>
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.Sidebar"*/-->
 <th:block th:fragment="sidebar(component)">
+    <th:block th:if="${component.topFixedMenu ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.topFixedMenu})}"></div>
+    </th:block>
+    <th:block th:if="${component.bottomFixedMenu ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.bottomFixedMenu})}"></div>
+    </th:block>
     <div th:id="${component.id}" th:class="${component.getClassName()}">
         <th:block th:each="item : ${component.sideContent}">
             <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>

@@ -3,6 +3,7 @@ package com.qxcmp.framework.web.view.modules.sidebar;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 侧边栏抽象类
@@ -70,6 +72,16 @@ public abstract class AbstractSidebar extends AbstractComponent {
      */
     private List<Component> contents = Lists.newArrayList();
 
+    /**
+     * 上方固定菜单栏 - 可选
+     */
+    private AbstractMenu topFixedMenu;
+
+    /**
+     * 下方固定菜单栏 - 可选
+     */
+    private AbstractMenu bottomFixedMenu;
+
     public AbstractSidebar addSideContent(Component component) {
         sideContent.add(component);
         return this;
@@ -108,6 +120,14 @@ public abstract class AbstractSidebar extends AbstractComponent {
             stringBuilder.append(" visible");
         }
 
+        if (Objects.nonNull(topFixedMenu)) {
+            stringBuilder.append(" top-fixed-menu");
+        }
+
+        if (Objects.nonNull(bottomFixedMenu)) {
+            stringBuilder.append(" bottom-fixed-menu");
+        }
+
         return stringBuilder.append(direction).append(wide).toString();
     }
 
@@ -143,6 +163,16 @@ public abstract class AbstractSidebar extends AbstractComponent {
 
     public AbstractSidebar setWide(Wide wide) {
         this.wide = wide;
+        return this;
+    }
+
+    public AbstractSidebar setTopFixedMenu(AbstractMenu abstractMenu) {
+        this.topFixedMenu = abstractMenu;
+        return this;
+    }
+
+    public AbstractSidebar setBottomFixedMenu(AbstractMenu abstractMenu) {
+        this.bottomFixedMenu = abstractMenu;
         return this;
     }
 }

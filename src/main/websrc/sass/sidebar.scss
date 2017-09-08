@@ -1,0 +1,15 @@
+.ui.top-fixed-menu.sidebar {
+  padding-top: 75px;
+
+  + .pusher {
+    padding-top: 75px;
+  }
+}
+
+.ui.bottom-fixed-menu.sidebar {
+  padding-bottom: 75px;
+
+  + .pusher {
+    padding-bottom: 75px;;
+  }
+}
