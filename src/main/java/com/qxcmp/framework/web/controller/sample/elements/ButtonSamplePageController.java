@@ -13,6 +13,7 @@ import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
+import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Size;
@@ -39,7 +40,7 @@ public class ButtonSamplePageController extends AbstractSamplePageController {
     private Component createIconButtonsSegment() {
         return new Segment().addComponent(new ContentHeader("图标按钮组", Size.LARGE).setDividing())
                 .addComponent(new IconButtons().setColor(randomColor())
-                        .addButton(new IconButton("play"))
+                        .addButton(new IconButton(new Icon("play"), "/test/sample"))
                         .addButton(new IconButton("pause"))
                         .addButton(new IconButton("shuffle"))
                 );
@@ -47,7 +48,7 @@ public class ButtonSamplePageController extends AbstractSamplePageController {
 
     private Component createStandardButtonSegment() {
         return new Segment().addComponent(new ContentHeader("标准按钮", Size.LARGE).setDividing())
-                .addComponent(new Button("开始").setColor(randomColor()))
+                .addComponent(new Button("返回", "/test/sample").setColor(randomColor()))
                 .addComponent(new Button("开始").setActive().setColor(randomColor()))
                 .addComponent(new Button("开始").setDisabled().setColor(randomColor()))
                 .addComponent(new Button("开始").setLoading().setColor(randomColor()))
@@ -67,7 +68,7 @@ public class ButtonSamplePageController extends AbstractSamplePageController {
 
     private Component createLabeledButtonSegment() {
         return new Segment().addComponent(new ContentHeader("标签按钮", Size.LARGE).setDividing())
-                .addComponent(new LabeledButton("喜欢", "2,048").setColor(randomColor()))
+                .addComponent(new LabeledButton(new Button("返回"), new Label("2,048"), "/test/sample").setColor(randomColor()))
                 .addComponent(new LabeledButton("喜欢", "2,048").setLeftLabel().setColor(randomColor()))
                 .addComponent(new LabeledButton(new IconButton("fork"), new BasicLabel("2,048")).setLeftLabel().setColor(randomColor()))
                 ;

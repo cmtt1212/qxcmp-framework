@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,7 +29,24 @@ public class LabeledIconButton extends AbstractButton {
      */
     private boolean rightIcon;
 
+    public LabeledIconButton(String iconName, String text) {
+        this.icon = new Icon(iconName);
+        this.text = text;
+    }
+
     public LabeledIconButton(String text, Icon icon) {
+        this.icon = icon;
+        this.text = text;
+    }
+
+    public LabeledIconButton(String text, Icon icon, String url) {
+        super(url);
+        this.icon = icon;
+        this.text = text;
+    }
+
+    public LabeledIconButton(String text, Icon icon, String url, AnchorTarget anchorTarget) {
+        super(url, anchorTarget);
         this.icon = icon;
         this.text = text;
     }

@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view.elements.button;
 
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,16 @@ public class Button extends AbstractButton {
     private String text;
 
     public Button(String text) {
+        this.text = text;
+    }
+
+    public Button(String text, String url) {
+        super(url);
+        this.text = text;
+    }
+
+    public Button(String text, String url, AnchorTarget anchorTarget) {
+        super(url, anchorTarget);
         this.text = text;
     }
 }

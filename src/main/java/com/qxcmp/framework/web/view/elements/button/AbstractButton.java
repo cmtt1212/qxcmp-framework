@@ -1,10 +1,8 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
-import com.qxcmp.framework.web.view.support.Attached;
-import com.qxcmp.framework.web.view.support.Color;
-import com.qxcmp.framework.web.view.support.Floated;
-import com.qxcmp.framework.web.view.support.Size;
+import com.qxcmp.framework.web.view.elements.html.Anchor;
+import com.qxcmp.framework.web.view.support.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +19,11 @@ public abstract class AbstractButton extends AbstractComponent {
      * 按键索引
      */
     private int tabIndex;
+
+    /**
+     * 按钮是否为超链接
+     */
+    private Anchor anchor;
 
     /**
      * 是否为激活状态
@@ -91,6 +94,17 @@ public abstract class AbstractButton extends AbstractComponent {
      * 附着方式
      */
     private Attached attached = Attached.NONE;
+
+    public AbstractButton() {
+    }
+
+    public AbstractButton(String url) {
+        this.anchor = new Anchor("", url);
+    }
+
+    public AbstractButton(String url, AnchorTarget anchorTarget) {
+        this.anchor = new Anchor("", url, anchorTarget.toString());
+    }
 
     @Override
     public String getFragmentFile() {

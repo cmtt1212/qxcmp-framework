@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +49,17 @@ public class AnimatedButton extends AbstractButton {
      * 该属性设置以后会在隐藏文本前面追加图标
      */
     private Icon hiddenIcon;
+
+    public AnimatedButton() {
+    }
+
+    public AnimatedButton(String url) {
+        super(url);
+    }
+
+    public AnimatedButton(String url, AnchorTarget anchorTarget) {
+        super(url, anchorTarget);
+    }
 
     @Override
     public String getFragmentName() {

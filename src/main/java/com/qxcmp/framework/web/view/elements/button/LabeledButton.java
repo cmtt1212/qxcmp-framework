@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.elements.label.Label;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,18 @@ public class LabeledButton extends AbstractButton {
     }
 
     public LabeledButton(AbstractButton button, Label label) {
+        this.button = button;
+        this.label = label;
+    }
+
+    public LabeledButton(AbstractButton button, Label label, String url) {
+        super(url);
+        this.button = button;
+        this.label = label;
+    }
+
+    public LabeledButton(AbstractButton button, Label label, String url, AnchorTarget anchorTarget) {
+        super(url, anchorTarget);
         this.button = button;
         this.label = label;
     }

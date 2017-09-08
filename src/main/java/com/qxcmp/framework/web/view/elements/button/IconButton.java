@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.elements.button;
 
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,16 @@ public class IconButton extends AbstractButton {
     }
 
     public IconButton(Icon icon) {
+        this.icon = icon;
+    }
+
+    public IconButton(Icon icon, String url) {
+        super(url);
+        this.icon = icon;
+    }
+
+    public IconButton(Icon icon, String url, AnchorTarget anchorTarget) {
+        super(url, anchorTarget);
         this.icon = icon;
     }
 
