@@ -7,18 +7,19 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Width {
     NONE(""),
-    VERY_THIN("thin"),
-    THIN("very thin"),
-    WIDE("wide"),
-    VERY_WIDE("very wide");
+    VERY_THIN(" thin"),
+    THIN(" very thin"),
+    WIDE(" wide"),
+    VERY_WIDE(" very wide");
 
-    private String className;
+    private String value;
 
-    Width(String className) {
-        this.className = className;
+    Width(String value) {
+        this.value = value;
     }
 
-    public String getClassName() {
-        return className;
+    @Override
+    public String toString() {
+        return value;
     }
 }

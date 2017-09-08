@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.Sidebar"*/-->
+<th:block th:fragment="sidebar(component)">
+    <div th:id="${component.id}" th:class="${component.getClassName()}">
+        <th:block th:each="item : ${component.sideContent}">
+            <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+        </th:block>
+    </div>
+    <div class="pusher">
+        <th:block th:each="item : ${component.contents}">
+            <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+        </th:block>
+    </div>
+    <script th:replace="~{:: scripts(${component})}"></script>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar"*/-->
+<th:block th:fragment="scripts(sidebar)">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var sidebarId = /*[[|#${sidebar.id}|]]*/ "";
+            var sidebarConfig = /*[[${sidebar.config}]]*/ {};
+            $(sidebarId).sidebar(sidebarConfig);
+            $(sidebarId).sidebar("attach events", /*[[${sidebar.attachEventsSelector}]]*/"", /*[[${sidebar.attachEventsName}]]*/"");
+        });
+    </script>
+</th:block>
+</body>
+</html>

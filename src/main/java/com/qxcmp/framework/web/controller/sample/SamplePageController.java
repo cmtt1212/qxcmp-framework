@@ -43,6 +43,7 @@ public class SamplePageController extends AbstractSamplePageController {
                         .addComponent(new BasicLabel("下拉框").setUrl("/test/sample/dropdown").setColor(randomColor()))
                         .addComponent(new BasicLabel("表格").setUrl("/test/sample/table").setColor(randomColor()))
                         .addComponent(new BasicLabel("分页").setUrl("/test/sample/pagination").setColor(randomColor()))
+                        .addComponent(new BasicLabel("侧边栏").setUrl("/test/sample/sidebar").setColor(randomColor()))
                 ))
         ));
     }
