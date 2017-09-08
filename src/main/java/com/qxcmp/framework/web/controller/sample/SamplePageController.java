@@ -37,6 +37,7 @@ public class SamplePageController extends AbstractSamplePageController {
                         .addComponent(new BasicLabel("面包屑").setUrl("/test/sample/breadcrumb").setColor(randomColor()))
                         .addComponent(new BasicLabel("国旗").setUrl("/test/sample/flag").setColor(randomColor()))
                         .addComponent(new BasicLabel("消息").setUrl("/test/sample/message").setColor(randomColor()))
+                        .addComponent(new BasicLabel("菜单").setUrl("/test/sample/menu").setColor(randomColor()))
                 ))
                 .addItem(new Col().addComponent(new Segment().addComponent(new ContentHeader("行为组件", Size.LARGE).setDividing())
                         .addComponent(new BasicLabel("下拉框").setUrl("/test/sample/dropdown").setColor(randomColor()))

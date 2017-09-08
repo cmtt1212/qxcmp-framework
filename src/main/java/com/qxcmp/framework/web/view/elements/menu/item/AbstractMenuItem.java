@@ -1,13 +1,13 @@
 package com.qxcmp.framework.web.view.elements.menu.item;
 
-import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
+import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Color;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AbstractMenuItem extends AbstractMenu implements MenuItem {
+public abstract class AbstractMenuItem extends AbstractComponent implements MenuItem {
 
     /**
      * 菜单项颜色

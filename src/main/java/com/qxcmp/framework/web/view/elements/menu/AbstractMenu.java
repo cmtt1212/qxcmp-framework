@@ -106,6 +106,11 @@ public abstract class AbstractMenu extends AbstractComponent {
     }
 
     @Override
+    public String getFragmentName() {
+        return "menu";
+    }
+
+    @Override
     public String getClassPrefix() {
         return "ui";
     }
@@ -154,7 +159,7 @@ public abstract class AbstractMenu extends AbstractComponent {
         return "menu";
     }
 
-    public AbstractMenu setRightMen(RightMenu rightMen) {
+    public AbstractMenu setRightMenu(RightMenu rightMen) {
         this.rightMenu = rightMen;
         return this;
     }

@@ -7,7 +7,7 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.Menu"*/-->
 <div th:fragment="menu(component)" th:class="${component.getClassName()}">
     <th:block th:each="item : ${component.items}">
-        <div th:replace="~{:: item(${item})}"></div>
+        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
     </th:block>
     <th:block th:if="${component.rightMenu ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.rightMenu})}"></div>
@@ -49,14 +49,15 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.TextItem"*/-->
-<div th:fragment="item-text(component)" th:class="${component.getClassName()}">
+<th:block th:fragment="item-text(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
-        [[${component.text}]]
+        <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
     </th:block>
     <th:block th:unless="${#strings.isEmpty(component.url)}">
-        <a th:href="@{${component.url}}" th:target="${component.urlTarget}" th:utext="${component.text}"></a>
+        <a th:class="${component.getClassName()}"
+           th:href="@{${component.url}}" th:target="${component.urlTarget}" th:utext="${component.text}"></a>
     </th:block>
-</div>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem"*/-->
 <div th:fragment="item-sub-menu(component)" th:class="${component.getClassName()}">
