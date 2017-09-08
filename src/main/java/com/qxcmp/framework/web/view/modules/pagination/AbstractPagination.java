@@ -85,7 +85,7 @@ public abstract class AbstractPagination extends AbstractComponent {
     /**
      * 大小
      */
-    private Size size = Size.MINI;
+    private Size size = Size.TINY;
 
     public AbstractPagination(String url, int current, int total, int pageSize) {
         this.url = url;

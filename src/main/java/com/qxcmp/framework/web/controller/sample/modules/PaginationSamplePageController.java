@@ -1,7 +1,6 @@
 package com.qxcmp.framework.web.controller.sample.modules;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
-import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.containers.grid.Col;
 import com.qxcmp.framework.web.view.containers.grid.Row;
 import com.qxcmp.framework.web.view.containers.grid.VerticallyDividedGrid;
@@ -23,11 +22,11 @@ public class PaginationSamplePageController extends AbstractSamplePageController
     public ModelAndView sample(Pageable pageable) {
         return page(() -> new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Row()
-                        .addCol(new Col().addComponent(new Segment().addComponent(createPagination1(pageable))))
+                        .addCol(new Col().addComponent(new Segment().addComponent(new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize()))))
+                        .addCol(new Col().addComponent(new Segment().addComponent(new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize()).setShowQuickJumper())))
+                        .addCol(new Col().addComponent(new Segment().addComponent(new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize()).setShowQuickJumper().setShowSizeChanger())))
+                        .addCol(new Col().addComponent(new Segment().addComponent(new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize()).setShowQuickJumper().setShowSizeChanger().setShowTotal())))
+                        .addCol(new Col().addComponent(new Segment().addComponent(new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize()).setShowQuickJumper().setShowSizeChanger().setShowTotal().setShowTotalText("总共${total}个会员"))))
                 )));
-    }
-
-    private Component createPagination1(Pageable pageable) {
-        return new Pagination("/test/sample/pagination", "&search=content", pageable.getPageNumber() + 1, 500, pageable.getPageSize()).setShowQuickJumper().setShowTotal().setShowSizeChanger();
     }
 }
