@@ -25,12 +25,30 @@
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.HeaderItem"*/-->
-<div th:fragment="item-header(component)" th:class="${component.getClassName()}" th:utext="${component.text}"></div>
+<th:block th:fragment="item-header(component)">
+    <th:block th:if="${component.anchor eq null}">
+        <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
+    </th:block>
+    <th:block th:if="${component.anchor ne null}">
+        <a th:href="@{${component.anchor.href}}" th:target="${component.anchor.target}"
+           th:class="${component.getClassName()}" th:utext="${component.text}"></a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.IconItem"*/-->
-<div th:fragment="item-icon(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
-</div>
+<th:block th:fragment="item-icon(component)">
+    <th:block th:if="${component.anchor eq null}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </div>
+    </th:block>
+    <th:block th:if="${component.anchor ne null}">
+        <a th:href="@{${component.anchor.href}}" th:target="${component.anchor.target}"
+           th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+        </a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.ImageItem"*/-->
 <div th:fragment="item-image(component)" th:class="${component.getClassName()}">
@@ -51,10 +69,21 @@
 </form>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem"*/-->
-<div th:fragment="item-labeled-icon(component)" th:class="${component.getClassName()}">
-    <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
-    [[${component.label}]]
-</div>
+<th:block th:fragment="item-labeled-icon(component)">
+    <th:block th:if="${component.anchor eq null}">
+        <div th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            [[${component.label}]]
+        </div>
+    </th:block>
+    <th:block th:if="${component.anchor ne null}">
+        <a th:href="@{${component.anchor.href}}" th:target="${component.anchor.target}"
+           th:class="${component.getClassName()}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
+            [[${component.label}]]
+        </a>
+    </th:block>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.TextItem"*/-->
 <th:block th:fragment="item-text(component)">
