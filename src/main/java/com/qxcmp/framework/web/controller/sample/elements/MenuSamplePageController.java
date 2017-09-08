@@ -7,7 +7,6 @@ import com.qxcmp.framework.web.view.containers.grid.Col;
 import com.qxcmp.framework.web.view.containers.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
-import com.qxcmp.framework.web.view.elements.input.IconInput;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.item.*;
@@ -59,17 +58,17 @@ public class MenuSamplePageController extends AbstractSamplePageController {
 
     private Collection<? extends AbstractMenuItem> getItems() {
         List<AbstractMenuItem> menuItems = Lists.newArrayList();
-        menuItems.add(new ImageItem(qxcmpConfiguration.getLogo()));
-        menuItems.add(new HeaderItem(qxcmpConfiguration.getTitle()));
-        menuItems.add(new TextItem("首页", "/test/sample").setActive());
-        menuItems.add(new DropdownItem(new MenuDropdown("产品中心").setFloating().setPointing(DropdownPointing.DEFAULT).setMenu(new DropdownMenu().addItem(new com.qxcmp.framework.web.view.modules.dropdown.item.TextItem("产品一")))));
-        menuItems.add(new TextItem("关于我们", "/test/sample"));
+        menuItems.add(new ImageItem(qxcmpConfiguration.getLogo()).setColor(randomColor()));
+        menuItems.add(new HeaderItem(qxcmpConfiguration.getTitle()).setColor(randomColor()));
+        menuItems.add(new TextItem("首页", "/test/sample").setActive().setColor(randomColor()));
+        menuItems.add(new DropdownItem(new MenuDropdown("产品中心").setFloating().setPointing(DropdownPointing.DEFAULT).setMenu(new DropdownMenu().addItem(new com.qxcmp.framework.web.view.modules.dropdown.item.TextItem("产品一")))).setColor(randomColor()));
+        menuItems.add(new TextItem("关于我们", "/test/sample").setColor(randomColor()));
         return menuItems;
     }
 
     private RightMenu getRightMenu() {
         return (RightMenu) new RightMenu().setRightMenu((RightMenu) new RightMenu()
-                .addItem(new InputItem(new IconInput("search", "全站搜索...")))
+                .addItem(new SearchInputItem())
                 .addItem(new ButtonItem(new Button("注册", "/login").setBasic().setColor(randomColor())))
         );
     }

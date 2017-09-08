@@ -42,6 +42,14 @@
     <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
 </div>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.SearchInputItem"*/-->
+<form th:fragment="item-search-input(component)" action="/search" th:class="${component.getClassName()}">
+    <div class="ui transparent icon input">
+        <input class="prompt" th:name="${component.name}" type="text" th:placeholder="${component.placeholder}"/>
+        <i class="search link icon"></i>
+    </div>
+</form>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem"*/-->
 <div th:fragment="item-labeled-icon(component)" th:class="${component.getClassName()}">
     <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>
