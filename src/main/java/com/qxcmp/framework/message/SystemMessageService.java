@@ -23,6 +23,10 @@ public class SystemMessageService extends AbstractEntityService<SystemMessage, L
         return repository.findByUserId(userId,pageable);
     }
 
+    public Optional<SystemMessage> findByUserId(String userId){
+        return repository.findByUserId(userId);
+    }
+
     @Override
     public <S extends SystemMessage> Optional<S> create(Supplier<S> supplier) {
         S systemMessage = supplier.get();

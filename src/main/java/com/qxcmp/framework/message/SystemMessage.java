@@ -32,6 +32,6 @@ public class SystemMessage {
     private String content;
     @TableViewField(title = "发送时间")
     private Date date;
-    @TableViewField(title = "已读")
-    private boolean is_read;
+    @TableViewField(title = "已读",useI18n = true)
+    private boolean readed;
 }

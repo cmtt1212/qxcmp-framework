@@ -16,4 +16,5 @@ interface SystemMessageRepository extends JpaRepository<SystemMessage, Long>, Jp
 
     Page<SystemMessage> findByUserId(String userId, Pageable pageable);
 
+    Optional<SystemMessage> findByUserId(String userId);
 }
