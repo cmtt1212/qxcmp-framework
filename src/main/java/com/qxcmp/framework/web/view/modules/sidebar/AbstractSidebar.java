@@ -63,6 +63,11 @@ public abstract class AbstractSidebar extends AbstractComponent {
     private Wide wide = Wide.NONE;
 
     /**
+     * 默认动画效果
+     */
+    private SidebarAnimation animation = SidebarAnimation.UNCOVER;
+
+    /**
      * 侧边栏内容
      */
     private List<Component> sideContent = Lists.newArrayList();
@@ -128,7 +133,7 @@ public abstract class AbstractSidebar extends AbstractComponent {
             stringBuilder.append(" bottom-fixed-menu");
         }
 
-        return stringBuilder.append(direction).append(wide).toString();
+        return stringBuilder.append(direction).append(wide).append(animation).toString();
     }
 
     @Override
@@ -173,6 +178,11 @@ public abstract class AbstractSidebar extends AbstractComponent {
 
     public AbstractSidebar setBottomFixedMenu(AbstractMenu abstractMenu) {
         this.bottomFixedMenu = abstractMenu;
+        return this;
+    }
+
+    public AbstractSidebar setAnimation(SidebarAnimation animation) {
+        this.animation = animation;
         return this;
     }
 }
