@@ -7,8 +7,8 @@ package com.qxcmp.framework.web.view.support;
  */
 public enum Width {
     NONE(""),
-    VERY_THIN(" thin"),
-    THIN(" very thin"),
+    VERY_THIN(" very thin"),
+    THIN(" thin"),
     WIDE(" wide"),
     VERY_WIDE(" very wide");
 

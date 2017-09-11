@@ -6,6 +6,7 @@ import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
 import com.qxcmp.framework.web.view.support.Direction;
 import com.qxcmp.framework.web.view.support.Wide;
+import com.qxcmp.framework.web.view.support.Width;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -45,7 +46,7 @@ public abstract class AbstractSidebar extends AbstractComponent {
     /**
      * 要附着的事件名称
      */
-    private String attachEventsName = "show";
+    private String attachEventsName = "";
 
     /**
      * 是否初始可见
@@ -60,7 +61,7 @@ public abstract class AbstractSidebar extends AbstractComponent {
     /**
      * 宽度
      */
-    private Wide wide = Wide.NONE;
+    private Width width = Width.NONE;
 
     /**
      * 默认动画效果
@@ -133,7 +134,7 @@ public abstract class AbstractSidebar extends AbstractComponent {
             stringBuilder.append(" bottom-fixed-menu");
         }
 
-        return stringBuilder.append(direction).append(wide).append(animation).toString();
+        return stringBuilder.append(direction).append(width).append(animation).toString();
     }
 
     @Override
@@ -166,8 +167,8 @@ public abstract class AbstractSidebar extends AbstractComponent {
         return this;
     }
 
-    public AbstractSidebar setWide(Wide wide) {
-        this.wide = wide;
+    public AbstractSidebar setWidth(Width width) {
+        this.width = width;
         return this;
     }
 

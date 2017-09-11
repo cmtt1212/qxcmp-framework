@@ -9,16 +9,13 @@ import com.qxcmp.framework.web.view.elements.html.Anchor;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
-import com.qxcmp.framework.web.view.elements.menu.item.HeaderItem;
-import com.qxcmp.framework.web.view.elements.menu.item.ImageItem;
-import com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem;
-import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
+import com.qxcmp.framework.web.view.elements.menu.item.*;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.sidebar.MenuSidebar;
-import com.qxcmp.framework.web.view.modules.sidebar.Sidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.SidebarConfig;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Fixed;
+import com.qxcmp.framework.web.view.support.Width;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +27,9 @@ public class SidebarSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new MenuSidebar().setAttachEventsSelector(".ui.menu img").setConfig(SidebarConfig.builder().dimPage(false).build())
-                .setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new ImageItem(qxcmpConfiguration.getLogo())).addItem(new HeaderItem(qxcmpConfiguration.getTitle())))
-                .setBottomFixedMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))))
+        return page(() -> new MenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN)
+                .setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(qxcmpConfiguration.getLogo())).addItem(new HeaderItem(qxcmpConfiguration.getTitle())))
+                .setBottomFixedMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))))
                 .addSideContent(new LabeledIconItem("首页", "home").setAnchor(new Anchor("", "/test/sample/sidebar")))
                 .addSideContent(new LabeledIconItem("主题", "block layout").setAnchor(new Anchor("", "/test/sample/sidebar")))
                 .addSideContent(new LabeledIconItem("朋友", "smile").setAnchor(new Anchor("", "/test/sample/sidebar")))

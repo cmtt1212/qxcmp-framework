@@ -1,15 +1,40 @@
+$sidebar-width: 150px;
+$sidebar-top-menu-height: 48px;
+$sidebar-top-menu-logo-size: 32px;
+$sidebar-bottom-menu-height: 40px;
+
 .ui.top-fixed-menu.sidebar {
-  padding-top: 75px;
+  padding-top: $sidebar-top-menu-height;
 
   + .pusher {
-    padding-top: 75px;
+    padding-top: $sidebar-top-menu-height;
   }
 }
 
 .ui.bottom-fixed-menu.sidebar {
-  padding-bottom: 75px;
+  padding-bottom: $sidebar-bottom-menu-height;
 
   + .pusher {
-    padding-bottom: 75px;;
+    padding-bottom: $sidebar-bottom-menu-height;;
+  }
+}
+
+.ui.menu {
+  .logo.item {
+    width: $sidebar-width;
+    padding: 8px;
+
+    img {
+      width: $sidebar-top-menu-logo-size;
+    }
+  }
+
+  .sidebar.item {
+    width: $sidebar-width;
+
+    i.icon {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
