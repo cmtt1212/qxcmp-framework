@@ -21,7 +21,13 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
-<div th:fragment="field-text-input(component)"></div>
+<div th:fragment="field-text-input(component)" th:class="${component.getClassName()}">
+    <label th:utext="${component.label}"></label>
+    <input th:name="${component.name}" th:value="${component.value}" th:placeholder="${component.placeholder}"
+           th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
+           th:autocomplete="not ${component.disableAutoComplete}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+</div>
 
 </body>
 </html>

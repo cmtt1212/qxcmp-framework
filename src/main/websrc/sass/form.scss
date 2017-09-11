@@ -1,0 +1,14 @@
+$form-label-width: 25%;
+$form-component-width: 70%;
+
+.ui.form .inline.field {
+
+  > label {
+    width: $form-label-width;
+    text-align: right;
+  }
+
+  > input, .component {
+    width: $form-component-width;
+  }
+}

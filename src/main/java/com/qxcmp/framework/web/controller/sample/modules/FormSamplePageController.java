@@ -5,7 +5,10 @@ import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.modules.form.*;
+import com.qxcmp.framework.web.view.modules.form.Form;
+import com.qxcmp.framework.web.view.modules.form.FormEnctype;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.modules.form.FormSection;
 import com.qxcmp.framework.web.view.modules.form.field.TextInputField;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import org.springframework.stereotype.Controller;
@@ -27,7 +30,7 @@ public class FormSamplePageController extends AbstractSamplePageController {
     private Component createFormSegment() {
         return new Segment().addComponent(new Form().setAction("/test/sample/form").setMethod(FormMethod.POST).setEnctype(FormEnctype.APPLICATION)
                 .addSection(new FormSection("基本资料"))
-                .addItem(new TextInputField("text-input", "用户名").setRequired())
+                .addItem(new TextInputField("text-input", "", "用户名").setRequired())
                 .addSection(new FormSection("补充资料"))
         );
     }
