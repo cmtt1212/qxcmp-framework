@@ -33,4 +33,5 @@ public class TextItem extends AbstractMenuItem {
     public String getFragmentName() {
         return "item-text";
     }
+
 }

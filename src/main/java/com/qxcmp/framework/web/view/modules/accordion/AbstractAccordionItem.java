@@ -29,6 +29,11 @@ public abstract class AbstractAccordionItem extends AbstractComponent {
         return "qxcmp/modules/accordion";
     }
 
+    @Override
+    public String getFragmentName() {
+        return "item";
+    }
+
     public AbstractAccordionItem setActive() {
         setActive(true);
         return this;

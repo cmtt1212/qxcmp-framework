@@ -13,4 +13,9 @@ public class AccordionMenuItem extends AbstractMenuItem {
     public AccordionMenuItem(AccordionItem item) {
         this.item = item;
     }
+
+    @Override
+    public String getFragmentName() {
+        return "item-accordion";
+    }
 }

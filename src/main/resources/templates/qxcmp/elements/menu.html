@@ -14,6 +14,17 @@
     </th:block>
 </div>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.AccordionMenu"*/-->
+<div th:fragment="menu-accordion(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <th:block th:each="item : ${component.items}">
+        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+    </th:block>
+    <th:block th:if="${component.rightMenu ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.rightMenu})}"></div>
+    </th:block>
+    <div th:replace="~{qxcmp/modules/accordion :: scripts(${component})}"></div>
+</div>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.ButtonItem"*/-->
 <div th:fragment="item-button(component)" th:class="${component.getClassName()}">
     <div th:replace="~{qxcmp/globals/components :: component(${component.button})}"></div>
@@ -67,6 +78,11 @@
         <i class="search link icon"></i>
     </div>
 </form>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.AccordionMenuItem"*/-->
+<div th:fragment="item-accordion(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.item})}"></div>
+</div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem"*/-->
 <th:block th:fragment="item-labeled-icon(component)">
