@@ -42,6 +42,7 @@ public class SamplePageController extends AbstractSamplePageController {
                 .addItem(new Col().addComponent(new Segment().addComponent(new ContentHeader("行为组件", Size.LARGE).setDividing())
                         .addComponent(new BasicLabel("下拉框").setUrl("/test/sample/dropdown").setColor(randomColor()))
                         .addComponent(new BasicLabel("表格").setUrl("/test/sample/table").setColor(randomColor()))
+                        .addComponent(new BasicLabel("表单").setUrl("/test/sample/form").setColor(randomColor()))
                         .addComponent(new BasicLabel("分页").setUrl("/test/sample/pagination").setColor(randomColor()))
                         .addComponent(new BasicLabel("侧边栏").setUrl("/test/sample/sidebar").setColor(randomColor()))
                         .addComponent(new BasicLabel("手风琴").setUrl("/test/sample/accordion").setColor(randomColor()))

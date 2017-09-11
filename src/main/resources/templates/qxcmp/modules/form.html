@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
+<form th:fragment="form(component)"
+      th:id="${component.id}" th:name="${component.name} ?: _" th:class="${component.getClassName()}"
+      th:action="@{${component.action}} ?: _" th:method="${component.method}" th:enctype="${component.enctype}"
+      th:autocomplete="not ${component.disableAutoComplete}" th:target="${component.target} ?: _">
+    <th:block th:each="item : ${component.items}">
+        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+    </th:block>
+</form>
+
+</body>
+</html>
