@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.accordion.AbstractAccordion"*/-->
+<div th:fragment="accordion(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <th:block th:each="item : ${component.items}">
+        <div th:class="|${item.active ? 'active ' : ''}title|">
+            <i class="dropdown icon"></i>
+            [[${item.title}]]
+        </div>
+        <div th:class="|${item.active ? 'active ' : ''}content|">
+            <div th:replace="~{qxcmp/globals/components :: component(${item.content})}"></div>
+        </div>
+    </th:block>
+    <div th:replace="~{:: scripts(${component})}"></div>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar"*/-->
+<th:block th:fragment="scripts(accordion)">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var accordionId = /*[[|#${accordion.id}|]]*/ "";
+            $(accordionId).accordion({
+                exclusive : /*[[${accordion.exclusive}]]*/ true
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
