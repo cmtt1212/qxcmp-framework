@@ -5,9 +5,33 @@ import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 表单字段抽象类
+ * <p>
+ * 字段默认为水平显示，标签在左边，字段组件在右边
+ * <p>
+ * 字段在移动端将自动转换为垂直显示，标签在上面，字段组件在下面
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
-public abstract class AbstractFormField extends AbstractComponent implements FormItem {
+public abstract class AbstractFormField extends AbstractComponent {
+
+    /**
+     * 字段名称
+     */
+    private String name;
+
+    /**
+     * 字段标签
+     */
+    private String label;
+
+    /**
+     * 字段说明文本
+     */
+    private String tooltip;
 
     /**
      * 是否为必选项
@@ -32,16 +56,14 @@ public abstract class AbstractFormField extends AbstractComponent implements For
     private boolean disabled;
 
     /**
-     * 是否为内联
-     * <p>
-     * 内联字段的标签会显示在左边，默认时显示在上面
-     */
-    private boolean inline;
-
-    /**
      * 字段宽度
      */
     private Wide wide = Wide.NONE;
+
+    public AbstractFormField(String name, String label) {
+        this.name = name;
+        this.label = label;
+    }
 
     @Override
     public String getFragmentFile() {
@@ -64,16 +86,27 @@ public abstract class AbstractFormField extends AbstractComponent implements For
             stringBuilder.append(" disabled");
         }
 
-        if (inline) {
-            stringBuilder.append(" inline");
-        }
-
         return stringBuilder.append(wide).toString();
     }
 
     @Override
     public String getClassSuffix() {
         return "field";
+    }
+
+    public AbstractFormField setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AbstractFormField setLabel(String label) {
+        this.label = label;
+        return this;
+    }
+
+    public AbstractFormField setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+        return this;
     }
 
     public AbstractFormField setRequired() {
@@ -93,11 +126,6 @@ public abstract class AbstractFormField extends AbstractComponent implements For
 
     public AbstractFormField setDisabled() {
         setDisabled(true);
-        return this;
-    }
-
-    public AbstractFormField setInline() {
-        setInline(true);
         return this;
     }
 }

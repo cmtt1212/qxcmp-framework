@@ -113,15 +113,39 @@ public abstract class AbstractForm extends AbstractComponent {
      */
     private boolean inverted;
 
-    private List<FormItem> items = Lists.newArrayList();
+    private List<AbstractFormSection> sections = Lists.newArrayList();
 
-    public AbstractForm addItem(FormItem item) {
-        items.add(item);
+    public AbstractForm addSection(AbstractFormSection section) {
+        sections.add(section);
         return this;
     }
 
-    public AbstractForm addItems(Collection<? extends FormItem> items) {
-        this.items.addAll(items);
+    public AbstractForm addSections(Collection<? extends AbstractFormSection> sections) {
+        this.sections.addAll(sections);
+        return this;
+    }
+
+    public AbstractForm addItem(AbstractFormField field) {
+        AbstractFormSection formSection;
+        if (sections.isEmpty()) {
+            formSection = new FormSection();
+            sections.add(formSection);
+        } else {
+            formSection = sections.get(0);
+        }
+        formSection.addField(field);
+        return this;
+    }
+
+    public AbstractForm addItems(Collection<? extends AbstractFormField> fields) {
+        AbstractFormSection formSection;
+        if (sections.isEmpty()) {
+            formSection = new FormSection();
+            sections.add(formSection);
+        } else {
+            formSection = sections.get(0);
+        }
+        formSection.addFields(fields);
         return this;
     }
 

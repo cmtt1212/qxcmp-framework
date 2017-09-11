@@ -6,10 +6,22 @@
       th:id="${component.id}" th:name="${component.name} ?: _" th:class="${component.getClassName()}"
       th:action="@{${component.action}} ?: _" th:method="${component.method}" th:enctype="${component.enctype}"
       th:autocomplete="not ${component.disableAutoComplete}" th:target="${component.target} ?: _">
-    <th:block th:each="item : ${component.items}">
-        <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+    <th:block th:each="section : ${component.sections}">
+        <div th:replace="~{:: section(${component}, ${section})}"></div>
     </th:block>
 </form>
+
+<!--/*@thymesVar id="form" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
+<!--/*@thymesVar id="section" type="com.qxcmp.framework.web.view.modules.form.AbstractFormSection"*/-->
+<div th:fragment="section(form, section)" class="section">
+    <div th:if="${#lists.size(form.sections) gt 1}" class="ui dividing small header" th:utext="${section.name}"></div>
+    <th:block th:each="field : ${section.fields}">
+        <div th:replace="~{qxcmp/globals/components :: component(${field})}"></div>
+    </th:block>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.TextInputField"*/-->
+<div th:fragment="field-text-input(component)"></div>
 
 </body>
 </html>
