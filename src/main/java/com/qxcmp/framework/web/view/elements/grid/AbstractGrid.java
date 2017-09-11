@@ -74,6 +74,11 @@ public abstract class AbstractGrid extends AbstractComponent {
     private boolean container;
 
     /**
+     * 是否为文本容器
+     */
+    private boolean textContainer;
+
+    /**
      * 网格列数
      */
     private ColumnCount columnCount = ColumnCount.NONE;
@@ -175,6 +180,8 @@ public abstract class AbstractGrid extends AbstractComponent {
 
         if (container) {
             stringBuilder.append(" container");
+        } else if (textContainer) {
+            stringBuilder.append(" text container");
         }
 
         if (doubling) {
@@ -266,6 +273,11 @@ public abstract class AbstractGrid extends AbstractComponent {
 
     public AbstractGrid setContainer() {
         this.container = true;
+        return this;
+    }
+
+    public AbstractGrid setTextContainer() {
+        setTextContainer(true);
         return this;
     }
 

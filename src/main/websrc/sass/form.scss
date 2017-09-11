@@ -1,14 +1,27 @@
-$form-label-width: 25%;
-$form-component-width: 70%;
+$form-label-width: 25;
+$form-component-width: 75;
 
-.ui.form .inline.field {
+.ui.form {
 
-  > label {
-    width: $form-label-width;
-    text-align: right;
+  .section {
+    padding: 1rem 0;
   }
 
-  > input, .component {
-    width: $form-component-width;
+  .qxcmp.field {
+
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    > label {
+      flex: $form-label-width;
+      margin: 0 .85714286em 0 0;
+      text-align: right;
+      min-width: 96px;
+    }
+
+    > input, .component {
+      flex: $form-component-width;
+    }
   }
 }

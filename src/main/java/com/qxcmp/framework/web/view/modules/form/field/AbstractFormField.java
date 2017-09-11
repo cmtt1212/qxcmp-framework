@@ -97,7 +97,7 @@ public abstract class AbstractFormField extends AbstractComponent {
 
     @Override
     public String getClassSuffix() {
-        return "inline field";
+        return "qxcmp field";
     }
 
     public AbstractFormField setTooltip(String tooltip) {

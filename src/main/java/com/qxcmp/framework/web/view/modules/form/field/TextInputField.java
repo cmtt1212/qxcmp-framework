@@ -20,4 +20,9 @@ public class TextInputField extends AbstractTextField {
     public String getFragmentName() {
         return "field-text-input";
     }
+
+    @Override
+    public String getClassSuffix() {
+        return "text input " + super.getClassSuffix();
+    }
 }

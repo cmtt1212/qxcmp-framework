@@ -22,7 +22,7 @@ public class FormSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new VerticallyDividedGrid().setContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page(() -> new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(createFormSegment()))
         );
     }
@@ -30,7 +30,7 @@ public class FormSamplePageController extends AbstractSamplePageController {
     private Component createFormSegment() {
         return new Segment().addComponent(new Form().setAction("/test/sample/form").setMethod(FormMethod.POST).setEnctype(FormEnctype.APPLICATION)
                 .addSection(new FormSection("基本资料"))
-                .addItem(new TextInputField("text-input", "", "用户名").setRequired())
+                .addItem(new TextInputField("text-input", "", "用户名").setMaxLength(20).setRequired())
                 .addSection(new FormSection("补充资料"))
         );
     }
