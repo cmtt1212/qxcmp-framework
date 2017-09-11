@@ -6,6 +6,18 @@
       th:id="${component.id}" th:name="${component.name} ?: _" th:class="${component.getClassName()}"
       th:action="@{${component.action}} ?: _" th:method="${component.method}" th:enctype="${component.enctype}"
       th:autocomplete="not ${component.disableAutoComplete}" th:target="${component.target} ?: _">
+    <th:block th:if="${component.infoMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.infoMessage})}"></div>
+    </th:block>
+    <th:block th:if="${component.successMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.successMessage})}"></div>
+    </th:block>
+    <th:block th:if="${component.warningMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.warningMessage})}"></div>
+    </th:block>
+    <th:block th:if="${component.errorMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.errorMessage})}"></div>
+    </th:block>
     <th:block th:each="section : ${component.sections}">
         <div th:replace="~{:: section(${component}, ${section})}"></div>
     </th:block>
