@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.view.modules.form;
+package com.qxcmp.framework.web.view.modules.form.field;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Wide;
@@ -22,6 +22,11 @@ public abstract class AbstractFormField extends AbstractComponent {
      * 字段名称
      */
     private String name;
+
+    /**
+     * 字段值
+     */
+    private String value;
 
     /**
      * 字段标签
@@ -60,8 +65,9 @@ public abstract class AbstractFormField extends AbstractComponent {
      */
     private Wide wide = Wide.NONE;
 
-    public AbstractFormField(String name, String label) {
+    public AbstractFormField(String name, String value, String label) {
         this.name = name;
+        this.value = value;
         this.label = label;
     }
 
@@ -92,16 +98,6 @@ public abstract class AbstractFormField extends AbstractComponent {
     @Override
     public String getClassSuffix() {
         return "field";
-    }
-
-    public AbstractFormField setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public AbstractFormField setLabel(String label) {
-        this.label = label;
-        return this;
     }
 
     public AbstractFormField setTooltip(String tooltip) {

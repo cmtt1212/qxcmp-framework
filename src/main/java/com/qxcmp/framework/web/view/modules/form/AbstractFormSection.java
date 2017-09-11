@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.modules.form;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.modules.form.field.AbstractFormField;
 import lombok.Getter;
 import lombok.Setter;
 
