@@ -1,6 +1,8 @@
 package com.qxcmp.framework.web.controller.sample.modules;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
+import com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb;
+import com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -51,6 +53,7 @@ public class SidebarSamplePageController extends AbstractSamplePageController {
                 .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
                 .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
                 .addContent(new VerticallyDividedGrid().setContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+                        .addItem(new Col().addComponent(new Breadcrumb().addItem(new BreadcrumbItem("首页")).addItem(new BreadcrumbItem("侧边栏").setActive())))
                         .addItem(new Col().addComponent(new Segment()
                                 .addComponent(new PageHeader(HeaderType.H1, "页面内容"))
                                 .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
