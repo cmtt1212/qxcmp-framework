@@ -25,3 +25,15 @@ $form-component-width: 75;
     }
   }
 }
+
+/* Text input field */
+.ui.form .text.input.field {
+  position: relative;
+
+  .counter {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    color: lightgrey;
+  }
+}

@@ -15,7 +15,7 @@ public class AbstractTextField extends BaseHTMLField {
     /**
      * 最大文本长度
      */
-    private int maxLength;
+    private int maxLength = 80;
 
     public AbstractTextField(String name, String value, String label) {
         super(name, value, label);

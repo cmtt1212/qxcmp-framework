@@ -39,6 +39,15 @@
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <span class="counter" style="display: none"></span>
+    <script>
+        $(document).ready(function () {
+            $(".ui.form .qxcmp.text.input.field input").on('keyup', function (args) {
+                console.log(args);
+                console.log($(this).val().length);
+            })
+        });
+    </script>
 </div>
 
 </body>
