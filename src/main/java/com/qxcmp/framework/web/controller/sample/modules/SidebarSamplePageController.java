@@ -5,13 +5,14 @@ import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.elements.html.Anchor;
-import com.qxcmp.framework.web.view.elements.html.P;
+import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
+import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
 import com.qxcmp.framework.web.view.elements.menu.item.*;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.modules.sidebar.MenuSidebar;
+import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
+import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.SidebarConfig;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.Fixed;
@@ -27,16 +28,46 @@ public class SidebarSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new MenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN)
+        return page(() -> new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN)
                 .setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(qxcmpConfiguration.getLogo())).addItem(new HeaderItem(qxcmpConfiguration.getTitle())))
                 .setBottomFixedMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))))
-                .addSideContent(new LabeledIconItem("首页", "home").setAnchor(new Anchor("", "/test/sample/sidebar")))
-                .addSideContent(new LabeledIconItem("主题", "block layout").setAnchor(new Anchor("", "/test/sample/sidebar")))
-                .addSideContent(new LabeledIconItem("朋友", "smile").setAnchor(new Anchor("", "/test/sample/sidebar")))
+                .addSideContent(new TextItem("内容管理", "/test/sample/sidebar"))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
+                .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("系统设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))
                 .addContent(new VerticallyDividedGrid().setContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                         .addItem(new Col().addComponent(new Segment()
-                                .addComponent(new PageHeader(HeaderType.H1, "侧边导航栏"))
-                                .addComponent(new P("点击上方LOGO打开侧边栏"))
+                                .addComponent(new PageHeader(HeaderType.H1, "页面内容"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
+                                .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
                         ))));
     }
 

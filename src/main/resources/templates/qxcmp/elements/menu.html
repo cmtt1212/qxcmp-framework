@@ -22,7 +22,7 @@
     <th:block th:if="${component.rightMenu ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.rightMenu})}"></div>
     </th:block>
-    <div th:replace="~{qxcmp/modules/accordion :: scripts(${component})}"></div>
+    <script th:replace="~{qxcmp/modules/accordion :: scripts(${component})}"></script>
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.ButtonItem"*/-->

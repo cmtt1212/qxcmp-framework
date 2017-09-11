@@ -22,6 +22,28 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar"*/-->
+<th:block th:fragment="sidebar-accordion(component)">
+    <th:block th:if="${component.topFixedMenu ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.topFixedMenu})}"></div>
+    </th:block>
+    <th:block th:if="${component.bottomFixedMenu ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.bottomFixedMenu})}"></div>
+    </th:block>
+    <div th:id="${component.id}" th:class="${component.getClassName()}">
+        <th:block th:each="item : ${component.sideContent}">
+            <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+        </th:block>
+    </div>
+    <div class="pusher">
+        <th:block th:each="item : ${component.contents}">
+            <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
+        </th:block>
+    </div>
+    <script th:replace="~{:: scripts(${component})}"></script>
+    <script th:replace="~{qxcmp/modules/accordion :: scripts(${component})}"></script>
+</th:block>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar"*/-->
 <th:block th:fragment="scripts(sidebar)">
     <script th:inline="javascript">

@@ -3,6 +3,10 @@ $sidebar-top-menu-height: 48px;
 $sidebar-top-menu-logo-size: 32px;
 $sidebar-bottom-menu-height: 40px;
 
+.ui.sidebar + .pusher {
+  overflow-y: scroll;
+}
+
 .ui.top-fixed-menu.sidebar {
   padding-top: $sidebar-top-menu-height;
 
@@ -35,6 +39,30 @@ $sidebar-bottom-menu-height: 40px;
     i.icon {
       margin-left: auto;
       margin-right: auto;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .ui.menu {
+    .logo.item {
+      width: $sidebar-width / 2;
+    }
+
+    .sidebar.item {
+      width: $sidebar-width / 2;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.menu {
+    .logo.item {
+      width: $sidebar-width / 3;
+    }
+
+    .sidebar.item {
+      width: $sidebar-width / 3;
     }
   }
 }
