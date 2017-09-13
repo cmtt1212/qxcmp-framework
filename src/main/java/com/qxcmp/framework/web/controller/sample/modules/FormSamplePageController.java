@@ -34,7 +34,8 @@ public class FormSamplePageController extends AbstractSamplePageController {
                 .setInfoMessage((InfoMessage) new InfoMessage("关于表单说明", "本表单展示了所有的表单组件").setCloseable())
                 .setSuccessMessage(new SuccessMessage("表单信息提交成功"))
                 .addSection(new FormSection("基本资料"))
-                .addItem(new TextInputField("text-input", "", "用户名").setMaxLength(20).setRequired())
+                .addItem(new TextInputField("text-input", "administrator", "用户名").setMaxLength(20).setRequired())
+                .addItem(new TextInputField("text-input", "", "昵称").setMaxLength(10).setRequired())
                 .addSection(new FormSection("补充资料"))
         );
     }

@@ -33,18 +33,33 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
-<div th:fragment="field-text-input(component)" th:class="${component.getClassName()}">
+<div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:utext="${component.label}"></label>
     <input th:name="${component.name}" th:value="${component.value}" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
-    <span class="counter" style="display: none"></span>
-    <script>
+    <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:inline="javascript">
         $(document).ready(function () {
-            $(".ui.form .qxcmp.text.input.field input").on('keyup', function (args) {
-                console.log(args);
-                console.log($(this).val().length);
+            var id = /*[[|#${component.id}|]]*/ "";
+            var input = $(id).find("input");
+            var span = $(input).next("span");
+            var maxLength = $(span).attr("data-max-length");
+
+            span.text($(input).val().length + "/" + maxLength);
+
+            $(input).focus(function () {
+                span.css("display", "inherit")
+            });
+
+            $(input).blur(function () {
+                span.css("display", "none")
+            });
+
+            $(input).on('keydown', function () {
+                var count = $(this).val().length;
+                span.text(count + "/" + maxLength);
             })
         });
     </script>

@@ -4,6 +4,7 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * 表单字段抽象类
@@ -16,12 +17,20 @@ import lombok.Setter;
  * <p>
  * 1. 验证错误信息显示
  * 2. 字段输入限制
+ * 3. 提示文本的显示
  *
  * @author Aaric
  */
 @Getter
 @Setter
 public abstract class AbstractFormField extends AbstractComponent {
+
+    /**
+     * ID
+     * <p>
+     * 用于 JS 初始化
+     */
+    private String id = "form-field-" + RandomStringUtils.randomAlphanumeric(10);
 
     /**
      * 字段名称
