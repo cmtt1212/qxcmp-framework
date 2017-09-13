@@ -1,0 +1,63 @@
+package com.qxcmp.framework.web.view.annotation.form;
+
+import com.qxcmp.framework.web.view.modules.form.FormEnctype;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
+import com.qxcmp.framework.web.view.support.Size;
+
+import java.lang.annotation.*;
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Form {
+
+    /**
+     * 表单对象名称
+     * <p>
+     * 表单对象需要另外手动添加到 ModelAndView 中
+     * <p>
+     * 表单必须包裹一个表单对象用于存储表单提交数据
+     */
+    String objectName() default "object";
+
+    /**
+     * 名称
+     */
+    String name() default "";
+
+    /**
+     * 提交链接
+     */
+    String action() default "";
+
+    /**
+     * 提交方式
+     */
+    FormMethod method() default FormMethod.GET;
+
+    /**
+     * 编码方式
+     */
+    FormEnctype enctype() default FormEnctype.NONE;
+
+    /**
+     * 是否禁用自动完成
+     */
+    boolean disableAutoComplete() default false;
+
+    /**
+     * 提交打开方式
+     */
+    AnchorTarget target() default AnchorTarget.NONE;
+
+    /**
+     * 大小
+     */
+    Size size() default Size.NONE;
+
+    /**
+     * 是否翻转颜色
+     */
+    boolean inverted() default false;
+}

@@ -4,7 +4,7 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
 <form th:fragment="form(component)" th:object="${__${component.object}__}"
       th:id="${component.id}" th:name="${component.name} ?: _" th:class="${component.getClassName()}"
-      th:action="@{${component.action}} ?: _" th:method="${component.method}" th:enctype="${component.enctype}"
+      th:action="@{${component.action}} ?: _" th:method="${component.method ?: _}" th:enctype="${component.enctype}"
       th:autocomplete="not ${component.disableAutoComplete}" th:target="${component.target} ?: _">
     <th:block th:if="${component.infoMessage ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.infoMessage})}"></div>

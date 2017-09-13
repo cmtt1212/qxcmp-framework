@@ -18,6 +18,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 表单抽象类
@@ -59,12 +60,12 @@ public abstract class AbstractForm extends AbstractComponent {
     /**
      * 提交方式
      */
-    private FormMethod method;
+    private FormMethod method = FormMethod.GET;
 
     /**
      * 编码方式
      */
-    private FormEnctype enctype;
+    private FormEnctype enctype = FormEnctype.NONE;
 
     /**
      * 是否禁用自动完成
@@ -94,29 +95,14 @@ public abstract class AbstractForm extends AbstractComponent {
     private boolean loading;
 
     /**
-     * 是否为成功状态
-     */
-    private boolean success;
-
-    /**
      * 当为成功状态时，该成功消息会自动显示
      */
     private SuccessMessage successMessage;
 
     /**
-     * 是否为警告状态
-     */
-    private boolean warning;
-
-    /**
      * 当为警告状态时，该消息会自动显示
      */
     private WarningMessage warningMessage;
-
-    /**
-     * 是否为失败状态
-     */
-    private boolean error;
 
     /**
      * 当为失败状态时，该失败消息会自动显示
@@ -201,15 +187,15 @@ public abstract class AbstractForm extends AbstractComponent {
             stringBuilder.append(" equal width");
         }
 
-        if (success) {
+        if (Objects.nonNull(successMessage)) {
             stringBuilder.append(" success");
         }
 
-        if (warning) {
+        if (Objects.nonNull(warningMessage)) {
             stringBuilder.append(" warning");
         }
 
-        if (error) {
+        if (Objects.nonNull(errorMessage)) {
             stringBuilder.append(" error");
         }
 
@@ -287,21 +273,6 @@ public abstract class AbstractForm extends AbstractComponent {
 
     public AbstractForm setEqualWidth() {
         setEqualWidth(true);
-        return this;
-    }
-
-    public AbstractForm setSuccess() {
-        setSuccess(true);
-        return this;
-    }
-
-    public AbstractForm setWarning() {
-        setWarning(true);
-        return this;
-    }
-
-    public AbstractForm setError() {
-        setError(true);
         return this;
     }
 
