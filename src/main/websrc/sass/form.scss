@@ -33,16 +33,16 @@ $form-component-width: 75;
       }
     }
 
+    > label:after {
+      content: ":";
+    }
+
     > input, .component {
       flex: $form-component-width;
     }
   }
 
   .qxcmp.required.field {
-
-    > label:after {
-      content: ":";
-    }
 
     > label:before {
       margin-right: 0.2em;

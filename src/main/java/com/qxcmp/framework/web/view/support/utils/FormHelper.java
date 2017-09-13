@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.view.support.utils;
 
 import com.google.common.base.CaseFormat;
 import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.PasswordField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import org.apache.commons.lang3.StringUtils;
@@ -72,6 +73,8 @@ public class FormHelper {
             for (Annotation annotation : field.getDeclaredAnnotations()) {
                 if (annotation instanceof TextInputField) {
                     addTextInputField(form, field, (TextInputField) annotation);
+                } else if (annotation instanceof PasswordField) {
+                    addPasswordInputField(form, field, (PasswordField) annotation);
                 }
             }
         }
@@ -91,5 +94,21 @@ public class FormHelper {
         textInputField.setMaxLength(annotation.maxLength());
 
         form.addItem(textInputField, annotation.section());
+    }
+
+    private void addPasswordInputField(AbstractForm form, Field field, PasswordField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.PasswordField passwordField = new com.qxcmp.framework.web.view.modules.form.field.PasswordField();
+
+        passwordField.setName(field.getName());
+        passwordField.setLabel(annotation.value());
+        passwordField.setTooltip(annotation.tooltip());
+        passwordField.setRequired(annotation.required());
+        passwordField.setDisableAutoComplete(annotation.disableAutoComplete());
+        passwordField.setAutoFocus(annotation.autoFocus());
+        passwordField.setReadOnly(annotation.readOnly());
+        passwordField.setPlaceholder(annotation.placeholder());
+        passwordField.setMaxLength(annotation.maxLength());
+
+        form.addItem(passwordField, annotation.section());
     }
 }

@@ -74,7 +74,7 @@
     <label th:replace="~{:: field-label(${component})}"></label>
     <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
-           th:autocomplete="not ${component.disableAutoComplete}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
     <script th:replace="~{:: field-text-script(${component})}"></script>
@@ -85,7 +85,7 @@
     <label th:replace="~{:: field-label(${component})}"></label>
     <input th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
-           th:autocomplete="not ${component.disableAutoComplete}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
     <script th:replace="~{:: field-text-script(${component})}"></script>
