@@ -1,11 +1,11 @@
 package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
+import com.qxcmp.framework.web.view.elements.container.TextContainer;
+import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.container.TextContainer;
-import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.image.LazyImage;
@@ -29,7 +29,7 @@ public class RailSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new TextContainer().addComponent(new VerticallyDividedGrid().setColumnCount(ColumnCount.ONE).setVerticallyPadded()
+        return page().addComponent(new TextContainer().addComponent(new VerticallyDividedGrid().setColumnCount(ColumnCount.ONE).setVerticallyPadded()
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createSegment("外部扶手").addComponent(createLeftRail()).addComponent(createRightRail())))
                         .addCol(new Col().addComponent(createSegment("内部扶手").addComponent(createLeftRail().setInternal()).addComponent(createRightRail().setInternal())))
@@ -39,7 +39,7 @@ public class RailSamplePageController extends AbstractSamplePageController {
                         .addCol(new Col().addComponent(createSegment("窄距离扶手").addComponent(createLeftRail().setClose()).addComponent(createRightRail().setClose())))
                         .addCol(new Col().addComponent(createSegment("窄距离扶手").addComponent(createLeftRail().setVeryClose()).addComponent(createRightRail().setVeryClose())))
 
-                )));
+                ))).build();
     }
 
     private Segment createSegment(String title) {

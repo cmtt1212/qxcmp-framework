@@ -12,6 +12,6 @@ public class AbstractLabelController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(() -> new Label("text"));
+        return page().addComponent(new Label("text")).build();
     }
 }

@@ -25,9 +25,9 @@ public class FormSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(createFormSegment()))
-        );
+        ).build();
     }
 
     private Component createFormSegment() {

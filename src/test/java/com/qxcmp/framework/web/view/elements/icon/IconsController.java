@@ -13,12 +13,12 @@ public class IconsController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(() -> new Icons(new Icon("user"), new Icon("user")).setSize(Size.HUGE));
+        return page().addComponent(new Icons(new Icon("user"), new Icon("user")).setSize(Size.HUGE)).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(() -> new CornerIcons(new Icon("user"), new CornerIcon("user")).setSize(Size.HUGE));
+        return page().addComponent(new CornerIcons(new Icon("user"), new CornerIcon("user")).setSize(Size.HUGE)).build();
     }
 
 }

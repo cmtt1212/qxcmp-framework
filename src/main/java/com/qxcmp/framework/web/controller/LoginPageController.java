@@ -25,10 +25,10 @@ public class LoginPageController extends QXCMPController {
 
     @GetMapping("/login")
     public ModelAndView loginPage() {
-        ModelAndView modelAndView = page(() -> new Grid().setVerticallyPadded().setTextContainer().setColumnCount(ColumnCount.ONE)
+        ModelAndView modelAndView = page().addComponent( new Grid().setVerticallyPadded().setTextContainer().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(new Segment()
                         .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setDividing())
-                        .addComponent(createLoginForm()))));
+                        .addComponent(createLoginForm())))).build();
         modelAndView.addObject(new LoginForm());
         return modelAndView;
     }

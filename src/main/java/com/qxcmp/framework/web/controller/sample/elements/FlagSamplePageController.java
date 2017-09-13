@@ -1,10 +1,10 @@
 package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.Flag;
 import com.qxcmp.framework.web.view.elements.container.Container;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ public class FlagSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.SIXTEEN).setAlignment(Alignment.CENTER)
+        return page().addComponent(new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.SIXTEEN).setAlignment(Alignment.CENTER)
                 .addItem(new Col().addComponent(new Flag("ad")))
                 .addItem(new Col().addComponent(new Flag("ba")))
                 .addItem(new Col().addComponent(new Flag("cn")))
@@ -43,7 +43,7 @@ public class FlagSamplePageController extends AbstractSamplePageController {
                 .addItem(new Col().addComponent(new Flag("wf")))
                 .addItem(new Col().addComponent(new Flag("ye")))
                 .addItem(new Col().addComponent(new Flag("za")))
-        ));
+        )).build();
     }
 
 

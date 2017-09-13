@@ -14,17 +14,17 @@ public class AbstractDividerController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(Divider::new);
+        return page().addComponent(new Divider()).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(() -> new HorizontalDivider("text"));
+        return page().addComponent(new HorizontalDivider("text")).build();
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(() -> new HorizontalDivider(new ContentHeader("text", Size.SMALL)));
+        return page().addComponent(new HorizontalDivider(new ContentHeader("text", Size.SMALL))).build();
     }
 
 }

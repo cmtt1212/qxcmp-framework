@@ -26,13 +26,13 @@ public class HeaderSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new Grid().setColumnCount(ColumnCount.TWO)
+        return page().addComponent(new Container().addComponent(new Grid().setColumnCount(ColumnCount.TWO)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createPageHeaderSegment()))
                         .addCol(new Col().addComponent(createContentHeaderSegment()))
                         .addCol(new Col().addComponent(createIconHeaderSegment()))
                         .addCol(new Col().addComponent(createSubHeaderSegment()))
-                )));
+                ))).build();
     }
 
     private Component createSubHeaderSegment() {

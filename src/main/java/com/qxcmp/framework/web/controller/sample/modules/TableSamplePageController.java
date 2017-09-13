@@ -20,10 +20,10 @@ public class TableSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page().addComponent( new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(new Segment().addComponent(createTable1())))
-                )));
+                ))).build();
     }
 
     private Component createTable1() {

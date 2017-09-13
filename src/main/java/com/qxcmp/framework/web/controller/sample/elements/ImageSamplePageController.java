@@ -2,9 +2,9 @@ package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.DividedGrid;
-import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.html.H4;
 import com.qxcmp.framework.web.view.elements.image.Avatar;
 import com.qxcmp.framework.web.view.elements.image.Image;
@@ -27,12 +27,12 @@ public class ImageSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new DividedGrid().setColumnCount(ColumnCount.TWO)
+        return page().addComponent(new Container().addComponent(new DividedGrid().setColumnCount(ColumnCount.TWO)
                 .addItem(new Col().addComponent(createAvatarImageSegment()))
                 .addItem(new Col().addComponent(createCircularImageSegment()))
                 .addItem(new Col().addComponent(createFluidImageSegment()))
                 .addItem(new Col().addComponent(createLazyLoadImageSegment()))
-        ));
+        )).build();
     }
 
     private Component createLazyLoadImageSegment() {

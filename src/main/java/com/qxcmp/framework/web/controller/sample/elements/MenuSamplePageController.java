@@ -3,10 +3,10 @@ package com.qxcmp.framework.web.controller.sample.elements;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.item.*;
@@ -28,12 +28,12 @@ public class MenuSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent((new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page().addComponent(new Container().addComponent((new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(createStandardMenu()))
                 .addItem(new Col().addComponent(createSecondaryMenu()))
                 .addItem(new Col().addComponent(createPointingMenu()))
                 .addItem(new Col().addComponent(createSecondaryPointingMenu()))
-        )));
+        ))).build();
     }
 
     private Component createSecondaryPointingMenu() {

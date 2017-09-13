@@ -7,7 +7,6 @@ import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.menu.AccordionMenu;
-import com.qxcmp.framework.web.view.elements.menu.VerticalMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
 import com.qxcmp.framework.web.view.elements.menu.item.AccordionMenuItem;
 import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
@@ -28,11 +27,11 @@ public class AccordionSamplePageController extends AbstractSamplePageController 
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new VerticallyDividedGrid().setContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page().addComponent(new VerticallyDividedGrid().setContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(createAccordionSegment()))
                 .addItem(new Col().addComponent(createStyledAccordionSegment()))
                 .addItem(new Col().addComponent(createAccordionMenuSegment()))
-        );
+        ).build();
     }
 
     private Component createAccordionMenuSegment() {

@@ -12,12 +12,12 @@ public class AbstractInputController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(() -> new Input("text"));
+        return page().addComponent(new Input("text")).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(() -> new IconInput("user", "text"));
+        return page().addComponent(new IconInput("user", "text")).build();
     }
 
 }

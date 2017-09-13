@@ -30,7 +30,7 @@ public class SidebarSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN)
+        return page().addComponent(new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN)
                 .setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(qxcmpConfiguration.getLogo())).addItem(new HeaderItem(qxcmpConfiguration.getTitle())))
                 .setBottomFixedMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))))
                 .addSideContent(new TextItem("内容管理", "/test/sample/sidebar"))
@@ -71,7 +71,7 @@ public class SidebarSamplePageController extends AbstractSamplePageController {
                                 .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
                                 .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
                                 .addComponent(new Image("/assets/images/placeholder-paragraph.png"))
-                        ))));
+                        )))).build();
     }
 
 

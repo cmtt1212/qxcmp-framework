@@ -26,14 +26,14 @@ public class LoaderSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new Grid().setColumnCount(ColumnCount.ONE)
+        return page().addComponent( new Container().addComponent(new Grid().setColumnCount(ColumnCount.ONE)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createSegment1()))
                         .addCol(new Col().addComponent(createSegment2()))
                         .addCol(new Col().addComponent(createSegment3()))
                         .addCol(new Col().addComponent(createSegment4()))
                         .addCol(new Col().addComponent(createSegment5()))
-                )));
+                ))).build();
     }
 
     private Component createSegment1() {

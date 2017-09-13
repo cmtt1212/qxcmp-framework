@@ -23,11 +23,11 @@ public class HtmlSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new Grid()
+        return page().addComponent(new Container().addComponent(new Grid()
                 .addItem(new Row()
                         .addCol(new Col(Wide.EIGHT).addComponent(createBlockElements()))
                         .addCol(new Col(Wide.EIGHT).addComponent(createInlineElements()))
-                )));
+                ))).build();
     }
 
     private AbstractSegment createInlineElements() {

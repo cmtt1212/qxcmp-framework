@@ -115,11 +115,6 @@ public abstract class QXCMPController2 {
         return builder("redirect:" + redirectUrl).build();
     }
 
-    protected ModelAndViewBuilder page(Consumer<Page.PageBuilder> consumer) {
-        Page.PageBuilder pageBuilder = Page.builder();
-        consumer.accept(pageBuilder);
-        return builder("qxcmp").addObject(pageBuilder.build());
-    }
 
     /**
      * 获取一个模型视图生成器

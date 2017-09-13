@@ -2,10 +2,10 @@ package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
-import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.step.Step;
@@ -24,12 +24,12 @@ public class StepSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new Grid().setColumnCount(ColumnCount.ONE)
+        return page().addComponent(new Container().addComponent(new Grid().setColumnCount(ColumnCount.ONE)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createStandardStepSegment()))
                         .addCol(new Col().addComponent(createOrderedStepSegment()))
                         .addCol(new Col().addComponent(createVerticalStepSegment()))
-                )));
+                ))).build();
     }
 
     private Component createVerticalStepSegment() {

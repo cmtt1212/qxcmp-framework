@@ -12,42 +12,42 @@ public class AbstractSegmentController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(Segment::new);
+        return page().addComponent(new Segment()).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(BasicSegment::new);
+        return page().addComponent(new BasicSegment()).build();
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(CircularSegment::new);
+        return page().addComponent(new CircularSegment()).build();
     }
 
     @GetMapping("/4")
     public ModelAndView testPage4() {
-        return page(PiledSegment::new);
+        return page().addComponent(new PiledSegment()).build();
     }
 
     @GetMapping("/5")
     public ModelAndView testPage5() {
-        return page(RaisedSegment::new);
+        return page().addComponent(new RaisedSegment()).build();
     }
 
     @GetMapping("/6")
     public ModelAndView testPage6() {
-        return page(VerticalSegment::new);
+        return page().addComponent(new VerticalSegment()).build();
     }
 
     @GetMapping("/7")
     public ModelAndView testPage7() {
-        return page(StackedSegment::new);
+        return page().addComponent(new StackedSegment()).build();
     }
 
     @GetMapping("/8")
     public ModelAndView testPage8() {
-        return page(TallStackedSegment::new);
+        return page().addComponent(new TallStackedSegment()).build();
     }
 
 }

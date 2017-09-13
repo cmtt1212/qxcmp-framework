@@ -1,11 +1,11 @@
 package com.qxcmp.framework.web.view;
 
-import lombok.Builder;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Singular;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,19 +17,34 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Builder
 public class Page {
 
     private static final String DEFAULT_PAGE_VIEW = "qxcmp";
 
-    @Builder.Default
-    private final ModelAndView modelAndView = new ModelAndView(DEFAULT_PAGE_VIEW);
+    private ModelAndView modelAndView = new ModelAndView(DEFAULT_PAGE_VIEW);
+
+    public Page() {
+        this(DEFAULT_PAGE_VIEW);
+    }
+
+    public Page(String viewName) {
+        modelAndView = new ModelAndView(viewName);
+    }
 
     /**
      * 页面组件，框架会依次渲染各个组件
      */
-    @Singular
-    private List<AbstractComponent> components;
+    private List<Component> components = Lists.newArrayList();
+
+    public Page addComponent(Component component) {
+        components.add(component);
+        return this;
+    }
+
+    public Page addComponents(Collection<? extends Component> components) {
+        this.components.addAll(components);
+        return this;
+    }
 
     public ModelAndView build() {
         modelAndView.addObject(this);

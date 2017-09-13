@@ -1,9 +1,9 @@
 package com.qxcmp.framework.web.controller.sample.elements;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.list.List;
 import com.qxcmp.framework.web.view.elements.list.item.IconTextItem;
@@ -23,7 +23,7 @@ public class MessageSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.TWO)
+        return page().addComponent(new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.TWO)
                 .addItem(new Col().addComponent(new Segment().addComponent(new Message("您有一条新的消息").setColor(randomColor()))))
                 .addItem(new Col().addComponent(new Segment().addComponent(new Message("您有一条新的消息", "这里是消息内容").setColor(randomColor()))))
                 .addItem(new Col().addComponent(new Segment().addComponent(new Message("您有一条新的消息", "这里是消息内容", createList()).setColor(randomColor()))))
@@ -40,7 +40,7 @@ public class MessageSamplePageController extends AbstractSamplePageController {
                 .addItem(new Col().addComponent(new Segment().addComponent(new ErrorMessage("您有一条新的消息", "这里是消息内容").setIcon("inbox"))))
                 .addItem(new Col().addComponent(new Segment().addComponent(new PositiveMessage("您有一条新的消息", "这里是消息内容").setIcon("inbox"))))
                 .addItem(new Col().addComponent(new Segment().addComponent(new NegativeMessage("您有一条新的消息", "这里是消息内容").setIcon("inbox"))))
-        ));
+        )).build();
     }
 
     private List createList() {

@@ -12,16 +12,16 @@ public class AbstractContainerController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(Container::new);
+        return page().addComponent(new Container()).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(TextContainer::new);
+        return page().addComponent(new TextContainer()).build();
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(FluidContainer::new);
+        return page().addComponent(new FluidContainer()).build();
     }
 }

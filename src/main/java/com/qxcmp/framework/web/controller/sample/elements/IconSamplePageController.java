@@ -4,8 +4,6 @@ import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.DividedGrid;
-import com.qxcmp.framework.web.view.elements.container.Container;
-import com.qxcmp.framework.web.view.elements.html.H2;
 import com.qxcmp.framework.web.view.elements.html.H4;
 import com.qxcmp.framework.web.view.elements.icon.*;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
@@ -22,18 +20,17 @@ public class IconSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> {
-            DividedGrid grid = new DividedGrid();
-            grid.setColumnCount(ColumnCount.TWO);
-            grid.addItem(new Col().addComponent(createBasicIconSegment()));
-            grid.addItem(new Col().addComponent(createStateIconSegment()));
-            grid.addItem(new Col().addComponent(createSizeIconSegment()));
-            grid.addItem(new Col().addComponent(createInvertedIconSegment()));
-            grid.addItem(new Col().addComponent(createCircularIconSegment()));
-            grid.addItem(new Col().addComponent(createBorderedIconSegment()));
-            grid.addItem(new Col().addComponent(createGroupsIconSegment()));
-            return new Container().addComponent(new Segment().addComponent(new H2("图标")).addComponent(grid));
-        });
+        return page().addComponent(
+                new DividedGrid()
+                        .setColumnCount(ColumnCount.TWO)
+                        .addItem(new Col().addComponent(createBasicIconSegment()))
+                        .addItem(new Col().addComponent(createStateIconSegment()))
+                        .addItem(new Col().addComponent(createSizeIconSegment()))
+                        .addItem(new Col().addComponent(createInvertedIconSegment()))
+                        .addItem(new Col().addComponent(createCircularIconSegment()))
+                        .addItem(new Col().addComponent(createBorderedIconSegment()))
+                        .addItem(new Col().addComponent(createGroupsIconSegment()))
+        ).build();
     }
 
     private Component createBasicIconSegment() {

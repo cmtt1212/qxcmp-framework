@@ -14,21 +14,21 @@ public class AbstractHeaderController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(() -> new PageHeader(HeaderType.H1, ""));
+        return page().addComponent(new PageHeader(HeaderType.H1, "")).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(() -> new ContentHeader("", Size.SMALL));
+        return page().addComponent(new ContentHeader("", Size.SMALL)).build();
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(() -> new IconHeader("", new Icon("user")));
+        return page().addComponent(new IconHeader("", new Icon("user"))).build();
     }
 
     @GetMapping("/4")
     public ModelAndView testPage4() {
-        return page(() -> new SubHeader(""));
+        return page().addComponent(new SubHeader("")).build();
     }
 }

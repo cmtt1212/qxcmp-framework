@@ -24,14 +24,14 @@ public class LabelSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new Grid().setColumnCount(ColumnCount.TWO)
+        return page().addComponent( new Container().addComponent(new Grid().setColumnCount(ColumnCount.TWO)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createLabelSegment()))
                         .addCol(new Col().addComponent(createImageLabelSegment()))
                         .addCol(new Col().addComponent(createPointingLabelSegment()))
                         .addCol(new Col().addComponent(createCircularSegment()))
                         .addCol(new Col().addComponent(createLabelsSegment()))
-                )));
+                ))).build();
     }
 
     private Component createLabelSegment() {

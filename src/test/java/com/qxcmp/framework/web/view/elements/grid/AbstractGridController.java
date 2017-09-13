@@ -12,26 +12,26 @@ public class AbstractGridController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(Grid::new);
+        return page().addComponent(new Grid()).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(DividedGrid::new);
+        return page().addComponent(new DividedGrid()).build();
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(VerticallyDividedGrid::new);
+        return page().addComponent(new VerticallyDividedGrid()).build();
     }
 
     @GetMapping("/4")
     public ModelAndView testPage4() {
-        return page(CelledGrid::new);
+        return page().addComponent(new CelledGrid()).build();
     }
 
     @GetMapping("/5")
     public ModelAndView testPage5() {
-        return page(InternallyCelledGrid::new);
+        return page().addComponent(new InternallyCelledGrid()).build();
     }
 }

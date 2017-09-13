@@ -1,8 +1,8 @@
 package com.qxcmp.framework.web.controller.sample;
 
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
@@ -19,7 +19,7 @@ public class SamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView home() {
-        return page(() -> new Container().addComponent(new VerticallyDividedGrid().setColumnCount(ColumnCount.ONE).setVerticallyPadded()
+        return page().addComponent(new Container().addComponent(new VerticallyDividedGrid().setColumnCount(ColumnCount.ONE).setVerticallyPadded()
                 .addItem(new Col().addComponent(new Segment().addComponent(new ContentHeader("元素组件", Size.LARGE).setDividing())
                         .addComponent(new BasicLabel("基本HTML元素").setUrl("/test/sample/html").setColor(randomColor()))
                         .addComponent(new BasicLabel("按钮").setUrl("/test/sample/button").setColor(randomColor()))
@@ -47,6 +47,6 @@ public class SamplePageController extends AbstractSamplePageController {
                         .addComponent(new BasicLabel("侧边栏").setUrl("/test/sample/sidebar").setColor(randomColor()))
                         .addComponent(new BasicLabel("手风琴").setUrl("/test/sample/accordion").setColor(randomColor()))
                 ))
-        ));
+        )).build();
     }
 }

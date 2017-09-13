@@ -3,13 +3,13 @@ package com.qxcmp.framework.web.controller.sample.elements;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.Row;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb;
 import com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem;
 import com.qxcmp.framework.web.view.elements.breadcrumb.IconBreadCrumb;
 import com.qxcmp.framework.web.view.elements.container.Container;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Row;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
@@ -29,11 +29,11 @@ public class BreadcrumbSamplePageController extends AbstractSamplePageController
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page(() -> new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page().addComponent(new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(createTextBreadcrumbSegment()))
                         .addCol(new Col().addComponent(createIconBreadcrumbSegment()))
-                )));
+                ))).build();
     }
 
     private Component createTextBreadcrumbSegment() {

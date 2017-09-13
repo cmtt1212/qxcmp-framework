@@ -12,22 +12,22 @@ public class IconController extends QXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page(() -> new Icon("user"));
+        return page().addComponent(new Icon("user")).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page(() -> new BorderedIcon("user"));
+        return page().addComponent(new BorderedIcon("user")).build();
     }
 
     @GetMapping("/3")
     public ModelAndView testPage3() {
-        return page(() -> new CircularIcon("user"));
+        return page().addComponent(new CircularIcon("user")).build();
     }
 
     @GetMapping("/4")
     public ModelAndView testPage4() {
-        return page(() -> new CornerIcon("user"));
+        return page().addComponent(new CornerIcon("user")).build();
     }
 
 }
