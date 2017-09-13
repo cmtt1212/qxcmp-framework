@@ -62,4 +62,14 @@ public @interface Form {
      * 是否翻转颜色
      */
     boolean inverted() default false;
+
+    /**
+     * 提交文本
+     */
+    String submitText() default "";
+
+    /**
+     * 提交图标
+     */
+    String submitIcon() default "";
 }

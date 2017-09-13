@@ -65,6 +65,14 @@ public class FormHelper {
             form.setAction(annotation.action());
         }
 
+        if (StringUtils.isNotBlank(annotation.submitText())) {
+            form.setSubmitButton(annotation.submitText());
+        }
+
+        if (StringUtils.isNotBlank(annotation.submitIcon())) {
+            form.setSubmitButton(StringUtils.isBlank(annotation.submitText()) ? "提交" : annotation.submitText(), annotation.submitIcon());
+        }
+
         return form;
     }
 
