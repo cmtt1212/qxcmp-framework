@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.form.LoginForm;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -24,14 +25,16 @@ public class LoginPageController extends QXCMPController {
 
     @GetMapping("/login")
     public ModelAndView loginPage() {
-        return page(() -> new Grid().setVerticallyPadded().setTextContainer().setColumnCount(ColumnCount.ONE)
+        ModelAndView modelAndView = page(() -> new Grid().setVerticallyPadded().setTextContainer().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(new Segment()
                         .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setDividing())
                         .addComponent(createLoginForm()))));
+        modelAndView.addObject(new LoginForm());
+        return modelAndView;
     }
 
     private Component createLoginForm() {
-        return new Form().setMethod(FormMethod.POST).setSubmitButton(new AnimatedButton().setVisibleText("登录").setHiddenIcon(new Icon("sign in")).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary())
+        return new Form().setObject("loginForm").setMethod(FormMethod.POST).setSubmitButton(new AnimatedButton().setVisibleText("登录").setHiddenIcon(new Icon("sign in")).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary())
                 .addItem(new TextInputField("username", "", "用户名").setPlaceholder("用户名/邮箱/手机"))
                 .addItem(new PasswordField("password", "", "登录密码").setMaxLength(20).setPlaceholder("你的登录密码"))
                 ;

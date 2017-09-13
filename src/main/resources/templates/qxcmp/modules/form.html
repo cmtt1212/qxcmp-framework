@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
-<form th:fragment="form(component)"
+<form th:fragment="form(component)" th:object="${__${component.object}__}"
       th:id="${component.id}" th:name="${component.name} ?: _" th:class="${component.getClassName()}"
       th:action="@{${component.action}} ?: _" th:method="${component.method}" th:enctype="${component.enctype}"
       th:autocomplete="not ${component.disableAutoComplete}" th:target="${component.target} ?: _">
@@ -43,7 +43,7 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
-    <input th:name="${component.name}" th:value="${component.value}" th:placeholder="${component.placeholder}"
+    <input th:field="*{__${component.name}__}" th:value="${component.value}" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
@@ -79,8 +79,7 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-password(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
-    <input th:name="${component.name}" th:value="${component.value}" type="password"
-           th:placeholder="${component.placeholder}"
+    <input th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>

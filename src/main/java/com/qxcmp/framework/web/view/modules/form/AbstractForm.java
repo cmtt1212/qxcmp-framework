@@ -19,6 +19,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 表单抽象类
+ * <p>
+ * 所有表单都需要关联一个表单对象，即使用表单对象来存储表单提交数据
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
 public abstract class AbstractForm extends AbstractComponent {
@@ -29,6 +36,15 @@ public abstract class AbstractForm extends AbstractComponent {
      * 用于 JS 初始化
      */
     private String id = "form-" + RandomStringUtils.randomAlphanumeric(10);
+
+    /**
+     * 表单对象名称
+     * <p>
+     * 表单对象需要另外手动添加到 ModelAndView 中
+     * <p>
+     * 表单必须包裹一个表单对象用于存储表单提交数据
+     */
+    private String object = "object";
 
     /**
      * 名称
@@ -207,6 +223,11 @@ public abstract class AbstractForm extends AbstractComponent {
     @Override
     public String getClassSuffix() {
         return "form";
+    }
+
+    public AbstractForm setObject(String object) {
+        this.object = object;
+        return this;
     }
 
     public AbstractForm setName(String name) {
