@@ -18,11 +18,30 @@ $form-component-width: 75;
       margin: 0 .85714286em 0 0;
       text-align: right;
       min-width: 96px;
+
+      .help.icon {
+        margin: 0;
+      }
     }
 
     > input, .component {
       flex: $form-component-width;
     }
+  }
+
+  .qxcmp.required.field {
+
+    > label:after {
+      content: ":";
+    }
+
+    > label:before {
+      margin-right: 0.2em;
+      content: "*";
+      color: red;
+      vertical-align: middle;
+    }
+
   }
 }
 
