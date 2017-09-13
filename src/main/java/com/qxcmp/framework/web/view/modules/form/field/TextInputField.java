@@ -12,10 +12,6 @@ import lombok.Setter;
 @Setter
 public class TextInputField extends AbstractTextField {
 
-    public TextInputField(String name, String value, String label) {
-        super(name, value, label);
-    }
-
     @Override
     public String getFragmentName() {
         return "field-text-input";

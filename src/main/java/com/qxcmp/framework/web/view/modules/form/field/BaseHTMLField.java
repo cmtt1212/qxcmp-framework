@@ -32,10 +32,6 @@ public abstract class BaseHTMLField extends AbstractFormField {
      */
     private String placeholder;
 
-    public BaseHTMLField(String name, String value, String label) {
-        super(name, value, label);
-    }
-
     public BaseHTMLField setDisableAutoComplete() {
         setDisableAutoComplete(true);
         return this;

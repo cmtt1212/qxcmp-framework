@@ -18,8 +18,10 @@ public @interface Form {
      * 表单对象需要另外手动添加到 ModelAndView 中
      * <p>
      * 表单必须包裹一个表单对象用于存储表单提交数据
+     * <p>
+     * 默认为表单对象类型小写驼峰规则
      */
-    String objectName() default "object";
+    String objectName() default "";
 
     /**
      * 名称

@@ -6,7 +6,7 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.Page;
-import com.qxcmp.framework.web.view.modules.form.Form;
+import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public abstract class QXCMPController {
         return applicationContext.getBean(Page.class, request, response);
     }
 
-    protected Form convertToForm(Object object) {
+    protected AbstractForm convertToForm(Object object) {
         return formHelper.convert(object);
     }
 

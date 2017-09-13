@@ -1,10 +1,11 @@
 package com.qxcmp.framework.web.view.modules.form.field;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
-import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.Objects;
 
 /**
  * 表单字段抽象类
@@ -38,11 +39,6 @@ public abstract class AbstractFormField extends AbstractComponent {
     private String name;
 
     /**
-     * 字段值
-     */
-    private String value;
-
-    /**
      * 字段标签
      */
     private String label;
@@ -60,11 +56,6 @@ public abstract class AbstractFormField extends AbstractComponent {
     private boolean required;
 
     /**
-     * 是否为错误状态
-     */
-    private boolean error;
-
-    /**
      * 错误消息，当为错误状态时自动显示
      */
     private String errorMessage;
@@ -73,17 +64,6 @@ public abstract class AbstractFormField extends AbstractComponent {
      * 是否为禁用状态
      */
     private boolean disabled;
-
-    /**
-     * 字段宽度
-     */
-    private Wide wide = Wide.NONE;
-
-    public AbstractFormField(String name, String value, String label) {
-        this.name = name;
-        this.value = value;
-        this.label = label;
-    }
 
     @Override
     public String getFragmentFile() {
@@ -98,7 +78,7 @@ public abstract class AbstractFormField extends AbstractComponent {
             stringBuilder.append(" required");
         }
 
-        if (error) {
+        if (Objects.nonNull(errorMessage)) {
             stringBuilder.append(" error");
         }
 
@@ -106,12 +86,22 @@ public abstract class AbstractFormField extends AbstractComponent {
             stringBuilder.append(" disabled");
         }
 
-        return stringBuilder.append(wide).toString();
+        return stringBuilder.toString();
     }
 
     @Override
     public String getClassSuffix() {
         return "qxcmp field";
+    }
+
+    public AbstractFormField setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AbstractFormField setLabel(String label) {
+        this.label = label;
+        return this;
     }
 
     public AbstractFormField setTooltip(String tooltip) {
@@ -121,11 +111,6 @@ public abstract class AbstractFormField extends AbstractComponent {
 
     public AbstractFormField setRequired() {
         setRequired(true);
-        return this;
-    }
-
-    public AbstractFormField setError() {
-        setError(true);
         return this;
     }
 

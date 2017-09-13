@@ -72,7 +72,7 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
-    <input th:field="*{__${component.name}__}" th:value="${component.value}" th:placeholder="${component.placeholder}"
+    <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>

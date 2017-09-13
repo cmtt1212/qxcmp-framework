@@ -148,6 +148,26 @@ public abstract class AbstractForm extends AbstractComponent {
         return this;
     }
 
+    public AbstractForm addItem(AbstractFormField field, String sectionName) {
+        AbstractFormSection section = null;
+
+        for (AbstractFormSection abstractFormSection : sections) {
+            if (abstractFormSection.getName().equals(sectionName)) {
+                section = abstractFormSection;
+                break;
+            }
+        }
+
+        if (Objects.isNull(section)) {
+            section = new FormSection(sectionName);
+            sections.add(section);
+        }
+
+        section.addField(field);
+
+        return this;
+    }
+
     public AbstractForm addItems(Collection<? extends AbstractFormField> fields) {
         AbstractFormSection formSection;
         if (sections.isEmpty()) {
