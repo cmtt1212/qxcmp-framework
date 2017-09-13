@@ -34,7 +34,11 @@
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
-    <label th:utext="${component.label}"></label>
+    <label>
+        [[${component.label}]]
+        <i th:if="not ${#strings.isEmpty(component.tooltip)}" class="help circle outline link icon"
+           th:attr="data-content=${component.tooltip}"></i>
+    </label>
     <input th:name="${component.name}" th:value="${component.value}" th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
@@ -43,6 +47,7 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
+            var helpIcon = $(id).find(".help.icon");
             var input = $(id).find("input");
             var span = $(input).next("span");
             var maxLength = $(span).attr("data-max-length");
@@ -60,7 +65,9 @@
             $(input).on('keydown', function () {
                 var count = $(this).val().length;
                 span.text(count + "/" + maxLength);
-            })
+            });
+
+            $(helpIcon).popup({position: 'top center'});
         });
     </script>
 </div>

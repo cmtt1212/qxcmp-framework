@@ -30,6 +30,10 @@ $form-component-width: 75;
 .ui.form .text.input.field {
   position: relative;
 
+  input {
+    padding-right: 50px;
+  }
+
   .counter {
     position: absolute;
     right: 10px;
