@@ -6,6 +6,8 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.modules.form.Form;
+import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -39,6 +41,8 @@ public abstract class QXCMPController {
 
     protected SystemConfigService systemConfigService;
 
+    private FormHelper formHelper;
+
     protected Optional<User> currentUser() {
         return Optional.ofNullable(userService.currentUser());
     }
@@ -55,7 +59,11 @@ public abstract class QXCMPController {
     }
 
     protected Page page() {
-        return new Page();
+        return applicationContext.getBean(Page.class, request, response);
+    }
+
+    protected Form convertToForm(Object object) {
+        return formHelper.convert(object);
     }
 
     /**
@@ -114,5 +122,10 @@ public abstract class QXCMPController {
     @Autowired
     public void setSystemConfigService(SystemConfigService systemConfigService) {
         this.systemConfigService = systemConfigService;
+    }
+
+    @Autowired
+    public void setFormHelper(FormHelper formHelper) {
+        this.formHelper = formHelper;
     }
 }
