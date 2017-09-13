@@ -2,6 +2,9 @@ package com.qxcmp.framework.web.view.modules.form;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.elements.button.AbstractButton;
+import com.qxcmp.framework.web.view.elements.button.Button;
+import com.qxcmp.framework.web.view.elements.button.LabeledIconButton;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.message.SuccessMessage;
@@ -58,6 +61,11 @@ public abstract class AbstractForm extends AbstractComponent {
      * @see com.qxcmp.framework.web.view.support.AnchorTarget
      */
     private String target;
+
+    /**
+     * 提交按钮
+     */
+    private AbstractButton submitButton = new Button("提交").setSecondary();
 
     /**
      * 表单消息 - 可选
@@ -283,6 +291,21 @@ public abstract class AbstractForm extends AbstractComponent {
 
     public AbstractForm setSize(Size size) {
         this.size = size;
+        return this;
+    }
+
+    public AbstractForm setSubmitButton(String submitText) {
+        this.submitButton = new Button(submitText).setSecondary();
+        return this;
+    }
+
+    public AbstractForm setSubmitButton(String submitText, String submitIcon) {
+        this.submitButton = new LabeledIconButton(submitIcon, submitText).setSecondary();
+        return this;
+    }
+
+    public AbstractForm setSubmitButton(AbstractButton button) {
+        this.submitButton = button;
         return this;
     }
 }

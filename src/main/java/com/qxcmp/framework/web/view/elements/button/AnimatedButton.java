@@ -77,6 +77,31 @@ public class AnimatedButton extends AbstractButton {
         return stringBuilder.toString();
     }
 
+    public AnimatedButton setAnimatedType(AnimatedType animatedType) {
+        this.animatedType = animatedType;
+        return this;
+    }
+
+    public AnimatedButton setVisibleText(String visibleText) {
+        this.visibleText = visibleText;
+        return this;
+    }
+
+    public AnimatedButton setVisibleIcon(Icon visibleIcon) {
+        this.visibleIcon = visibleIcon;
+        return this;
+    }
+
+    public AnimatedButton setHiddenText(String hiddenText) {
+        this.hiddenText = hiddenText;
+        return this;
+    }
+
+    public AnimatedButton setHiddenIcon(Icon hiddenIcon) {
+        this.hiddenIcon = hiddenIcon;
+        return this;
+    }
+
     public enum AnimatedType {
         DEFAULT(""),
         VERTICAL("vertical"),

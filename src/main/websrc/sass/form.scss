@@ -7,6 +7,15 @@ $form-component-width: 75;
     padding: 1rem 0;
   }
 
+  .submit.section {
+    text-align: right;
+    padding: 0;
+
+    button {
+      margin: 0;
+    }
+  }
+
   .qxcmp.field {
 
     display: flex;
@@ -41,7 +50,6 @@ $form-component-width: 75;
       color: red;
       vertical-align: middle;
     }
-
   }
 }
 

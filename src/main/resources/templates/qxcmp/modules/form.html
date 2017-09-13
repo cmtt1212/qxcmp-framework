@@ -21,6 +21,9 @@
     <th:block th:each="section : ${component.sections}">
         <div th:replace="~{:: section(${component}, ${section})}"></div>
     </th:block>
+    <div class="submit section">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.submitButton})}"></div>
+    </div>
 </form>
 
 <!--/*@thymesVar id="form" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
