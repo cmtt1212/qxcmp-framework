@@ -8,6 +8,7 @@ import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.form.Form;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
@@ -23,9 +24,9 @@ public class LoginPageController extends QXCMPController {
 
     @GetMapping("/login")
     public ModelAndView loginPage() {
-        return page(() -> new Grid().setTextContainer().setColumnCount(ColumnCount.ONE)
+        return page(() -> new Grid().setVerticallyPadded().setTextContainer().setColumnCount(ColumnCount.ONE)
                 .addItem(new Col().addComponent(new Segment()
-                        .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setDividing())
+                        .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setDividing())
                         .addComponent(createLoginForm()))));
     }
 
