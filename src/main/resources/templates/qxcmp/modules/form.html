@@ -32,14 +32,52 @@
     </th:block>
 </div>
 
+<label th:fragment="field-label(component)">
+    [[${component.label}]] <i th:if="not ${#strings.isEmpty(component.tooltip)}"
+                              class="help circle outline link icon" th:attr="data-content=${component.tooltip}"></i>
+</label>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
-    <label>
-        [[${component.label}]]
-        <i th:if="not ${#strings.isEmpty(component.tooltip)}" class="help circle outline link icon"
-           th:attr="data-content=${component.tooltip}"></i>
-    </label>
+    <label th:replace="~{:: field-label(${component})}"></label>
     <input th:name="${component.name}" th:value="${component.value}" th:placeholder="${component.placeholder}"
+           th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
+           th:autocomplete="not ${component.disableAutoComplete}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var helpIcon = $(id).find(".help.icon");
+            var input = $(id).find("input");
+            var span = $(input).next("span");
+            var maxLength = $(span).attr("data-max-length");
+
+            span.text($(input).val().length + "/" + maxLength);
+
+            $(input).focus(function () {
+                span.css("display", "inherit")
+            });
+
+            $(input).blur(function () {
+                span.css("display", "none")
+            });
+
+            $(input).on('keydown', function () {
+                var count = $(this).val().length;
+                span.text(count + "/" + maxLength);
+            });
+
+            $(helpIcon).popup({position: 'top center'});
+        });
+    </script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
+<div th:fragment="field-password(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <input th:name="${component.name}" th:value="${component.value}" type="password"
+           th:placeholder="${component.placeholder}"
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
