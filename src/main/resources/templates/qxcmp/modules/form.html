@@ -51,11 +51,20 @@
                               class="help circle outline link icon" th:attr="data-content=${component.tooltip}"></i>
 </label>
 
-<th:block th:fragment="field-text-script(component)">
+<th:block th:fragment="field-common-script(component)">
     <script th:inline="javascript">
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
             var helpIcon = $(id).find(".help.icon");
+            $(helpIcon).popup({position: 'top center'});
+        });
+    </script>
+</th:block>
+
+<th:block th:fragment="field-text-script(component)">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
             var input = $(id).find("input,textarea");
             var span = $(input).next("span");
             var maxLength = $(span).attr("data-max-length");
@@ -74,8 +83,6 @@
                 var count = $(this).val().length;
                 span.text(count + "/" + maxLength);
             });
-
-            $(helpIcon).popup({position: 'top center'});
         });
     </script>
 </th:block>
@@ -88,6 +95,7 @@
            th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>
 
@@ -99,6 +107,7 @@
            th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>
 
@@ -110,7 +119,41 @@
               th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
               th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"></textarea>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
     <script th:replace="~{:: field-text-script(${component})}"></script>
+</div>
+
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.ImageCaptchaField"*/-->
+<div th:fragment="field-captcha-image(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <a class="captcha link" href="#">
+        <img th:src="@{${component.captchaUrl}}"/>
+    </a>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var captchaLink = $(id).find(".captcha.link");
+            var image = $(captchaLink).find("img");
+
+            $(captchaLink).on("click", function () {
+                var src = $(image).attr("src");
+                $(image).attr("src", function () {
+                    var timestamp = (new Date()).valueOf();
+                    if ((src.indexOf("?") >= 0)) {
+                        src = src.substring(0, src.indexOf('?')) + "?timestamp=" + timestamp;
+                    } else {
+                        src = src + "?timestamp=" + timestamp;
+                    }
+                    return src;
+                })
+            });
+        });
+    </script>
 </div>
 
 </body>

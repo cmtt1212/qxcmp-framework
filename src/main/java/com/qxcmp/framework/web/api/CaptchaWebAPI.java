@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_AUTHENTI
 @Controller
 @RequestMapping("/api/captcha/")
 @RequiredArgsConstructor
-public class CaptchaController extends QXCMPFrontendController {
+public class CaptchaWebAPI extends QXCMPFrontendController {
 
     private final CaptchaService captchaComponent;
 

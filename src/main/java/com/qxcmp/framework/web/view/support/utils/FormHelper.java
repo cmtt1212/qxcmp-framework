@@ -1,10 +1,7 @@
 package com.qxcmp.framework.web.view.support.utils;
 
 import com.google.common.base.CaseFormat;
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.PasswordField;
-import com.qxcmp.framework.web.view.annotation.form.TextAreaField;
-import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.framework.web.view.annotation.form.*;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -87,6 +84,8 @@ public class FormHelper {
                     addPasswordInputField(form, field, (PasswordField) annotation);
                 } else if (annotation instanceof TextAreaField) {
                     addTextAreaField(form, field, (TextAreaField) annotation);
+                } else if (annotation instanceof ImageCaptchaField) {
+                    addImageCaptchaField(form, field, (ImageCaptchaField) annotation);
                 }
             }
         }
@@ -139,5 +138,21 @@ public class FormHelper {
         textAreaField.setRows(annotation.rows());
 
         form.addItem(textAreaField, annotation.section());
+    }
+
+    private void addImageCaptchaField(AbstractForm form, Field field, ImageCaptchaField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.ImageCaptchaField imageCaptchaField = new com.qxcmp.framework.web.view.modules.form.field.ImageCaptchaField();
+
+        imageCaptchaField.setName(field.getName());
+        imageCaptchaField.setLabel(annotation.value());
+        imageCaptchaField.setTooltip(annotation.tooltip());
+        imageCaptchaField.setRequired(annotation.required());
+        imageCaptchaField.setDisableAutoComplete(annotation.disableAutoComplete());
+        imageCaptchaField.setAutoFocus(annotation.autoFocus());
+        imageCaptchaField.setReadOnly(annotation.readOnly());
+        imageCaptchaField.setPlaceholder(annotation.placeholder());
+        imageCaptchaField.setCaptchaUrl(annotation.captchaUrl());
+
+        form.addItem(imageCaptchaField, annotation.section());
     }
 }

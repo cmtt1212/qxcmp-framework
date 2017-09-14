@@ -66,3 +66,19 @@
     color: lightgrey;
   }
 }
+
+/* Captcha field */
+.ui.form .image.captcha.field {
+
+  .captcha.link {
+    flex: 1;
+    margin-left: 1rem;
+    min-width: 120px;
+    position: relative;
+    top: 12px;
+
+    img {
+      height: 37.8px;
+    }
+  }
+}
