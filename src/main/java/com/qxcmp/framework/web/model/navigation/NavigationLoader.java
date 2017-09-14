@@ -1,4 +1,4 @@
-package com.qxcmp.framework.view.nav;
+package com.qxcmp.framework.web.model.navigation;
 
 import com.qxcmp.framework.core.QXCMPConfigurator;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,5 @@
-package com.qxcmp.framework.view.nav;
+package com.qxcmp.framework.web.model.navigation;
+
 
 /**
  * 导航栏配置接口 实现该接口的Spring Bean会在平台启动时自动加载并配置导航栏

@@ -11,7 +11,6 @@ import com.qxcmp.framework.view.component.*;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.list.ListView;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.view.nav.NavigationService;
 import com.qxcmp.framework.view.result.Result;
 import com.qxcmp.framework.view.result.ResultNavigation;
 import com.qxcmp.framework.view.support.*;
@@ -60,7 +59,6 @@ public class ModelAndViewBuilder {
 
     private TableViewHelper tableViewHelper;
 
-    private NavigationService navigationService;
 
     private HttpServletRequest request;
 
@@ -343,48 +341,6 @@ public class ModelAndViewBuilder {
      */
     public ModelAndViewBuilder addNavigation(String activateItemName, Navigation.Type type, String name) {
 
-        Navigation navigation = navigationService.get(type, name, 0);
-
-        addObject("activeNavigationItem", activateItemName);
-
-        switch (type) {
-            case NORMAL:
-                List<Navigation> navigationList = navigationService.filterByUser(ImmutableList.of(navigation), userService.currentUser());
-                if (!navigationList.isEmpty()) {
-                    addObject("normalNavigation", navigationList.get(0));
-                }
-                break;
-            case SIDEBAR:
-                throw new RuntimeException("Can't add sidebar navigation type, please use normal type.");
-            case BOX:
-                throw new RuntimeException("Can't add box navigation type, please use addBoxNavigation instead.");
-            case ACTION:
-                throw new RuntimeException("Can't add top navigation type, is not support in current version");
-            case MOBILE:
-                addObject("mobileNavigation", navigation);
-                break;
-        }
-
-        return this;
-    }
-
-    /**
-     * 添加盒子导航栏。顺序相关，可以重复添加
-     *
-     * @param name 导航栏名称
-     *
-     * @return 生成器本身
-     */
-    public ModelAndViewBuilder addBoxNavigation(String name) {
-        Navigation navigation = navigationService.get(Navigation.Type.BOX, name, 0);
-
-        int boxCount = Objects.nonNull(getObject("boxNavigationCount")) ? (int) getObject("boxNavigationCount") : 0;
-        boxCount++;
-        addObject("boxNavigationCount", boxCount);
-
-        String boxModalName = "boxNavigation" + boxCount;
-        addObject(boxModalName, navigation);
-        addFragment("qxcmp/navigation", String.format("box(${%s})", boxModalName));
 
         return this;
     }
@@ -487,8 +443,4 @@ public class ModelAndViewBuilder {
         this.userService = userService;
     }
 
-    @Autowired
-    public void setNavigationService(NavigationService navigationService) {
-        this.navigationService = navigationService;
-    }
 }

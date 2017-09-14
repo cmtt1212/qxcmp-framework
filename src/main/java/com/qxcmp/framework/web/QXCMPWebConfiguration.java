@@ -1,14 +1,14 @@
 package com.qxcmp.framework.web;
 
+import com.google.common.collect.ImmutableSet;
 import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.security.PrivilegeAutowired;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.view.component.AnchorTarget;
-import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.view.nav.NavigationConfigurator;
-import com.qxcmp.framework.view.nav.NavigationService;
 import com.qxcmp.framework.web.auth.AuthenticationFilter;
+import com.qxcmp.framework.web.model.navigation.Navigation;
+import com.qxcmp.framework.web.model.navigation.NavigationConfigurator;
+import com.qxcmp.framework.web.model.navigation.NavigationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -225,93 +225,98 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
 
     @Override
     public void configureNavigation(NavigationService navigationService) {
-        Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "内容管理", 900);
-        navigationService.add(navigation, "文章管理", "", "", QXCMP_BACKEND_URL + "/article/draft", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_CREATE);
-        navigationService.add(navigation, "栏目管理", "", "", QXCMP_BACKEND_URL + "/article/channel", AnchorTarget.SELF, 30, PRIVILEGE_CHANNEL_CREATE);
-        navigation = navigationService.get(Navigation.Type.SIDEBAR, "商城管理", 9100);
-        navigationService.add(navigation, "订单管理", "", "", QXCMP_BACKEND_URL + "/mall/order", AnchorTarget.SELF, 2, PRIVILEGE_MALL_ORDER_MANAGEMENT);
-        navigationService.add(navigation, "商品管理", "", "", QXCMP_BACKEND_URL + "/mall/commodity", AnchorTarget.SELF, 5, PRIVILEGE_MALL_COMMODITY_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.SIDEBAR, "微信公众平台", 9200);
-        navigationService.add(navigation, "素材管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "用户管理", "", "", QXCMP_BACKEND_URL + "/weixin/user", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "公众号设置", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.SIDEBAR, "系统设置", 10000);
-        navigationService.add(navigation, "网站设置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "系统工具", "", "", QXCMP_BACKEND_URL + "/tool", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "消息服务", "", "", QXCMP_BACKEND_URL + "/message", AnchorTarget.SELF, 60, PRIVILEGE_MESSAGE_MANAGEMENT);
-        navigationService.add(navigation, "安全设置", "", "", QXCMP_BACKEND_URL + "/security", AnchorTarget.SELF, 80, PRIVILEGE_SECURITY_MANAGEMENT);
-        navigationService.add(navigation, "系统日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 90, PRIVILEGE_LOG_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.ACTION, "核心操作", 15000);
-        navigationService.add(navigation, "个人中心", "", "", QXCMP_BACKEND_URL + "/account", AnchorTarget.SELF, 10);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "文章管理", 0);
-        navigationService.add(navigation, "文章审核", "", "", QXCMP_BACKEND_URL + "/article/audit", AnchorTarget.SELF, 10, PRIVILEGE_ARTICLE_AUDIT);
-        navigationService.add(navigation, "已发布文章", "", "", QXCMP_BACKEND_URL + "/article/publish", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_AUDIT);
-        navigationService.add(navigation, "已禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disable", AnchorTarget.SELF, 21, PRIVILEGE_ARTICLE_AUDIT);
-        navigationService.add(navigation, "新建文章", "", "", QXCMP_BACKEND_URL + "/article/new", AnchorTarget.SELF, 30);
-        navigationService.add(navigation, "我的文章草稿", "", "", QXCMP_BACKEND_URL + "/article/draft", AnchorTarget.SELF, 40);
-        navigationService.add(navigation, "我的待审核文章", "", "", QXCMP_BACKEND_URL + "/article/auditing", AnchorTarget.SELF, 50);
-        navigationService.add(navigation, "我的未通过文章", "", "", QXCMP_BACKEND_URL + "/article/reject", AnchorTarget.SELF, 60);
-        navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/article/published", AnchorTarget.SELF, 70);
-        navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disabled", AnchorTarget.SELF, 80);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号素材管理", 1);
-        navigationService.add(navigation, "图文管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "图片管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/image", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "视频管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/video", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "语音管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/voice", AnchorTarget.SELF, 40, PRIVILEGE_WECHAT_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号设置", 1);
-        navigationService.add(navigation, "公众号参数", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "自定义菜单", "", "", QXCMP_BACKEND_URL + "/weixin/settings/menu", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
-        navigationService.add(navigation, "微信支付", "", "", QXCMP_BACKEND_URL + "/finance/payment/weixin/settings", AnchorTarget.SELF, 30, PRIVILEGE_FINANCE_CONFIG_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "个人中心", 0);
-        navigationService.add(navigation, "我的资料", "", "", QXCMP_BACKEND_URL + "/account/profile", AnchorTarget.SELF, 10);
-        navigationService.add(navigation, "密码修改", "", "", QXCMP_BACKEND_URL + "/account/password", AnchorTarget.SELF, 20);
-        navigationService.add(navigation, "我的密保", "", "", QXCMP_BACKEND_URL + "/account/question", AnchorTarget.SELF, 20);
-        navigationService.add(navigation, "邮箱绑定", "", "", QXCMP_BACKEND_URL + "/account/email", AnchorTarget.SELF, 30);
-        navigationService.add(navigation, "手机绑定", "", "", QXCMP_BACKEND_URL + "/account/phone", AnchorTarget.SELF, 40);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "消息服务", 0);
-        navigationService.add(navigation, "邮件服务配置", "", "", QXCMP_BACKEND_URL + "/message/email/config", AnchorTarget.SELF, 10, PRIVILEGE_MESSAGE_MANAGEMENT);
-        navigationService.add(navigation, "短信服务配置", "", "", QXCMP_BACKEND_URL + "/message/sms/config", AnchorTarget.SELF, 20, PRIVILEGE_MESSAGE_MANAGEMENT);
-        navigationService.add(navigation, "短信服务测试", "", "", QXCMP_BACKEND_URL + "/message/sms/test", AnchorTarget.SELF, 30, PRIVILEGE_MESSAGE_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "系统日志", 0);
-        navigationService.add(navigation, "审计日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 10, PRIVILEGE_LOG_MANAGEMENT);
-        navigationService.add(navigation, "蜘蛛日志", "", "", QXCMP_BACKEND_URL + "/spider/log", AnchorTarget.SELF, 30, PRIVILEGE_SPIDER_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "安全设置", 0);
-        navigationService.add(navigation, "用户状态管理", "", "", QXCMP_BACKEND_URL + "/security/user", AnchorTarget.SELF, 10, PRIVILEGE_SECURITY_MANAGEMENT);
-        navigationService.add(navigation, "平台角色管理", "", "", QXCMP_BACKEND_URL + "/security/role", AnchorTarget.SELF, 20, PRIVILEGE_SECURITY_MANAGEMENT);
-        navigationService.add(navigation, "平台权限管理", "", "", QXCMP_BACKEND_URL + "/security/privilege", AnchorTarget.SELF, 30, PRIVILEGE_SECURITY_MANAGEMENT);
-        navigationService.add(navigation, "平台认证配置", "", "", QXCMP_BACKEND_URL + "/security/authentication", AnchorTarget.SELF, 40, PRIVILEGE_SECURITY_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "网站设置", 0);
-        navigationService.add(navigation, "网站配置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "账户注册配置", "", "", QXCMP_BACKEND_URL + "/site/account", AnchorTarget.SELF, 20, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "系统字典", "", "", QXCMP_BACKEND_URL + "/site/dictionary", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "系统会话配置", "", "", QXCMP_BACKEND_URL + "/site/session", AnchorTarget.SELF, 40, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "任务调度配置", "", "", QXCMP_BACKEND_URL + "/site/task", AnchorTarget.SELF, 50, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "水印设置", "", "", QXCMP_BACKEND_URL + "/site/watermark", AnchorTarget.SELF, 60, PRIVILEGE_SITE_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "系统工具", 0);
-        navigationService.add(navigation, "账户邀请码", "", "", QXCMP_BACKEND_URL + "/tool/account/invite", AnchorTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
-        navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", AnchorTarget.SELF, 20, PRIVILEGE_ADVERTISEMENT_MANAGEMENT);
-        navigationService.add(navigation, "兑换码管理", "", "", QXCMP_BACKEND_URL + "/redeem", AnchorTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
-        navigationService.add(navigation, "蜘蛛管理", "", "", QXCMP_BACKEND_URL + "/spider", AnchorTarget.SELF, 40, PRIVILEGE_SPIDER_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "兑换码管理", 0);
-        navigationService.add(navigation, "生成兑换码", "", "", QXCMP_BACKEND_URL + "/redeem/generate", AnchorTarget.SELF, 10, PRIVILEGE_REDEEM_MANAGEMENT);
-        navigationService.add(navigation, "兑换码列表", "", "", QXCMP_BACKEND_URL + "/redeem/list", AnchorTarget.SELF, 20, PRIVILEGE_REDEEM_MANAGEMENT);
-        navigationService.add(navigation, "兑换码设置", "", "", QXCMP_BACKEND_URL + "/redeem/settings", AnchorTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
-
-        navigation = navigationService.get(Navigation.Type.NORMAL, "蜘蛛管理", 0);
-        navigationService.add(navigation, "蜘蛛状态", "", "", QXCMP_BACKEND_URL + "/spider/status", AnchorTarget.SELF, 10, PRIVILEGE_SPIDER_MANAGEMENT);
-        navigationService.add(navigation, "蜘蛛配置", "", "", QXCMP_BACKEND_URL + "/spider/config", AnchorTarget.SELF, 20, PRIVILEGE_SPIDER_MANAGEMENT);
+        navigationService.add(new Navigation("QXCMP-ADMIN-SIDEBAR", "系统后台侧边导航栏")
+                .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "系统设置")
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS-SIDE-CONFIG", "网站配置", QXCMP_BACKEND_URL + "/site/config").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
+                )
+        );
+//        Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "内容管理", 900);
+//        navigationService.add(navigation, "文章管理", "", "", QXCMP_BACKEND_URL + "/article/draft", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_CREATE);
+//        navigationService.add(navigation, "栏目管理", "", "", QXCMP_BACKEND_URL + "/article/channel", AnchorTarget.SELF, 30, PRIVILEGE_CHANNEL_CREATE);
+//        navigation = navigationService.get(Navigation.Type.SIDEBAR, "商城管理", 9100);
+//        navigationService.add(navigation, "订单管理", "", "", QXCMP_BACKEND_URL + "/mall/order", AnchorTarget.SELF, 2, PRIVILEGE_MALL_ORDER_MANAGEMENT);
+//        navigationService.add(navigation, "商品管理", "", "", QXCMP_BACKEND_URL + "/mall/commodity", AnchorTarget.SELF, 5, PRIVILEGE_MALL_COMMODITY_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.SIDEBAR, "微信公众平台", 9200);
+//        navigationService.add(navigation, "素材管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "用户管理", "", "", QXCMP_BACKEND_URL + "/weixin/user", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "公众号设置", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.SIDEBAR, "系统设置", 10000);
+//        navigationService.add(navigation, "网站设置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "系统工具", "", "", QXCMP_BACKEND_URL + "/tool", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "消息服务", "", "", QXCMP_BACKEND_URL + "/message", AnchorTarget.SELF, 60, PRIVILEGE_MESSAGE_MANAGEMENT);
+//        navigationService.add(navigation, "安全设置", "", "", QXCMP_BACKEND_URL + "/security", AnchorTarget.SELF, 80, PRIVILEGE_SECURITY_MANAGEMENT);
+//        navigationService.add(navigation, "系统日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 90, PRIVILEGE_LOG_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.ACTION, "核心操作", 15000);
+//        navigationService.add(navigation, "个人中心", "", "", QXCMP_BACKEND_URL + "/account", AnchorTarget.SELF, 10);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "文章管理", 0);
+//        navigationService.add(navigation, "文章审核", "", "", QXCMP_BACKEND_URL + "/article/audit", AnchorTarget.SELF, 10, PRIVILEGE_ARTICLE_AUDIT);
+//        navigationService.add(navigation, "已发布文章", "", "", QXCMP_BACKEND_URL + "/article/publish", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_AUDIT);
+//        navigationService.add(navigation, "已禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disable", AnchorTarget.SELF, 21, PRIVILEGE_ARTICLE_AUDIT);
+//        navigationService.add(navigation, "新建文章", "", "", QXCMP_BACKEND_URL + "/article/new", AnchorTarget.SELF, 30);
+//        navigationService.add(navigation, "我的文章草稿", "", "", QXCMP_BACKEND_URL + "/article/draft", AnchorTarget.SELF, 40);
+//        navigationService.add(navigation, "我的待审核文章", "", "", QXCMP_BACKEND_URL + "/article/auditing", AnchorTarget.SELF, 50);
+//        navigationService.add(navigation, "我的未通过文章", "", "", QXCMP_BACKEND_URL + "/article/reject", AnchorTarget.SELF, 60);
+//        navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/article/published", AnchorTarget.SELF, 70);
+//        navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disabled", AnchorTarget.SELF, 80);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号素材管理", 1);
+//        navigationService.add(navigation, "图文管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "图片管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/image", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "视频管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/video", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "语音管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/voice", AnchorTarget.SELF, 40, PRIVILEGE_WECHAT_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号设置", 1);
+//        navigationService.add(navigation, "公众号参数", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "自定义菜单", "", "", QXCMP_BACKEND_URL + "/weixin/settings/menu", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "微信支付", "", "", QXCMP_BACKEND_URL + "/finance/payment/weixin/settings", AnchorTarget.SELF, 30, PRIVILEGE_FINANCE_CONFIG_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "个人中心", 0);
+//        navigationService.add(navigation, "我的资料", "", "", QXCMP_BACKEND_URL + "/account/profile", AnchorTarget.SELF, 10);
+//        navigationService.add(navigation, "密码修改", "", "", QXCMP_BACKEND_URL + "/account/password", AnchorTarget.SELF, 20);
+//        navigationService.add(navigation, "我的密保", "", "", QXCMP_BACKEND_URL + "/account/question", AnchorTarget.SELF, 20);
+//        navigationService.add(navigation, "邮箱绑定", "", "", QXCMP_BACKEND_URL + "/account/email", AnchorTarget.SELF, 30);
+//        navigationService.add(navigation, "手机绑定", "", "", QXCMP_BACKEND_URL + "/account/phone", AnchorTarget.SELF, 40);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "消息服务", 0);
+//        navigationService.add(navigation, "邮件服务配置", "", "", QXCMP_BACKEND_URL + "/message/email/config", AnchorTarget.SELF, 10, PRIVILEGE_MESSAGE_MANAGEMENT);
+//        navigationService.add(navigation, "短信服务配置", "", "", QXCMP_BACKEND_URL + "/message/sms/config", AnchorTarget.SELF, 20, PRIVILEGE_MESSAGE_MANAGEMENT);
+//        navigationService.add(navigation, "短信服务测试", "", "", QXCMP_BACKEND_URL + "/message/sms/test", AnchorTarget.SELF, 30, PRIVILEGE_MESSAGE_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "系统日志", 0);
+//        navigationService.add(navigation, "审计日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 10, PRIVILEGE_LOG_MANAGEMENT);
+//        navigationService.add(navigation, "蜘蛛日志", "", "", QXCMP_BACKEND_URL + "/spider/log", AnchorTarget.SELF, 30, PRIVILEGE_SPIDER_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "安全设置", 0);
+//        navigationService.add(navigation, "用户状态管理", "", "", QXCMP_BACKEND_URL + "/security/user", AnchorTarget.SELF, 10, PRIVILEGE_SECURITY_MANAGEMENT);
+//        navigationService.add(navigation, "平台角色管理", "", "", QXCMP_BACKEND_URL + "/security/role", AnchorTarget.SELF, 20, PRIVILEGE_SECURITY_MANAGEMENT);
+//        navigationService.add(navigation, "平台权限管理", "", "", QXCMP_BACKEND_URL + "/security/privilege", AnchorTarget.SELF, 30, PRIVILEGE_SECURITY_MANAGEMENT);
+//        navigationService.add(navigation, "平台认证配置", "", "", QXCMP_BACKEND_URL + "/security/authentication", AnchorTarget.SELF, 40, PRIVILEGE_SECURITY_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "网站设置", 0);
+//        navigationService.add(navigation, "网站配置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "账户注册配置", "", "", QXCMP_BACKEND_URL + "/site/account", AnchorTarget.SELF, 20, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "系统字典", "", "", QXCMP_BACKEND_URL + "/site/dictionary", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "系统会话配置", "", "", QXCMP_BACKEND_URL + "/site/session", AnchorTarget.SELF, 40, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "任务调度配置", "", "", QXCMP_BACKEND_URL + "/site/task", AnchorTarget.SELF, 50, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "水印设置", "", "", QXCMP_BACKEND_URL + "/site/watermark", AnchorTarget.SELF, 60, PRIVILEGE_SITE_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "系统工具", 0);
+//        navigationService.add(navigation, "账户邀请码", "", "", QXCMP_BACKEND_URL + "/tool/account/invite", AnchorTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", AnchorTarget.SELF, 20, PRIVILEGE_ADVERTISEMENT_MANAGEMENT);
+//        navigationService.add(navigation, "兑换码管理", "", "", QXCMP_BACKEND_URL + "/redeem", AnchorTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
+//        navigationService.add(navigation, "蜘蛛管理", "", "", QXCMP_BACKEND_URL + "/spider", AnchorTarget.SELF, 40, PRIVILEGE_SPIDER_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "兑换码管理", 0);
+//        navigationService.add(navigation, "生成兑换码", "", "", QXCMP_BACKEND_URL + "/redeem/generate", AnchorTarget.SELF, 10, PRIVILEGE_REDEEM_MANAGEMENT);
+//        navigationService.add(navigation, "兑换码列表", "", "", QXCMP_BACKEND_URL + "/redeem/list", AnchorTarget.SELF, 20, PRIVILEGE_REDEEM_MANAGEMENT);
+//        navigationService.add(navigation, "兑换码设置", "", "", QXCMP_BACKEND_URL + "/redeem/settings", AnchorTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
+//
+//        navigation = navigationService.get(Navigation.Type.NORMAL, "蜘蛛管理", 0);
+//        navigationService.add(navigation, "蜘蛛状态", "", "", QXCMP_BACKEND_URL + "/spider/status", AnchorTarget.SELF, 10, PRIVILEGE_SPIDER_MANAGEMENT);
+//        navigationService.add(navigation, "蜘蛛配置", "", "", QXCMP_BACKEND_URL + "/spider/config", AnchorTarget.SELF, 20, PRIVILEGE_SPIDER_MANAGEMENT);
     }
 }
