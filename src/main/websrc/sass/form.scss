@@ -82,3 +82,35 @@
     }
   }
 }
+
+.ui.form .phone.captcha.field {
+
+  align-items: center;
+
+  .captcha.section {
+    padding: 0;
+    flex: 100;
+    display: flex;
+    flex-direction: column;
+
+    .phone.number.section {
+      padding: 0;
+      margin: 0 0 1rem
+    }
+
+    .phone.captcha.section {
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+
+      > input {
+        flex: 100;
+      }
+
+      .captcha.button {
+        margin-left: 1rem;
+        width: 140px;
+      }
+    }
+  }
+}

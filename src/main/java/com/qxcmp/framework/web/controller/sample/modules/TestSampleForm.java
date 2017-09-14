@@ -2,7 +2,7 @@ package com.qxcmp.framework.web.controller.sample.modules;
 
 import com.qxcmp.framework.validation.Username;
 import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.framework.web.view.annotation.form.PhoneCaptchaField;
 import com.qxcmp.framework.web.view.annotation.form.TextAreaField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
@@ -19,7 +19,11 @@ public class TestSampleForm {
     @TextInputField(value = "昵称", section = "基本资料", required = true, placeholder = "请输入昵称")
     private String nickname;
 
-    @ImageCaptchaField(value = "验证码", section = "基本资料", placeholder = "请输入验证码")
+    @TextInputField(value = "手机号", section = "基本资料", required = true, placeholder = "请输入手机号")
+    private String phone;
+
+    //@ImageCaptchaField(value = "验证码", section = "基本资料", placeholder = "请输入验证码")
+    @PhoneCaptchaField(value = "短信验证码", section = "基本资料", placeholder = "请输入验证码")
     private String captcha;
 
     @TextAreaField(value = "个性签名", section = "补充资料", rows = 10, maxLength = 140, placeholder = "请输入个性签名")

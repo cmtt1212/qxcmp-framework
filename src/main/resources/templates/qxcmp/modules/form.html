@@ -79,7 +79,7 @@
                 span.css("display", "none")
             });
 
-            $(input).on('keydown', function () {
+            $(input).on('keyup', function () {
                 var count = $(this).val().length;
                 span.text(count + "/" + maxLength);
             });
@@ -151,6 +151,78 @@
                     }
                     return src;
                 })
+            });
+        });
+    </script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.PhoneCaptchaField"*/-->
+<div th:fragment="field-captcha-phone(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="captcha section">
+        <div th:if="${#strings.isEmpty(component.phoneField)}" class="phone number section">
+            <input th:id="|${component.name}-phone|" placeholder="请输入接受短信的手机号码"/>
+        </div>
+        <div class="phone captcha section">
+            <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
+                   th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+                   th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+            <button class="ui basic secondary captcha button" type="button">获取短信验证码</button>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var phoneField = /*[['#' + (${#strings.isEmpty(component.phoneField)} ? ${component.name} + '-phone' : ${component.phoneField})]]*/"";
+            var button = $(id).find(".captcha.button");
+            var input = $(id).find(".phone.captcha.section input");
+            var targetUrl = /*[[${component.captchaUrl}]]*/"";
+            var interval = /*[[${component.interval}]]*/"";
+
+            $(phoneField).on("keyup", function () {
+                $(id).removeClass("error");
+                $(input).val("");
+            });
+
+            $(button).on("click", function () {
+                var phoneNumber = $(phoneField).val();
+
+                if (!(/^1[34578]\d{9}$/.test(phoneNumber))) {
+                    $(id).addClass("error");
+                    $(input).val("手机号格式不正确");
+                    return false;
+                }
+
+                $(button).addClass("disabled loading");
+
+                $.ajax(targetUrl, {
+                    type: "POST",
+                    data: {
+                        phone: phoneNumber
+                    },
+                    success: function () {
+
+                        $(button).removeClass("loading");
+
+                        var duration = interval;
+
+                        var timer = setInterval(function () {
+                            $(button).text(duration + "秒后可重发");
+                            duration--;
+                            if (duration === 0) {
+                                clearInterval(timer);
+                                $(button).text("重新发送");
+                                $(button).removeClass("disabled loading");
+                            }
+                        }, 1000);
+                    },
+                    error: function (requset) {
+                        $(id).addClass("error");
+                        $(button).removeClass("disabled loading");
+                        $(button).text("重新发送");
+                        $(input).val(requset.responseText);
+                    }
+                });
             });
         });
     </script>
