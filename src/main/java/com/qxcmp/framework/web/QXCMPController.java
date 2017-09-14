@@ -3,9 +3,14 @@ package com.qxcmp.framework.web;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.domain.Captcha;
+import com.qxcmp.framework.domain.CaptchaExpiredException;
+import com.qxcmp.framework.domain.CaptchaIncorrectException;
+import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -14,10 +19,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -43,6 +50,8 @@ public abstract class QXCMPController {
 
     private FormHelper formHelper;
 
+    private CaptchaService captchaService;
+
     protected Optional<User> currentUser() {
         return Optional.ofNullable(userService.currentUser());
     }
@@ -64,6 +73,32 @@ public abstract class QXCMPController {
 
     protected AbstractForm convertToForm(Object object) {
         return formHelper.convert(object);
+    }
+
+    protected ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
+        return formHelper.convertToErrorMessage(bindingResult, object);
+    }
+
+
+    /**
+     * 验证验证码是否有效，如果无效将错误信息放入 {@code BindingResult} 中
+     *
+     * @param captcha       用户输入的验证码
+     * @param bindingResult 错误绑定
+     */
+    public void verifyCaptcha(String captcha, BindingResult bindingResult) {
+        if (Objects.isNull(request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR))) {
+            bindingResult.rejectValue("captcha", "Captcha.null");
+        } else {
+            try {
+                Captcha c = (Captcha) request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR);
+                captchaService.verify(c, captcha);
+            } catch (CaptchaExpiredException e) {
+                bindingResult.rejectValue("captcha", "Captcha.expired");
+            } catch (CaptchaIncorrectException e) {
+                bindingResult.rejectValue("captcha", "Captcha.incorrect");
+            }
+        }
     }
 
     /**
@@ -127,5 +162,10 @@ public abstract class QXCMPController {
     @Autowired
     public void setFormHelper(FormHelper formHelper) {
         this.formHelper = formHelper;
+    }
+
+    @Autowired
+    public void setCaptchaService(CaptchaService captchaService) {
+        this.captchaService = captchaService;
     }
 }

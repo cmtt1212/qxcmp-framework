@@ -281,7 +281,7 @@ public abstract class AbstractForm extends AbstractComponent {
         return this;
     }
 
-    public AbstractForm seErrorMessage(ErrorMessage errorMessage) {
+    public AbstractForm setErrorMessage(ErrorMessage errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }

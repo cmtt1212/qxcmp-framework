@@ -2,19 +2,93 @@ package com.qxcmp.framework.web.view.support.utils;
 
 import com.google.common.base.CaseFormat;
 import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.elements.list.List;
+import com.qxcmp.framework.web.view.elements.list.item.IconHeaderItem;
+import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Component
+@RequiredArgsConstructor
 public class FormHelper {
 
     public static final String SELF_ACTION = "$SELF";
+
+    private final ApplicationContext applicationContext;
+
+    /**
+     * 将表单错误对象转换为错误消息组件
+     *
+     * @param bindingResult 错误对象
+     * @param object        表单对象
+     *
+     * @return 错误消息组件
+     */
+    public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
+        List errLists = new List();
+        bindingResult.getAllErrors().forEach(objectError -> {
+            if (objectError instanceof FieldError) {
+                FieldError fieldError = (FieldError) objectError;
+
+                String fieldName = fieldError.getField();
+
+                for (Field field : object.getClass().getDeclaredFields()) {
+                    if (field.getName().equals(fieldName)) {
+                        for (Annotation annotation : field.getAnnotations()) {
+                            for (Method method : annotation.getClass().getDeclaredMethods()) {
+                                if (method.getName().equals("value")) {
+                                    try {
+                                        fieldName = method.invoke(annotation).toString();
+                                    } catch (IllegalAccessException | InvocationTargetException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                String errMessage = "";
+
+                for (String code : fieldError.getCodes()) {
+                    try {
+                        String message = applicationContext.getMessage(code, null, null);
+                        if (StringUtils.isNotBlank(message)) {
+                            errMessage = message;
+                            break;
+                        }
+                    } catch (Exception ignored) {
+
+                    }
+                }
+
+                if (StringUtils.isBlank(errMessage)) {
+                    errMessage = fieldError.getDefaultMessage();
+                }
+
+
+                errLists.addItem(new IconHeaderItem(new Icon("warning sign"), fieldName, errMessage));
+            }
+        });
+        return (ErrorMessage) new ErrorMessage("你输入的信息有误，请检查后重试", errLists).setCloseable();
+    }
 
     /**
      * 将一个对象转换为表单
