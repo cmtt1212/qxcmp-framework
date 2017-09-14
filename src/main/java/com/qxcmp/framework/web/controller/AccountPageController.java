@@ -59,18 +59,12 @@ public class AccountPageController extends QXCMPFrontendController {
     @GetMapping("/account/logon")
     public ModelAndView logon() {
         if (accountService.getRegisterItems().isEmpty()) {
-            return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                    .addComponent(new IconHeader("注册功能已经关闭", new Icon("warning circle")).setSubTitle("请在注册功能开放时进行注册"))
-                    .addComponent(new Divider())
-                    .addComponent(new Button("返回登录", "/login").setBasic())
-            ).build();
+            return logonClosedPage().build();
         } else if (accountService.getRegisterItems().size() == 1) {
             return redirect(accountService.getRegisterItems().get(0).getRegisterUrl());
         } else {
             List list = new List().setSelection();
-
             accountService.getRegisterItems().forEach(accountComponent -> list.addItem(new TextItem(accountComponent.getRegisterName()).setUrl(accountComponent.getRegisterUrl())));
-
             return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
                     .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择注册方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)
@@ -83,19 +77,12 @@ public class AccountPageController extends QXCMPFrontendController {
     @GetMapping("/account/reset")
     public ModelAndView reset() {
         if (accountService.getResetItems().isEmpty()) {
-            return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                    .addComponent(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系"))
-                    .addComponent(new Divider())
-                    .addComponent(new Button("返回登录", "/login").setBasic())
-            ).build();
+            return resetClosedPage().build();
         } else if (accountService.getResetItems().size() == 1) {
             return redirect(accountService.getResetItems().get(0).getResetUrl());
         } else {
-
             List list = new List().setSelection();
-
             accountService.getRegisterItems().forEach(accountComponent -> list.addItem(new TextItem(accountComponent.getResetName()).setUrl(accountComponent.getResetUrl())));
-
             return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
                     .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择密码找回方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)
@@ -244,9 +231,25 @@ public class AccountPageController extends QXCMPFrontendController {
      *
      * @return
      */
-    private AbstractPage buildPage(Consumer<Segment> consumer) {
+    protected AbstractPage buildPage(Consumer<Segment> consumer) {
         Segment segment = new Segment();
         consumer.accept(segment);
         return page().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setTextContainer().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(segment)));
+    }
+
+    protected AbstractPage logonClosedPage() {
+        return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
+                .addComponent(new IconHeader("注册功能已经关闭", new Icon("warning circle")).setSubTitle("请在注册功能开放时进行注册"))
+                .addComponent(new Divider())
+                .addComponent(new Button("返回登录", "/login").setBasic())
+        );
+    }
+
+    protected AbstractPage resetClosedPage() {
+        return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
+                .addComponent(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系"))
+                .addComponent(new Divider())
+                .addComponent(new Button("返回登录", "/login").setBasic())
+        );
     }
 }

@@ -37,7 +37,7 @@ public class QXCMPErrorController extends BasicErrorController {
         String message = errors.get("message").toString();
 
         if (path.startsWith(QXCMPConfiguration.QXCMP_BACKEND_URL)) {
-            return page().addComponent(getDefaultErrorPageContent(status, message)).build();
+            return errorPage(status.toString(), "网页叔叔搭乘航班去追寻诗和远方了", message).build();
         } else {
             return new FrontendPage(request, response).addComponent(getDefaultErrorPageContent(status, message)).build();
         }

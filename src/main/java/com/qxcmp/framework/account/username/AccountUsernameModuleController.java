@@ -1,9 +1,6 @@
-package com.qxcmp.framework.account.username.web.controller;
+package com.qxcmp.framework.account.username;
 
 import com.google.common.collect.ImmutableList;
-import com.qxcmp.framework.account.username.SecurityQuestion;
-import com.qxcmp.framework.account.username.SecurityQuestionService;
-import com.qxcmp.framework.account.username.web.form.AdminAccountQuestionForm;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
 import lombok.RequiredArgsConstructor;
