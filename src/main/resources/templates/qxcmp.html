@@ -1,0 +1,8 @@
+<!--/*
+    平台通用页面
+*/-->
+<!DOCTYPE html>
+<html th:lang="${#ctx.#locale}" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="~{qxcmp/globals/header :: //head}"></head>
+<body th:replace="~{qxcmp/globals/components :: body(${page})}"></body>
+</html>

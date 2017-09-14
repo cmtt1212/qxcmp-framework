@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTable"*/-->
+<table th:fragment="table(component)" th:class="${component.getClassName()}">
+    <th:block th:if="${component.header ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
+    </th:block>
+    <th:block th:if="${component.body ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.body})}"></div>
+    </th:block>
+    <th:block th:if="${component.footer ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.footer})}"></div>
+    </th:block>
+</table>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableHeader"*/-->
+<th:block th:fragment="table-header(component)">
+    <thead th:class="${component.getClassName()}">
+    <th:block th:each="row : ${component.rows}">
+        <div th:replace="~{qxcmp/globals/components :: component(${row})}"></div>
+    </th:block>
+    </thead>
+</th:block>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableBody"*/-->
+<th:block th:fragment="table-body(component)">
+    <tbody th:class="${component.getClassName()}">
+    <th:block th:each="row : ${component.rows}">
+        <div th:replace="~{qxcmp/globals/components :: component(${row})}"></div>
+    </th:block>
+    </tbody>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableFooter"*/-->
+<th:block th:fragment="table-footer(component)">
+    <tfoot th:class="${component.getClassName()}">
+    <th:block th:each="row : ${component.rows}">
+        <div th:replace="~{qxcmp/globals/components :: component(${row})}"></div>
+    </th:block>
+    </tfoot>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableRow"*/-->
+<th:block th:fragment="table-row(component)">
+    <tr th:class="${component.getClassName()}">
+        <th:block th:each="cell : ${component.cells}">
+            <div th:replace="~{qxcmp/globals/components :: component(${cell})}"></div>
+        </th:block>
+    </tr>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableCell"*/-->
+<th:block th:fragment="table-head(component)">
+    <th th:class="${component.getClassName()}"
+        th:rowspan="${component.rowSpan gt 1 ? component.rowSpan : _}"
+        th:colspan="${component.colSpan gt 1 ? component.colSpan : _}">
+        <th:block th:if="${#strings.isEmpty(component.content)}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.component})}"></div>
+        </th:block>
+        <th:block th:unless="${#strings.isEmpty(component.content)}" th:utext="${component.content}"/>
+    </th>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableCell"*/-->
+<th:block th:fragment="table-data(component)">
+    <td th:class="${component.getClassName()}"
+        th:rowspan="${component.rowSpan gt 1 ? component.rowSpan : _}"
+        th:colspan="${component.colSpan gt 1 ? component.colSpan : _}">
+        <th:block th:if="${#strings.isEmpty(component.content)}">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.component})}"></div>
+        </th:block>
+        <th:block th:unless="${#strings.isEmpty(component.content)}" th:utext="${component.content}"/>
+    </td>
+</th:block>
+</body>
+</html>

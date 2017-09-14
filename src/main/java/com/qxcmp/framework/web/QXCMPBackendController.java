@@ -22,12 +22,12 @@ import java.util.function.BiConsumer;
  * @author aaric
  * @see com.qxcmp.framework.view.ModelAndViewBuilder
  */
-public abstract class QXCMPBackendController extends QXCMPController {
+public abstract class QXCMPBackendController extends QXCMPController2 {
 
     /**
      * 平台后端页面视图默认名称
      */
-    public static final String DEFAULT_BACKEND_PAGE = "qxcmp-backend";
+    public static final String DEFAULT_BACKEND_PAGE = "qxcmp";
 
     /**
      * 操作实行器

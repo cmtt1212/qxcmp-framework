@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
+<form th:fragment="form(component)" th:object="${__${component.object}__}"
+      th:id="${component.id}" th:name="${component.name} ?: _" th:class="${component.getClassName()}"
+      th:action="@{${component.action}} ?: _" th:method="${component.method ?: _}" th:enctype="${component.enctype}"
+      th:autocomplete="not ${component.disableAutoComplete}" th:target="${component.target} ?: _">
+    <th:block th:if="${component.infoMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.infoMessage})}"></div>
+    </th:block>
+    <th:block th:if="${component.successMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.successMessage})}"></div>
+    </th:block>
+    <th:block th:if="${component.warningMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.warningMessage})}"></div>
+    </th:block>
+    <th:block th:if="${component.errorMessage ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.errorMessage})}"></div>
+    </th:block>
+    <th:block th:each="section : ${component.sections}">
+        <div th:replace="~{:: section(${component}, ${section})}"></div>
+    </th:block>
+    <div class="submit section">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.submitButton})}"></div>
+    </div>
+</form>
+
+<!--/*@thymesVar id="form" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
+<!--/*@thymesVar id="section" type="com.qxcmp.framework.web.view.modules.form.AbstractFormSection"*/-->
+<div th:fragment="section(form, section)" class="section">
+    <div th:if="${#lists.size(form.sections) gt 1}" class="ui dividing small header" th:utext="${section.name}"></div>
+    <th:block th:each="field : ${section.fields}">
+        <div th:replace="~{qxcmp/globals/components :: component(${field})}"></div>
+    </th:block>
+</div>
+
+<label th:fragment="field-label(component)">
+    [[${component.label}]] <i th:if="not ${#strings.isEmpty(component.tooltip)}"
+                              class="help circle outline link icon" th:attr="data-content=${component.tooltip}"></i>
+</label>
+
+<th:block th:fragment="field-text-script(component)">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var helpIcon = $(id).find(".help.icon");
+            var input = $(id).find("input");
+            var span = $(input).next("span");
+            var maxLength = $(span).attr("data-max-length");
+
+            span.text($(input).val().length + "/" + maxLength);
+
+            $(input).focus(function () {
+                span.css("display", "inherit")
+            });
+
+            $(input).blur(function () {
+                span.css("display", "none")
+            });
+
+            $(input).on('keydown', function () {
+                var count = $(this).val().length;
+                span.text(count + "/" + maxLength);
+            });
+
+            $(helpIcon).popup({position: 'top center'});
+        });
+    </script>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
+<div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
+           th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:replace="~{:: field-text-script(${component})}"></script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
+<div th:fragment="field-password(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <input th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
+           th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:replace="~{:: field-text-script(${component})}"></script>
+</div>
+
+</body>
+</html>

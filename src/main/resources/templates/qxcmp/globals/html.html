@@ -1,0 +1,54 @@
+<!--/*
+    基本HTML元素组件
+*/-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.Anchor"*/-->
+<a th:fragment="anchor(component)" th:class="${component.className}"
+   th:href="@{${component.href}}" th:target="${component.target}" th:attr="download=${component.download}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</a>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.HeaderElement"*/-->
+<h1 th:fragment="h1(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</h1>
+<h2 th:fragment="h2(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</h2>
+<h3 th:fragment="h3(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</h3>
+<h4 th:fragment="h4(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</h4>
+<h5 th:fragment="h5(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</h5>
+<h6 th:fragment="h6(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</h6>
+
+<p th:fragment="paragraph(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</p>
+
+<div th:fragment="division(component)" th:class="${component.className}">
+    <div th:replace="~{:: element-body(${component})}"></div>
+</div>
+
+<span th:fragment="span-element(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</span>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.BaseHtmlElement"*/-->
+<th:block th:fragment="element-body(component)">
+    <th:block th:if="${#lists.isEmpty(component.inlineElements)}" th:utext="${component.text}"/>
+    <th:block th:unless="${#lists.isEmpty(component.inlineElements)}"
+              th:each="inlineElement : ${component.inlineElements}">
+        <div th:replace="~{qxcmp/globals/components :: component(${inlineElement})}"></div>
+    </th:block>
+</th:block>
+</body>
+</html>

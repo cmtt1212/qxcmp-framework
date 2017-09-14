@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.rail.AbstractRail"*/-->
+<div th:fragment="default(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.component})}"></div>
+</div>
+
+</body>
+</html>

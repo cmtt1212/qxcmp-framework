@@ -1,7 +1,7 @@
 package com.qxcmp.framework.view.nav;
 
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.view.component.LinkTarget;
+import com.qxcmp.framework.view.component.AnchorTarget;
 
 import java.util.List;
 
@@ -56,5 +56,5 @@ public interface NavigationService {
      * @param order      项目顺序
      * @param privileges 项目显示所需权限，不填则默认显示
      */
-    void add(Navigation navigation, String title, String image, String icon, String link, LinkTarget target, int order, String... privileges);
+    void add(Navigation navigation, String title, String image, String icon, String link, AnchorTarget target, int order, String... privileges);
 }

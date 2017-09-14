@@ -3,155 +3,67 @@ package com.qxcmp.framework.web;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.domain.Captcha;
-import com.qxcmp.framework.domain.CaptchaExpiredException;
-import com.qxcmp.framework.domain.CaptchaIncorrectException;
-import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.view.ModelAndViewBuilder;
+import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.modules.form.AbstractForm;
+import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
- * 页面路由器基础类
- * <p>
- * 提供框架基本支持
+ * 页面路由器基类
  *
  * @author aaric
- * @see ModelAndViewBuilder
  */
 public abstract class QXCMPController {
 
-    public static final String FORM_OBJECT = ModelAndViewBuilder.FORM_OBJECT;
-
-    /**
-     * 请求对象
-     */
     protected HttpServletRequest request;
 
-    /**
-     * 响应对象
-     */
     protected HttpServletResponse response;
 
-    /**
-     * Spring IoC 容器
-     */
     protected ApplicationContext applicationContext;
 
-    /**
-     * 平台配置
-     */
     protected QXCMPConfiguration qxcmpConfiguration;
 
-    /**
-     * 平台配置服务
-     */
-    protected SystemConfigService systemConfigService;
-
-    /**
-     * 用户配置服务
-     */
-    protected UserConfigService userConfigService;
-
-    /**
-     * 用户服务
-     */
     protected UserService userService;
 
-    /**
-     * 验证码服务
-     */
-    private CaptchaService captchaService;
+    protected UserConfigService userConfigService;
 
-    /**
-     * 获取当前认证用户
-     *
-     * @return 当前认证的用户，如果用户未认证则返回{@code null}
-     */
-    protected User currentUser() {
-        return userService.currentUser();
+    protected SystemConfigService systemConfigService;
+
+    private FormHelper formHelper;
+
+    protected Optional<User> currentUser() {
+        return Optional.ofNullable(userService.currentUser());
     }
 
-    /**
-     * 刷新当前用户登录信息
-     *
-     * @return 当前认证用户
-     */
-    protected User refreshUser() {
-        User currentUser = currentUser();
-        if (Objects.nonNull(currentUser)) {
-            return userService.update(currentUser.getId(), user -> {
-                Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }).orElse(null);
-        } else {
-            return null;
-        }
+    protected void refreshUser() {
+        currentUser().ifPresent(currentUser -> userService.update(currentUser.getId(), user -> {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }));
     }
 
-    /**
-     * 页面重定向
-     *
-     * @param redirectUrl 重定向位置
-     * @return 页面重定向
-     */
-    protected ModelAndView redirect(String redirectUrl) {
-        return builder("redirect:" + redirectUrl).build();
+    protected ModelAndView redirect(String url) {
+        return new ModelAndView("redirect:" + url);
     }
 
-    /**
-     * 获取一个模型视图生成器
-     *
-     * @param viewName 视图名称
-     * @return 模型视图生成器
-     */
-    protected ModelAndViewBuilder builder(String viewName) {
-        ModelAndViewBuilder modelAndViewBuilder = applicationContext.getBean(ModelAndViewBuilder.class, request, response);
-        modelAndViewBuilder.setViewName(viewName);
-        return modelAndViewBuilder;
+    protected Page page() {
+        return applicationContext.getBean(Page.class, request, response);
     }
 
-    /**
-     * 获取一个错误页面
-     *
-     * @param status  HTTP错误代码
-     * @param message 错误信息
-     * @return 错误页面模型视图生成器
-     */
-    protected abstract ModelAndViewBuilder error(HttpStatus status, String message);
-
-    /**
-     * 验证验证码是否有效，如果无效将错误信息放入 {@code BindingResult} 中
-     *
-     * @param captcha       用户输入的验证码
-     * @param bindingResult 错误绑定
-     */
-    public void validateCaptcha(String captcha, BindingResult bindingResult) {
-        if (Objects.isNull(request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR))) {
-            bindingResult.rejectValue("captcha", "Captcha.null");
-        } else {
-            try {
-                Captcha c = (Captcha) request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR);
-                captchaService.verify(c, captcha);
-            } catch (CaptchaExpiredException e) {
-                bindingResult.rejectValue("captcha", "Captcha.expired");
-            } catch (CaptchaIncorrectException e) {
-                bindingResult.rejectValue("captcha", "Captcha.incorrect");
-            }
-        }
+    protected AbstractForm convertToForm(Object object) {
+        return formHelper.convert(object);
     }
 
     /**
@@ -159,9 +71,9 @@ public abstract class QXCMPController {
      *
      * @return 请求IP地址
      */
-    public String getRequestIPAddress() {
+    public String getRequestAddress() {
         String ip = request.getHeader("X-Forwarded-For");
-        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+        if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
             int index = ip.indexOf(",");
             if (index != -1) {
@@ -198,8 +110,8 @@ public abstract class QXCMPController {
     }
 
     @Autowired
-    public void setSystemConfigService(SystemConfigService systemConfigService) {
-        this.systemConfigService = systemConfigService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Autowired
@@ -208,12 +120,12 @@ public abstract class QXCMPController {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setSystemConfigService(SystemConfigService systemConfigService) {
+        this.systemConfigService = systemConfigService;
     }
 
     @Autowired
-    public void setCaptchaService(CaptchaService captchaService) {
-        this.captchaService = captchaService;
+    public void setFormHelper(FormHelper formHelper) {
+        this.formHelper = formHelper;
     }
 }

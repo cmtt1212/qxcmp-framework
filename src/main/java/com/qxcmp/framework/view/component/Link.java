@@ -26,7 +26,7 @@ public class Link {
      * 超链接打开方式，默认为当前窗口打开
      */
     @Builder.Default
-    private String target = LinkTarget.SELF.getValue();
+    private String target = AnchorTarget.SELF.toString();
 
     /**
      * 如果超链接表示下载文件，此选项表示下载文件名

@@ -1,0 +1,70 @@
+$form-label-width: 25;
+$form-component-width: 75;
+
+.ui.form {
+
+  .section {
+    padding: 1rem 0;
+  }
+
+  .submit.section {
+    text-align: right;
+    padding: 0;
+
+    button {
+      margin: 0;
+    }
+  }
+
+  .qxcmp.field {
+
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    > label {
+      flex: $form-label-width;
+      margin: 0 .85714286em 0 0;
+      text-align: right;
+      min-width: 96px;
+
+      .help.icon {
+        margin: 0;
+      }
+    }
+
+    > label:after {
+      content: ":";
+    }
+
+    > input, .component {
+      flex: $form-component-width;
+    }
+  }
+
+  .qxcmp.required.field {
+
+    > label:before {
+      margin-right: 0.2em;
+      content: "*";
+      color: red;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* Text input field */
+.ui.form .text.input.field {
+  position: relative;
+
+  input {
+    padding-right: 50px;
+  }
+
+  .counter {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    color: lightgrey;
+  }
+}

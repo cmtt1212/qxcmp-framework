@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb"*/-->
+<div th:fragment="default(component)" th:class="${component.getClassName()}">
+    <th:block th:each="item : ${component.items}">
+        <span th:if="${itemStat.index gt 0}" class="divider" th:utext="${component.separator}"></span>
+        <div th:replace="~{:: item(${item})}"></div>
+    </th:block>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.breadcrumb.IconBreadCrumb"*/-->
+<div th:fragment="icon(component)" th:class="${component.getClassName()}">
+    <th:block th:each="item : ${component.items}">
+        <i th:if="${itemStat.index gt 0}" th:class="|${component.iconName} icon divider|"></i>
+        <div th:replace="~{:: item(${item})}"></div>
+    </th:block>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem"*/-->
+<th:block th:fragment="item(component)">
+    <th:block th:if="${#strings.isEmpty(component.url)}">
+        <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
+    </th:block>
+    <th:block th:unless="${#strings.isEmpty(component.url)}">
+        <a th:class="${component.getClassName()}" th:href="@{${component.url}}" th:target="${component.urlTarget}" th:utext="${component.text}"></a>
+    </th:block>
+</th:block>
+</body>
+</html>
