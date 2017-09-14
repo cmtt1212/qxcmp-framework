@@ -1,10 +1,18 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.view.ModelAndViewBuilder;
-import com.qxcmp.framework.view.support.FrontendBuilderEvent;
 import com.qxcmp.framework.web.BasicErrorController;
-import com.qxcmp.framework.web.QXCMPFrontendController2;
+import com.qxcmp.framework.web.view.FrontendPage;
+import com.qxcmp.framework.web.view.elements.divider.Divider;
+import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.html.P;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.ColumnCount;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,11 +37,18 @@ public class QXCMPErrorController extends BasicErrorController {
         String message = errors.get("message").toString();
 
         if (path.startsWith(QXCMPConfiguration.QXCMP_BACKEND_URL)) {
-            return error(status, message).build();
+            return page().addComponent(getDefaultErrorPageContent(status, message)).build();
         } else {
-            ModelAndViewBuilder modelAndViewBuilder = builder(QXCMPFrontendController2.DEFAULT_FRONTEND_PAGE).setResult(status.toString(), status.getReasonPhrase(), message);
-            applicationContext.publishEvent(new FrontendBuilderEvent(request, response, modelAndViewBuilder));
-            return modelAndViewBuilder.build();
+            return new FrontendPage(request, response).addComponent(getDefaultErrorPageContent(status, message)).build();
         }
+    }
+
+    private AbstractGrid getDefaultErrorPageContent(HttpStatus status, String message) {
+        return new VerticallyDividedGrid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+                .addItem(new Col().addComponent(new Segment()
+                        .addComponent(new IconHeader(status.toString(), new Icon("warning circle")).setSubTitle("网页叔叔搭乘航班去追寻诗和远方了"))
+                        .addComponent(new Divider())
+                        .addComponent(new P(message))
+                ));
     }
 }

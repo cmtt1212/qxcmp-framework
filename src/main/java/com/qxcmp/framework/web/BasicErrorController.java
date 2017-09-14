@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author aaric
  */
-public abstract class BasicErrorController extends QXCMPBackendController2 implements ErrorController {
+public abstract class BasicErrorController extends QXCMPBackendController implements ErrorController {
 
     private ErrorAttributes errorAttributes;
 
