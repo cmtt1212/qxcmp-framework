@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.controller;
 
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QXCMPFrontendController;
 import com.qxcmp.framework.web.form.LoginForm;
 import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.container.Container;
@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Aaric
  */
 @Controller
-public class AccountPageController extends QXCMPController {
+public class AccountPageController extends QXCMPFrontendController {
 
     @GetMapping("/login")
     public ModelAndView loginPage() {

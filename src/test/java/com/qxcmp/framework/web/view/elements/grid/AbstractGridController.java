@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.grid;
 
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QXCMPFrontendController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test/containers/grid")
-public class AbstractGridController extends QXCMPController {
+public class AbstractGridController extends QXCMPFrontendController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {

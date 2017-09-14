@@ -4,7 +4,7 @@ import com.qxcmp.framework.domain.RedeemKey;
 import com.qxcmp.framework.domain.RedeemKeyEvent;
 import com.qxcmp.framework.domain.RedeemKeyService;
 import com.qxcmp.framework.domain.RedeemKeyStatus;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import com.qxcmp.framework.web.form.RedeemForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/redeem")
 @RequiredArgsConstructor
-public class RedeemController extends QXCMPFrontendController {
+public class RedeemController extends QXCMPFrontendController2 {
 
     private final RedeemKeyService redeemKeyService;
 

@@ -4,7 +4,7 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.view.ModelAndViewBuilder;
 import com.qxcmp.framework.view.support.FrontendBuilderEvent;
 import com.qxcmp.framework.web.BasicErrorController;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +31,7 @@ public class QXCMPErrorController extends BasicErrorController {
         if (path.startsWith(QXCMPConfiguration.QXCMP_BACKEND_URL)) {
             return error(status, message).build();
         } else {
-            ModelAndViewBuilder modelAndViewBuilder = builder(QXCMPFrontendController.DEFAULT_FRONTEND_PAGE).setResult(status.toString(), status.getReasonPhrase(), message);
+            ModelAndViewBuilder modelAndViewBuilder = builder(QXCMPFrontendController2.DEFAULT_FRONTEND_PAGE).setResult(status.toString(), status.getReasonPhrase(), message);
             applicationContext.publishEvent(new FrontendBuilderEvent(request, response, modelAndViewBuilder));
             return modelAndViewBuilder.build();
         }

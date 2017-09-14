@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.api;
 
 import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -32,7 +32,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_WECHAT_D
 @Controller
 @RequestMapping("/api/wxmp-cgi")
 @AllArgsConstructor
-public class WechatMpCGI extends QXCMPFrontendController {
+public class WechatMpCGI extends QXCMPFrontendController2 {
 
     private WxMpService wxMpService;
 

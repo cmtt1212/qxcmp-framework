@@ -6,7 +6,7 @@ import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.list.ListView;
 import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.view.support.PaginationHelper;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,7 @@ import java.util.Optional;
 @RequestMapping("/mall/item")
 @Controller
 @RequiredArgsConstructor
-public class CommodityController extends QXCMPFrontendController {
+public class CommodityController extends QXCMPFrontendController2 {
 
     private final CommodityService commodityService;
 

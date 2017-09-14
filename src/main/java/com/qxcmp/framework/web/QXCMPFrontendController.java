@@ -1,36 +1,16 @@
 package com.qxcmp.framework.web;
 
-import com.qxcmp.framework.view.ModelAndViewBuilder;
-import com.qxcmp.framework.view.support.FrontendBuilderEvent;
-import org.springframework.http.HttpStatus;
+import com.qxcmp.framework.web.view.FrontendPage;
 
 /**
- * 前端页面路由基类
- * <p>
- * 平台的所有前端页面路由都应该继承自该类，以获得平台框架提供的支持
+ * 页面路由器基类
  *
  * @author aaric
  */
-public abstract class QXCMPFrontendController extends QXCMPController2 {
-
-    /**
-     * 平台前端页面默认视图名称
-     */
-    public static final String DEFAULT_FRONTEND_PAGE = "qxcmp-frontend";
-
-    public ModelAndViewBuilder builder() {
-        return builder(DEFAULT_FRONTEND_PAGE);
-    }
+public abstract class QXCMPFrontendController extends AbstractQXCMPController {
 
     @Override
-    protected ModelAndViewBuilder builder(String viewName) {
-        ModelAndViewBuilder modelAndViewBuilder = super.builder(viewName);
-        applicationContext.publishEvent(new FrontendBuilderEvent(request, response, modelAndViewBuilder));
-        return modelAndViewBuilder;
-    }
-
-    @Override
-    protected ModelAndViewBuilder error(HttpStatus status, String message) {
-        return builder().setResult(status.toString(), status.getReasonPhrase(), message);
+    protected FrontendPage page() {
+        return applicationContext.getBean(FrontendPage.class, request, response);
     }
 }

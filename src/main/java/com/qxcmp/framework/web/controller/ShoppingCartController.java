@@ -5,7 +5,7 @@ import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.exception.ShoppingCartServiceException;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.view.list.ListViewItem;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import com.qxcmp.framework.web.form.MallCartOrderConsigneeForm;
 import com.qxcmp.framework.web.form.MallItemForm;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/mall/cart")
 @Controller
 @RequiredArgsConstructor
-public class ShoppingCartController extends QXCMPFrontendController {
+public class ShoppingCartController extends QXCMPFrontendController2 {
 
     private final ShoppingCartService shoppingCartService;
 

@@ -12,7 +12,7 @@ import com.qxcmp.framework.domain.OrderStatusEnum;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.OrderStatusException;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_WECHAT_N
 @Controller
 @RequestMapping("/api/wxmp-cgi/pay")
 @RequiredArgsConstructor
-public class WeixinPaymentAPI extends QXCMPFrontendController {
+public class WeixinPaymentAPI extends QXCMPFrontendController2 {
 
     private final QXCMPConfiguration qxcmpConfiguration;
 

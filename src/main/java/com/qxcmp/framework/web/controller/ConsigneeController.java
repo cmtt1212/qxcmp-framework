@@ -4,7 +4,7 @@ import com.qxcmp.framework.domain.Consignee;
 import com.qxcmp.framework.domain.ConsigneeService;
 import com.qxcmp.framework.view.list.ListView;
 import com.qxcmp.framework.view.list.ListViewItem;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import com.qxcmp.framework.web.form.MallConsigneeForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/mall/consignee")
 @Controller
 @RequiredArgsConstructor
-public class ConsigneeController extends QXCMPFrontendController {
+public class ConsigneeController extends QXCMPFrontendController2 {
 
     private final ConsigneeService consigneeService;
 

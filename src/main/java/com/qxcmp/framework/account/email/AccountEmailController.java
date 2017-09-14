@@ -3,7 +3,7 @@ package com.qxcmp.framework.account.email;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ import static com.qxcmp.framework.account.AccountService.ACCOUNT_PAGE;
 @Controller
 @RequestMapping("/account/email/")
 @RequiredArgsConstructor
-public class AccountEmailController extends QXCMPFrontendController {
+public class AccountEmailController extends QXCMPFrontendController2 {
 
     private final AccountService accountService;
 

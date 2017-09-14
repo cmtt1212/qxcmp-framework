@@ -4,7 +4,7 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ import static com.qxcmp.framework.account.AccountService.ACCOUNT_PAGE;
 @Controller
 @RequestMapping("/account/phone/")
 @RequiredArgsConstructor
-public class AccountPhoneController extends QXCMPFrontendController {
+public class AccountPhoneController extends QXCMPFrontendController2 {
 
     private final CodeService codeService;
 

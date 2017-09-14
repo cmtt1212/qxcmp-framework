@@ -9,7 +9,7 @@ import com.qxcmp.framework.view.list.ListView;
 import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.view.pagination.Pagination;
 import com.qxcmp.framework.view.support.PaginationHelper;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import com.qxcmp.framework.web.form.FinancePayPasswordChangeForm;
 import com.qxcmp.framework.web.form.FinancePayPasswordCreateForm;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  */
 @Controller
 @RequiredArgsConstructor
-public class FinanceController extends QXCMPFrontendController {
+public class FinanceModuleController extends QXCMPFrontendController2 {
 
     private final DepositOrderService depositOrderService;
 

@@ -5,7 +5,7 @@ import com.qxcmp.framework.domain.CommodityOrderService;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 @RequestMapping("/mall/cashier")
 @Controller
 @RequiredArgsConstructor
-public class CashierController extends QXCMPFrontendController {
+public class CashierController extends QXCMPFrontendController2 {
 
     private final CommodityOrderService commodityOrderService;
 

@@ -5,7 +5,7 @@ import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.view.form.FormViewEntity;
 import com.qxcmp.framework.view.list.ListViewItem;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,7 +27,7 @@ import static com.qxcmp.framework.account.AccountService.ACCOUNT_PAGE;
 @Controller
 @RequestMapping("/account/")
 @RequiredArgsConstructor
-public class AccountController extends QXCMPFrontendController {
+public class AccountController extends QXCMPFrontendController2 {
 
     private final AccountService accountService;
 
