@@ -24,6 +24,17 @@
     <div class="submit section">
         <div th:replace="~{qxcmp/globals/components :: component(${component.submitButton})}"></div>
     </div>
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var button = $(id).find(".submit.section button");
+
+            $(id).submit(function () {
+                $(button).addClass("disabled loading");
+            });
+        });
+    </script>
 </form>
 
 <!--/*@thymesVar id="form" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
@@ -95,9 +106,9 @@
 <div th:fragment="field-text-area(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <textarea th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
-           th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}" th:rows="${component.rows}"
-           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
-           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"></textarea>
+              th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}" th:rows="${component.rows}"
+              th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+              th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"></textarea>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>

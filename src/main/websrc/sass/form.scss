@@ -1,5 +1,3 @@
-$form-label-width: 25;
-$form-component-width: 75;
 
 .ui.form {
 
@@ -23,7 +21,7 @@ $form-component-width: 75;
     align-items: baseline;
 
     > label {
-      flex: $form-label-width;
+      flex: 1;
       margin: 0 .85714286em 0 0;
       text-align: right;
       min-width: 96px;
@@ -38,7 +36,7 @@ $form-component-width: 75;
     }
 
     > input, .component {
-      flex: $form-component-width;
+      flex: 100;
     }
   }
 
