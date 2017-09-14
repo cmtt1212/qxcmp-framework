@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.qxcmp.framework.web.QXCMPWebConfiguration.NAVIGATION_QXCMP_ADMIN_SIDEBAR;
 
-public abstract class QXCMPBackendController extends QXCMPController {
+public abstract class QXCMPBackendController extends AbstractQXCMPController {
 
     private NavigationService navigationService;
 
