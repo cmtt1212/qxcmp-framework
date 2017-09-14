@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class LoginForm {
 
-    @TextInputField(value = "用户名", required = true, tooltip = "用户名/邮箱/手机", maxLength = 30)
+    @TextInputField(value = "用户名", tooltip = "用户名/邮箱/手机", maxLength = 30)
     private String username;
 
     @PasswordField("登录密码")
