@@ -2,10 +2,11 @@ package com.qxcmp.framework.web.controller.sample.modules;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
-import com.qxcmp.framework.web.view.elements.message.SuccessMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import com.qxcmp.framework.web.view.support.ColumnCount;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
+
+import static com.qxcmp.framework.web.view.elements.header.HeaderType.H4;
 
 @Controller
 @RequestMapping("/test/sample/form")
@@ -40,7 +43,10 @@ public class FormSamplePageController extends AbstractSamplePageController {
             return getPage(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))).addObject(form).build();
         }
 
-        return getPage(convertToForm(form).setSuccessMessage(new SuccessMessage("提交成功", "表单信息提交成功"))).addObject(form).build();
+        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
+                .addComponent(new PageHeader(H4, "提交成功"))
+                .addComponent(new Button("返回", "/test/sample/form").setBasic().setPrimary())
+        ))).build();
     }
 
     private Page getPage(AbstractForm form) {
