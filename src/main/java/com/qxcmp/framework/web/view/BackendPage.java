@@ -50,6 +50,11 @@ public class BackendPage extends AbstractPage {
         return this;
     }
 
+    public BackendPage addSideContent(Component content) {
+        sidebar.addSideContent(content);
+        return this;
+    }
+
     @Override
     public ModelAndView build() {
         super.addComponent(sidebar);

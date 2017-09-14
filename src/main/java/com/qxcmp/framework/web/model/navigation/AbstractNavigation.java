@@ -112,7 +112,7 @@ public abstract class AbstractNavigation {
         if (!items.isEmpty()) {
             return items.stream().anyMatch(navigation -> navigation.isVisible(user));
         } else {
-            return privilegesAnd.stream().allMatch(userPrivileges::contains) && privilegesOr.stream().anyMatch(userPrivileges::contains);
+            return (privilegesAnd.isEmpty() || privilegesAnd.stream().allMatch(userPrivileges::contains)) && (privilegesOr.isEmpty() || privilegesOr.stream().anyMatch(userPrivileges::contains));
         }
     }
 
