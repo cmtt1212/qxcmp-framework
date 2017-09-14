@@ -1,6 +1,10 @@
 package com.qxcmp.framework.web.view;
 
-import com.qxcmp.framework.web.view.modules.sidebar.Sidebar;
+import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
+import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
+import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
+import com.qxcmp.framework.web.view.modules.sidebar.SidebarConfig;
+import com.qxcmp.framework.web.view.support.Width;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +22,7 @@ import java.util.Collection;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BackendPage extends AbstractPage {
 
-    private Sidebar sidebar = new Sidebar();
+    private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN);
 
     public BackendPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -26,13 +30,23 @@ public class BackendPage extends AbstractPage {
 
     @Override
     public BackendPage addComponent(Component component) {
-        sidebar.addSideContent(component);
+        sidebar.addContent(component);
         return this;
     }
 
     @Override
     public BackendPage addComponents(Collection<? extends Component> components) {
-        sidebar.addSideContents(components);
+        sidebar.addContents(components);
+        return this;
+    }
+
+    public BackendPage setTopMenu(AbstractMenu menu) {
+        sidebar.setTopFixedMenu(menu);
+        return this;
+    }
+
+    public BackendPage setBottomMenu(AbstractMenu menu) {
+        sidebar.setBottomFixedMenu(menu);
         return this;
     }
 

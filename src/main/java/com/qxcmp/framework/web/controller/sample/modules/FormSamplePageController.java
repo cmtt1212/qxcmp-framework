@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.controller.sample.modules;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
-import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.AbstractPage;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
@@ -49,7 +49,7 @@ public class FormSamplePageController extends AbstractSamplePageController {
         ))).build();
     }
 
-    private Page getPage(AbstractForm form) {
+    private AbstractPage getPage(AbstractForm form) {
         return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
                 .addComponent(form)
         )));

@@ -1,13 +1,16 @@
 package com.qxcmp.framework.view.form2;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 文本输入框渲染对象
  *
  * @author Aaric
  */
-@Data
+@Getter
+@Setter
 public class TextInputField extends FormViewField {
 
     /**

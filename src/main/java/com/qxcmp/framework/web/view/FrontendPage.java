@@ -16,18 +16,18 @@ import java.util.Collection;
  */
 @org.springframework.stereotype.Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Page extends AbstractPage {
-    public Page(HttpServletRequest request, HttpServletResponse response) {
+public class FrontendPage extends AbstractPage {
+    public FrontendPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
     @Override
-    public Page addComponent(Component component) {
-        return (Page) super.addComponent(component);
+    public FrontendPage addComponent(Component component) {
+        return (FrontendPage) super.addComponent(component);
     }
 
     @Override
-    public Page addComponents(Collection<? extends Component> components) {
-        return (Page) super.addComponents(components);
+    public FrontendPage addComponents(Collection<? extends Component> components) {
+        return (FrontendPage) super.addComponents(components);
     }
 }

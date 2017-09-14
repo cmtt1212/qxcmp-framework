@@ -46,7 +46,7 @@ public abstract class AbstractPage {
     }
 
     public ModelAndView build() {
-        modelAndView.addObject(this);
+        modelAndView.addObject("page", this);
         return modelAndView;
     }
 

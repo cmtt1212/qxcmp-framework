@@ -1,8 +1,11 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.support.ColumnCount;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +19,8 @@ public class AdminPageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView adminHomePage() {
-        return page()
-                .addComponent(new PageHeader(HeaderType.H1, qxcmpConfiguration.getTitle()))
-                .build();
+        return page().addComponent(new VerticallyDividedGrid().setContainer().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+                .addItem(new Col().addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle())))
+        ).build();
     }
 }

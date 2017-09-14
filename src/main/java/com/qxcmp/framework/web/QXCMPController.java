@@ -9,7 +9,8 @@ import com.qxcmp.framework.domain.CaptchaIncorrectException;
 import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.web.view.Page;
+import com.qxcmp.framework.web.view.AbstractPage;
+import com.qxcmp.framework.web.view.FrontendPage;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
@@ -67,8 +68,8 @@ public abstract class QXCMPController {
         return new ModelAndView("redirect:" + url);
     }
 
-    protected Page page() {
-        return applicationContext.getBean(Page.class, request, response);
+    protected AbstractPage page() {
+        return applicationContext.getBean(FrontendPage.class, request, response);
     }
 
     protected AbstractForm convertToForm(Object object) {
