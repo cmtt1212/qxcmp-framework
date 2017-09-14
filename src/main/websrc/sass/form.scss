@@ -54,7 +54,7 @@ $form-component-width: 75;
 }
 
 /* Text input field */
-.ui.form .text.input.field {
+.ui.form .text.input.field, .textarea.field {
   position: relative;
 
   input {

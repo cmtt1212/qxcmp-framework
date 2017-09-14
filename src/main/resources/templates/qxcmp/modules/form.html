@@ -45,7 +45,7 @@
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
             var helpIcon = $(id).find(".help.icon");
-            var input = $(id).find("input");
+            var input = $(id).find("input,textarea");
             var span = $(input).next("span");
             var maxLength = $(span).attr("data-max-length");
 
@@ -87,6 +87,17 @@
            th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}"
            th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
            th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
+    <script th:replace="~{:: field-text-script(${component})}"></script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextAreaField"*/-->
+<div th:fragment="field-text-area(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <textarea th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
+           th:maxlength="${(component.maxLength gt 0) ? component.maxLength : _}" th:rows="${component.rows}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"></textarea>
     <span class="counter" style="display: none" th:attr="data-max-length=${component.maxLength}"></span>
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>

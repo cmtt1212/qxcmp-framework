@@ -3,6 +3,7 @@ package com.qxcmp.framework.web.view.support.utils;
 import com.google.common.base.CaseFormat;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.PasswordField;
+import com.qxcmp.framework.web.view.annotation.form.TextAreaField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
+     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {
@@ -83,6 +85,8 @@ public class FormHelper {
                     addTextInputField(form, field, (TextInputField) annotation);
                 } else if (annotation instanceof PasswordField) {
                     addPasswordInputField(form, field, (PasswordField) annotation);
+                } else if (annotation instanceof TextAreaField) {
+                    addTextAreaField(form, field, (TextAreaField) annotation);
                 }
             }
         }
@@ -118,5 +122,22 @@ public class FormHelper {
         passwordField.setMaxLength(annotation.maxLength());
 
         form.addItem(passwordField, annotation.section());
+    }
+
+    private void addTextAreaField(AbstractForm form, Field field, TextAreaField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.TextAreaField textAreaField = new com.qxcmp.framework.web.view.modules.form.field.TextAreaField();
+
+        textAreaField.setName(field.getName());
+        textAreaField.setLabel(annotation.value());
+        textAreaField.setTooltip(annotation.tooltip());
+        textAreaField.setRequired(annotation.required());
+        textAreaField.setDisableAutoComplete(annotation.disableAutoComplete());
+        textAreaField.setAutoFocus(annotation.autoFocus());
+        textAreaField.setReadOnly(annotation.readOnly());
+        textAreaField.setPlaceholder(annotation.placeholder());
+        textAreaField.setMaxLength(annotation.maxLength());
+        textAreaField.setRows(annotation.rows());
+
+        form.addItem(textAreaField, annotation.section());
     }
 }
