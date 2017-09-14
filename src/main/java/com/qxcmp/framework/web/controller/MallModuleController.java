@@ -2,7 +2,7 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.domain.*;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminMallCommodityForm;
 import com.qxcmp.framework.web.form.AdminMallOrderForm;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall")
 @RequiredArgsConstructor
-public class MallModuleController extends QXCMPBackendController {
+public class MallModuleController extends QXCMPBackendController2 {
 
     private static final int IMAGE_SIZE = 512;
 

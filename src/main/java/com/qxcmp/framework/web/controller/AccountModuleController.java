@@ -5,7 +5,7 @@ import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -35,7 +35,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/account")
 @RequiredArgsConstructor
-public class AccountModuleController extends QXCMPBackendController {
+public class AccountModuleController extends QXCMPBackendController2 {
 
     private static final String EMAIL_BINDING_SESSION_ATTR = "EMAIL_BINDING_CAPTCHA";
     private static final String EMAIL_BINDING_CONTENT_SESSION_ATTR = "EMAIL_BINDING_CONTENT";

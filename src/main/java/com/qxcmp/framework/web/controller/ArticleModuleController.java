@@ -5,7 +5,7 @@ import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.view.support.TableViewHelper;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -40,7 +40,7 @@ import static com.qxcmp.framework.web.QXCMPWebConfiguration.*;
 @RequestMapping(QXCMP_BACKEND_URL + "/article")
 @Controller
 @RequiredArgsConstructor
-public class ArticleModuleController extends QXCMPBackendController {
+public class ArticleModuleController extends QXCMPBackendController2 {
 
     private final ArticleService articleService;
 

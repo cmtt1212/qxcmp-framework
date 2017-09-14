@@ -4,7 +4,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminMessageEmailConfigForm;
 import com.qxcmp.framework.web.form.AdminMessageSmsConfigForm;
 import com.qxcmp.framework.web.form.AdminMessageSmsTestForm;
@@ -32,7 +32,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/message")
 @RequiredArgsConstructor
-public class MessageModuleController extends QXCMPBackendController {
+public class MessageModuleController extends QXCMPBackendController2 {
 
     private final EmailService emailService;
 

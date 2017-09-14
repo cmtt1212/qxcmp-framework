@@ -3,7 +3,7 @@ package com.qxcmp.framework.web.controller;
 import com.jcabi.manifests.Manifests;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.event.HomePageExtensionEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,7 +28,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  */
 @Controller
 @RequiredArgsConstructor
-public class CommonPageController extends QXCMPBackendController {
+public class CommonPageController extends QXCMPBackendController2 {
 
     private final ApplicationEventPublisher eventPublisher;
 

@@ -6,7 +6,7 @@ import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.domain.RedeemKey;
 import com.qxcmp.framework.domain.RedeemKeyService;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminRedeemGenerateForm;
 import com.qxcmp.framework.web.form.AdminRedeemSettingsForm;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/redeem")
 @RequiredArgsConstructor
-public class QXCMPController2 extends QXCMPBackendController {
+public class QXCMPController2 extends QXCMPBackendController2 {
 
     private final RedeemKeyService redeemKeyService;
 

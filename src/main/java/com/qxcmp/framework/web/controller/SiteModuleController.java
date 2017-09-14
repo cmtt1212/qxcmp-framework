@@ -10,7 +10,7 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -36,7 +36,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/site")
 @RequiredArgsConstructor
-public class SiteModuleController extends QXCMPBackendController {
+public class SiteModuleController extends QXCMPBackendController2 {
 
     private static final List<String> WATERMARK_POSITIONS = ImmutableList.of("左上", "中上", "右上", "左中", "居中", "右中", "左下", "中下", "右下");
 

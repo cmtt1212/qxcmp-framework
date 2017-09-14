@@ -3,7 +3,7 @@ package com.qxcmp.framework.web.controller;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminFinancePaymentWeixinSettingsForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/finance/payment/weixin")
 @RequiredArgsConstructor
-public class WeixinPaymentModuleController extends QXCMPBackendController {
+public class WeixinPaymentModuleController extends QXCMPBackendController2 {
 
     public static final List<String> SUPPORT_PAYMENT = ImmutableList.of("NATIVE", "JSAPI");
 

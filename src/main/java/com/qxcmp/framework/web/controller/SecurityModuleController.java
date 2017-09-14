@@ -6,7 +6,7 @@ import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminSecurityAuthenticationForm;
 import com.qxcmp.framework.web.form.AdminSecurityRoleForm;
 import com.qxcmp.framework.web.form.AdminSecurityUserForm;
@@ -33,7 +33,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/security")
 @RequiredArgsConstructor
-public class SecurityModuleController extends QXCMPBackendController {
+public class SecurityModuleController extends QXCMPBackendController2 {
 
     private final PrivilegeService privilegeService;
 

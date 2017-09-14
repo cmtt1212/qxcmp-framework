@@ -9,7 +9,7 @@ import com.qxcmp.framework.view.component.ElementType;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.view.support.TableViewHelper;
 import com.qxcmp.framework.view.table.TableViewEntity;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.SpiderDefinitionForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +35,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/spider")
 @RequiredArgsConstructor
-public class SpiderModuleController extends QXCMPBackendController {
+public class SpiderModuleController extends QXCMPBackendController2 {
 
     private final SpiderLogService spiderLogService;
 

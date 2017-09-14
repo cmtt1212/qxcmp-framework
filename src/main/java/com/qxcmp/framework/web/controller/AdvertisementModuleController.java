@@ -6,7 +6,7 @@ import com.qxcmp.framework.domain.AdvertisementService;
 import com.qxcmp.framework.domain.Image;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminAdForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
@@ -33,7 +33,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/ad")
 @RequiredArgsConstructor
-public class AdvertisementModuleController extends QXCMPBackendController {
+public class AdvertisementModuleController extends QXCMPBackendController2 {
 
     public static final List<String> SUPPORT_TYPES = ImmutableList.of("横幅", "弹框", "摩天楼");
 

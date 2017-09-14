@@ -2,7 +2,7 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.audit.AuditLogService;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/log")
 @AllArgsConstructor
-public class LogModuleController extends QXCMPBackendController {
+public class LogModuleController extends QXCMPBackendController2 {
 
     private AuditLogService auditLogService;
 

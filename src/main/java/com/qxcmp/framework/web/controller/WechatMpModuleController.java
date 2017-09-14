@@ -7,7 +7,7 @@ import com.qxcmp.framework.domain.ChannelService;
 import com.qxcmp.framework.domain.WechatMpNewsArticleService;
 import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminArticleNewForm;
 import com.qxcmp.framework.web.form.AdminWeixinSettingsConfigForm;
 import com.qxcmp.framework.web.form.AdminWeixinSettingsMenuForm;
@@ -46,7 +46,7 @@ import static com.qxcmp.framework.view.component.ElementType.P;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/weixin")
 @RequiredArgsConstructor
-public class WechatMpModuleController extends QXCMPBackendController {
+public class WechatMpModuleController extends QXCMPBackendController2 {
 
     private final WxMpService wxMpService;
 

@@ -5,7 +5,7 @@ import com.qxcmp.framework.account.username.SecurityQuestion;
 import com.qxcmp.framework.account.username.SecurityQuestionService;
 import com.qxcmp.framework.account.username.web.form.AdminAccountQuestionForm;
 import com.qxcmp.framework.view.nav.Navigation;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.QXCMPBackendController2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/account/question")
 @RequiredArgsConstructor
-public class AccountUsernameModuleController extends QXCMPBackendController {
+public class AccountUsernameModuleController extends QXCMPBackendController2 {
 
     private static final List<String> QUESTIONS_LIST_1 = ImmutableList.of("您高中三年级班主任的名字", "您小学六年级班主任的名字", "您大学时的学号", "您大学本科时的上/下铺叫什么名字", "您大学的导师叫什么名字");
     private static final List<String> QUESTIONS_LIST_2 = ImmutableList.of("您父母称呼您的昵称", "您出生的医院名称", "您最好的朋友叫什么名字", "您母亲的姓名是", "您配偶的生日是");
