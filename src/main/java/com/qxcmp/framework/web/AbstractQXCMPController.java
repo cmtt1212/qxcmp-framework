@@ -10,9 +10,14 @@ import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.AbstractPage;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
+import com.qxcmp.framework.web.view.views.Overview;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -48,6 +53,10 @@ public abstract class AbstractQXCMPController {
     private CaptchaService captchaService;
 
     protected abstract AbstractPage page();
+
+    protected AbstractPage overviewPage(Overview overview) {
+        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(overview)));
+    }
 
     protected Optional<User> currentUser() {
         return Optional.ofNullable(userService.currentUser());

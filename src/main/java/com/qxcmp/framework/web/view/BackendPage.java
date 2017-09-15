@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view;
 
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
 import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
@@ -24,19 +25,21 @@ public class BackendPage extends AbstractPage {
 
     private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN);
 
+    private Container container = new Container();
+
     public BackendPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
     @Override
     public BackendPage addComponent(Component component) {
-        sidebar.addContent(component);
+        container.addComponent(component);
         return this;
     }
 
     @Override
     public BackendPage addComponents(Collection<? extends Component> components) {
-        sidebar.addContents(components);
+        container.addComponents(components);
         return this;
     }
 
@@ -57,7 +60,7 @@ public class BackendPage extends AbstractPage {
 
     @Override
     public ModelAndView build() {
-        super.addComponent(sidebar);
+        super.addComponent(sidebar.addContent(container));
         return super.build();
     }
 }

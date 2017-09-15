@@ -7,6 +7,7 @@ import com.qxcmp.framework.web.view.support.Alignment;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -25,6 +26,11 @@ public class AbstractContainer extends AbstractComponent {
 
     public AbstractContainer addComponent(Component component) {
         components.add(component);
+        return this;
+    }
+
+    public AbstractContainer addComponents(Collection<? extends Component> components) {
+        this.components.addAll(components);
         return this;
     }
 
