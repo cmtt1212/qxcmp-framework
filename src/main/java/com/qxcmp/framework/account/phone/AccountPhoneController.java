@@ -85,6 +85,7 @@ public class AccountPhoneController extends AccountPageController {
         try {
             userService.create(() -> {
                 User user = userService.next();
+                user.setUsername(form.getUsername());
                 user.setPhone(form.getPhone());
                 user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
                 user.setAccountNonExpired(true);
