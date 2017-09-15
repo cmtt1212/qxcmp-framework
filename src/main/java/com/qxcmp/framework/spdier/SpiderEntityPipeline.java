@@ -1,6 +1,6 @@
 package com.qxcmp.framework.spdier;
 
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import lombok.AllArgsConstructor;
 
 /**

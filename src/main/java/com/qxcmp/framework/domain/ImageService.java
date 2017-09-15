@@ -1,7 +1,7 @@
 package com.qxcmp.framework.domain;
 
-import com.qxcmp.framework.entity.AbstractEntityService;
-import com.qxcmp.framework.support.IDGenerator;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
+import com.qxcmp.framework.core.support.IDGenerator;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Position;
 import net.coobird.thumbnailator.geometry.Positions;

@@ -1,4 +1,4 @@
-package com.qxcmp.framework.support;
+package com.qxcmp.framework.core.support;
 
 import org.springframework.stereotype.Component;
 

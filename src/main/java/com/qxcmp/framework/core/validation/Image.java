@@ -1,20 +1,21 @@
-package com.qxcmp.framework.validation;
+package com.qxcmp.framework.core.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * 网络端口验证
- * Created by y27chen on 3/22/2017.
+ * 用于图片上传验证，确定上传的图片格式是正确的
+ *
+ * @author aaric
  */
 @Documented
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PortValidator.class)
-public @interface Port {
+@Constraint(validatedBy = ImageValidator.class)
+public @interface Image {
 
-    String message() default "{Port}";
+    String message() default "{Image}";
 
     Class<?>[] groups() default {};
 

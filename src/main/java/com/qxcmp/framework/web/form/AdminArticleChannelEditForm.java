@@ -3,7 +3,7 @@ package com.qxcmp.framework.web.form;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.validation.Image;
+import com.qxcmp.framework.core.validation.Image;
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;
 import com.qxcmp.framework.view.form.InputFiledType;

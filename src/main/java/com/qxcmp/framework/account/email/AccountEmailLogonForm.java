@@ -1,6 +1,6 @@
 package com.qxcmp.framework.account.email;
 
-import com.qxcmp.framework.validation.Username;
+import com.qxcmp.framework.core.validation.Username;
 import com.qxcmp.framework.web.view.annotation.form.*;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;

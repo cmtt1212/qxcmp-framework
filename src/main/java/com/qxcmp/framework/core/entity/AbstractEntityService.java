@@ -1,4 +1,4 @@
-package com.qxcmp.framework.entity;
+package com.qxcmp.framework.core.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;

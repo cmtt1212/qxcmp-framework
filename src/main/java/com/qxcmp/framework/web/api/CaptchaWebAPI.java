@@ -3,7 +3,7 @@ package com.qxcmp.framework.web.api;
 import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.message.SmsService;
-import com.qxcmp.framework.validation.PhoneValidator;
+import com.qxcmp.framework.core.validation.PhoneValidator;
 import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

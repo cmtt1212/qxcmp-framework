@@ -1,7 +1,7 @@
 package com.qxcmp.framework.security;
 
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

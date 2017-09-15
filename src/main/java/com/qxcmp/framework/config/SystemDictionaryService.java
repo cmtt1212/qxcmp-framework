@@ -4,7 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

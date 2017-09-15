@@ -1,6 +1,6 @@
 package com.qxcmp.framework.message;
 
-import com.qxcmp.framework.support.ThrowingConsumer;
+import com.qxcmp.framework.core.support.ThrowingConsumer;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 

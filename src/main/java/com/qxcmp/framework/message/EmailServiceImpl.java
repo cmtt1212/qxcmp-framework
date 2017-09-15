@@ -2,7 +2,7 @@ package com.qxcmp.framework.message;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
-import com.qxcmp.framework.support.ThrowingConsumer;
+import com.qxcmp.framework.core.support.ThrowingConsumer;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;

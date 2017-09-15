@@ -1,4 +1,4 @@
-package com.qxcmp.framework.validation;
+package com.qxcmp.framework.core.validation;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;

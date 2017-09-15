@@ -1,7 +1,7 @@
 package com.qxcmp.framework.account.username;
 
-import com.qxcmp.framework.entity.AbstractEntityService;
-import com.qxcmp.framework.support.IDGenerator;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
+import com.qxcmp.framework.core.support.IDGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

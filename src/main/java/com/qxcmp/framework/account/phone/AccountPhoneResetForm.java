@@ -1,9 +1,7 @@
 package com.qxcmp.framework.account.phone;
 
 import com.qxcmp.framework.domain.Code;
-import com.qxcmp.framework.validation.Phone;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.core.validation.Phone;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.PhoneCaptchaField;
 import com.qxcmp.framework.web.view.annotation.form.PhoneField;

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.audit;
 
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

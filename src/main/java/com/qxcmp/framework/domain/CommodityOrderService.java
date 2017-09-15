@@ -1,10 +1,10 @@
 package com.qxcmp.framework.domain;
 
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
 import com.qxcmp.framework.exception.OrderStatusException;
-import com.qxcmp.framework.support.IDGenerator;
+import com.qxcmp.framework.core.support.IDGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;

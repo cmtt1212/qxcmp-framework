@@ -1,4 +1,4 @@
-package com.qxcmp.framework.validation;
+package com.qxcmp.framework.core.validation;
 
 import org.junit.Test;
 

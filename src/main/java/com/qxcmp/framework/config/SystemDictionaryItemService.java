@@ -1,6 +1,6 @@
 package com.qxcmp.framework.config;
 
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.springframework.stereotype.Service;
 
 /**

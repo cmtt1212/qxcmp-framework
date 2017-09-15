@@ -1,7 +1,7 @@
 package com.qxcmp.framework.domain;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.entity.AbstractEntityService;
+import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.user.User;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.controller.sample.modules;
 
-import com.qxcmp.framework.validation.Username;
+import com.qxcmp.framework.core.validation.Username;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.PhoneCaptchaField;
 import com.qxcmp.framework.web.view.annotation.form.TextAreaField;
