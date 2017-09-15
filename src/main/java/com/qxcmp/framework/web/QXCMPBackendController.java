@@ -11,7 +11,7 @@ import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
 import com.qxcmp.framework.web.view.support.Fixed;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.qxcmp.framework.web.QXCMPWebConfiguration.NAVIGATION_QXCMP_ADMIN_SIDEBAR;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_QXCMP_ADMIN_SIDEBAR;
 
 public abstract class QXCMPBackendController extends AbstractQXCMPController {
 

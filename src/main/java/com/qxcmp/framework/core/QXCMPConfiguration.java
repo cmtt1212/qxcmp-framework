@@ -3,9 +3,7 @@ package com.qxcmp.framework.core;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
-import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.security.PrivilegeAutowired;
 import com.qxcmp.framework.weixin.WechatMpMessageHandler;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -35,12 +33,10 @@ import java.util.Properties;
  * @author aaric
  */
 @Configuration
-@EnableTransactionManagement
 @EnableAsync
 @EnableScheduling
+@EnableTransactionManagement
 @RequiredArgsConstructor
-@PrivilegeAutowired
-@SystemConfigAutowired
 public class QXCMPConfiguration {
 
     /**
