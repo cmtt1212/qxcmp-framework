@@ -1,8 +1,5 @@
-package com.qxcmp.framework.web.controller;
+package com.qxcmp.framework.account;
 
-import com.qxcmp.framework.account.AccountActivateForm;
-import com.qxcmp.framework.account.AccountResetForm;
-import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
@@ -99,7 +96,7 @@ public class AccountPageController extends QXCMPFrontendController {
             return redirect(accountService.getResetItems().get(0).getResetUrl());
         } else {
             List list = new List().setSelection();
-            accountService.getRegisterItems().forEach(accountComponent -> list.addItem(new TextItem(accountComponent.getResetName()).setUrl(accountComponent.getResetUrl())));
+            accountService.getRegisterItems().stream().filter(accountComponent -> !accountComponent.isDisableReset()).forEach(accountComponent -> list.addItem(new TextItem(accountComponent.getResetName()).setUrl(accountComponent.getResetUrl())));
             return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
                     .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择密码找回方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)

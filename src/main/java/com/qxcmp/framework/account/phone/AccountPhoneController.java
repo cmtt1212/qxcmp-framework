@@ -5,7 +5,7 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.controller.AccountPageController;
+import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
