@@ -2,6 +2,7 @@ package com.qxcmp.framework.account.phone;
 
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.controller.AccountPageController;
@@ -23,8 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Objects;
-
-import static com.qxcmp.framework.account.AccountService.ACCOUNT_PAGE;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/account/phone/")
@@ -101,38 +101,46 @@ public class AccountPhoneController extends AccountPageController {
             return overviewPage(new Overview(new IconHeader("注册失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
-//
-//    @GetMapping("reset")
-//    public ModelAndView reset(final AccountPhoneResetForm form) {
-//
-//        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
-//            return builder(ACCOUNT_PAGE).setResult("密码找回功能已经关闭", "请与平台管理员联系").setResultNavigation("返回登录", "/login").build();
-//        }
-//
-//        return builder(ACCOUNT_PAGE).setFormView(form).build();
-//    }
-//
-//    @PostMapping("reset")
-//    public ModelAndView reset(@Valid @ModelAttribute(FORM_OBJECT) AccountPhoneResetForm form, BindingResult bindingResult) {
-//
-//        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
-//            return builder(ACCOUNT_PAGE).setResult("密码找回功能已经关闭", "请与平台管理员联系").setResultNavigation("返回登录", "/login").build();
-//        }
-//
-//        Optional<User> userOptional = userService.findByPhone(form.getPhone());
-//
-//        if (!userOptional.isPresent()) {
-//            bindingResult.rejectValue("phone", "Account.reset.noPhone");
-//        }
-//
-//        validateCaptcha(form.getCaptcha(), bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
-//            return builder(ACCOUNT_PAGE).setFormView(form).build();
-//        }
-//
-//        Code code = codeService.nextPasswordCode(userOptional.get().getId());
-//
-//        return redirect("/account/reset/" + code.getId());
-//    }
+
+    @GetMapping("reset")
+    public ModelAndView reset(final AccountPhoneResetForm form) {
+
+        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
+            return resetClosedPage().build();
+        }
+
+        return buildPage(segment -> segment
+                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(convertToForm(form))
+        ).addObject(form)
+                .build();
+    }
+
+    @PostMapping("reset")
+    public ModelAndView reset(@Valid final AccountPhoneResetForm form, BindingResult bindingResult) {
+
+        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
+            return resetClosedPage().build();
+        }
+
+        Optional<User> userOptional = userService.findByPhone(form.getPhone());
+
+        if (!userOptional.isPresent()) {
+            bindingResult.rejectValue("phone", "Account.reset.noPhone");
+        }
+
+        verifyCaptcha(form.getCaptcha(), bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return buildPage(segment -> segment
+                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+            ).addObject(form)
+                    .build();
+        }
+
+        Code code = codeService.nextPasswordCode(userOptional.get().getId());
+
+        return redirect("/account/reset/" + code.getId());
+    }
 }

@@ -79,7 +79,7 @@ public class AccountService implements QXCMPConfigurator {
         if (systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
             activateComponents.add(AccountComponent.builder()
                     .registerName("手机号注册").registerUrl("/account/phone/logon")
-                    .resetName("短信验证码找回").resetUrl("/account/phone/reset").build());
+                    .resetName("短信找回").resetUrl("/account/phone/reset").build());
         }
         if (systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE).orElse(false)) {
             activateComponents.add(AccountComponent.builder()
@@ -141,7 +141,7 @@ public class AccountService implements QXCMPConfigurator {
     }
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         loadConfig();
     }
 }
