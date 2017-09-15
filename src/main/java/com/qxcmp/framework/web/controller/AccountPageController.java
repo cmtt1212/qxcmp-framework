@@ -1,7 +1,9 @@
 package com.qxcmp.framework.web.controller;
 
+import com.qxcmp.framework.account.AccountActivateForm;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.domain.CodeService;
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
 import com.qxcmp.framework.web.form.LoginForm;
 import com.qxcmp.framework.web.view.AbstractPage;
@@ -25,11 +27,16 @@ import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static com.qxcmp.framework.web.auth.AuthenticationFailureHandler.AUTHENTICATION_ERROR_MESSAGE;
@@ -95,7 +102,8 @@ public class AccountPageController extends QXCMPFrontendController {
             ).build();
         }
     }
-//
+
+    //
 //    @GetMapping("reset/{id}")
 //    public ModelAndView reset(@PathVariable String id) {
 //
@@ -135,46 +143,55 @@ public class AccountPageController extends QXCMPFrontendController {
 //        return builder(ACCOUNT_PAGE).setResult("密码重置成功", "请使用新的密码登录").setResultNavigation("现在去登录", "/login").build();
 //    }
 //
-//    @GetMapping("activate")
-//    public ModelAndView activate(final AccountActivateForm form) {
-//        return builder(ACCOUNT_PAGE).setFormView(form).build();
-//    }
-//
-//    @PostMapping("activate")
-//    public ModelAndView activate(@Valid @ModelAttribute(FORM_OBJECT) AccountActivateForm form, BindingResult bindingResult) {
-//
-//        Optional<User> userOptional = userService.findByUsername(form.getUsername());
-//
-//        if (!userOptional.isPresent()) {
-//            bindingResult.rejectValue("username", "Account.activate.notExist");
-//        } else {
-//            if (StringUtils.isBlank(userOptional.get().getEmail())) {
-//                bindingResult.rejectValue("username", "Account.activate.noEmail");
-//            }
-//
-//            if (userOptional.get().isEnabled()) {
-//                bindingResult.rejectValue("username", "Account.activate.activated");
-//            }
-//        }
-//
-//        validateCaptcha(form.getCaptcha(), bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
-//            return builder(ACCOUNT_PAGE).setFormView(form).build();
-//        }
-//
-//        try {
-//            accountService.sendActivateEmail(userOptional.get());
-//            return builder(ACCOUNT_PAGE).setResult("发送激活邮件成功", "激活邮件已经发送到您的邮件，请前往激活", "如果您未收到激活邮件，请检查是否被黑名单过滤，或者再次重新发送激活邮件")
-//                    .setResultNavigation("返回登录", "/login", "重新激活账户", "/account/activate")
-//                    .build();
-//        } catch (Exception e) {
-//            return builder(ACCOUNT_PAGE).setResult("发送激活邮件失败", e.getMessage())
-//                    .setResultNavigation("返回登录", "/login", "重新激活账户", "/account/activate")
-//                    .build();
-//        }
-//    }
-//
+    @GetMapping("/account/activate")
+    public ModelAndView activate(final AccountActivateForm form) {
+        return buildPage(segment -> segment
+                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("激活账户").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(convertToForm(form))
+        ).addObject(form)
+                .build();
+    }
+
+    @PostMapping("/account/activate")
+    public ModelAndView activate(@Valid final AccountActivateForm form, BindingResult bindingResult) {
+
+        Optional<User> userOptional = userService.findByUsername(form.getUsername());
+
+        if (!userOptional.isPresent()) {
+            bindingResult.rejectValue("username", "Account.activate.notExist");
+        } else {
+            if (StringUtils.isBlank(userOptional.get().getEmail())) {
+                bindingResult.rejectValue("username", "Account.activate.noEmail");
+            }
+
+            if (userOptional.get().isEnabled()) {
+                bindingResult.rejectValue("username", "Account.activate.activated");
+            }
+        }
+
+        verifyCaptcha(form.getCaptcha(), bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return buildPage(segment -> segment
+                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("激活账户").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+            ).addObject(form)
+                    .build();
+        }
+
+        try {
+            accountService.sendActivateEmail(userOptional.get());
+
+            return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
+                    .addComponent(new PageHeader(HeaderType.H2, "发送激活邮件成功").setSubTitle("激活邮件已经发送到您的邮件，请前往激活。如果您未收到激活邮件，请检查是否被黑名单过滤，或者再次重新发送激活邮件"))
+                    .addComponent(new Divider())
+                    .addComponent(new Button("立即登录", "/login").setBasic())
+            ).build();
+        } catch (Exception e) {
+            return errorPage("发送激活邮件失败", e.getMessage()).build();
+        }
+    }
+
 //    @GetMapping("activate/{id}")
 //    public ModelAndView activate(@PathVariable String id) {
 //        try {

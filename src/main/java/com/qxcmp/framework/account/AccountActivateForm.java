@@ -1,8 +1,9 @@
 package com.qxcmp.framework.account;
 
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 /**
@@ -10,13 +11,13 @@ import lombok.Data;
  *
  * @author aaric
  */
-@FormView(caption = "激活账户", disableSubmitIcon = true)
+@Form(submitText = "发送激活邮件", method = FormMethod.POST)
 @Data
 public class AccountActivateForm {
 
-    @FormViewField(label = "用户名", type = InputFiledType.TEXT, placeholder = "请输入要激活账户的用户名")
+    @TextInputField(value = "用户名", maxLength = 20, placeholder = "你要激活账户的用户名")
     private String username;
 
-    @FormViewField(label = "验证码", type = InputFiledType.CAPTCHA, placeholder = "请输入验证码")
+    @ImageCaptchaField("验证码")
     private String captcha;
 }
