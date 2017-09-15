@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.account.AccountActivateForm;
+import com.qxcmp.framework.account.AccountResetForm;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
@@ -31,6 +32,7 @@ import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,46 +109,50 @@ public class AccountPageController extends QXCMPFrontendController {
         }
     }
 
-    //
-//    @GetMapping("reset/{id}")
-//    public ModelAndView reset(@PathVariable String id) {
-//
-//        if (codeService.isInvalidCode(id)) {
-//            return builder(ACCOUNT_PAGE).setResult("无效的重置链接", "请确认重置链接是否正确，或者重新找回密码")
-//                    .setResultNavigation("返回登录", "/login", "重新找回密码", "/account/reset")
-//                    .build();
-//        }
-//
-//        return accountResetForm(codeService.findOne(id).orElse(null), new AccountResetForm());
-//    }
-//
-//    @PostMapping("reset/{id}")
-//    public ModelAndView reset(@PathVariable String id, @Valid @ModelAttribute(FORM_OBJECT) AccountResetForm form, BindingResult bindingResult) throws Exception {
-//
-//        Code code = codeService.findOne(id).orElse(null);
-//
-//        if (codeService.isInvalidCode(id)) {
-//            return builder(ACCOUNT_PAGE).setResult("重置密码失败", "重置链接已经失效")
-//                    .setResultNavigation("返回登录", "/login", "重新找回密码", "/account/reset")
-//                    .build();
-//        }
-//
-//        if (!StringUtils.equals(form.getPassword(), form.getPasswordConfirm())) {
-//            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
-//        }
-//
-//        if (bindingResult.hasErrors()) {
-//            return accountResetForm(code, form);
-//        }
-//
-//        userService.update(code.getUserId(), user -> {
-//            user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
-//            codeService.remove(code);
-//        });
-//
-//        return builder(ACCOUNT_PAGE).setResult("密码重置成功", "请使用新的密码登录").setResultNavigation("现在去登录", "/login").build();
-//    }
-//
+
+    @GetMapping("/account/reset/{id}")
+    public ModelAndView reset(@PathVariable String id, final AccountResetForm form) {
+
+        if (codeService.isInvalidCode(id)) {
+            return overviewPage(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
+        }
+
+        return buildPage(segment -> segment
+                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle(String.format("为用户 %s 找回密码", getResetUsername(id))).setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(convertToForm(form))
+        ).addObject(form)
+                .build();
+    }
+
+    @PostMapping("/account/reset/{id}")
+    public ModelAndView reset(@PathVariable String id, @Valid final AccountResetForm form, BindingResult bindingResult) throws Exception {
+
+        Code code = codeService.findOne(id).orElse(null);
+
+        if (codeService.isInvalidCode(id)) {
+            return overviewPage(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
+        }
+
+        if (!StringUtils.equals(form.getPassword(), form.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return buildPage(segment -> segment
+                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle(String.format("为用户 %s 找回密码", getResetUsername(id))).setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+            ).addObject(form)
+                    .build();
+        }
+
+        userService.update(code.getUserId(), user -> {
+            user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
+            codeService.remove(code);
+        });
+
+        return overviewPage(new Overview("密码重置成功", "请使用新的密码登录").addLink("现在去登录", "/login")).build();
+    }
+
     @GetMapping("/account/activate")
     public ModelAndView activate(final AccountActivateForm form) {
         return buildPage(segment -> segment
@@ -216,36 +222,6 @@ public class AccountPageController extends QXCMPFrontendController {
         }
     }
 
-//    private ModelAndView accountResetForm(Code code, AccountResetForm accountResetForm) {
-//        String username = userService.findOne(code.getUserId()).map(user -> {
-//            if (StringUtils.isNotBlank(user.getUsername())) {
-//                return user.getUsername();
-//            }
-//
-//            if (StringUtils.isNotBlank(user.getEmail())) {
-//                return user.getEmail();
-//            }
-//
-//            if (StringUtils.isNotBlank(user.getPhone())) {
-//                return user.getPhone();
-//            }
-//
-//            return null;
-//        }).orElse("Null User");
-//
-//        ModelAndView modelAndView = builder(ACCOUNT_PAGE).setFormView(accountResetForm).build();
-//        FormViewEntity formViewEntity = (FormViewEntity) modelAndView.getModel().get("formViewEntity");
-//        formViewEntity.setCaption(String.format("为账户%s找回密码", username));
-//        return modelAndView;
-//    }
-
-    /**
-     * 账户页面基本结构
-     *
-     * @param consumer
-     *
-     * @return
-     */
     protected AbstractPage buildPage(Consumer<Segment> consumer) {
         Segment segment = new Segment();
         consumer.accept(segment);
@@ -260,11 +236,6 @@ public class AccountPageController extends QXCMPFrontendController {
         return overviewPage(new Overview(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系")).addLink("返回登录", "/login"));
     }
 
-    /**
-     * 获取登录错误消息
-     *
-     * @return
-     */
     private ErrorMessage getLoginErrorMessage() {
 
         if (Objects.nonNull(request.getSession().getAttribute(AUTHENTICATION_ERROR_MESSAGE))) {
@@ -272,5 +243,23 @@ public class AccountPageController extends QXCMPFrontendController {
         }
 
         return null;
+    }
+
+    private String getResetUsername(String codeId) {
+        return userService.findOne(codeService.findOne(codeId).orElse(null).getUserId()).map(user -> {
+            if (StringUtils.isNotBlank(user.getUsername())) {
+                return user.getUsername();
+            }
+
+            if (StringUtils.isNotBlank(user.getEmail())) {
+                return user.getEmail();
+            }
+
+            if (StringUtils.isNotBlank(user.getPhone())) {
+                return user.getPhone();
+            }
+
+            return user.getId();
+        }).orElse("未知用户");
     }
 }

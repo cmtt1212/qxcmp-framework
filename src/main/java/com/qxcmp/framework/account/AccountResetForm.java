@@ -1,11 +1,13 @@
 package com.qxcmp.framework.account;
 
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.PasswordField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
+
+import static com.qxcmp.framework.web.view.support.utils.FormHelper.SELF_ACTION;
 
 /**
  * 账户密码重置平台统一表单
@@ -16,7 +18,7 @@ import javax.validation.constraints.Size;
  *
  * @author aaric
  */
-@FormView(action = "$SELF", submitTitle = "重置密码", disableSubmitIcon = true)
+@Form(submitText = "重置密码", method = FormMethod.POST, action = SELF_ACTION)
 @Data
 public class AccountResetForm {
 
@@ -26,7 +28,7 @@ public class AccountResetForm {
      * 用户登录时候需要输入的密码
      */
     @Size(min = 6, max = 20, message = "{Size.password}")
-    @FormViewField(type = InputFiledType.PASSWORD, label = "新的密码", placeholder = "请使用至少两种以上的字符组合", maxLength = 20)
+    @PasswordField(value = "新的密码", placeholder = "请使用至少两种以上的字符组合", maxLength = 20)
     private String password;
 
     /**
@@ -35,6 +37,6 @@ public class AccountResetForm {
      * 保证用户两次输入的密码一致
      */
     @Size(min = 6, max = 20, message = "{Size.password}")
-    @FormViewField(type = InputFiledType.PASSWORD, label = "确认密码", placeholder = "请再次输入您的登录密码", maxLength = 20)
+    @PasswordField(value = "确认密码", placeholder = "请再次输入您的登录密码", maxLength = 20)
     private String passwordConfirm;
 }
