@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.auth;
 
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.*;
@@ -13,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-
-import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 
 /**
  * 认证失败处理器，属于框架基本功能，供平台和前端共同使用
@@ -103,7 +102,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     /**
      * 计算是否生成验证码
      * <p>
-     * 如果认证失败次数超过 {@link com.qxcmp.framework.core.QXCMPConfiguration#SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD}
+     * 如果认证失败次数超过 {@link QXCMPSystemConfigConfiguration#SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD}
      * 以后则生成验证码
      *
      * @param request 认证请求
@@ -112,7 +111,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 
         int failedCount = (int) request.getSession().getAttribute(AUTHENTICATION_ERROR_TIMES);
 
-        if (failedCount >= systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD).orElse(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD_DEFAULT_VALUE)) {
+        if (failedCount >= systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD_DEFAULT_VALUE)) {
             request.getSession().setAttribute(AUTHENTICATION_SHOW_CAPTCHA, true);
         }
     }
@@ -120,7 +119,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     /**
      * 计算是否锁定账户
      * <p>
-     * 如果开启了账户锁定功能，并且认证失败次数超过了 {@link com.qxcmp.framework.core.QXCMPConfiguration#SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD}
+     * 如果开启了账户锁定功能，并且认证失败次数超过了 {@link QXCMPSystemConfigConfiguration#SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD}
      * 则锁定该账户
      *
      * @param request 认证请求
@@ -129,9 +128,9 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 
         int failedCount = (int) request.getSession().getAttribute(AUTHENTICATION_ERROR_TIMES);
 
-        boolean lockAccount = systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DEFAULT_VALUE);
+        boolean lockAccount = systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DEFAULT_VALUE);
 
-        if (lockAccount && failedCount >= systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD_DEFAULT_VALUE)) {
+        if (lockAccount && failedCount >= systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD_DEFAULT_VALUE)) {
             userService.update(request.getParameter("username"), user -> {
                 user.setAccountNonLocked(false);
                 user.setDateLock(new Date());

@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL;
+import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL;
 
 /**
  * 微信支付API

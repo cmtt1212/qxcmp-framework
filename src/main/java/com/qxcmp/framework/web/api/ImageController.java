@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.api;
 
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.validation.ImageValidator;
 import com.qxcmp.framework.web.QXCMPFrontendController2;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
-import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 
 /**
  * 图片Web API
@@ -67,8 +66,8 @@ public class ImageController extends QXCMPFrontendController2 {
             if (new ImageValidator().isValid(file, null)) {
                 return imageService.store(file.getInputStream(), fileExtension).map(image -> {
 
-                    if (systemConfigService.getBoolean(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE)) {
-                        imageService.addWatermark(image, qxcmpConfiguration.getTitle(), Positions.values()[systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)], systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
+                    if (systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE)) {
+                        imageService.addWatermark(image, qxcmpConfiguration.getTitle(), Positions.values()[systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)], systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
                     }
 
                     return ResponseEntity.ok(String.format("/api/image/%s.%s", image.getId(), image.getType()));

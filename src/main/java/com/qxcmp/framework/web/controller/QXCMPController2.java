@@ -3,6 +3,7 @@ package com.qxcmp.framework.web.controller;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.RedeemKey;
 import com.qxcmp.framework.domain.RedeemKeyService;
 import com.qxcmp.framework.view.nav.Navigation;
@@ -53,7 +54,7 @@ public class QXCMPController2 extends QXCMPBackendController2 {
 
     @GetMapping("/generate")
     public ModelAndView redeemGenerateGet(AdminRedeemGenerateForm form) {
-        form.setDateExpired(new Date(System.currentTimeMillis() + 1000 * systemConfigService.getInteger(SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE)));
+        form.setDateExpired(new Date(System.currentTimeMillis() + 1000 * systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE)));
         form.setQuantity(1);
         return builder().setTitle("生成兑换码")
                 .setFormView(form, getRedeemTypes())
@@ -101,9 +102,9 @@ public class QXCMPController2 extends QXCMPBackendController2 {
 
     @GetMapping("/settings")
     public ModelAndView settingsGet(final AdminRedeemSettingsForm form) {
-        form.setEnable(systemConfigService.getBoolean(SYSTEM_CONFIG_REDEEM_ENABLE).orElse(SYSTEM_CONFIG_REDEEM_ENABLE_DEFAULT_VALUE));
-        form.setType(systemConfigService.getString(SYSTEM_CONFIG_REDEEM_TYPE_LIST).orElse(SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE));
-        form.setExpireDuration(systemConfigService.getInteger(SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE));
+        form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_ENABLE_DEFAULT_VALUE));
+        form.setType(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE));
+        form.setExpireDuration(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE));
         return builder().setTitle("兑换码设置")
                 .setFormView(form)
                 .addNavigation("兑换码设置", Navigation.Type.NORMAL, "兑换码管理")
@@ -118,9 +119,9 @@ public class QXCMPController2 extends QXCMPBackendController2 {
         }
 
         return action("修改兑换码配置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_REDEEM_TYPE_LIST, trimTypeContent(form.getType()));
-            systemConfigService.update(SYSTEM_CONFIG_REDEEM_ENABLE, String.valueOf(form.isEnable()));
-            systemConfigService.update(SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION, form.getExpireDuration().toString());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST, trimTypeContent(form.getType()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_ENABLE, String.valueOf(form.isEnable()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION, form.getExpireDuration().toString());
         }).build();
     }
 
@@ -153,7 +154,7 @@ public class QXCMPController2 extends QXCMPBackendController2 {
 
     private List<String> getRedeemTypes() {
         List<String> types = Lists.newArrayList();
-        String typeContent = systemConfigService.getString(SYSTEM_CONFIG_REDEEM_TYPE_LIST).orElse(SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE);
+        String typeContent = systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE);
         types.addAll(Arrays.asList(typeContent.split("\n")));
         return types;
     }

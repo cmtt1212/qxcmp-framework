@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.auth;
 
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
@@ -14,8 +15,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-
-import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 
 /**
  * 认证过滤器，属于框架基本功能，供平台和前端共同使用
@@ -78,10 +77,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Date dateLock = user.getDateLock();
 
         if (dateLock != null) {
-            boolean enableAccountLock = systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DEFAULT_VALUE);
+            boolean enableAccountLock = systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DEFAULT_VALUE);
 
             if (enableAccountLock) {
-                int lockDuration = systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION_DEFAULT_VALUE) * 1000 * 60;
+                int lockDuration = systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION_DEFAULT_VALUE) * 1000 * 60;
 
                 if (System.currentTimeMillis() - dateLock.getTime() > lockDuration) {
                     userService.update(userLoginId, u -> u.setAccountNonLocked(true));
@@ -103,10 +102,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Date dateLogin = user.getDateLogin();
 
         if (dateLogin != null) {
-            boolean enableAccountExpire = systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DEFAULT_VALUE);
+            boolean enableAccountExpire = systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DEFAULT_VALUE);
 
             if (enableAccountExpire) {
-                int expireDuration = systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION_DEFAULT_VALUE) * 1000 * 60 * 60 * 24;
+                int expireDuration = systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION_DEFAULT_VALUE) * 1000 * 60 * 60 * 24;
 
                 if (System.currentTimeMillis() - dateLogin.getTime() > expireDuration) {
                     userService.update(userLoginId, u -> u.setAccountNonExpired(false));
@@ -131,10 +130,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             dateCredential = user.getDateCreated();
         }
 
-        boolean enableCredentialExpire = systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DEFAULT_VALUE);
+        boolean enableCredentialExpire = systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DEFAULT_VALUE);
 
         if (enableCredentialExpire) {
-            int expireCredentialDuration = systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION_DEFAULT_VALUE) * 1000 * 60 * 60 * 24;
+            int expireCredentialDuration = systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION_DEFAULT_VALUE) * 1000 * 60 * 60 * 24;
 
             if (System.currentTimeMillis() - dateCredential.getTime() > expireCredentialDuration) {
                 userService.update(userLoginId, u -> u.setCredentialsNonExpired(false));

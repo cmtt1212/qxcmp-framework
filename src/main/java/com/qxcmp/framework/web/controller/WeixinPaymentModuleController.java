@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.controller;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.google.common.collect.ImmutableList;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminFinancePaymentWeixinSettingsForm;
@@ -42,15 +43,15 @@ public class WeixinPaymentModuleController extends QXCMPBackendController2 {
      */
     @GetMapping("/settings")
     public ModelAndView wechatSetting(final AdminFinancePaymentWeixinSettingsForm form) {
-        form.setEnable(systemConfigService.getBoolean(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE));
-        form.setTradeType(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE));
-        form.setAppId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
-        form.setMchId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_MCH_ID).orElse(""));
-        form.setMchKey(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_MCH_KEY).orElse(""));
-        form.setSubAppId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUB_APP_ID).orElse(""));
-        form.setSubMchId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUB_MCH_ID).orElse(""));
-        form.setNotifyUrl(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_NOTIFY_URL).orElse(""));
-        form.setKeyPath(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
+        form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE));
+        form.setTradeType(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE));
+        form.setAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
+        form.setMchId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_ID).orElse(""));
+        form.setMchKey(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_KEY).orElse(""));
+        form.setSubAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_APP_ID).orElse(""));
+        form.setSubMchId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_MCH_ID).orElse(""));
+        form.setNotifyUrl(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL).orElse(""));
+        form.setKeyPath(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
         return builder().setTitle("微信支付")
                 .setFormView(form, SUPPORT_PAYMENT)
                 .addNavigation("微信支付", Navigation.Type.NORMAL, "公众号设置")
@@ -65,16 +66,16 @@ public class WeixinPaymentModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改微信公众号配置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE, String.valueOf(form.isEnable()));
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE, form.getTradeType());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_MCH_ID, form.getMchId());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_MCH_KEY, form.getMchKey());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_SUB_APP_ID, form.getSubAppId());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_SUB_MCH_ID, form.getSubMchId());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_NOTIFY_URL, form.getNotifyUrl());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_KEY_PATH, form.getKeyPath());
-            systemConfigService.update(SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN, systemConfigService.getBoolean(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE).toString());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE, String.valueOf(form.isEnable()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE, form.getTradeType());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_ID, form.getMchId());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_KEY, form.getMchKey());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_APP_ID, form.getSubAppId());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_MCH_ID, form.getSubMchId());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL, form.getNotifyUrl());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_KEY_PATH, form.getKeyPath());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN, systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE).toString());
 
             wxPayConfig.setAppId(form.getAppId());
             wxPayConfig.setMchId(form.getMchId());

@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.controller;
 
+import com.qxcmp.framework.core.QXCMPSecurityConfiguration;
 import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
@@ -28,9 +29,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG;
+import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG;
 import static com.qxcmp.framework.view.component.ElementType.*;
-import static com.qxcmp.framework.web.QXCMPWebConfiguration.*;
 
 /**
  * 文章模块后端页面路由
@@ -110,7 +110,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @GetMapping("/audit")
     public ModelAndView articleAudit(Pageable pageable) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             Page<Article> articlePage = articleService.findByStatus(ArticleStatus.AUDITING, pageable);
 
             return builder().setTitle("文章审核")
@@ -125,7 +125,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @GetMapping("/publish")
     public ModelAndView articlePublish(Pageable pageable) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             Page<Article> articlePage = articleService.findByStatus(ArticleStatus.PUBLISHED, pageable);
 
             return builder().setTitle("已发布文章")
@@ -140,7 +140,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @GetMapping("/disable")
     public ModelAndView articleDisable(Pageable pageable) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             Page<Article> articlePage = articleService.findByStatus(ArticleStatus.DISABLED, pageable);
 
             return builder().setTitle("已禁用文章")
@@ -300,7 +300,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @GetMapping("/{id}/audit")
     public ModelAndView articleAudit(@PathVariable String id) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> builder().setTitle("文章审核")
                     .addFragment("qxcmp/article-widget", "auditor")
                     .addElement(P, "正文内容")
@@ -318,7 +318,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @GetMapping("/{id}/reject")
     public ModelAndView articleReject(@PathVariable String id) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> builder().setTitle("驳回文章")
                     .setFormView(new AdminArticleRejectForm())
                     .addDictionaryView(DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
@@ -332,7 +332,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
     @PostMapping("/{id}/reject")
     public ModelAndView articleReject(@Valid @ModelAttribute(FORM_OBJECT) final AdminArticleRejectForm form, BindingResult bindingResult, @PathVariable String id) {
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> {
 
                 if (bindingResult.hasErrors()) {
@@ -358,7 +358,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @GetMapping("/{id}/publish")
     public ModelAndView articlePublish(@PathVariable String id) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> builder().setTitle("发布文章")
                     .setFormView(new AdminArticlePublishForm())
                     .addDictionaryView(DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
@@ -372,7 +372,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
     @PostMapping("/{id}/publish")
     public ModelAndView articlePublish(@Valid @ModelAttribute(FORM_OBJECT) final AdminArticlePublishForm form, BindingResult bindingResult, @PathVariable String id) {
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> {
 
                 if (bindingResult.hasErrors()) {
@@ -397,7 +397,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
     @PostMapping("/{id}/disable")
     public ModelAndView articleDisable(@PathVariable String id) {
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED)).map(article -> action("禁用文章", context -> articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.DISABLED)), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/article/publish")).build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
             return error(HttpStatus.UNAUTHORIZED, "没有文章审核权限").build();
@@ -406,7 +406,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
     @PostMapping("/{id}/enable")
     public ModelAndView articleEnable(@PathVariable String id) {
-        if (userService.hasRole(currentUser(), PRIVILEGE_ARTICLE_AUDIT)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.DISABLED)).map(article -> action("启用文章", context -> articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.PUBLISHED)), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/article/disable")).build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
             return error(HttpStatus.UNAUTHORIZED, "没有文章审核权限").build();
@@ -422,7 +422,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
     @GetMapping("/channel/new")
     public ModelAndView newChannel() {
-        if (userService.hasRole(currentUser(), PRIVILEGE_CHANNEL_CREATE)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)) {
 
             final AdminArticleChannelNewForm form = new AdminArticleChannelNewForm();
 
@@ -430,7 +430,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
             return builder().setTitle("新建栏目")
                     .setFormView(form, systemConfigService.getList(SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG),
-                            userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN))
+                            userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN))
                     .build();
         } else {
             return error(HttpStatus.FORBIDDEN, "抱歉，您没有创建新栏目的权限").build();
@@ -440,7 +440,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @PostMapping("/channel/new")
     public ModelAndView newChannel(@Valid @ModelAttribute(FORM_OBJECT) final AdminArticleChannelNewForm form, BindingResult bindingResult) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_CHANNEL_CREATE)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)) {
             if (StringUtils.isBlank(form.getName())) {
                 bindingResult.rejectValue("name", "", "栏目名称不能为空");
             }
@@ -456,7 +456,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             if (bindingResult.hasErrors()) {
                 return builder().setTitle("新建栏目")
                         .setFormView(form, systemConfigService.getList(SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG),
-                                userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN))
+                                userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN))
                         .build();
             }
 
@@ -512,7 +512,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
                 return builder().setTitle("编辑栏目")
                         .setFormView(form, systemConfigService.getList(SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG),
-                                userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN))
+                                userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN))
                         .build();
             } else {
                 return error(HttpStatus.FORBIDDEN, "只能编辑自己的栏目").build();
@@ -533,7 +533,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @PostMapping("/channel")
     public ModelAndView editChannel(@Valid @ModelAttribute(FORM_OBJECT) final AdminArticleChannelEditForm form, BindingResult bindingResult) {
 
-        if (userService.hasRole(currentUser(), PRIVILEGE_CHANNEL_CREATE)) {
+        if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)) {
             if (StringUtils.isBlank(form.getName())) {
                 bindingResult.rejectValue("name", "", "栏目名称不能为空");
             }
@@ -549,7 +549,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             if (bindingResult.hasErrors()) {
                 return builder().setTitle("编辑栏目")
                         .setFormView(form, systemConfigService.getList(SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG),
-                                userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(PRIVILEGE_SYSTEM_ADMIN))
+                                userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN), userService.findByAuthority(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN))
                         .build();
             }
 

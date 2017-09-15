@@ -1,7 +1,7 @@
 package com.qxcmp.framework.account.username;
 
 import com.qxcmp.framework.account.AccountService;
-import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.account.AccountPageController;
@@ -38,7 +38,7 @@ public class AccountUsernameController extends AccountPageController {
     @GetMapping("logon")
     public ModelAndView logon(final AccountUsernameLogonForm form) {
 
-        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
+        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
             return logonClosedPage().build();
         }
 
@@ -52,7 +52,7 @@ public class AccountUsernameController extends AccountPageController {
     @PostMapping("logon")
     public ModelAndView logonEmailPost(@Valid AccountUsernameLogonForm form, BindingResult bindingResult) {
 
-        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
+        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
             return logonClosedPage().build();
         }
 
@@ -96,7 +96,7 @@ public class AccountUsernameController extends AccountPageController {
     @GetMapping("reset")
     public ModelAndView reset(final AccountUsernameResetForm form) {
 
-        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
+        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
             return resetClosedPage().build();
         }
 

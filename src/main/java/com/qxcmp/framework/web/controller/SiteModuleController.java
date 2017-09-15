@@ -6,7 +6,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.config.SystemDictionaryItem;
 import com.qxcmp.framework.config.SystemDictionaryItemService;
 import com.qxcmp.framework.config.SystemDictionaryService;
-import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.nav.Navigation;
@@ -52,10 +52,10 @@ public class SiteModuleController extends QXCMPBackendController2 {
     public ModelAndView configGet() {
         final AdminSiteConfigForm form = new AdminSiteConfigForm();
 
-        form.setDomain(systemConfigService.getString(SYSTEM_CONFIG_SITE_DOMAIN).orElse(""));
-        form.setTitle(systemConfigService.getString(SYSTEM_CONFIG_SITE_TITLE).orElse(""));
-        form.setKeywords(systemConfigService.getString(SYSTEM_CONFIG_SITE_KEYWORDS).orElse(""));
-        form.setDescription(systemConfigService.getString(SYSTEM_CONFIG_SITE_DESCRIPTION).orElse(""));
+        form.setDomain(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DOMAIN).orElse(""));
+        form.setTitle(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_TITLE).orElse(""));
+        form.setKeywords(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_KEYWORDS).orElse(""));
+        form.setDescription(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DESCRIPTION).orElse(""));
 
         return builder().setTitle("站点配置")
                 .setFormView(form)
@@ -71,16 +71,16 @@ public class SiteModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改网站配置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_SITE_DOMAIN, form.getDomain());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DOMAIN, form.getDomain());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
 
             if (StringUtils.isNotBlank(form.getLogoFile().getOriginalFilename())) {
                 try {
                     String fileType = FilenameUtils.getExtension(form.getLogoFile().getOriginalFilename());
                     imageService.store(form.getLogoFile().getInputStream(), fileType, 64, 64).ifPresent(image ->
-                            systemConfigService.update(SYSTEM_CONFIG_SITE_LOGO, String.format("/api/image/%s.%s", image.getId(), fileType)));
+                            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO, String.format("/api/image/%s.%s", image.getId(), fileType)));
                 } catch (IOException e) {
                     throw new ActionException("上传LOGO失败", e);
                 }
@@ -90,7 +90,7 @@ public class SiteModuleController extends QXCMPBackendController2 {
                 try {
                     String fileType = FilenameUtils.getExtension(form.getFaviconFile().getOriginalFilename());
                     imageService.store(form.getFaviconFile().getInputStream(), fileType, 32, 32).ifPresent(image ->
-                            systemConfigService.update(SYSTEM_CONFIG_SITE_FAVICON, String.format("/api/image/%s.%s", image.getId(), fileType)));
+                            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON, String.format("/api/image/%s.%s", image.getId(), fileType)));
                 } catch (IOException e) {
                     throw new ActionException("上传图标失败", e);
                 }
@@ -101,10 +101,10 @@ public class SiteModuleController extends QXCMPBackendController2 {
     @GetMapping("/account")
     public ModelAndView account(final AdminSiteAccountForm form) {
 
-        form.setEnableUsername(systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false));
-        form.setEnableEmail(systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false));
-        form.setEnablePhone(systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false));
-        form.setEnableInvite(systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE).orElse(false));
+        form.setEnableUsername(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false));
+        form.setEnableEmail(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false));
+        form.setEnablePhone(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false));
+        form.setEnableInvite(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE).orElse(false));
 
         return builder().setTitle("账户注册配置")
                 .setFormView(form)
@@ -123,10 +123,10 @@ public class SiteModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改账户注册配置", context -> {
-            systemConfigService.update(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME, String.valueOf(form.isEnableUsername()));
-            systemConfigService.update(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL, String.valueOf(form.isEnableEmail()));
-            systemConfigService.update(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isEnablePhone()));
-            systemConfigService.update(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isEnableInvite()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME, String.valueOf(form.isEnableUsername()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL, String.valueOf(form.isEnableEmail()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isEnablePhone()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isEnableInvite()));
 
             accountService.loadConfig();
         }).build();
@@ -226,9 +226,9 @@ public class SiteModuleController extends QXCMPBackendController2 {
 
     @GetMapping("/task")
     public ModelAndView taskGet(final AdminSiteTaskForm form) {
-        form.setThreadPoolSize(systemConfigService.getInteger(QXCMPConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE).orElse(QXCMPConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE_DEFAULT_VALUE));
-        form.setMaxPoolSize(systemConfigService.getInteger(QXCMPConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE).orElse(QXCMPConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE_DEFAULT_VALUE));
-        form.setQueueSize(systemConfigService.getInteger(QXCMPConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY).orElse(QXCMPConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY_DEFAULT_VALUE));
+        form.setThreadPoolSize(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE_DEFAULT_VALUE));
+        form.setMaxPoolSize(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE_DEFAULT_VALUE));
+        form.setQueueSize(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY_DEFAULT_VALUE));
 
         return builder().setTitle("任务调度配置")
                 .setFormView(form)
@@ -251,17 +251,17 @@ public class SiteModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改任务调度配置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE, String.valueOf(form.getThreadPoolSize()));
-            systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE, String.valueOf(form.getMaxPoolSize()));
-            systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY, String.valueOf(form.getQueueSize()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE, String.valueOf(form.getThreadPoolSize()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE, String.valueOf(form.getMaxPoolSize()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY, String.valueOf(form.getQueueSize()));
         }).build();
     }
 
     @GetMapping("/session")
     public ModelAndView sessionGet(final AdminSiteSessionForm form) {
-        form.setSessionTimeout(systemConfigService.getInteger(QXCMPConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT).orElse(QXCMPConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT_DEFAULT_VALUE));
-        form.setMaxSessionCount(systemConfigService.getInteger(QXCMPConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(QXCMPConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE));
-        form.setPreventLogin(systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(QXCMPConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE));
+        form.setSessionTimeout(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT_DEFAULT_VALUE));
+        form.setMaxSessionCount(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE));
+        form.setPreventLogin(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE));
 
         return builder().setTitle("系统会话配置")
                 .setFormView(form)
@@ -279,19 +279,19 @@ public class SiteModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改系统会话配置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_SESSION_TIMEOUT, String.valueOf(form.getSessionTimeout()));
-            systemConfigService.update(SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT, String.valueOf(form.getMaxSessionCount()));
-            systemConfigService.update(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN, String.valueOf(form.isPreventLogin()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT, String.valueOf(form.getSessionTimeout()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT, String.valueOf(form.getMaxSessionCount()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN, String.valueOf(form.isPreventLogin()));
         }).build();
     }
 
     @GetMapping("/watermark")
     public ModelAndView watermark(final AdminSiteWatermarkForm form) {
 
-        form.setEnable(systemConfigService.getBoolean(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE));
-        form.setName(systemConfigService.getString(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME).orElse(qxcmpConfiguration.getTitle()));
-        form.setPosition(WATERMARK_POSITIONS.get(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)));
-        form.setFontSize(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
+        form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE));
+        form.setName(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_NAME).orElse(qxcmpConfiguration.getTitle()));
+        form.setPosition(WATERMARK_POSITIONS.get(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)));
+        form.setFontSize(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
 
         return builder().setTitle("水印设置")
                 .setFormView(form, WATERMARK_POSITIONS)
@@ -309,10 +309,10 @@ public class SiteModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改水平设置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE, String.valueOf(form.isEnable()));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME, String.valueOf(form.getName()));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION, String.valueOf(WATERMARK_POSITIONS.indexOf(form.getPosition())));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE, String.valueOf(form.getFontSize()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE, String.valueOf(form.isEnable()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_NAME, String.valueOf(form.getName()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION, String.valueOf(WATERMARK_POSITIONS.indexOf(form.getPosition())));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE, String.valueOf(form.getFontSize()));
         }).build();
     }
 }

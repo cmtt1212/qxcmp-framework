@@ -3,6 +3,8 @@ package com.qxcmp.framework.web;
 import com.google.common.collect.ImmutableSet;
 import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.core.QXCMPSecurityConfiguration;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.security.PrivilegeAutowired;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.auth.AuthenticationFilter;
@@ -58,51 +60,6 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    public static final String PRIVILEGE_SYSTEM_ADMIN = "系统管理员权限";
-    public static final String PRIVILEGE_SYSTEM_ADMIN_DESCRIPTION = "该权限允许用户进入平台后台";
-
-    public static final String PRIVILEGE_LOG_MANAGEMENT = "平台日志查看权限";
-    public static final String PRIVILEGE_LOG_MANAGEMENT_DESCRIPTION = "该权限可以查看平台日志";
-
-    public static final String PRIVILEGE_MESSAGE_MANAGEMENT = "消息服务管理权限";
-    public static final String PRIVILEGE_MESSAGE_MANAGEMENT_DESCRIPTION = "该权限可以管理平台消息服务以及进行相关配置";
-
-    public static final String PRIVILEGE_SECURITY_MANAGEMENT = "平台安全管理权限";
-    public static final String PRIVILEGE_SECURITY_MANAGEMENT_DESCRIPTION = "该权限可以对平台的权限，角色进行配置并且可以管理所有用户的状态";
-
-    public static final String PRIVILEGE_SITE_MANAGEMENT = "网站配置管理权限";
-    public static final String PRIVILEGE_SITE_MANAGEMENT_DESCRIPTION = "该权限可以对网站配置信息进行管理，如网站关键字，描述信息等等";
-
-    public static final String PRIVILEGE_ADVERTISEMENT_MANAGEMENT = "广告管理权限";
-    public static final String PRIVILEGE_ADVERTISEMENT_MANAGEMENT_DESCRIPTION = "该权限可以对平台的广告进行管理";
-
-    public static final String PRIVILEGE_FINANCE_CONFIG_MANAGEMENT = "平台财务管理配置权限";
-    public static final String PRIVILEGE_FINANCE_CONFIG_MANAGEMENT_DESCRIPTION = "该权限可以修改平台财务的配置";
-
-    public static final String PRIVILEGE_REDEEM_MANAGEMENT = "兑换码管理权限";
-    public static final String PRIVILEGE_REDEEM_MANAGEMENT_DESCRIPTION = "该权限可以生成和管理兑换码";
-
-    public static final String PRIVILEGE_ARTICLE_CREATE = "文章创建权限";
-    public static final String PRIVILEGE_ARTICLE_CREATE_DESCRIPTION = "该权限控制用户能否看见创建文章的菜单";
-
-    public static final String PRIVILEGE_ARTICLE_AUDIT = "文章审核权限";
-    public static final String PRIVILEGE_ARTICLE_AUDIT_DESCRIPTION = "该权限可以审核所有待发布文章";
-
-    public static final String PRIVILEGE_CHANNEL_CREATE = "栏目创建权限";
-    public static final String PRIVILEGE_CHANNEL_CREATE_DESCRIPTION = "该权限可以创建新的栏目";
-
-    public static final String PRIVILEGE_WECHAT_MANAGEMENT = "微信公众平台管理权限";
-    public static final String PRIVILEGE_WECHAT_MANAGEMENT_DESCRIPTION = "该权限可以对微信公众平台进行管理";
-
-    public static final String PRIVILEGE_MALL_COMMODITY_MANAGEMENT = "商城商品管理权限";
-    public static final String PRIVILEGE_MALL_COMMODITY_MANAGEMENT_DESCRIPTION = "该权限可以对商城的商品进行管理";
-
-    public static final String PRIVILEGE_MALL_ORDER_MANAGEMENT = "商城订单管理权限";
-    public static final String PRIVILEGE_MALL_ORDER_MANAGEMENT_DESCRIPTION = "该权限可以对商城订单进行管理";
-
-    public static final String PRIVILEGE_SPIDER_MANAGEMENT = "蜘蛛管理权限";
-    public static final String PRIVILEGE_SPIDER_MANAGEMENT_DESCRIPTION = "该权限可以查看";
 
     /**
      * 平台认证过滤器
@@ -192,24 +149,24 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
         http
                 .authorizeRequests()
                 .antMatchers("/assets/**", "/login/**", "/api/**", "/account/**").permitAll()
-                .antMatchers(QXCMP_BACKEND_URL + "/**").hasRole(PRIVILEGE_SYSTEM_ADMIN)
-                .antMatchers(QXCMP_BACKEND_URL + "/ad/**").hasRole(PRIVILEGE_ADVERTISEMENT_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/site/**").hasRole(PRIVILEGE_SITE_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/security/**").hasRole(PRIVILEGE_SECURITY_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(PRIVILEGE_MESSAGE_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(PRIVILEGE_LOG_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(PRIVILEGE_REDEEM_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(PRIVILEGE_WECHAT_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/publish").hasRole(PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/disable").hasRole(PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/new").hasRole(PRIVILEGE_ARTICLE_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(PRIVILEGE_ARTICLE_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/channel/new").hasRole(PRIVILEGE_CHANNEL_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/mall/commodity/**").hasRole(PRIVILEGE_MALL_COMMODITY_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/mall/order/**").hasRole(PRIVILEGE_MALL_ORDER_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(PRIVILEGE_SPIDER_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN)
+                .antMatchers(QXCMP_BACKEND_URL + "/ad/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ADVERTISEMENT_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/site/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SITE_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/security/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SECURITY_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MESSAGE_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_LOG_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_REDEEM_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_WECHAT_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/publish").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/disable").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/article/channel/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/mall/commodity/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MALL_COMMODITY_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/mall/order/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MALL_ORDER_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SPIDER_MANAGEMENT)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -217,8 +174,8 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout()
                 .and().sessionManagement()
-                .maximumSessions(systemConfigService.getInteger(SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE))
-                .maxSessionsPreventsLogin(systemConfigService.getBoolean(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE))
+                .maximumSessions(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE))
+                .maxSessionsPreventsLogin(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE))
                 .expiredUrl("/login?expired")
                 .sessionRegistry(sessionRegistry())
                 .and().and().addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -229,24 +186,24 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter implemen
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR, "系统后台侧边导航栏")
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "内容管理")
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-ARTICLE-MANAGEMENT", "文章管理", QXCMP_BACKEND_URL + "/article/draft").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ARTICLE_CREATE)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-ARTICLE-CHANNEL", "栏目管理", QXCMP_BACKEND_URL + "/article/channel").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_CHANNEL_CREATE)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-ARTICLE-MANAGEMENT", "文章管理", QXCMP_BACKEND_URL + "/article/draft").setOrder(10).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-ARTICLE-CHANNEL", "栏目管理", QXCMP_BACKEND_URL + "/article/channel").setOrder(20).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)))
                 )
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "商城管理")
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MALL-ORDER", "订单管理", QXCMP_BACKEND_URL + "/mall/order").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MALL_ORDER_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MALL-COMMODITY", "商品管理", QXCMP_BACKEND_URL + "/mall/commodity").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MALL_COMMODITY_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MALL-ORDER", "订单管理", QXCMP_BACKEND_URL + "/mall/order").setOrder(10).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_MALL_ORDER_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MALL-COMMODITY", "商品管理", QXCMP_BACKEND_URL + "/mall/commodity").setOrder(20).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_MALL_COMMODITY_MANAGEMENT)))
                 )
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "微信公众平台")
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-WEIXIN-MATERIAL", "素材管理", QXCMP_BACKEND_URL + "/weixin/material/article").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WECHAT_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-WEIXIN-USER", "用户管理", QXCMP_BACKEND_URL + "/weixin/user").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WECHAT_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-WEIXIN-SETTING", "公众号", QXCMP_BACKEND_URL + "/weixin/settings/config").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WECHAT_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-WEIXIN-MATERIAL", "素材管理", QXCMP_BACKEND_URL + "/weixin/material/article").setOrder(10).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_WECHAT_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-WEIXIN-USER", "用户管理", QXCMP_BACKEND_URL + "/weixin/user").setOrder(20).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_WECHAT_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-WEIXIN-SETTING", "公众号", QXCMP_BACKEND_URL + "/weixin/settings/config").setOrder(30).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_WECHAT_MANAGEMENT)))
                 )
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "系统设置")
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SIDE-CONFIG", "网站配置", QXCMP_BACKEND_URL + "/site/config").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-TOOL", "系统工具", QXCMP_BACKEND_URL + "/tool").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-CONFIG", "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SECURITY", "安全设置", QXCMP_BACKEND_URL + "/security").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SECURITY_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-LOG", "系统日志", QXCMP_BACKEND_URL + "/log/audit").setOrder(50).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_LOG_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SIDE-CONFIG", "网站配置", QXCMP_BACKEND_URL + "/site/config").setOrder(10).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_SITE_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-TOOL", "系统工具", QXCMP_BACKEND_URL + "/tool").setOrder(20).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_SITE_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-CONFIG", "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(30).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_MESSAGE_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SECURITY", "安全设置", QXCMP_BACKEND_URL + "/security").setOrder(40).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_SECURITY_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-LOG", "系统日志", QXCMP_BACKEND_URL + "/log/audit").setOrder(50).setPrivilegesAnd(ImmutableSet.of(QXCMPSecurityConfiguration.PRIVILEGE_LOG_MANAGEMENT)))
                 )
         );
 //        Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "内容管理", 900);

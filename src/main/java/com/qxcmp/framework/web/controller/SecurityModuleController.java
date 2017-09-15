@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.audit.ActionException;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.security.Privilege;
 import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.Role;
@@ -219,16 +220,16 @@ public class SecurityModuleController extends QXCMPBackendController2 {
 
     @GetMapping("/authentication")
     public ModelAndView authenticationEdit(AdminSecurityAuthenticationForm form) {
-        form.setCaptchaThreshold(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD).orElse(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD_DEFAULT_VALUE));
-        form.setCaptchaLength(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_LENGTH).orElse(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_LENGTH_DEFAULT_VALUE));
-        form.setLockThreshold(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD_DEFAULT_VALUE));
-        form.setLockAccount(systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DEFAULT_VALUE));
-        form.setUnlockDuration(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION_DEFAULT_VALUE));
-        form.setExpireAccount(systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DEFAULT_VALUE));
-        form.setExpireAccountDuration(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION_DEFAULT_VALUE));
-        form.setExpireCredential(systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DEFAULT_VALUE));
-        form.setExpireCredentialDuration(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION_DEFAULT_VALUE));
-        form.setUniqueCredential(systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE_DEFAULT_VALUE));
+        form.setCaptchaThreshold(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD_DEFAULT_VALUE));
+        form.setCaptchaLength(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_LENGTH).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_LENGTH_DEFAULT_VALUE));
+        form.setLockThreshold(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD_DEFAULT_VALUE));
+        form.setLockAccount(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DEFAULT_VALUE));
+        form.setUnlockDuration(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION_DEFAULT_VALUE));
+        form.setExpireAccount(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DEFAULT_VALUE));
+        form.setExpireAccountDuration(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION_DEFAULT_VALUE));
+        form.setExpireCredential(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DEFAULT_VALUE));
+        form.setExpireCredentialDuration(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION_DEFAULT_VALUE));
+        form.setUniqueCredential(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE_DEFAULT_VALUE));
         return builder().setTitle("平台认证配置")
                 .setFormView(form)
                 .addNavigation("平台认证配置", Navigation.Type.NORMAL, "安全设置")
@@ -244,16 +245,16 @@ public class SecurityModuleController extends QXCMPBackendController2 {
 
         return action("修改平台认证方式", context -> {
             try {
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD, String.valueOf(form.getCaptchaThreshold()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_LENGTH, String.valueOf(form.getCaptchaLength()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK, String.valueOf(form.isLockAccount()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD, String.valueOf(form.getLockThreshold()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION, String.valueOf(form.getUnlockDuration()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE, String.valueOf(form.isExpireAccount()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION, String.valueOf(form.getExpireAccountDuration()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE, String.valueOf(form.isExpireCredential()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION, String.valueOf(form.getExpireCredentialDuration()));
-                systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE, String.valueOf(form.isUniqueCredential()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD, String.valueOf(form.getCaptchaThreshold()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_LENGTH, String.valueOf(form.getCaptchaLength()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK, String.valueOf(form.isLockAccount()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_THRESHOLD, String.valueOf(form.getLockThreshold()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION, String.valueOf(form.getUnlockDuration()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE, String.valueOf(form.isExpireAccount()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION, String.valueOf(form.getExpireAccountDuration()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE, String.valueOf(form.isExpireCredential()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION, String.valueOf(form.getExpireCredentialDuration()));
+                systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE, String.valueOf(form.isUniqueCredential()));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage());
             }

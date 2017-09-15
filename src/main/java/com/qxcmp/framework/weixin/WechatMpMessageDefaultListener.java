@@ -11,7 +11,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE;
+import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE;
 
 /**
  * 平台默认微信消息事件监听器

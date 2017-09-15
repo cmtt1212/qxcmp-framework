@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG;
+import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG;
 
 /**
  * 微信公众平台网关路由

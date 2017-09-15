@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.controller;
 
 import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.Channel;
 import com.qxcmp.framework.domain.ChannelService;
 import com.qxcmp.framework.domain.WechatMpNewsArticleService;
@@ -206,13 +207,13 @@ public class WechatMpModuleController extends QXCMPBackendController2 {
 
     @GetMapping("/settings/config")
     public ModelAndView serviceGet(final AdminWeixinSettingsConfigForm form) {
-        form.setAppId(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
-        form.setSecret(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SECRET).orElse(""));
-        form.setToken(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_TOKEN).orElse(""));
-        form.setAesKey(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_AES_KEY).orElse(""));
-        form.setOauth2Url(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL).orElse(""));
-        form.setSubscribeMessage(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE).orElse(""));
-        form.setDebug(systemConfigService.getBoolean(SYSTEM_CONFIG_WECHAT_DEBUG).orElse(false));
+        form.setAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
+        form.setSecret(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SECRET).orElse(""));
+        form.setToken(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_TOKEN).orElse(""));
+        form.setAesKey(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_AES_KEY).orElse(""));
+        form.setOauth2Url(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL).orElse(""));
+        form.setSubscribeMessage(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE).orElse(""));
+        form.setDebug(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG).orElse(false));
         return builder().setTitle("公众号设置")
                 .setFormView(form)
                 .addNavigation("公众号参数", Navigation.Type.NORMAL, "公众号设置")
@@ -227,13 +228,13 @@ public class WechatMpModuleController extends QXCMPBackendController2 {
         }
 
         return action("修改微信公众号配置", context -> {
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_SECRET, form.getSecret());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_TOKEN, form.getToken());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_AES_KEY, form.getAesKey());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL, form.getOauth2Url());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE, form.getSubscribeMessage());
-            systemConfigService.update(SYSTEM_CONFIG_WECHAT_DEBUG, String.valueOf(form.isDebug()));
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SECRET, form.getSecret());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_TOKEN, form.getToken());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_AES_KEY, form.getAesKey());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL, form.getOauth2Url());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE, form.getSubscribeMessage());
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG, String.valueOf(form.isDebug()));
 
             WxMpInMemoryConfigStorage configStorage = (WxMpInMemoryConfigStorage) wxMpConfigStorage;
             configStorage.setAppId(form.getAppId());
@@ -245,7 +246,7 @@ public class WechatMpModuleController extends QXCMPBackendController2 {
                 try {
                     String oauth2Url = wxMpService.oauth2buildAuthorizationUrl(form.getOauth2Url(), WxConsts.OAUTH2_SCOPE_USER_INFO, null);
                     context.put("oauth2Url", oauth2Url);
-                    systemConfigService.update(SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL, oauth2Url);
+                    systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL, oauth2Url);
                 } catch (Exception e) {
                     throw new ActionException("Can't build Oauth2 Url", e);
                 }

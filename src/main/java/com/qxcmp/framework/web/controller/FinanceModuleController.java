@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.DepositOrder;
 import com.qxcmp.framework.domain.DepositOrderService;
 import com.qxcmp.framework.user.User;
@@ -36,8 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 
 /**
  * 财务页面路由
@@ -131,10 +130,10 @@ public class FinanceModuleController extends QXCMPFrontendController2 {
     @GetMapping("/finance/deposit")
     public ModelAndView depositGet() {
 
-        boolean supportWeixin = systemConfigService.getBoolean(SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN).orElse(SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN_DEFAULT_VALUE);
-        boolean supportAlipay = systemConfigService.getBoolean(SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY).orElse(SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY_DEFAULT_VALUE);
+        boolean supportWeixin = systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN_DEFAULT_VALUE);
+        boolean supportAlipay = systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_ALIPAY_DEFAULT_VALUE);
 
-        String weixinTradeType = systemConfigService.getString(SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE);
+        String weixinTradeType = systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE);
         String weixinActionUrl = "";
         if (StringUtils.equals(weixinTradeType, "NATIVE")) {
             weixinActionUrl = "/api/wxmp-cgi/pay/native";
