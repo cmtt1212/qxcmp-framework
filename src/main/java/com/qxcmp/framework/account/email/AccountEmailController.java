@@ -3,15 +3,24 @@ package com.qxcmp.framework.account.email;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.CodeService;
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.controller.AccountPageController;
+import com.qxcmp.framework.web.view.elements.button.Button;
+import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.Alignment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/account/email/")
@@ -34,56 +43,59 @@ public class AccountEmailController extends AccountPageController {
         ).addObject(form)
                 .build();
     }
-//
-//    @PostMapping("logon")
-//    public ModelAndView logonEmailPost(@Valid @ModelAttribute(FORM_OBJECT) AccountEmailLogonForm form, BindingResult bindingResult) {
-//
-//        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
-//            return builder(ACCOUNT_PAGE).setResult("注册功能已经关闭", "请与平台管理员联系").setResultNavigation("返回登录", "/login").build();
-//        }
-//
-//        if (userService.findById(form.getUsername()).isPresent()) {
-//            bindingResult.rejectValue("username", "Username.exist");
-//        }
-//
-//        if (userService.findById(form.getEmail()).isPresent()) {
-//            bindingResult.rejectValue("email", "Email.exist");
-//        }
-//
-//        if (!Objects.equals(form.getPassword(), form.getPasswordConfirm())) {
-//            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
-//        }
-//
-//        validateCaptcha(form.getCaptcha(), bindingResult);
-//
-//        if (bindingResult.hasErrors()) {
-//            return builder(ACCOUNT_PAGE).setFormView(form).build();
-//        }
-//
-//        try {
-//            userService.create(() -> {
-//                User user = userService.next();
-//                user.setUsername(form.getUsername());
-//                user.setEmail(form.getEmail());
-//                user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
-//                user.setAccountNonExpired(true);
-//                user.setAccountNonLocked(true);
-//                user.setCredentialsNonExpired(true);
-//                user.setEnabled(false);
-//                userService.setDefaultPortrait(user);
-//                return user;
-//            }).ifPresent(accountService::sendActivateEmail);
-//
-//            return builder(ACCOUNT_PAGE)
-//                    .setResult("注册成功", "激活邮件已经发送到您的邮件，请前往激活", "如果您未收到激活邮件，请检查是否被黑名单过滤，或者再次重新发送激活邮件")
-//                    .setResultNavigation("现在去登录", "/login", "重新激活账户", "/account/activate")
-//                    .build();
-//        } catch (Exception e) {
-//            return builder(ACCOUNT_PAGE).setResult("注册失败", e.getMessage())
-//                    .setResultNavigation("返回登录", "/login", "重新激活账户", "/account/activate")
-//                    .build();
-//        }
-//    }
+
+    @PostMapping("logon")
+    public ModelAndView logonEmailPost(@Valid final AccountEmailLogonForm form, BindingResult bindingResult) {
+
+        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
+            return logonClosedPage().build();
+        }
+
+        if (userService.findById(form.getUsername()).isPresent()) {
+            bindingResult.rejectValue("username", "Username.exist");
+        }
+
+        if (userService.findById(form.getEmail()).isPresent()) {
+            bindingResult.rejectValue("email", "Email.exist");
+        }
+
+        if (!Objects.equals(form.getPassword(), form.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
+        }
+
+        verifyCaptcha(form.getCaptcha(), bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return buildPage(segment -> segment
+                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+            ).addObject(form)
+                    .build();
+        }
+
+        try {
+            userService.create(() -> {
+                User user = userService.next();
+                user.setUsername(form.getUsername());
+                user.setEmail(form.getEmail());
+                user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
+                user.setAccountNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setCredentialsNonExpired(true);
+                user.setEnabled(false);
+                userService.setDefaultPortrait(user);
+                return user;
+            }).ifPresent(accountService::sendActivateEmail);
+
+            return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
+                    .addComponent(new PageHeader(HeaderType.H2, "注册成功").setSubTitle("激活邮件已经发送到您的邮件，请前往激活。如果您未收到激活邮件，请检查是否被黑名单过滤，或者再次重新发送激活邮件"))
+                    .addComponent(new Divider())
+                    .addComponent(new Button("立即登录", "/login").setBasic())
+            ).build();
+        } catch (Exception e) {
+            return errorPage("注册失败", e.getMessage()).build();
+        }
+    }
 //
 //    @GetMapping("reset")
 //    public ModelAndView reset(final AccountEmailResetForm form) {

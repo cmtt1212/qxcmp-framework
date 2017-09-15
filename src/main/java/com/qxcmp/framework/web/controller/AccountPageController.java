@@ -39,9 +39,9 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class AccountPageController extends QXCMPFrontendController {
 
-    private final AccountService accountService;
+    protected final AccountService accountService;
 
-    private final CodeService codeService;
+    protected final CodeService codeService;
 
     @GetMapping("/login")
     public ModelAndView loginPage() {
