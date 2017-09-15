@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test/sample/input")
-public class QXCMPFrontendController extends AbstractSamplePageController {
+public class InputSampleController extends AbstractSamplePageController {
 
     public static final String PLACEHOLDER = "请输入搜索内容...";
 
