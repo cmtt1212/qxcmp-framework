@@ -66,6 +66,12 @@
     <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
 </div>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.LogoImageItem"*/-->
+<div th:fragment="item-logo(component)" th:class="${component.getClassName()}">
+    <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
+    <span class="title" th:utext="${component.title}"></span>
+</div>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.InputItem"*/-->
 <div th:fragment="item-input(component)" th:class="${component.getClassName()}">
     <div th:replace="~{qxcmp/globals/components :: component(${component.input})}"></div>

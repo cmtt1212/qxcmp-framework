@@ -6,7 +6,10 @@ import com.qxcmp.framework.web.view.BackendPage;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
-import com.qxcmp.framework.web.view.elements.menu.item.*;
+import com.qxcmp.framework.web.view.elements.menu.item.AccordionMenuItem;
+import com.qxcmp.framework.web.view.elements.menu.item.LogoImageItem;
+import com.qxcmp.framework.web.view.elements.menu.item.SidebarIconItem;
+import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
 import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
 import com.qxcmp.framework.web.view.support.Fixed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
     @Override
     protected BackendPage page() {
         BackendPage page = applicationContext.getBean(BackendPage.class, request, response);
-        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo())).addItem(new HeaderItem(siteService.getTitle())));
+        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())));
         page.setBottomMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))));
         addPageSidebarContent(page, currentUser().orElse(null));
         return page;

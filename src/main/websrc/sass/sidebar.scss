@@ -1,4 +1,4 @@
-$sidebar-width: 150px;
+$sidebar-width: 200px;
 $sidebar-top-menu-height: 48px;
 $sidebar-top-menu-logo-size: 32px;
 $sidebar-bottom-menu-height: 40px;
@@ -8,6 +8,7 @@ $sidebar-bottom-menu-height: 40px;
 }
 
 .ui.top-fixed-menu.sidebar {
+  width: $sidebar-width;
   padding-top: $sidebar-top-menu-height;
 
   + .pusher {
@@ -45,10 +46,6 @@ $sidebar-bottom-menu-height: 40px;
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .ui.menu {
-    .logo.item {
-      width: $sidebar-width / 2;
-    }
-
     .sidebar.item {
       width: $sidebar-width / 2;
     }
@@ -57,12 +54,13 @@ $sidebar-bottom-menu-height: 40px;
 
 @media only screen and (max-width: 767px) {
   .ui.menu {
-    .logo.item {
-      width: $sidebar-width / 3;
-    }
-
     .sidebar.item {
       width: $sidebar-width / 3;
     }
   }
+}
+
+.ui.top.fixed.menu .item.logo .title {
+  margin-left: 8px;
+  font-weight: bold;
 }

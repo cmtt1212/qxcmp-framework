@@ -11,7 +11,10 @@ import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
-import com.qxcmp.framework.web.view.elements.menu.item.*;
+import com.qxcmp.framework.web.view.elements.menu.item.AccordionMenuItem;
+import com.qxcmp.framework.web.view.elements.menu.item.LogoImageItem;
+import com.qxcmp.framework.web.view.elements.menu.item.SidebarIconItem;
+import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
@@ -31,7 +34,7 @@ public class SidebarSamplePageController extends AbstractSamplePageController {
     @GetMapping("")
     public ModelAndView sample() {
         return page().addComponent(new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build()).setWidth(Width.THIN)
-                .setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo())).addItem(new HeaderItem(siteService.getTitle())))
+                .setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())))
                 .setBottomFixedMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))))
                 .addSideContent(new TextItem("内容管理", "/test/sample/sidebar"))
                 .addSideContent(new AccordionMenuItem((AccordionItem) new AccordionItem().setTitle("内容设置").setContent(new VerticalSubMenu().addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")).addItem(new TextItem("网站设置", "/")))))

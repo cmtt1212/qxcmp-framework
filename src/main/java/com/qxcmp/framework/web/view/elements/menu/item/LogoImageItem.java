@@ -1,14 +1,24 @@
 package com.qxcmp.framework.web.view.elements.menu.item;
 
-import com.qxcmp.framework.web.view.elements.image.AbstractImage;
+import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.web.view.elements.image.Image;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class LogoImageItem extends ImageItem {
-    public LogoImageItem(String source) {
-        super(source);
+
+    private String title;
+
+    public LogoImageItem(String source, String title) {
+        super(new Image(source, QXCMPConfiguration.QXCMP_BACKEND_URL).setRounded());
+        this.title = title;
     }
 
-    public LogoImageItem(AbstractImage image) {
-        super(image);
+    @Override
+    public String getFragmentName() {
+        return "item-logo";
     }
 
     @Override
