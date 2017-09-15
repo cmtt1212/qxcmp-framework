@@ -58,8 +58,8 @@ public class MenuSamplePageController extends AbstractSamplePageController {
 
     private Collection<? extends AbstractMenuItem> getItems() {
         List<AbstractMenuItem> menuItems = Lists.newArrayList();
-        menuItems.add(new ImageItem(qxcmpConfiguration.getLogo()).setColor(randomColor()));
-        menuItems.add(new HeaderItem(qxcmpConfiguration.getTitle()).setColor(randomColor()));
+        menuItems.add(new ImageItem(siteService.getLogo()).setColor(randomColor()));
+        menuItems.add(new HeaderItem(siteService.getTitle()).setColor(randomColor()));
         menuItems.add(new TextItem("首页", "/test/sample").setActive().setColor(randomColor()));
         menuItems.add(new DropdownItem(new MenuDropdown("产品中心").setFloating().setPointing(DropdownPointing.DEFAULT).setMenu(new DropdownMenu().addItem(new com.qxcmp.framework.web.view.modules.dropdown.item.TextItem("产品一")))).setColor(randomColor()));
         menuItems.add(new TextItem("关于我们", "/test/sample").setColor(randomColor()));

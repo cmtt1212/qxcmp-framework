@@ -43,7 +43,7 @@ public class AccountUsernameController extends AccountPageController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("用户名注册").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("用户名注册").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -68,7 +68,7 @@ public class AccountUsernameController extends AccountPageController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("用户名注册").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("用户名注册").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();
@@ -101,7 +101,7 @@ public class AccountUsernameController extends AccountPageController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("密保找回密码").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("密保找回密码").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();

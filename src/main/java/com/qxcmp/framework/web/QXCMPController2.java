@@ -7,6 +7,7 @@ import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaExpiredException;
 import com.qxcmp.framework.domain.CaptchaIncorrectException;
 import com.qxcmp.framework.domain.CaptchaService;
+import com.qxcmp.framework.site.SiteService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.view.ModelAndViewBuilder;
@@ -54,7 +55,7 @@ public abstract class QXCMPController2 {
     /**
      * 平台配置
      */
-    protected QXCMPConfiguration qxcmpConfiguration;
+    protected SiteService siteService;
 
     /**
      * 平台配置服务
@@ -197,8 +198,8 @@ public abstract class QXCMPController2 {
     }
 
     @Autowired
-    public void setQxcmpConfiguration(QXCMPConfiguration qxcmpConfiguration) {
-        this.qxcmpConfiguration = qxcmpConfiguration;
+    public void setSiteService(SiteService siteService) {
+        this.siteService = siteService;
     }
 
     @Autowired

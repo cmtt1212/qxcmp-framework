@@ -13,7 +13,6 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -51,46 +50,8 @@ public class QXCMPConfiguration {
 
     private final WechatMpMessageHandler defaultMessageHandler;
 
-
-    /**
-     * 平台默认名称
-     * <p>
-     * 配置在 Spring Boot application.yml 文件里面
-     */
-    @Value("${application.name}")
-    private String applicationName;
-
     private final SystemConfigService systemConfigService;
 
-    public String getDomain() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DOMAIN).orElse("");
-    }
-
-    public String getTitle() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_TITLE).orElse(applicationName);
-    }
-
-    public String getKeywords() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_KEYWORDS).orElse("");
-    }
-
-    public String getDescription() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DESCRIPTION).orElse("");
-    }
-
-    public String getLogo() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO_DEFAULT_VALUE);
-    }
-
-    public String getFavicon() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON_DEFAULT_VALUE);
-    }
-
-    /**
-     * 平台任务调度配置
-     *
-     * @return 任务调度通用对象
-     */
     @Bean
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
@@ -101,11 +62,6 @@ public class QXCMPConfiguration {
         return threadPoolTaskExecutor;
     }
 
-    /**
-     * 邮件发送服务配置
-     *
-     * @return 邮件发送服务对象
-     */
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
@@ -130,11 +86,6 @@ public class QXCMPConfiguration {
         return javaMailSender;
     }
 
-    /**
-     * 微信服务实例配置，全局唯一
-     *
-     * @return 微信服务实例
-     */
     @Bean
     public WxMpService wxMpService() {
         WxMpService wxMpService = new WxMpServiceImpl();
@@ -142,11 +93,6 @@ public class QXCMPConfiguration {
         return wxMpService;
     }
 
-    /**
-     * 微信公众号配置实例，全局唯一
-     *
-     * @return 微信公众号配置实例
-     */
     @Bean
     public WxMpConfigStorage wxMpConfigStorage() {
         WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
@@ -157,11 +103,6 @@ public class QXCMPConfiguration {
         return configStorage;
     }
 
-    /**
-     * 微信公众号消息路由配置
-     *
-     * @return 微信公众号消息路由
-     */
     @Bean
     public WxMpMessageRouter wxMpMessageRouter() {
         WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxMpService());
@@ -169,11 +110,13 @@ public class QXCMPConfiguration {
         return wxMpMessageRouter;
     }
 
-    /**
-     * 微信支付配置
-     *
-     * @return 微信支付配置实例
-     */
+    @Bean
+    public WxPayService wxPayService() {
+        WxPayService wxPayService = new WxPayServiceImpl();
+        wxPayService.setConfig(wxPayConfig());
+        return wxPayService;
+    }
+
     @Bean
     public WxPayConfig wxPayConfig() {
         WxPayConfig wxPayConfig = new WxPayConfig();
@@ -186,17 +129,5 @@ public class QXCMPConfiguration {
         wxPayConfig.setKeyPath(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
         wxPayConfig.setTradeType("JSAPI");
         return wxPayConfig;
-    }
-
-    /**
-     * 微信支付服务实例配置，全局唯一
-     *
-     * @return 微信支付实例
-     */
-    @Bean
-    public WxPayService wxPayService() {
-        WxPayService wxPayService = new WxPayServiceImpl();
-        wxPayService.setConfig(wxPayConfig());
-        return wxPayService;
     }
 }

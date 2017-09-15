@@ -137,7 +137,7 @@ public class DropdownSamplePageController extends AbstractSamplePageController {
         List<ImageItem> items = Lists.newArrayList();
         int count = new Random().nextInt(3) + 1;
         for (int i = 0; i < count; i++) {
-            items.add(new ImageItem("选项文本", RandomStringUtils.randomAlphabetic(5), qxcmpConfiguration.getLogo()));
+            items.add(new ImageItem("选项文本", RandomStringUtils.randomAlphabetic(5), siteService.getLogo()));
         }
         return items;
     }

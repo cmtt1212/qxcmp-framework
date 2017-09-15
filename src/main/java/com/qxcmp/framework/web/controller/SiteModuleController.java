@@ -289,7 +289,7 @@ public class SiteModuleController extends QXCMPBackendController2 {
     public ModelAndView watermark(final AdminSiteWatermarkForm form) {
 
         form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE));
-        form.setName(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_NAME).orElse(qxcmpConfiguration.getTitle()));
+        form.setName(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_NAME).orElse(siteService.getTitle()));
         form.setPosition(WATERMARK_POSITIONS.get(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)));
         form.setFontSize(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
 

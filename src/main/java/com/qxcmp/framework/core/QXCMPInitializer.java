@@ -35,10 +35,11 @@ public class QXCMPInitializer implements ApplicationRunner {
 
         applicationContext.getBeansOfType(QXCMPConfigurator.class).entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(QXCMPConfigurator::order)).collect(Collectors.toList()).forEach(qxcmpConfigurator -> {
             try {
-                log.info("==> [{}] Configuring: {}", qxcmpConfigurator.order(), qxcmpConfigurator.name());
+                log.info("==> Configuring: {}", qxcmpConfigurator.name());
                 qxcmpConfigurator.config();
             } catch (Exception e) {
                 log.error("Can't config {}, cause: {}", qxcmpConfigurator.name(), e.getMessage());
+                e.printStackTrace();
             }
         });
 

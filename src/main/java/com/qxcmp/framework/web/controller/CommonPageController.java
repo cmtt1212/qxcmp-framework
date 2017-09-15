@@ -32,8 +32,6 @@ public class CommonPageController extends QXCMPBackendController2 {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    private final QXCMPConfiguration qxcmpConfiguration;
-
     /**
      * 获取平台首页
      * <p>
@@ -47,7 +45,7 @@ public class CommonPageController extends QXCMPBackendController2 {
         return builder().addDictionaryView(dictionaryViewBuilder -> {
             User user = currentUser();
 
-            dictionaryViewBuilder.title("欢迎登陆" + qxcmpConfiguration.getTitle());
+            dictionaryViewBuilder.title("欢迎登陆" + siteService.getTitle());
 
             dictionaryViewBuilder.dictionary("用户名", user.getUsername());
             dictionaryViewBuilder.dictionary("绑定邮箱", user.getEmail());
@@ -92,7 +90,7 @@ public class CommonPageController extends QXCMPBackendController2 {
      */
     public ModelAndView frontendLogin() {
         return builder(ACCOUNT_PAGE)
-                .setResult(qxcmpConfiguration.getTitle(), "", "")
+                .setResult(siteService.getTitle(), "", "")
                 .addFragment("qxcmp/account", "loginForm")
                 .addFragment("qxcmp/account", "loginLink")
                 .build();

@@ -38,8 +38,6 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @RequiredArgsConstructor
 public class WeixinPaymentAPI extends QXCMPFrontendController2 {
 
-    private final QXCMPConfiguration qxcmpConfiguration;
-
     private final WxPayService wxPayService;
 
     private final DepositOrderService depositOrderService;
@@ -166,7 +164,7 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
         WxPayUnifiedOrderRequest.Builder requestBuilder = WxPayUnifiedOrderRequest.newBuilder();
         requestBuilder.notifyURL(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_NOTIFY_URL).orElse(""));
         requestBuilder.deviceInfo("WEB");
-        requestBuilder.body(String.format("%s-钱包充值", qxcmpConfiguration.getTitle()));
+        requestBuilder.body(String.format("%s-钱包充值", siteService.getTitle()));
         requestBuilder.outTradeNo(depositOrder.getId());
         requestBuilder.feeType(depositOrder.getFeeType());
         requestBuilder.totalFee(depositOrder.getFee());

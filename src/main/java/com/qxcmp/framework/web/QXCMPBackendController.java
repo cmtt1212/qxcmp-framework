@@ -20,7 +20,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
     @Override
     protected BackendPage page() {
         BackendPage page = applicationContext.getBean(BackendPage.class, request, response);
-        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(qxcmpConfiguration.getLogo())).addItem(new HeaderItem(qxcmpConfiguration.getTitle())));
+        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo())).addItem(new HeaderItem(siteService.getTitle())));
         page.setBottomMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))));
         addPageSidebarContent(page, currentUser().orElse(null));
         return page;

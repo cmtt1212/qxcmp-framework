@@ -63,7 +63,7 @@ public class AccountPageController extends QXCMPFrontendController {
         LoginForm loginForm = new LoginForm();
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setDividing())
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setDividing())
                 .addComponent(convertToForm(loginForm).setSubmitButton(new AnimatedButton().setVisibleText("登录").setHiddenIcon(new Icon("sign in")).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary()).setErrorMessage(getLoginErrorMessage()))
                 .addComponent(new HorizontalDivider("或"))
                 .addComponent(new Container().setAlignment(Alignment.CENTER).addComponent(new Anchor("注册新用户", "/account/logon")).addComponent(new Anchor("忘记密码?", "/account/reset")))).addObject(loginForm)
@@ -80,7 +80,7 @@ public class AccountPageController extends QXCMPFrontendController {
             List list = new List().setSelection();
             accountService.getRegisterItems().forEach(accountComponent -> list.addItem(new TextItem(accountComponent.getRegisterName()).setUrl(accountComponent.getRegisterUrl())));
             return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择注册方式").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("请选择注册方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)
                     .addComponent(new Divider())
                     .addComponent(new Button("返回登录", "/login").setBasic())
@@ -98,7 +98,7 @@ public class AccountPageController extends QXCMPFrontendController {
             List list = new List().setSelection();
             accountService.getRegisterItems().stream().filter(accountComponent -> !accountComponent.isDisableReset()).forEach(accountComponent -> list.addItem(new TextItem(accountComponent.getResetName()).setUrl(accountComponent.getResetUrl())));
             return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择密码找回方式").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("请选择密码找回方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)
                     .addComponent(new Divider())
                     .addComponent(new Button("返回登录", "/login").setBasic())
@@ -115,7 +115,7 @@ public class AccountPageController extends QXCMPFrontendController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle(String.format("为用户 %s 找回密码", getResetUsername(id))).setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle(String.format("为用户 %s 找回密码", getResetUsername(id))).setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -136,7 +136,7 @@ public class AccountPageController extends QXCMPFrontendController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle(String.format("为用户 %s 找回密码", getResetUsername(id))).setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle(String.format("为用户 %s 找回密码", getResetUsername(id))).setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();
@@ -153,7 +153,7 @@ public class AccountPageController extends QXCMPFrontendController {
     @GetMapping("/account/activate")
     public ModelAndView activate(final AccountActivateForm form) {
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("激活账户").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("激活账户").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -180,7 +180,7 @@ public class AccountPageController extends QXCMPFrontendController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("激活账户").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("激活账户").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();

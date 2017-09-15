@@ -20,7 +20,7 @@ public class AdminPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView adminHomePage() {
         return page().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
-                .addItem(new Col().addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle())))
+                .addItem(new Col().addComponent(new PageHeader(HeaderType.H2, siteService.getTitle())))
         ).build();
     }
 }

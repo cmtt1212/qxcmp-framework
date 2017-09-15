@@ -47,7 +47,7 @@ public class AccountPhoneController extends AccountPageController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("手机号注册").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("手机号注册").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -76,7 +76,7 @@ public class AccountPhoneController extends AccountPageController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("手机号注册").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("手机号注册").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();
@@ -110,7 +110,7 @@ public class AccountPhoneController extends AccountPageController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -133,7 +133,7 @@ public class AccountPhoneController extends AccountPageController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();

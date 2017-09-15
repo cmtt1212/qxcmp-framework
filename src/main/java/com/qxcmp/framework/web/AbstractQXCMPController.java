@@ -2,11 +2,11 @@ package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
-import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaExpiredException;
 import com.qxcmp.framework.domain.CaptchaIncorrectException;
 import com.qxcmp.framework.domain.CaptchaService;
+import com.qxcmp.framework.site.SiteService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.AbstractPage;
@@ -40,7 +40,7 @@ public abstract class AbstractQXCMPController {
 
     protected ApplicationContext applicationContext;
 
-    protected QXCMPConfiguration qxcmpConfiguration;
+    protected SiteService siteService;
 
     protected UserService userService;
 
@@ -142,8 +142,8 @@ public abstract class AbstractQXCMPController {
     }
 
     @Autowired
-    public void setQxcmpConfiguration(QXCMPConfiguration qxcmpConfiguration) {
-        this.qxcmpConfiguration = qxcmpConfiguration;
+    public void setSiteService(SiteService siteService) {
+        this.siteService = siteService;
     }
 
     @Autowired

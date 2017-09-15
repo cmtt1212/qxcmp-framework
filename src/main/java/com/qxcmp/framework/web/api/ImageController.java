@@ -67,7 +67,7 @@ public class ImageController extends QXCMPFrontendController2 {
                 return imageService.store(file.getInputStream(), fileExtension).map(image -> {
 
                     if (systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE)) {
-                        imageService.addWatermark(image, qxcmpConfiguration.getTitle(), Positions.values()[systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)], systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
+                        imageService.addWatermark(image, siteService.getTitle(), Positions.values()[systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)], systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
                     }
 
                     return ResponseEntity.ok(String.format("/api/image/%s.%s", image.getId(), image.getType()));

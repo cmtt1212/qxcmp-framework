@@ -68,11 +68,11 @@ public class ImageSamplePageController extends AbstractSamplePageController {
 
     private Component createAvatarImageSegment() {
         return new Segment().addComponent(new H4("头像"))
-                .addComponent(new Avatar(qxcmpConfiguration.getLogo()))
-                .addComponent(new Avatar(qxcmpConfiguration.getLogo()))
-                .addComponent(new Avatar(qxcmpConfiguration.getLogo()))
-                .addComponent(new Avatar(qxcmpConfiguration.getLogo()))
-                .addComponent(new Avatar(qxcmpConfiguration.getLogo()))
+                .addComponent(new Avatar(siteService.getLogo()))
+                .addComponent(new Avatar(siteService.getLogo()))
+                .addComponent(new Avatar(siteService.getLogo()))
+                .addComponent(new Avatar(siteService.getLogo()))
+                .addComponent(new Avatar(siteService.getLogo()))
                 ;
     }
 

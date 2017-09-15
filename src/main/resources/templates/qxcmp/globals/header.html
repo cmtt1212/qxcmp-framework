@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="keywords" th:content="${@QXCMPConfiguration.getKeywords()} ?: _"/>
-    <meta name="description" th:content="${@QXCMPConfiguration.getDescription()} ?: _"/>
+    <meta name="keywords" th:content="${@siteServiceImpl.getKeyword()} ?: _"/>
+    <meta name="description" th:content="${@siteServiceImpl.getDescription()} ?: _"/>
 
-    <title th:text="${title} ?: ${@QXCMPConfiguration.getTitle()}"></title>
+    <title th:text="${title} ?: ${@siteServiceImpl.getTitle()}"></title>
 
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{${@QXCMPConfiguration.getFavicon()}}"/>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{${@siteServiceImpl.getFavicon()}}"/>
 
     <link rel="stylesheet" th:href="@{/assets/scripts/qxcmp.css}"/>
 

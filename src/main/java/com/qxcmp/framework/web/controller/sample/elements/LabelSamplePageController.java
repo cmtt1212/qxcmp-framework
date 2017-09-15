@@ -39,14 +39,14 @@ public class LabelSamplePageController extends AbstractSamplePageController {
                 .addComponent(new Label("标签文本").setColor(randomColor()).setUrl("#"))
                 .addComponent(new Label("标签文本").setDetails("标签详情").setColor(randomColor()).setUrl("#"))
                 .addComponent(new Label("标签文本").setIcon(new Icon("user")).setColor(randomColor()).setUrl("#"))
-                .addComponent(new Label("标签文本").setImage(qxcmpConfiguration.getLogo()).setColor(randomColor()).setUrl("#"))
+                .addComponent(new Label("标签文本").setImage(siteService.getLogo()).setColor(randomColor()).setUrl("#"))
                 ;
     }
 
     private Component createImageLabelSegment() {
         return new Segment().addComponent(new ContentHeader("图片标签", Size.LARGE))
-                .addComponent(new ImageLabel("标签文本", qxcmpConfiguration.getLogo()).setColor(randomColor()).setUrl("#"))
-                .addComponent(new ImageLabel("标签文本", qxcmpConfiguration.getLogo()).setDetails("标签详情").setColor(randomColor()).setUrl("#"))
+                .addComponent(new ImageLabel("标签文本", siteService.getLogo()).setColor(randomColor()).setUrl("#"))
+                .addComponent(new ImageLabel("标签文本", siteService.getLogo()).setDetails("标签详情").setColor(randomColor()).setUrl("#"))
                 ;
     }
 

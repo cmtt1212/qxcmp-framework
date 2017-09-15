@@ -41,7 +41,7 @@ public class AccountEmailController extends AccountPageController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -70,7 +70,7 @@ public class AccountEmailController extends AccountPageController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();
@@ -104,7 +104,7 @@ public class AccountEmailController extends AccountPageController {
         }
 
         return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("邮箱找回密码").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱找回密码").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
         ).addObject(form)
                 .build();
@@ -127,7 +127,7 @@ public class AccountEmailController extends AccountPageController {
 
         if (bindingResult.hasErrors()) {
             return buildPage(segment -> segment
-                    .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("邮箱找回密码").setDividing().setAlignment(Alignment.LEFT))
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱找回密码").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
             ).addObject(form)
                     .build();

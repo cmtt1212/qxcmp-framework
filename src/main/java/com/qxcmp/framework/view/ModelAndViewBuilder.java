@@ -1,9 +1,9 @@
 package com.qxcmp.framework.view;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.entity.EntityService;
+import com.qxcmp.framework.site.SiteService;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.view.annotation.ListViewField;
 import com.qxcmp.framework.view.annotation.TableViewField;
@@ -49,7 +49,7 @@ public class ModelAndViewBuilder {
 
     private UserService userService;
 
-    private QXCMPConfiguration qxcmpConfiguration;
+    private SiteService siteService;
 
     private DictionaryViewHelper dictionaryViewHelper;
 
@@ -86,12 +86,12 @@ public class ModelAndViewBuilder {
      * @return 生成器本身
      */
     public ModelAndViewBuilder setTitle(String title) {
-        addObject("title", title + "_" + qxcmpConfiguration.getTitle());
+        addObject("title", title + "_" + siteService.getTitle());
         return this;
     }
 
     public ModelAndViewBuilder setTitle(String title, String subTitle) {
-        addObject("title", title + "_" + subTitle + "_" + qxcmpConfiguration.getTitle());
+        addObject("title", title + "_" + subTitle + "_" + siteService.getTitle());
         return this;
     }
 
@@ -414,8 +414,8 @@ public class ModelAndViewBuilder {
     }
 
     @Autowired
-    public void setQxcmpConfiguration(QXCMPConfiguration qxcmpConfiguration) {
-        this.qxcmpConfiguration = qxcmpConfiguration;
+    public void setSiteService(SiteService siteService) {
+        this.siteService = siteService;
     }
 
     @Autowired

@@ -2,12 +2,12 @@ package com.qxcmp.framework.account;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.core.QXCMPConfigurator;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.message.EmailService;
+import com.qxcmp.framework.site.SiteService;
 import com.qxcmp.framework.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class AccountService implements QXCMPConfigurator {
 
     private final SystemConfigService systemConfigService;
 
-    private final QXCMPConfiguration qxcmpConfiguration;
+    private final SiteService siteService;
 
     /**
      * 平台当前激活的模块
@@ -96,9 +96,9 @@ public class AccountService implements QXCMPConfigurator {
     public void sendActivateEmail(User user) {
         emailService.send(mimeMessageHelper -> {
             Code code = codeService.nextActivateCode(user.getId());
-            String subject = String.format("【%s】", qxcmpConfiguration.getTitle()) + systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT_DEFAULT_VALUE);
+            String subject = String.format("【%s】", siteService.getTitle()) + systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT_DEFAULT_VALUE);
             String content = systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_CONTENT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_CONTENT_DEFAULT_VALUE);
-            content = content.replaceAll("\\$\\{link}", String.format("https://%s/account/activate/%s", qxcmpConfiguration.getDomain(), code.getId()));
+            content = content.replaceAll("\\$\\{link}", String.format("https://%s/account/activate/%s", siteService.getDomain(), code.getId()));
             mimeMessageHelper.setTo(user.getEmail());
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(content);
@@ -113,9 +113,9 @@ public class AccountService implements QXCMPConfigurator {
     public void sendResetEmail(User user) {
         emailService.send(mimeMessageHelper -> {
             Code code = codeService.nextPasswordCode(user.getId());
-            String subject = String.format("【%s】", qxcmpConfiguration.getTitle()) + systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT_DEFAULT_VALUE);
+            String subject = String.format("【%s】", siteService.getTitle()) + systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT_DEFAULT_VALUE);
             String content = systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT_DEFAULT_VALUE);
-            content = content.replaceAll("\\$\\{link}", String.format("https://%s/account/reset/%s", qxcmpConfiguration.getDomain(), code.getId()));
+            content = content.replaceAll("\\$\\{link}", String.format("https://%s/account/reset/%s", siteService.getDomain(), code.getId()));
             mimeMessageHelper.setTo(user.getEmail());
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(content);
@@ -130,7 +130,7 @@ public class AccountService implements QXCMPConfigurator {
      */
     public void sendBindEmail(String email, String captcha) {
         emailService.send(mimeMessageHelper -> {
-            String subject = String.format("【%s】", qxcmpConfiguration.getTitle()) + systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_SUBJECT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_SUBJECT_DEFAULT_VALUE);
+            String subject = String.format("【%s】", siteService.getTitle()) + systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_SUBJECT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_SUBJECT_DEFAULT_VALUE);
             String content = systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT_DEFAULT_VALUE);
             content = content.replaceAll("\\$\\{captcha}", captcha);
             mimeMessageHelper.setTo(email);
