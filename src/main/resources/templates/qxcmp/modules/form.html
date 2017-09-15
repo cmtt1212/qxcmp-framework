@@ -111,6 +111,42 @@
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.EmailField"*/-->
+<div th:fragment="field-email(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <input th:field="*{__${component.name}__}" type="email" th:placeholder="${component.placeholder}"
+           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+    <!--<div class="component">-->
+    <!--<div class="ui search selection fluid dropdown">-->
+    <!--<input th:field="*{__${component.name}__}" type="hidden"/>-->
+    <!--<i class="dropdown icon"></i>-->
+    <!--<div class="default text" th:utext="${component.placeholder}"></div>-->
+    <!--<div class="menu">-->
+    <!--<div th:each="suffix : ${component.suffixList}" class="item" th:attr="data-suffix=|@${suffix}|"-->
+    <!--th:utext="|@${suffix}|"></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <!--<script th:inline="javascript">-->
+    <!--$(document).ready(function () {-->
+    <!--var id = /*[[|#${component.id}|]]*/ "";-->
+    <!--var dropdown = $(id).find(".component .ui.dropdown");-->
+    <!--$(dropdown).dropdown();-->
+    <!--var searchInput = $(dropdown).find("input.search");-->
+    <!--$(searchInput).on("keyup", function () {-->
+    <!--var value = $(this).val().split("@")[0];-->
+    <!--var extraVale = $(this).val().split("@")[1];-->
+    <!--$.each($(dropdown).find(".menu .item"), function () {-->
+    <!--$(this).text(value + $(this).attr("data-suffix"));-->
+    <!--});-->
+    <!--$(searchInput).click();-->
+    <!--});-->
+    <!--});-->
+    <!--</script>-->
+</div>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextAreaField"*/-->
 <div th:fragment="field-text-area(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>

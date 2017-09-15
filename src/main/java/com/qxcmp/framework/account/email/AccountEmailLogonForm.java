@@ -1,10 +1,7 @@
 package com.qxcmp.framework.account.email;
 
 import com.qxcmp.framework.validation.Username;
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
-import com.qxcmp.framework.web.view.annotation.form.PasswordField;
-import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.framework.web.view.annotation.form.*;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
@@ -40,7 +37,7 @@ public class AccountEmailLogonForm {
      */
     @Email(message = "{Email}")
     @NotEmpty(message = "{NotEmpty.emailRegisterForm.email}")
-    @TextInputField("邮箱")
+    @EmailField(value = "邮箱", placeholder = "请输入你的注册邮箱")
     private String email;
 
     /**

@@ -18,6 +18,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -34,6 +35,7 @@ public class FormHelper {
      *
      * @param bindingResult 错误对象
      * @param object        表单对象
+     *
      * @return 错误消息组件
      */
     public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
@@ -93,6 +95,7 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
+     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {
@@ -160,6 +163,8 @@ public class FormHelper {
                     addImageCaptchaField(form, field, (ImageCaptchaField) annotation);
                 } else if (annotation instanceof PhoneCaptchaField) {
                     addPhoneCaptchaField(form, field, (PhoneCaptchaField) annotation);
+                } else if (annotation instanceof EmailField) {
+                    addEmailField(form, field, (EmailField) annotation);
                 }
             }
         }
@@ -246,5 +251,25 @@ public class FormHelper {
         phoneCaptchaField.setInterval(annotation.interval());
 
         form.addItem(phoneCaptchaField, annotation.section());
+    }
+
+    private void addEmailField(AbstractForm form, Field field, EmailField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.EmailField emailField = new com.qxcmp.framework.web.view.modules.form.field.EmailField();
+
+        emailField.setName(field.getName());
+        emailField.setLabel(annotation.value());
+        emailField.setTooltip(annotation.tooltip());
+        emailField.setRequired(annotation.required());
+        emailField.setDisableAutoComplete(annotation.disableAutoComplete());
+        emailField.setAutoFocus(annotation.autoFocus());
+        emailField.setReadOnly(annotation.readOnly());
+        emailField.setPlaceholder(annotation.placeholder());
+        emailField.setMaxLength(annotation.maxLength());
+
+        if (annotation.suffixList().length > 0) {
+            emailField.setSuffixList(Arrays.asList(annotation.suffixList()));
+        }
+
+        form.addItem(emailField, annotation.section());
     }
 }
