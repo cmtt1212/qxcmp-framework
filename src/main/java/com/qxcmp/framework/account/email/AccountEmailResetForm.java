@@ -2,9 +2,10 @@ package com.qxcmp.framework.account.email;
 
 import com.qxcmp.framework.account.AccountResetForm;
 import com.qxcmp.framework.domain.Code;
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.EmailField;
+import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 
@@ -18,7 +19,7 @@ import org.hibernate.validator.constraints.Email;
  *
  * @author aaric
  */
-@FormView(caption = "找回密码", submitTitle = "发送重置链接", disableSubmitIcon = true, showDialog = false)
+@Form(submitText = "发送重置链接", method = FormMethod.POST)
 @Data
 public class AccountEmailResetForm {
 
@@ -27,10 +28,10 @@ public class AccountEmailResetForm {
      * <p>
      * 需要改邮箱已经存在，并且符合邮箱格式
      */
-    @FormViewField(type = InputFiledType.TEXT, label = "邮箱", placeholder = "输入您账户所绑定的邮箱", autoFocus = true)
     @Email
+    @EmailField(value = "邮箱", placeholder = "输入您账户所绑定的邮箱", autoFocus = true)
     private String email;
 
-    @FormViewField(label = "验证码", type = InputFiledType.CAPTCHA, placeholder = "请输入验证码")
+    @ImageCaptchaField("验证码")
     private String captcha;
 }

@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.account.AccountActivateForm;
 import com.qxcmp.framework.account.AccountService;
+import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
@@ -33,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -82,7 +84,7 @@ public class AccountPageController extends QXCMPFrontendController {
                     .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择注册方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)
                     .addComponent(new Divider())
-                    .addComponent(new Button("返回登录", "/login").setBasic().setPrimary())
+                    .addComponent(new Button("返回登录", "/login").setBasic())
             ).build();
         }
     }
@@ -100,7 +102,7 @@ public class AccountPageController extends QXCMPFrontendController {
                     .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("请选择密码找回方式").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(list)
                     .addComponent(new Divider())
-                    .addComponent(new Button("返回登录", "/login").setBasic().setPrimary())
+                    .addComponent(new Button("返回登录", "/login").setBasic())
             ).build();
         }
     }
@@ -194,36 +196,26 @@ public class AccountPageController extends QXCMPFrontendController {
         }
     }
 
-//    @GetMapping("activate/{id}")
-//    public ModelAndView activate(@PathVariable String id) {
-//        try {
-//            if (codeService.isInvalidCode(id)) {
-//                return builder(ACCOUNT_PAGE).setResult("账户激活失败", "无效的激活码", "请确认激活码是否正确，或者重新发送激活码")
-//                        .setResultNavigation("返回登录", "/login", "重新激活账户", "/account/activate")
-//                        .build();
-//            }
-//
-//            Optional<Code> codeOptional = codeService.findOne(id);
-//
-//            Code code = codeOptional.get();
-//
-//            if (!code.getType().equals(Code.Type.ACTIVATE)) {
-//                return builder(ACCOUNT_PAGE).setResult("账户激活失败", "无效的激活码", "请确认激活码是否正确，或者重新发送激活码")
-//                        .setResultNavigation("返回登录", "/login", "重新激活账户", "/account/activate")
-//                        .build();
-//            }
-//
-//            userService.update(code.getUserId(), user -> {
-//                user.setEnabled(true);
-//                codeService.remove(code);
-//            });
-//
-//            return builder(ACCOUNT_PAGE).setResult("账户激活成功", "现在可以登录您的账户了").setResultNavigation("现在去登录", "/login").build();
-//        } catch (Exception e) {
-//            return builder(ACCOUNT_PAGE).setResult("账户激活失败", e.getMessage()).setResultNavigation("重新发送邮件", "/account/email/reset").build();
-//        }
-//    }
-//
+    @GetMapping("/account/activate/{id}")
+    public ModelAndView activate(@PathVariable String id) {
+        try {
+            Code code = codeService.findOne(id).orElseThrow(Exception::new);
+
+            if (codeService.isInvalidCode(id) || !code.getType().equals(Code.Type.ACTIVATE)) {
+                return overviewPage(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
+            }
+
+            userService.update(code.getUserId(), user -> {
+                user.setEnabled(true);
+                codeService.remove(code);
+            });
+
+            return overviewPage(new Overview("账户激活成功", "现在可以登录您的账户了").addLink("现在去登录", "/login")).build();
+        } catch (Exception e) {
+            return overviewPage(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
+        }
+    }
+
 //    private ModelAndView accountResetForm(Code code, AccountResetForm accountResetForm) {
 //        String username = userService.findOne(code.getUserId()).map(user -> {
 //            if (StringUtils.isNotBlank(user.getUsername())) {
@@ -261,19 +253,11 @@ public class AccountPageController extends QXCMPFrontendController {
     }
 
     protected AbstractPage logonClosedPage() {
-        return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                .addComponent(new IconHeader("注册功能已经关闭", new Icon("warning circle")).setSubTitle("请在注册功能开放时进行注册"))
-                .addComponent(new Divider())
-                .addComponent(new Button("返回登录", "/login").setBasic())
-        );
+        return overviewPage(new Overview(new IconHeader("注册功能已经关闭", new Icon("warning circle")).setSubTitle("请在注册功能开放时进行注册")).addLink("返回登录", "/login"));
     }
 
     protected AbstractPage resetClosedPage() {
-        return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                .addComponent(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系"))
-                .addComponent(new Divider())
-                .addComponent(new Button("返回登录", "/login").setBasic())
-        );
+        return overviewPage(new Overview(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系")).addLink("返回登录", "/login"));
     }
 
     /**
@@ -284,7 +268,7 @@ public class AccountPageController extends QXCMPFrontendController {
     private ErrorMessage getLoginErrorMessage() {
 
         if (Objects.nonNull(request.getSession().getAttribute(AUTHENTICATION_ERROR_MESSAGE))) {
-            return new ErrorMessage("登录失败", applicationContext.getMessage(request.getSession().getAttribute(AUTHENTICATION_ERROR_MESSAGE).toString(), null, null));
+            return (ErrorMessage) new ErrorMessage("登录失败", applicationContext.getMessage(request.getSession().getAttribute(AUTHENTICATION_ERROR_MESSAGE).toString(), null, null)).setCloseable();
         }
 
         return null;

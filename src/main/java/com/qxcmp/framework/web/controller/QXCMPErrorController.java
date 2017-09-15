@@ -50,6 +50,10 @@ public class QXCMPErrorController extends BasicErrorController {
 
     private String parseStatusCode(HttpStatus status) {
 
+        if (status.equals(HttpStatus.FORBIDDEN)) {
+            return "网页叔叔被抓去关起来了";
+        }
+
         if (status.is4xxClientError()) {
             return "网页叔叔搭乘航班去追寻诗和远方了";
         } else if (status.is5xxServerError()) {
