@@ -20,6 +20,7 @@ import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.list.List;
 import com.qxcmp.framework.web.view.elements.list.item.TextItem;
+import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
@@ -28,7 +29,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
 import java.util.function.Consumer;
+
+import static com.qxcmp.framework.web.auth.AuthenticationFailureHandler.AUTHENTICATION_ERROR_MESSAGE;
 
 /**
  * 账户登录、注册、重置页面路由
@@ -50,7 +54,7 @@ public class AccountPageController extends QXCMPFrontendController {
 
         return buildPage(segment -> segment
                 .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setDividing())
-                .addComponent(convertToForm(loginForm).setSubmitButton(new AnimatedButton().setVisibleText("登录").setHiddenIcon(new Icon("sign in")).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary()))
+                .addComponent(convertToForm(loginForm).setSubmitButton(new AnimatedButton().setVisibleText("登录").setHiddenIcon(new Icon("sign in")).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary()).setErrorMessage(getLoginErrorMessage()))
                 .addComponent(new HorizontalDivider("或"))
                 .addComponent(new Container().setAlignment(Alignment.CENTER).addComponent(new Anchor("注册新用户", "/account/logon")).addComponent(new Anchor("忘记密码?", "/account/reset")))).addObject(loginForm)
                 .build();
@@ -251,5 +255,19 @@ public class AccountPageController extends QXCMPFrontendController {
                 .addComponent(new Divider())
                 .addComponent(new Button("返回登录", "/login").setBasic())
         );
+    }
+
+    /**
+     * 获取登录错误消息
+     *
+     * @return
+     */
+    private ErrorMessage getLoginErrorMessage() {
+
+        if (Objects.nonNull(request.getSession().getAttribute(AUTHENTICATION_ERROR_MESSAGE))) {
+            return new ErrorMessage("登录失败", applicationContext.getMessage(request.getSession().getAttribute(AUTHENTICATION_ERROR_MESSAGE).toString(), null, null));
+        }
+
+        return null;
     }
 }

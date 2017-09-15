@@ -38,7 +38,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     /**
      * 会话属性，用于存放认证错误消息国际化代码
      */
-    private static final String AUTHENTICATION_ERROR_MESSAGE = "authenticationMessage";
+    public static final String AUTHENTICATION_ERROR_MESSAGE = "authenticationMessage";
 
     /**
      * 会话属性，用于存放当前会话认证失败次数
