@@ -27,7 +27,7 @@ public class AccountEmailLogonForm {
      */
     @Size(min = 6, max = 20, message = "{Size.username}")
     @Username
-    @TextInputField(value = "用户名", tooltip = "用户名只能由字母、数字、下划线组成，且长度在6到20个字符之间", maxLength = 20, placeholder = "用户名只能由字母、数字、下划线组成")
+    @TextInputField(value = "用户名", tooltip = "用户名只能由字母、数字、下划线组成，且长度在6到20个字符之间", maxLength = 20, placeholder = "用户名只能由字母、数字、下划线组成", autoFocus = true)
     private String username;
 
     /**
@@ -62,6 +62,6 @@ public class AccountEmailLogonForm {
      * <p>
      * 用户输入的会话验证码，需要和验证码图片中的信息一致
      */
-    @ImageCaptchaField("验证码")
+    @ImageCaptchaField(value = "验证码", placeholder = "请输入图片中的文字信息")
     private String captcha;
 }

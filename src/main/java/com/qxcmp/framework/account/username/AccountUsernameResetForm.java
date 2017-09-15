@@ -1,9 +1,10 @@
 package com.qxcmp.framework.account.username;
 
 import com.qxcmp.framework.validation.Username;
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
@@ -19,7 +20,7 @@ import javax.validation.constraints.Size;
  * @author aaric
  * @see AccountUsernameResetQuestionForm
  */
-@FormView(caption = "找回密码", submitTitle = "回答密保问题", disableSubmitIcon = true, showDialog = false)
+@Form(submitText = "回答密保问题", method = FormMethod.POST)
 @Data
 public class AccountUsernameResetForm {
 
@@ -28,9 +29,9 @@ public class AccountUsernameResetForm {
      * <p>
      * 要找回密码的用户名
      */
-    @FormViewField(label = "用户名", type = InputFiledType.TEXT, autoFocus = true, placeholder = "请输入要找回密码的账户用户名")
     @Size(min = 6, max = 20, message = "{Size.username}")
     @Username
+    @TextInputField(value = "用户名", placeholder = "请输入要找回密码的账户用户名", autoFocus = true)
     private String username;
 
     /**
@@ -38,6 +39,6 @@ public class AccountUsernameResetForm {
      * <p>
      * 用户输入的会话验证码，需要和验证码图片中的信息一致
      */
-    @FormViewField(type = InputFiledType.CAPTCHA, label = "验证码", placeholder = "请输入验证码")
+    @ImageCaptchaField(value = "验证码", placeholder = "请输入图片中的文字信息")
     private String captcha;
 }

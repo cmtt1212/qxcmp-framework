@@ -32,6 +32,6 @@ public class AccountEmailResetForm {
     @EmailField(value = "邮箱", placeholder = "输入您账户所绑定的邮箱", autoFocus = true)
     private String email;
 
-    @ImageCaptchaField("验证码")
+    @ImageCaptchaField(value = "验证码", placeholder = "请输入图片中的文字信息")
     private String captcha;
 }

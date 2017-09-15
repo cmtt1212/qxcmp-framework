@@ -96,17 +96,21 @@ public class AccountUsernameController extends AccountPageController {
             return overviewPage(new Overview("注册失败").addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
-//
-//    @GetMapping("reset")
-//    public ModelAndView reset(final AccountUsernameResetForm form) {
-//
-//        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
-//            return builder(ACCOUNT_PAGE).setResult("密码找回功能已经关闭", "请与平台管理员联系").setResultNavigation("返回登录", "/login").build();
-//        }
-//
-//        return builder(ACCOUNT_PAGE).setFormView(form).build();
-//    }
-//
+
+    @GetMapping("reset")
+    public ModelAndView reset(final AccountUsernameResetForm form) {
+
+        if (!systemConfigService.getBoolean(QXCMPConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(false)) {
+            return resetClosedPage().build();
+        }
+
+        return buildPage(segment -> segment
+                .addComponent(new PageHeader(HeaderType.H2, qxcmpConfiguration.getTitle()).setImage(new Image(qxcmpConfiguration.getLogo())).setSubTitle("密保找回密码").setDividing().setAlignment(Alignment.LEFT))
+                .addComponent(convertToForm(form))
+        ).addObject(form)
+                .build();
+    }
+
 //    @PostMapping("reset")
 //    public ModelAndView reset(@Valid @ModelAttribute(FORM_OBJECT) AccountUsernameResetForm form, BindingResult bindingResult) {
 //
