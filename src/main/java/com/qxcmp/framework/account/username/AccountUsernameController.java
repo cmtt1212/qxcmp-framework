@@ -28,9 +28,9 @@ import java.util.Objects;
 @RequestMapping("/account/username/")
 public class AccountUsernameController extends AccountPageController {
 
-    private final SecurityQuestionService securityQuestionService;
+    private final AccountSecurityQuestionService securityQuestionService;
 
-    public AccountUsernameController(AccountService accountService, CodeService codeService, SecurityQuestionService securityQuestionService) {
+    public AccountUsernameController(AccountService accountService, CodeService codeService, AccountSecurityQuestionService securityQuestionService) {
         super(accountService, codeService);
         this.securityQuestionService = securityQuestionService;
     }

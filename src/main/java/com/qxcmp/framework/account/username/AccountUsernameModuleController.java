@@ -33,7 +33,7 @@ public class AccountUsernameModuleController extends QXCMPBackendController2 {
     private static final List<String> QUESTIONS_LIST_2 = ImmutableList.of("您父母称呼您的昵称", "您出生的医院名称", "您最好的朋友叫什么名字", "您母亲的姓名是", "您配偶的生日是");
     private static final List<String> QUESTIONS_LIST_3 = ImmutableList.of("您第一个宠物的名字", "您的第一任男朋友/女朋友姓名", "您第一家任职的公司名字");
 
-    private final SecurityQuestionService securityQuestionService;
+    private final AccountSecurityQuestionService securityQuestionService;
 
     @GetMapping
     public ModelAndView set(final AdminAccountQuestionForm form) {
@@ -53,7 +53,7 @@ public class AccountUsernameModuleController extends QXCMPBackendController2 {
         }
 
         try {
-            Optional<SecurityQuestion> securityQuestionOptional = securityQuestionService.findByUserId(currentUser().getId());
+            Optional<AccountSecurityQuestion> securityQuestionOptional = securityQuestionService.findByUserId(currentUser().getId());
 
             if (securityQuestionOptional.isPresent()) {
                 securityQuestionService.update(securityQuestionOptional.get().getId(), securityQuestion -> {
@@ -66,7 +66,7 @@ public class AccountUsernameModuleController extends QXCMPBackendController2 {
                 });
             } else {
                 securityQuestionService.create(() -> {
-                    SecurityQuestion securityQuestion = securityQuestionService.next();
+                    AccountSecurityQuestion securityQuestion = securityQuestionService.next();
                     securityQuestion.setUserId(currentUser().getId());
                     securityQuestion.setQuestion1(form.getQuestion1());
                     securityQuestion.setAnswer1(form.getAnswer1());

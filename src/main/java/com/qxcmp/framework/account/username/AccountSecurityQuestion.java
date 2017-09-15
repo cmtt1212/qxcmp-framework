@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table
 @Data
-public class SecurityQuestion {
+public class AccountSecurityQuestion {
 
     @Id
     private String id;

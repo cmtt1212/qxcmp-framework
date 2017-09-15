@@ -14,18 +14,18 @@ import java.util.function.Supplier;
  * @author aaric
  */
 @Service
-public class SecurityQuestionService extends AbstractEntityService<SecurityQuestion, String, SecurityQuestionRepository> {
+public class AccountSecurityQuestionService extends AbstractEntityService<AccountSecurityQuestion, String, AccountSecurityQuestionRepository> {
 
-    public SecurityQuestionService(SecurityQuestionRepository repository) {
+    public AccountSecurityQuestionService(AccountSecurityQuestionRepository repository) {
         super(repository);
     }
 
-    public Optional<SecurityQuestion> findByUserId(String userId) {
+    public Optional<AccountSecurityQuestion> findByUserId(String userId) {
         return repository.findByUserId(userId);
     }
 
     @Override
-    public <S extends SecurityQuestion> Optional<S> create(Supplier<S> supplier) {
+    public <S extends AccountSecurityQuestion> Optional<S> create(Supplier<S> supplier) {
         S securityQuestion = supplier.get();
 
         if (StringUtils.isNotEmpty(securityQuestion.getId())) {
@@ -38,7 +38,7 @@ public class SecurityQuestionService extends AbstractEntityService<SecurityQuest
     }
 
     @Override
-    protected <S extends SecurityQuestion> String getEntityId(S entity) {
+    protected <S extends AccountSecurityQuestion> String getEntityId(S entity) {
         return entity.getId();
     }
 }

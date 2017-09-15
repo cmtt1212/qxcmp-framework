@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-interface SecurityQuestionRepository extends JpaRepository<SecurityQuestion, String>, JpaSpecificationExecutor<SecurityQuestion> {
+interface AccountSecurityQuestionRepository extends JpaRepository<AccountSecurityQuestion, String>, JpaSpecificationExecutor<AccountSecurityQuestion> {
 
-    Optional<SecurityQuestion> findByUserId(String userId);
+    Optional<AccountSecurityQuestion> findByUserId(String userId);
 }
