@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.api;
 
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
-import com.github.binarywang.wxpay.bean.result.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.result.WxPayOrderQueryResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -52,7 +52,6 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
      *
      * @param fee     充值金额
      * @param feeType 货币类型
-     *
      * @return 带微信支付二维码的充值中心页面
      */
     @PostMapping("/native")
@@ -68,7 +67,6 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
      *
      * @param fee     充值金额
      * @param feeType 货币类型
-     *
      * @return 微信公众号支付页面
      */
     @PostMapping("/mp")
@@ -95,13 +93,12 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
      * 此接口用户自动处理订单
      *
      * @param xmlData 支付结果数据
-     *
      * @return 回复"SUCCESS"表示平台处理订单成功，否则微信服务器将继续发送该通知
      */
     @PostMapping("/notify")
     public ResponseEntity<String> weixinPaymentNotification(@RequestBody String xmlData) {
         try {
-            WxPayOrderNotifyResult result = wxPayService.getOrderNotifyResult(xmlData);
+            WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(xmlData);
             depositOrderService.process(result.getOutTradeNo());
             return ResponseEntity.ok("SUCCESS");
         } catch (Exception e) {
@@ -118,9 +115,7 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
      *
      * @param transactionId 订单号
      * @param outTradeNo    订单号
-     *
      * @return "SUCCESS", "ERROR"
-     *
      * @throws WxPayException WxPayException
      */
     @GetMapping("/query")
@@ -165,7 +160,6 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
      * @param tradeType    支付类型 NATIVE|JSAPI
      * @param user         用户标识
      * @param depositOrder 平台充值订单
-     *
      * @return 预支付结果
      */
     private Map<String, String> doWeixinPayment(String tradeType, User user, DepositOrder depositOrder) throws WxPayException {
