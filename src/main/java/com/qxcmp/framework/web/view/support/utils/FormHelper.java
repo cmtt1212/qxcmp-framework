@@ -165,6 +165,8 @@ public class FormHelper {
                     addPhoneCaptchaField(form, field, (PhoneCaptchaField) annotation);
                 } else if (annotation instanceof EmailField) {
                     addEmailField(form, field, (EmailField) annotation);
+                } else if (annotation instanceof PhoneField) {
+                    addPhoneField(form, field, (PhoneField) annotation);
                 }
             }
         }
@@ -271,5 +273,21 @@ public class FormHelper {
         }
 
         form.addItem(emailField, annotation.section());
+    }
+
+    private void addPhoneField(AbstractForm form, Field field, PhoneField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.PhoneField phoneField = new com.qxcmp.framework.web.view.modules.form.field.PhoneField();
+
+        phoneField.setName(field.getName());
+        phoneField.setLabel(annotation.value());
+        phoneField.setTooltip(annotation.tooltip());
+        phoneField.setRequired(annotation.required());
+        phoneField.setDisableAutoComplete(annotation.disableAutoComplete());
+        phoneField.setAutoFocus(annotation.autoFocus());
+        phoneField.setReadOnly(annotation.readOnly());
+        phoneField.setPlaceholder(annotation.placeholder());
+        phoneField.setMaxLength(annotation.maxLength());
+
+        form.addItem(phoneField, annotation.section());
     }
 }

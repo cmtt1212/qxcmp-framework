@@ -1,10 +1,9 @@
 package com.qxcmp.framework.account.phone;
 
+import com.qxcmp.framework.validation.Phone;
 import com.qxcmp.framework.validation.Username;
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.CaptchaType;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
@@ -16,7 +15,7 @@ import javax.validation.constraints.Size;
  *
  * @author aaric
  */
-@FormView(caption = "注册新用户", submitTitle = "立即注册", disableSubmitIcon = true, showDialog = false)
+@Form(submitText = "立即注册", method = FormMethod.POST)
 @Data
 public class AccountPhoneLogonForm {
 
@@ -27,7 +26,7 @@ public class AccountPhoneLogonForm {
      */
     @Size(min = 6, max = 20, message = "{Size.username}")
     @Username
-    @FormViewField(type = InputFiledType.TEXT, label = "用户名", placeholder = "用户名只能由字母、数字、下划线组成", maxLength = 20)
+    @TextInputField(value = "用户名", tooltip = "用户名只能由字母、数字、下划线组成，且长度在6到20个字符之间", maxLength = 20, placeholder = "用户名只能由字母、数字、下划线组成", autoFocus = true)
     private String username;
 
     /**
@@ -35,7 +34,8 @@ public class AccountPhoneLogonForm {
      * <p>
      * 全局唯一，注册的时候需要检查手机号码是否已经存在
      */
-    @FormViewField(label = "手机号码", type = InputFiledType.TEXT)
+    @Phone
+    @PhoneField(value = "手机号码", placeholder = "你的手机号码")
     private String phone;
 
     /**
@@ -44,7 +44,7 @@ public class AccountPhoneLogonForm {
      * 用户登录时候需要输入的密码
      */
     @Size(min = 6, max = 20, message = "{Size.password}")
-    @FormViewField(label = "设置密码", type = InputFiledType.PASSWORD)
+    @PasswordField(value = "设置密码", placeholder = "请使用至少两种以上的字符组合", maxLength = 20)
     private String password;
 
     /**
@@ -52,7 +52,7 @@ public class AccountPhoneLogonForm {
      * <p>
      * 保证用户两次输入的密码一致
      */
-    @FormViewField(label = "确认密码", type = InputFiledType.PASSWORD)
+    @PasswordField(value = "确认密码", placeholder = "请再次输入您的登录密码", maxLength = 20)
     private String passwordConfirm;
 
     /**
@@ -60,6 +60,6 @@ public class AccountPhoneLogonForm {
      * <p>
      * 输入的短信验证码需要与会话中的短信验证码一致
      */
-    @FormViewField(label = "短信验证码", type = InputFiledType.CAPTCHA, captchaType = CaptchaType.PHONE)
+    @PhoneCaptchaField(value = "短信验证码", placeholder = "请输入你收到的短信验证码", phoneField = "phone")
     private String captcha;
 }

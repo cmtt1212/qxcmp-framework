@@ -5,11 +5,11 @@ import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.controller.AccountPageController;
-import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -87,13 +87,9 @@ public class AccountUsernameController extends AccountPageController {
                 return user;
             });
 
-            return buildPage(segment -> segment.setAlignment(Alignment.CENTER)
-                    .addComponent(new PageHeader(HeaderType.H2, "注册成功").setSubTitle("你已经成功注册账号，现在可以登录了"))
-                    .addComponent(new Divider())
-                    .addComponent(new Button("立即登录", "/login").setBasic())
-            ).build();
+            return overviewPage(new Overview("注册成功", "你已经成功注册账号，现在可以登录了").addLink("立即登录", "/login")).build();
         } catch (Exception e) {
-            return overviewPage(new Overview("注册失败").addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
+            return overviewPage(new Overview(new IconHeader("注册失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
 

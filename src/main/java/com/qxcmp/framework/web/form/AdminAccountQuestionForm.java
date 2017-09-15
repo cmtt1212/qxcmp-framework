@@ -1,4 +1,4 @@
-package com.qxcmp.framework.account.username;
+package com.qxcmp.framework.web.form;
 
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;

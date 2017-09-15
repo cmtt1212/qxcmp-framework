@@ -2,10 +2,12 @@ package com.qxcmp.framework.account.phone;
 
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.validation.Phone;
-import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.CaptchaType;
 import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.PhoneCaptchaField;
+import com.qxcmp.framework.web.view.annotation.form.PhoneField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 /**
@@ -18,14 +20,14 @@ import lombok.Data;
  *
  * @author aaric
  */
-@FormView(caption = "找回密码", submitTitle = "立即找回", disableSubmitIcon = true, showDialog = false)
+@Form(submitText = "立即重置", method = FormMethod.POST)
 @Data
 public class AccountPhoneResetForm {
 
-    @FormViewField(label = "手机号码", type = InputFiledType.TEXT, autoFocus = true, placeholder = "请输入您账户绑定的手机号码")
     @Phone
+    @PhoneField(value = "手机号码", placeholder = "请输入您账户绑定的手机号码")
     private String phone;
 
-    @FormViewField(label = "短信验证码", type = InputFiledType.CAPTCHA, captchaType = CaptchaType.PHONE, placeholder = "请输入短信验证码")
+    @PhoneCaptchaField(value = "短信验证码", placeholder = "请输入你收到的短信验证码", phoneField = "phone")
     private String captcha;
 }
