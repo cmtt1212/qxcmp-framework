@@ -26,6 +26,7 @@ import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
+import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -188,7 +189,7 @@ public class AccountPageController extends QXCMPFrontendController {
                     .addComponent(new Button("立即登录", "/login").setBasic())
             ).build();
         } catch (Exception e) {
-            return errorPage("发送激活邮件失败", e.getMessage()).build();
+            return page().addComponent(new Overview("发送激活邮件失败", e.getMessage()).addLink("返回登录", "/login")).build();
         }
     }
 

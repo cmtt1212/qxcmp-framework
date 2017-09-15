@@ -11,6 +11,7 @@ import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.views.Overview;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -94,7 +95,7 @@ public class AccountUsernameController extends AccountPageController {
                     .addComponent(new Button("立即登录", "/login").setBasic())
             ).build();
         } catch (Exception e) {
-            return errorPage("注册失败", e.getMessage()).build();
+            return page().addComponent(new Overview("注册失败", e.getMessage()).addLink("返回登录", "/login")).build();
         }
     }
 //

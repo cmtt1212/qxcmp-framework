@@ -10,17 +10,8 @@ import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.AbstractPage;
-import com.qxcmp.framework.web.view.elements.divider.Divider;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.header.IconHeader;
-import com.qxcmp.framework.web.view.elements.html.P;
-import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
-import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
-import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,23 +48,6 @@ public abstract class AbstractQXCMPController {
     private CaptchaService captchaService;
 
     protected abstract AbstractPage page();
-
-    protected AbstractPage errorPage(String title) {
-        return errorPage(title, "", "");
-    }
-
-    protected AbstractPage errorPage(String title, String details) {
-        return errorPage(title, "", details);
-    }
-
-    protected AbstractPage errorPage(String title, String subTitle, String details) {
-        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().setColumnCount(ColumnCount.ONE)
-                .addItem(new Col().addComponent(new Segment()
-                        .addComponent(new IconHeader(title, new Icon("warning circle")).setSubTitle(subTitle))
-                        .addComponent(new Divider())
-                        .addComponent(new P(details))
-                )));
-    }
 
     protected Optional<User> currentUser() {
         return Optional.ofNullable(userService.currentUser());
