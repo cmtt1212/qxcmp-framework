@@ -9,6 +9,7 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -94,7 +95,7 @@ public class AccountEmailController extends AccountPageController {
                     .addComponent(new Button("立即登录", "/login").setBasic())
             ).build();
         } catch (Exception e) {
-            return page().addComponent(new Overview("注册失败", e.getMessage()).addLink("返回登录", "/login")).build();
+            return overviewPage(new Overview("注册失败").addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
 //

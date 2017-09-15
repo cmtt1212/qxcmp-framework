@@ -9,6 +9,7 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -29,12 +30,9 @@ public class AccountUsernameController extends AccountPageController {
 
     private final SecurityQuestionService securityQuestionService;
 
-    private final CodeService codeService;
-
-    public AccountUsernameController(AccountService accountService, CodeService codeService, SecurityQuestionService securityQuestionService, CodeService codeService1) {
+    public AccountUsernameController(AccountService accountService, CodeService codeService, SecurityQuestionService securityQuestionService) {
         super(accountService, codeService);
         this.securityQuestionService = securityQuestionService;
-        this.codeService = codeService1;
     }
 
     @GetMapping("logon")
@@ -95,7 +93,7 @@ public class AccountUsernameController extends AccountPageController {
                     .addComponent(new Button("立即登录", "/login").setBasic())
             ).build();
         } catch (Exception e) {
-            return page().addComponent(new Overview("注册失败", e.getMessage()).addLink("返回登录", "/login")).build();
+            return overviewPage(new Overview("注册失败").addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
 //

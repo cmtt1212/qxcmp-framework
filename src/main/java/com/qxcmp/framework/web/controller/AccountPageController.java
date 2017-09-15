@@ -18,6 +18,7 @@ import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.html.Anchor;
+import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.list.List;
@@ -189,7 +190,7 @@ public class AccountPageController extends QXCMPFrontendController {
                     .addComponent(new Button("立即登录", "/login").setBasic())
             ).build();
         } catch (Exception e) {
-            return page().addComponent(new Overview("发送激活邮件失败", e.getMessage()).addLink("返回登录", "/login")).build();
+            return overviewPage(new Overview("发送激活邮件失败").addComponent(new P(e.getMessage())).addLink("重新发送", "/account/activate").addLink("返回登录", "/login")).build();
         }
     }
 
