@@ -35,7 +35,6 @@ public class FormHelper {
      *
      * @param bindingResult 错误对象
      * @param object        表单对象
-     *
      * @return 错误消息组件
      */
     public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
@@ -95,7 +94,6 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
-     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {
@@ -167,6 +165,8 @@ public class FormHelper {
                     addEmailField(form, field, (EmailField) annotation);
                 } else if (annotation instanceof PhoneField) {
                     addPhoneField(form, field, (PhoneField) annotation);
+                } else if (annotation instanceof AvatarField) {
+                    addAvatarField(form, field, (AvatarField) annotation);
                 }
             }
         }
@@ -289,5 +289,19 @@ public class FormHelper {
         phoneField.setMaxLength(annotation.maxLength());
 
         form.addItem(phoneField, annotation.section());
+    }
+
+    private void addAvatarField(AbstractForm form, Field field, AvatarField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.AvatarField avatarField = new com.qxcmp.framework.web.view.modules.form.field.AvatarField();
+
+
+        avatarField.setName(field.getName());
+        avatarField.setLabel(annotation.value());
+        avatarField.setTooltip(annotation.tooltip());
+        avatarField.setRequired(annotation.required());
+        avatarField.setSupportTypes(Arrays.asList(annotation.supportTypes()));
+        avatarField.setMaxSize(annotation.maxSize());
+
+        form.addItem(avatarField);
     }
 }

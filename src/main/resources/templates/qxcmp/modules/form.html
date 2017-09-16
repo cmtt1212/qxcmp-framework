@@ -294,5 +294,7 @@
     </script>
 </div>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AvatarField"*/-->
+<div th:fragment="field-avatar(component)" th:id="${component.id}" th:class="${component.getClassName()}"></div>
 </body>
 </html>

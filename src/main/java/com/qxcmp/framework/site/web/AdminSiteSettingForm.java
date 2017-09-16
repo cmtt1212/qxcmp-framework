@@ -1,8 +1,7 @@
 package com.qxcmp.framework.site.web;
 
 import com.qxcmp.framework.core.validation.Image;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.AvatarField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.modules.form.FormEnctype;
@@ -18,12 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class AdminSiteSettingForm {
 
-    @FormViewField(label = "更改网站LOGO", type = InputFiledType.FILE, required = false)
     @Image
+    @AvatarField("网站LOGO")
     private MultipartFile logoFile;
 
-    @FormViewField(label = "更改网站图标", type = InputFiledType.FILE, required = false)
     @Image
+    @AvatarField("网站图标")
     private MultipartFile faviconFile;
 
     @TextInputField(value = "网站域名", autoFocus = true)
