@@ -30,11 +30,6 @@ public @interface AvatarField {
     boolean required() default false;
 
     /**
-     * 支持的图片类型
-     */
-    String[] supportTypes() default {"jpg", "jpeg", "png", "gif"};
-
-    /**
      * 最大图片大小(KB)
      */
     long maxSize() default 2048;

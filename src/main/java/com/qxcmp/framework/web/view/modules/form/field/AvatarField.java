@@ -15,11 +15,6 @@ import java.util.List;
 public class AvatarField extends AbstractFormField {
 
     /**
-     * 支持的图片类型
-     */
-    private List<String> supportTypes;
-
-    /**
      * 最大图片大小(KB)
      */
     private long maxSize;

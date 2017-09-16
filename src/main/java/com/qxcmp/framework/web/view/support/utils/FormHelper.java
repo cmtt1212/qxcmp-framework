@@ -299,7 +299,6 @@ public class FormHelper {
         avatarField.setLabel(annotation.value());
         avatarField.setTooltip(annotation.tooltip());
         avatarField.setRequired(annotation.required());
-        avatarField.setSupportTypes(Arrays.asList(annotation.supportTypes()));
         avatarField.setMaxSize(annotation.maxSize());
 
         form.addItem(avatarField, annotation.section());

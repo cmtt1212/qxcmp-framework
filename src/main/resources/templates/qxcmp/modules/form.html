@@ -298,12 +298,22 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AvatarField"*/-->
 <div th:fragment="field-avatar(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <input th:field="*{__${component.name}__}" type="hidden"/>
-    <input type="file" style="display: none"/>
+    <input type="file" style="display: none" th:attr="data-max-size=${component.maxSize}"/>
     <label th:replace="~{:: field-label(${component})}"></label>
     <div class="avatar upload component">
         <div class="upload-box">
-            <div class="ui dimmer">
+            <div class="ui progress-dimmer dimmer">
                 <div class="ui text loader"></div>
+            </div>
+            <div class="ui error-dimmer dimmer">
+                <div class="content">
+                    <div class="center">
+                        <p class="ui inverted red icon header">
+                            <i class="warning circle icon"></i>
+                            <span></span>
+                        </p>
+                    </div>
+                </div>
             </div>
             <i class="plus large grey icon"></i>
         </div>
@@ -314,7 +324,9 @@
             var component = $(id).find(".upload-box");
             var input = $(id).find("input[type='hidden']");
             var file = $(id).find("input[type='file']");
-            var dimmer = $(component).find(".ui.dimmer");
+            var maxSize = $(file).attr("data-max-size");
+            var progressDimmer = $(component).find(".ui.progress-dimmer");
+            var errorDimmer = $(component).find(".ui.error-dimmer");
 
             $(component).on("click", function (e) {
                 $(file).click();
@@ -326,14 +338,19 @@
                 if (this.files.length > 0) {
                     var file = this.files[0];
 
-                    if (file.size > 2 * 1024 * 1024) {
+                    if (file.size > 1024 * maxSize) {
+                        $(errorDimmer).find(".ui.header span").text("图片大小不能超过" + maxSize + "KB");
+                        $(errorDimmer).dimmer("show");
+                        setTimeout(function () {
+                            $(errorDimmer).dimmer("hide");
+                        }, 3000);
                         return;
                     }
 
                     var formData = new FormData();
                     formData.append("file", file);
 
-                    $(dimmer).dimmer("show");
+                    $(progressDimmer).dimmer("show");
 
                     $.ajax("/api/image/upload", {
                         xhr: function () {
@@ -344,7 +361,7 @@
                                     if (e.lengthComputable) {
                                         var percentComplete = e.loaded / e.total;
                                         percentComplete = parseInt(percentComplete * 100);
-                                        $(dimmer).find(".ui.text.loader").text(percentComplete + "%");
+                                        $(progressDimmer).find(".ui.text.loader").text(percentComplete + "%");
                                     }
                                 }, false);
                             }
@@ -358,10 +375,15 @@
                         success: function (response) {
                             $(input).val(response);
                             setImage();
-                            $(dimmer).dimmer("hide");
+                            $(progressDimmer).dimmer("hide");
                         },
                         error: function (response) {
-                            $(dimmer).dimmer("hide");
+                            $(progressDimmer).dimmer("hide");
+                            $(errorDimmer).find(".ui.header span").text(response.responseText);
+                            $(errorDimmer).dimmer("show");
+                            setTimeout(function () {
+                                $(errorDimmer).dimmer("hide");
+                            }, 3000);
                         }
                     });
                 }

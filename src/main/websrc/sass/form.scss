@@ -137,5 +137,9 @@ $avatar-field-size: 150px;
       width: $avatar-field-size;
       height: $avatar-field-size;
     }
+
+    .error-dimmer p {
+      font-size: 0.7rem;
+    }
   }
 }
