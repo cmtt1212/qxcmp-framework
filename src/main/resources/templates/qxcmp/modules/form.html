@@ -303,7 +303,7 @@
     <div class="avatar upload component">
         <div class="upload-box">
             <div class="ui dimmer">
-                <div class="ui text loader">上传中...</div>
+                <div class="ui text loader"></div>
             </div>
             <i class="plus large grey icon"></i>
         </div>
@@ -336,6 +336,21 @@
                     $(dimmer).dimmer("show");
 
                     $.ajax("/api/image/upload", {
+                        xhr: function () {
+                            var xhr = $.ajaxSettings.xhr();
+
+                            if (xhr.upload) {
+                                xhr.upload.addEventListener("progress", function (e) {
+                                    if (e.lengthComputable) {
+                                        var percentComplete = e.loaded / e.total;
+                                        percentComplete = parseInt(percentComplete * 100);
+                                        $(dimmer).find(".ui.text.loader").text(percentComplete + "%");
+                                    }
+                                }, false);
+                            }
+
+                            return xhr;
+                        },
                         type: "POST",
                         data: formData,
                         processData: false,
