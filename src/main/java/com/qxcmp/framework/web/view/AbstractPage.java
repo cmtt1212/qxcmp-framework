@@ -25,6 +25,11 @@ public abstract class AbstractPage {
         this.response = response;
     }
 
+    public AbstractPage setTitle(String title) {
+        modelAndView.addObject("title", title);
+        return this;
+    }
+
     public AbstractPage addComponent(Component component) {
         components.add(component);
         return this;

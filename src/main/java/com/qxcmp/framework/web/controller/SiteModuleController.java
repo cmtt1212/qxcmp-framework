@@ -33,7 +33,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/site")
 @RequiredArgsConstructor
 public class SiteModuleController extends QXCMPBackendController2 {
