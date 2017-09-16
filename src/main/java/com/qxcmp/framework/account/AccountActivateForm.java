@@ -11,7 +11,7 @@ import lombok.Data;
  *
  * @author aaric
  */
-@Form(submitText = "发送激活邮件", method = FormMethod.POST)
+@Form(submitText = "发送激活邮件")
 @Data
 public class AccountActivateForm {
 

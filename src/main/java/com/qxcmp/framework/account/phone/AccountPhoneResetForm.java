@@ -18,7 +18,7 @@ import lombok.Data;
  *
  * @author aaric
  */
-@Form(submitText = "立即重置", method = FormMethod.POST)
+@Form(submitText = "立即重置")
 @Data
 public class AccountPhoneResetForm {
 

@@ -36,7 +36,7 @@ public @interface Form {
     /**
      * 提交方式
      */
-    FormMethod method() default FormMethod.GET;
+    FormMethod method() default FormMethod.POST;
 
     /**
      * 编码方式

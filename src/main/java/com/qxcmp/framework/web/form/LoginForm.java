@@ -6,7 +6,7 @@ import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
-@Form(method = FormMethod.POST)
+@Form
 @Data
 public class LoginForm {
 

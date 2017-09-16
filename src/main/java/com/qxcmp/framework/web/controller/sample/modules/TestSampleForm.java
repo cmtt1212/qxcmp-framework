@@ -8,7 +8,7 @@ import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
-@Form(action = "/test/sample/form", method = FormMethod.POST)
+@Form(action = "/test/sample/form")
 @Data
 public class TestSampleForm {
 

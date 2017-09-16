@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  *
  * @author aaric
  */
-@Form(submitText = "立即注册", method = FormMethod.POST)
+@Form(submitText = "立即注册")
 @Data
 public class AccountPhoneLogonForm {
 

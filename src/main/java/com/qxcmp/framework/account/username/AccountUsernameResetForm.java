@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
  * @author aaric
  * @see AccountUsernameResetQuestionForm
  */
-@Form(submitText = "回答密保问题", method = FormMethod.POST)
+@Form(submitText = "回答密保问题")
 @Data
 public class AccountUsernameResetForm {
 
