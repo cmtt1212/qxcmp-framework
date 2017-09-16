@@ -1,6 +1,5 @@
 package com.qxcmp.framework.site.web;
 
-import com.qxcmp.framework.core.validation.Image;
 import com.qxcmp.framework.web.view.annotation.form.AvatarField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
@@ -15,11 +14,9 @@ import lombok.Data;
 @Data
 public class AdminSiteSettingForm {
 
-    @Image
     @AvatarField(value = "网站LOGO", section = "主要配置")
     private String logo;
 
-    @Image
     @AvatarField(value = "网站图标", section = "主要配置")
     private String favicon;
 

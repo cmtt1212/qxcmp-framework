@@ -41,7 +41,7 @@ public class SiteServiceImpl implements SiteService {
     }
 
     @Override
-    public String getKeyword() {
+    public String getKeywords() {
         return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_KEYWORDS).orElse("");
     }
 

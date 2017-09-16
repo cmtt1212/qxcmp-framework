@@ -32,7 +32,7 @@ public interface SiteService {
     /**
      * @return 获取网站关键字
      */
-    String getKeyword();
+    String getKeywords();
 
     /**
      * @return 获取网站描述
