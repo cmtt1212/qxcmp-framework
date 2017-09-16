@@ -302,6 +302,6 @@ public class FormHelper {
         avatarField.setSupportTypes(Arrays.asList(annotation.supportTypes()));
         avatarField.setMaxSize(annotation.maxSize());
 
-        form.addItem(avatarField);
+        form.addItem(avatarField, annotation.section());
     }
 }

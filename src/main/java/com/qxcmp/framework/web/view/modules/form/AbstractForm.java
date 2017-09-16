@@ -15,6 +15,7 @@ import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -152,7 +153,7 @@ public abstract class AbstractForm extends AbstractComponent {
         AbstractFormSection section = null;
 
         for (AbstractFormSection abstractFormSection : sections) {
-            if (abstractFormSection.getName().equals(sectionName)) {
+            if (StringUtils.equals(abstractFormSection.getName(), sectionName)) {
                 section = abstractFormSection;
                 break;
             }

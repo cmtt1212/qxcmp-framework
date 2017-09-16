@@ -206,7 +206,7 @@
             var captchaLink = $(id).find(".captcha.link");
             var image = $(captchaLink).find("img");
 
-            $(captchaLink).on("click", function () {
+            $(captchaLink).on("click", function (e) {
                 var src = $(image).attr("src");
                 $(image).attr("src", function () {
                     var timestamp = (new Date()).valueOf();
@@ -216,7 +216,8 @@
                         src = src + "?timestamp=" + timestamp;
                     }
                     return src;
-                })
+                });
+                e.preventDefault();
             });
         });
     </script>
@@ -295,6 +296,72 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AvatarField"*/-->
-<div th:fragment="field-avatar(component)" th:id="${component.id}" th:class="${component.getClassName()}"></div>
+<div th:fragment="field-avatar(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <input th:field="*{__${component.name}__}" type="hidden"/>
+    <input type="file" style="display: none"/>
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="avatar upload component">
+        <div class="upload-box">
+            <div class="ui dimmer">
+                <div class="ui text loader">上传中...</div>
+            </div>
+            <i class="plus large grey icon"></i>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var component = $(id).find(".upload-box");
+            var input = $(id).find("input[type='hidden']");
+            var file = $(id).find("input[type='file']");
+            var dimmer = $(component).find(".ui.dimmer");
+
+            $(component).on("click", function (e) {
+                $(file).click();
+                e.stopPropagation();
+            });
+
+            $(file).on("change", function () {
+
+                if (this.files.length > 0) {
+                    var file = this.files[0];
+
+                    if (file.size > 2 * 1024 * 1024) {
+                        return;
+                    }
+
+                    var formData = new FormData();
+                    formData.append("file", file);
+
+                    $(dimmer).dimmer("show");
+
+                    $.ajax("/api/image/upload", {
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            $(input).val(response);
+                            setImage();
+                            $(dimmer).dimmer("hide");
+                        },
+                        error: function (response) {
+                            $(dimmer).dimmer("hide");
+                        }
+                    });
+                }
+            });
+
+            setImage();
+
+            function setImage() {
+                if ($(input).val()) {
+                    $(component).find("img,i.plus.icon").remove();
+                    $(component).append($('<img class="avatar image" src="' + $(input).val() + '"/>'));
+                }
+            }
+        });
+    </script>
+</div>
 </body>
 </html>

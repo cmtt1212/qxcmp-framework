@@ -1,3 +1,4 @@
+$avatar-field-size: 150px;
 
 .ui.form {
 
@@ -111,6 +112,30 @@
         margin-left: 1rem;
         width: 140px;
       }
+    }
+  }
+}
+
+/* Avatar field */
+.ui.form .avatar.qxcmp.field {
+  .upload-box {
+    width: $avatar-field-size;
+    height: $avatar-field-size;
+    border: 1px dashed #d9d9d9;
+    border-radius: .28571429rem;
+    cursor: pointer;
+
+    i.plus {
+      display: table-cell;
+      vertical-align: middle;
+      width: $avatar-field-size;
+      height: $avatar-field-size;
+    }
+
+    .avatar.image {
+      vertical-align: middle;
+      width: $avatar-field-size;
+      height: $avatar-field-size;
     }
   }
 }
