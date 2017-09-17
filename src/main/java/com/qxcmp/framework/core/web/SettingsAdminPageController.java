@@ -1,4 +1,4 @@
-package com.qxcmp.framework.site.web;
+package com.qxcmp.framework.core.web;
 
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -20,11 +20,11 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
 @Controller
-@RequestMapping(QXCMP_BACKEND_URL + "/site")
-public class SiteAdminPageController extends QXCMPBackendController {
+@RequestMapping(QXCMP_BACKEND_URL + "/settings")
+public class SettingsAdminPageController extends QXCMPBackendController {
 
-    @GetMapping("/setting")
-    public ModelAndView settingPage(final AdminSiteSettingForm form) {
+    @GetMapping("/site")
+    public ModelAndView settingPage(final AdminSettingsSiteForm form) {
 
         form.setLogo(systemConfigService.getString(SYSTEM_CONFIG_SITE_LOGO).orElse(""));
         form.setFavicon(systemConfigService.getString(SYSTEM_CONFIG_SITE_FAVICON).orElse(""));
@@ -40,8 +40,8 @@ public class SiteAdminPageController extends QXCMPBackendController {
                 ))).build();
     }
 
-    @PostMapping("/setting")
-    public ModelAndView settingPage(@Valid final AdminSiteSettingForm form, BindingResult bindingResult) {
+    @PostMapping("/site")
+    public ModelAndView settingPage(@Valid final AdminSettingsSiteForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return page()

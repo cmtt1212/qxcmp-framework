@@ -1,4 +1,4 @@
-package com.qxcmp.framework.site.web;
+package com.qxcmp.framework.core.web;
 
 import com.qxcmp.framework.web.view.annotation.form.AvatarField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Form
 @Data
-public class AdminSiteSettingForm {
+public class AdminSettingsSiteForm {
 
     @AvatarField(value = "网站LOGO", section = "主要配置")
     private String logo;
