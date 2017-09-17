@@ -167,6 +167,8 @@ public class FormHelper {
                     addPhoneField(form, field, (PhoneField) annotation);
                 } else if (annotation instanceof AvatarField) {
                     addAvatarField(form, field, (AvatarField) annotation);
+                } else if (annotation instanceof BooleanField) {
+                    addBooleanField(form, field, (BooleanField) annotation);
                 }
             }
         }
@@ -294,7 +296,6 @@ public class FormHelper {
     private void addAvatarField(AbstractForm form, Field field, AvatarField annotation) {
         final com.qxcmp.framework.web.view.modules.form.field.AvatarField avatarField = new com.qxcmp.framework.web.view.modules.form.field.AvatarField();
 
-
         avatarField.setName(field.getName());
         avatarField.setLabel(annotation.value());
         avatarField.setTooltip(annotation.tooltip());
@@ -302,5 +303,16 @@ public class FormHelper {
         avatarField.setMaxSize(annotation.maxSize());
 
         form.addItem(avatarField, annotation.section());
+    }
+
+    private void addBooleanField(AbstractForm form, Field field, BooleanField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.BooleanField booleanField = new com.qxcmp.framework.web.view.modules.form.field.BooleanField();
+
+        booleanField.setName(field.getName());
+        booleanField.setLabel(annotation.value());
+        booleanField.setTooltip(annotation.tooltip());
+        booleanField.setRequired(annotation.required());
+
+        form.addItem(booleanField, annotation.section());
     }
 }

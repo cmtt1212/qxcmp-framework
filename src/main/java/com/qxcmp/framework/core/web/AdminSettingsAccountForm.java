@@ -1,8 +1,6 @@
 package com.qxcmp.framework.core.web;
 
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.BooleanField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import lombok.Data;
 
@@ -11,20 +9,19 @@ import lombok.Data;
  *
  * @author aaric
  */
-@FormView(caption = "账户注册配置")
 @Form
 @Data
 public class AdminSettingsAccountForm {
 
-    @FormViewField(label = "是否开启用户名注册模块", type = InputFiledType.SWITCH, labelOn = "开启", labelOff = "关闭")
+    @BooleanField("用户名注册")
     private boolean enableUsername;
 
-    @FormViewField(label = "是否开启邮箱注册模块", type = InputFiledType.SWITCH, labelOn = "开启", labelOff = "关闭")
+    @BooleanField("邮箱注册")
     private boolean enableEmail;
 
-    @FormViewField(label = "是否开启手机号注册模块", type = InputFiledType.SWITCH, labelOn = "开启", labelOff = "关闭")
+    @BooleanField("手机号注册")
     private boolean enablePhone;
 
-    @FormViewField(label = "是否开启邀请码注册模块", type = InputFiledType.SWITCH, labelOn = "开启", labelOff = "关闭")
+    @BooleanField("邀请码注册")
     private boolean enableInvite;
 }

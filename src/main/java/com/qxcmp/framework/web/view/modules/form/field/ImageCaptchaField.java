@@ -1,5 +1,10 @@
 package com.qxcmp.framework.web.view.modules.form.field;
 
+/**
+ * 图片验证码输入框
+ *
+ * @author Aaric
+ */
 public class ImageCaptchaField extends AbstractCaptchaField {
 
     @Override
