@@ -10,7 +10,7 @@ import lombok.Data;
  *
  * @author aaric
  */
-@Form
+@Form("网站配置")
 @Data
 public class AdminSettingsSiteForm {
 

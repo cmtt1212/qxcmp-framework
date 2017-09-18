@@ -2,6 +2,8 @@ package com.qxcmp.framework.web.view.support.utils;
 
 import com.google.common.base.CaseFormat;
 import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.framework.web.view.elements.header.HeaderType;
+import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.list.List;
 import com.qxcmp.framework.web.view.elements.list.item.IconHeaderItem;
@@ -35,6 +37,7 @@ public class FormHelper {
      *
      * @param bindingResult 错误对象
      * @param object        表单对象
+     *
      * @return 错误消息组件
      */
     public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
@@ -94,6 +97,7 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
+     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {
@@ -143,6 +147,10 @@ public class FormHelper {
 
         if (StringUtils.isNotBlank(annotation.submitIcon())) {
             form.setSubmitButton(StringUtils.isBlank(annotation.submitText()) ? "提交" : annotation.submitText(), annotation.submitIcon());
+        }
+
+        if (StringUtils.isNotBlank(annotation.value())) {
+            form.setHeader(new PageHeader(HeaderType.H2, annotation.value()).setDividing());
         }
 
         return form;

@@ -13,6 +13,11 @@ import java.lang.annotation.*;
 public @interface Form {
 
     /**
+     * 表单标题
+     */
+    String value() default "";
+
+    /**
      * 表单对象名称
      * <p>
      * 表单对象需要另外手动添加到 ModelAndView 中

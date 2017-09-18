@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author aaric
  */
-@Form
+@Form("账户注册配置")
 @Data
 public class AdminSettingsAccountForm {
 

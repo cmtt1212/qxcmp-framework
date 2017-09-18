@@ -5,6 +5,7 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.button.AbstractButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.LabeledIconButton;
+import com.qxcmp.framework.web.view.elements.header.AbstractHeader;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.message.SuccessMessage;
@@ -94,6 +95,11 @@ public abstract class AbstractForm extends AbstractComponent {
      * 是否为加载状态
      */
     private boolean loading;
+
+    /**
+     * 表单头部
+     */
+    private AbstractHeader header;
 
     /**
      * 当为成功状态时，该成功消息会自动显示
@@ -264,6 +270,11 @@ public abstract class AbstractForm extends AbstractComponent {
 
     public AbstractForm setTarget(AnchorTarget target) {
         this.target = target.toString();
+        return this;
+    }
+
+    public AbstractForm setHeader(AbstractHeader header) {
+        this.header = header;
         return this;
     }
 

@@ -40,7 +40,6 @@ public class SettingsAdminPageController extends QXCMPBackendController {
 
         return page()
                 .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(new PageHeader(HeaderType.H2, "网站配置").setDividing())
                         .addComponent(convertToForm(form))
                 ))).build();
     }
@@ -51,7 +50,6 @@ public class SettingsAdminPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(new PageHeader(HeaderType.H2, "网站配置").setDividing())
                             .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
                     ))).build();
         }
@@ -76,7 +74,6 @@ public class SettingsAdminPageController extends QXCMPBackendController {
 
         return page()
                 .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(new PageHeader(HeaderType.H2, "账户注册配置").setDividing())
                         .addComponent(convertToForm(form))
                 ))).build();
     }
@@ -87,7 +84,6 @@ public class SettingsAdminPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(new PageHeader(HeaderType.H2, "账户注册配置").setDividing())
                             .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
                     ))).build();
         }
