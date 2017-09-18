@@ -4,8 +4,6 @@ import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.header.HeaderType;
-import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import lombok.RequiredArgsConstructor;
@@ -54,14 +52,14 @@ public class SettingsAdminPageController extends QXCMPBackendController {
                     ))).build();
         }
 
-        systemConfigService.update(SYSTEM_CONFIG_SITE_LOGO, form.getLogo());
-        systemConfigService.update(SYSTEM_CONFIG_SITE_FAVICON, form.getFavicon());
-        systemConfigService.update(SYSTEM_CONFIG_SITE_DOMAIN, form.getDomain());
-        systemConfigService.update(SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
-        systemConfigService.update(SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
-        systemConfigService.update(SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
-
-        return redirect(QXCMP_BACKEND_URL + "/settings/site");
+        return submitForm(form, (context) -> {
+            systemConfigService.update(SYSTEM_CONFIG_SITE_LOGO, form.getLogo());
+            systemConfigService.update(SYSTEM_CONFIG_SITE_FAVICON, form.getFavicon());
+            systemConfigService.update(SYSTEM_CONFIG_SITE_DOMAIN, form.getDomain());
+            systemConfigService.update(SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
+            systemConfigService.update(SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
+            systemConfigService.update(SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
+        });
     }
 
     @GetMapping("/account")
@@ -88,12 +86,12 @@ public class SettingsAdminPageController extends QXCMPBackendController {
                     ))).build();
         }
 
-        systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME, String.valueOf(form.isEnableUsername()));
-        systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL, String.valueOf(form.isEnableEmail()));
-        systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isEnablePhone()));
-        systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isEnableInvite()));
-        accountService.loadConfig();
-
-        return redirect(QXCMP_BACKEND_URL + "/settings/account");
+        return submitForm(form, context -> {
+            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME, String.valueOf(form.isEnableUsername()));
+            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL, String.valueOf(form.isEnableEmail()));
+            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isEnablePhone()));
+            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isEnableInvite()));
+            accountService.loadConfig();
+        });
     }
 }
