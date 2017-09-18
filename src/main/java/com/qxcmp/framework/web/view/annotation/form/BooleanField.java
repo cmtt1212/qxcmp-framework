@@ -1,5 +1,7 @@
 package com.qxcmp.framework.web.view.annotation.form;
 
+import com.qxcmp.framework.web.view.modules.form.field.BooleanFieldStyle;
+
 import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
@@ -28,4 +30,10 @@ public @interface BooleanField {
      * 会在标签上加上红星
      */
     boolean required() default false;
+
+    /**
+     * 样式
+     */
+    BooleanFieldStyle style() default BooleanFieldStyle.STANDARD;
+
 }

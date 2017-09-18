@@ -326,6 +326,7 @@ public class FormHelper {
         booleanField.setLabel(annotation.value());
         booleanField.setTooltip(annotation.tooltip());
         booleanField.setRequired(annotation.required());
+        booleanField.setStyle(annotation.style());
 
         form.addItem(booleanField, annotation.section());
     }

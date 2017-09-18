@@ -2,6 +2,7 @@ package com.qxcmp.framework.core.web;
 
 import com.qxcmp.framework.web.view.annotation.form.BooleanField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.modules.form.field.BooleanFieldStyle;
 import lombok.Data;
 
 /**
@@ -13,15 +14,15 @@ import lombok.Data;
 @Data
 public class AdminSettingsAccountForm {
 
-    @BooleanField("用户名注册")
+    @BooleanField(value = "用户名注册", style = BooleanFieldStyle.TOGGLE)
     private boolean enableUsername;
 
-    @BooleanField("邮箱注册")
+    @BooleanField(value = "邮箱注册", style = BooleanFieldStyle.TOGGLE)
     private boolean enableEmail;
 
-    @BooleanField("手机号注册")
+    @BooleanField(value = "手机号注册", style = BooleanFieldStyle.TOGGLE)
     private boolean enablePhone;
 
-    @BooleanField("邀请码注册")
+    @BooleanField(value = "邀请码注册", style = BooleanFieldStyle.TOGGLE)
     private boolean enableInvite;
 }
