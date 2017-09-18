@@ -41,6 +41,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "系统设置")
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SETTINGS-SITE", "网站配置", QXCMP_BACKEND_URL + "/settings/site").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SETTINGS-ACCOUNT", "账户配置", QXCMP_BACKEND_URL + "/settings/account").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
+                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SETTINGS-WATERMARK", "水印设置", QXCMP_BACKEND_URL + "/settings/watermark").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-CONFIG", "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_MANAGEMENT)))
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SECURITY", "安全设置", QXCMP_BACKEND_URL + "/security").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SECURITY_MANAGEMENT)))
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-LOG", "系统日志", QXCMP_BACKEND_URL + "/log/audit").setOrder(50).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_LOG_MANAGEMENT)))

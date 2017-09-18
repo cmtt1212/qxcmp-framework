@@ -21,6 +21,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,6 +31,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FormHelper {
 
     public static final String SELF_ACTION = "$SELF";
+
+    private static final String DEFAULT_SELECTION_ITEM_PREFIX = "selection_items_";
 
     private final ApplicationContext applicationContext;
 
@@ -177,6 +181,8 @@ public class FormHelper {
                     addAvatarField(form, field, (AvatarField) annotation);
                 } else if (annotation instanceof BooleanField) {
                     addBooleanField(form, field, (BooleanField) annotation);
+                } else if (annotation instanceof TextSelectionField) {
+                    addTextSelectionField(form, field, (TextSelectionField) annotation);
                 }
             }
         }
@@ -322,5 +328,30 @@ public class FormHelper {
         booleanField.setRequired(annotation.required());
 
         form.addItem(booleanField, annotation.section());
+    }
+
+    private void addTextSelectionField(AbstractForm form, Field field, TextSelectionField annotation) {
+        com.qxcmp.framework.web.view.modules.form.field.TextSelectionField textSelectionField = new com.qxcmp.framework.web.view.modules.form.field.TextSelectionField();
+
+        textSelectionField.setName(field.getName());
+        textSelectionField.setLabel(annotation.value());
+        textSelectionField.setTooltip(annotation.tooltip());
+        textSelectionField.setRequired(annotation.required());
+        textSelectionField.setSearch(annotation.search());
+
+        textSelectionField.setItemValueIndex(annotation.itemValueIndex());
+        textSelectionField.setItemTextIndex(annotation.itemTextIndex());
+
+        if (StringUtils.isNotBlank(annotation.itemIndex())) {
+            textSelectionField.setItemIndex(annotation.itemIndex());
+        } else {
+            textSelectionField.setItemIndex(DEFAULT_SELECTION_ITEM_PREFIX + field.getName());
+        }
+
+        if (Collection.class.isAssignableFrom(field.getType()) || Map.class.isAssignableFrom(field.getType())) {
+            textSelectionField.setMultiple(true);
+        }
+
+        form.addItem(textSelectionField, annotation.section());
     }
 }
