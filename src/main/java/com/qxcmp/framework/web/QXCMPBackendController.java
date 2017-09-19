@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_QXCMP_ADMIN_SIDEBAR;
 
 public abstract class QXCMPBackendController extends AbstractQXCMPController {
@@ -40,7 +41,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
     protected BackendPage page() {
         BackendPage page = applicationContext.getBean(BackendPage.class, request, response);
         page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())));
-        page.setBottomMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).addItem(new TextItem("关于我们", "/test/sample/sidebar")).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("法律声明", "/"))));
+        page.setBottomMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("关于我们", QXCMP_BACKEND_URL + "/about"))));
         addPageSidebarContent(page, currentUser().orElse(null));
         return page;
     }
