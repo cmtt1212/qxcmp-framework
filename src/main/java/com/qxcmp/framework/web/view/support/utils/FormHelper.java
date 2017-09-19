@@ -183,6 +183,8 @@ public class FormHelper {
                     addBooleanField(form, field, (BooleanField) annotation);
                 } else if (annotation instanceof TextSelectionField) {
                     addTextSelectionField(form, field, (TextSelectionField) annotation);
+                } else if (annotation instanceof NumberField) {
+                    addNumberField(form, field, (NumberField) annotation);
                 }
             }
         }
@@ -332,7 +334,7 @@ public class FormHelper {
     }
 
     private void addTextSelectionField(AbstractForm form, Field field, TextSelectionField annotation) {
-        com.qxcmp.framework.web.view.modules.form.field.TextSelectionField textSelectionField = new com.qxcmp.framework.web.view.modules.form.field.TextSelectionField();
+        final com.qxcmp.framework.web.view.modules.form.field.TextSelectionField textSelectionField = new com.qxcmp.framework.web.view.modules.form.field.TextSelectionField();
 
         textSelectionField.setName(field.getName());
         textSelectionField.setLabel(annotation.value());
@@ -354,5 +356,23 @@ public class FormHelper {
         }
 
         form.addItem(textSelectionField, annotation.section());
+    }
+
+    private void addNumberField(AbstractForm form, Field field, NumberField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.NumberField numberField = new com.qxcmp.framework.web.view.modules.form.field.NumberField();
+
+        numberField.setName(field.getName());
+        numberField.setLabel(annotation.value());
+        numberField.setTooltip(annotation.tooltip());
+        numberField.setRequired(annotation.required());
+        numberField.setDisableAutoComplete(annotation.disableAutoComplete());
+        numberField.setAutoFocus(annotation.autoFocus());
+        numberField.setReadOnly(annotation.readOnly());
+        numberField.setPlaceholder(annotation.placeholder());
+        numberField.setMin(annotation.min());
+        numberField.setMax(annotation.max());
+        numberField.setStep(annotation.step());
+
+        form.addItem(numberField, annotation.section());
     }
 }

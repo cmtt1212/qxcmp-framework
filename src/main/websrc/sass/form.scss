@@ -1,4 +1,5 @@
 $avatar-field-size: 150px;
+$number-field-width: 122.1px;
 
 .ui.form {
 
@@ -134,12 +135,70 @@ $avatar-field-size: 150px;
 
     .avatar.image {
       vertical-align: middle;
-      width: $avatar-field-size;
-      height: $avatar-field-size;
+      width: $avatar-field-size - 2px;
+      height: $avatar-field-size - 2px;
     }
 
     .error-dimmer p {
       font-size: 0.7rem;
+    }
+
+    &:hover {
+      border-color: rgba(34, 36, 38, .35);
+    }
+  }
+}
+
+/* Number field */
+.ui.form .number.qxcmp.field {
+
+  .component {
+    position: relative;
+
+    .content:hover {
+
+      span {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    input {
+      width: $number-field-width;
+      padding-right: 25px;
+    }
+
+    span {
+      cursor: pointer;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s, opacity 0.3s linear;
+
+      i.icon {
+        margin: 0 0.15rem;
+      }
+    }
+
+    span:hover {
+      i.icon {
+        color: rgba(34, 36, 38, .35);
+      }
+    }
+
+    .plus {
+      position: absolute;
+      left: 100px;
+      border-left: 1px solid rgba(34, 36, 38, .15);
+      border-bottom: 1px solid rgba(34, 36, 38, .15);
+      height: 18.9px;
+    }
+
+    .minus {
+      position: absolute;
+      left: 100px;
+      top: 18.9px;
+      border-left: 1px solid rgba(34, 36, 38, .15);
+      height: 18.9px;
     }
   }
 }
