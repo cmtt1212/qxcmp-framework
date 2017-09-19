@@ -1,9 +1,12 @@
 package com.qxcmp.framework.core.web;
 
-import com.qxcmp.framework.web.view.annotation.form.AvatarField;
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.framework.web.view.modules.form.field.BooleanFieldStyle;
 import lombok.Data;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 /**
  * 网站信息配置表单
@@ -31,4 +34,19 @@ public class AdminSettingsSiteForm {
 
     @TextInputField(value = "网站描述信息", section = "SEO配置")
     private String description;
+
+    @BooleanField(value = "开启水印", section = "水印设置", style = BooleanFieldStyle.TOGGLE)
+    private boolean watermarkEnabled;
+
+    @Size(max = 20)
+    @TextInputField(value = "水印名称", maxLength = 20, section = "水印设置")
+    private String watermarkName;
+
+    @TextSelectionField(value = "水印位置", section = "水印设置")
+    private String watermarkPosition;
+
+    @Min(1)
+    @Max(36)
+    @NumberField(value = "字体大小", min = 1, max = 36, section = "水印设置")
+    private int watermarkFontSize;
 }

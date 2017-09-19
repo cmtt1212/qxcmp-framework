@@ -91,7 +91,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
         navigationService.get(NAVIGATION_QXCMP_ADMIN_SIDEBAR).getItems().forEach(navigation -> {
             if (navigation.isVisible(user)) {
                 if (navigation.getItems().isEmpty()) {
-                    page.addSideContent(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()));
+                    page.addSideContent(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()).setLink());
                 } else {
                     if (navigation.getItems().stream().anyMatch(n -> n.isVisible(user))) {
 
@@ -107,8 +107,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
                         accordionItem.setTitle(navigation.getTitle());
                         accordionItem.setContent(verticalMenu);
 
-                        AccordionMenuItem accordionMenuItem = new AccordionMenuItem(accordionItem);
-                        page.addSideContent(accordionMenuItem);
+                        page.addSideContent(new AccordionMenuItem(accordionItem).setLink());
                     }
                 }
             }

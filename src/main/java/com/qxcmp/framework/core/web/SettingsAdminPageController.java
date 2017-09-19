@@ -40,10 +40,15 @@ public class SettingsAdminPageController extends QXCMPBackendController {
         form.setKeywords(systemConfigService.getString(SYSTEM_CONFIG_SITE_KEYWORDS).orElse(""));
         form.setDescription(systemConfigService.getString(SYSTEM_CONFIG_SITE_DESCRIPTION).orElse(""));
 
+        form.setWatermarkEnabled(systemConfigService.getBoolean(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE));
+        form.setWatermarkName(systemConfigService.getString(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME).orElse(siteService.getTitle()));
+        form.setWatermarkPosition(WATERMARK_POSITIONS.get(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)));
+        form.setWatermarkFontSize(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
+
         return page()
                 .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
                         .addComponent(convertToForm(form))
-                ))).build();
+                ))).addObject("selection_items_position", WATERMARK_POSITIONS).build();
     }
 
     @PostMapping("/site")
@@ -53,7 +58,7 @@ public class SettingsAdminPageController extends QXCMPBackendController {
             return page()
                     .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
                             .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    ))).build();
+                    ))).addObject("selection_items_position", WATERMARK_POSITIONS).build();
         }
 
         return submitForm(form, (context) -> {
@@ -63,6 +68,11 @@ public class SettingsAdminPageController extends QXCMPBackendController {
             systemConfigService.update(SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
             systemConfigService.update(SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
             systemConfigService.update(SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
+
+            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE, String.valueOf(form.isWatermarkEnabled()));
+            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME, form.getWatermarkName());
+            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION, String.valueOf(WATERMARK_POSITIONS.indexOf(form.getWatermarkPosition())));
+            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE, String.valueOf(form.getWatermarkFontSize()));
         });
     }
 
@@ -96,38 +106,6 @@ public class SettingsAdminPageController extends QXCMPBackendController {
             systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isEnablePhone()));
             systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isEnableInvite()));
             accountService.loadConfig();
-        });
-    }
-
-    @GetMapping("/watermark")
-    public ModelAndView watermarkPage(final AdminSettingsWatermarkForm form) {
-
-        form.setEnable(systemConfigService.getBoolean(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE_DEFAULT_VALUE));
-        form.setName(systemConfigService.getString(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME).orElse(siteService.getTitle()));
-        form.setPosition(WATERMARK_POSITIONS.get(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION_DEFAULT_VALUE)));
-        form.setFontSize(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
-
-        return page()
-                .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(convertToForm(form))
-                ))).addObject("selection_items_position", WATERMARK_POSITIONS).build();
-    }
-
-    @PostMapping("/watermark")
-    public ModelAndView watermarkPage(@Valid final AdminSettingsWatermarkForm form, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    ))).addObject("selection_items_position", WATERMARK_POSITIONS).build();
-        }
-
-        return submitForm(form, context -> {
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE, String.valueOf(form.isEnable()));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME, form.getName());
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION, String.valueOf(WATERMARK_POSITIONS.indexOf(form.getPosition())));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE, String.valueOf(form.getFontSize()));
         });
     }
 }
