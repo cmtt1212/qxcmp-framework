@@ -13,9 +13,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
@@ -99,7 +101,25 @@ public class AdminMessageController extends QXCMPBackendController {
     }
 
     @PostMapping("/sms/config")
-    public ModelAndView smsConfigPage(@Valid final AdminMessageSmsConfigForm form, BindingResult bindingResult) {
+    public ModelAndView smsConfigPage(@Valid final AdminMessageSmsConfigForm form, BindingResult bindingResult,
+                                      @RequestParam(value = "add_templates", required = false) boolean addTemplates,
+                                      @RequestParam(value = "remove_templates", required = false) Integer removeTemplates) {
+
+        if (addTemplates) {
+            form.getTemplates().add(new SmsTemplate());
+            return page()
+                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
+                            .addComponent(convertToForm(form))
+                    ))).build();
+        }
+
+        if (Objects.nonNull(removeTemplates)) {
+            form.getTemplates().remove(removeTemplates.intValue());
+            return page()
+                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
+                            .addComponent(convertToForm(form))
+                    ))).build();
+        }
 
         if (bindingResult.hasErrors()) {
             return page()

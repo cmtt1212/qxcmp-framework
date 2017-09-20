@@ -644,7 +644,7 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.DynamicField"*/-->
-<div th:fragment="field-dynamic(component)"
+<div th:fragment="field-dynamic(component)" th:with="items=*{__${component.name}__}"
      th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div class="component">
@@ -653,80 +653,37 @@
             <tr>
                 <th th:each="head : ${component.itemHeaders}" th:utext="${head}"></th>
                 <th>
-                    <button class="ui tiny basic link icon button" type="button"><i class="plus icon"></i></button>
+                    <button class="ui tiny basic link icon button"
+                            th:classappend="${#lists.size(items) ge component.maxCount} ? 'disabled' : ''" type="submit"
+                            th:name="|add_${component.name}|" th:value="${true}">
+                        <i class="plus icon"></i>
+                    </button>
                 </th>
             </tr>
             </thead>
             <tbody>
+            <tr th:if="${#lists.isEmpty(items)}">
+                <td th:colspan="${#lists.size(component.itemFields) + 1}">
+                    <i class="info circle grey icon"></i> 暂时没有内容
+                </td>
+            </tr>
+            <tr th:each="item : *{__${component.name}__}">
+                <td th:each="field : ${component.itemFields}">
+                    <div class="ui input">
+                        <input th:field="*{__${component.name}__[__${itemStat.index}__].__${field}__}"/>
+                    </div>
+                </td>
+                <td>
+                    <button class="ui tiny basic link icon button" type="submit"
+                            th:name="|remove_${component.name}|" th:value="${itemStat.index}">
+                        <i class="remove icon"></i>
+                    </button>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
     <script th:replace="~{:: field-common-script(${component})}"></script>
-    <script th:inline="javascript">
-        $(document).ready(function () {
-            var id = /*[[|#${component.id}|]]*/ "",
-                fieldName = /*[[${component.name}]]*/"",
-                items = /*[[*{__${component.name}__}]]*/ [],
-                maxCount = /*[[${component.maxCount}]]*/0,
-                fields = /*[[${component.itemFields}]]*/[],
-                content = $(id).find(".component table tbody"),
-                addButton = $(id).find(".component thead button");
-
-            $(addButton).click(function () {
-                var item = {};
-                $(fields).each(function (index, field) {
-                    item[field] = "";
-                });
-
-                if (!items) {
-                    items = [];
-                }
-
-                items.push(item);
-                refreshTable();
-            });
-
-            function refreshTable() {
-                $(content).empty();
-
-                if (!items || items.length === 0) {
-                    $(content).append($('<tr><td colspan="' + (fields.length + 1) + '">暂无内容</td></tr>'))
-                } else {
-                    $(items).each(function (index, item) {
-                        var row = $('<tr id="' + index + '"></tr>');
-
-                        $(fields).each(function (i, v) {
-                            var fieldCell = $('<td></td>');
-                            var fieldInput = $('<div class="ui input"><input id="' + fieldName + index + '.' + v + '" name="' + fieldName + '[' + index + ']' + '.' + v + ' " value="' + item[v] + '"/></div>');
-
-                            $(fieldCell).append(fieldInput);
-                            $(row).append(fieldCell);
-                        });
-
-                        var removeButton = $('<button class="ui tiny basic link icon button" type="button"><i class="remove icon"></i></button>');
-                        var removeCell = $('<td></td>');
-                        $(removeCell).append(removeButton);
-                        $(row).append(removeCell);
-                        $(content).append(row);
-
-                        $(removeButton).click(function () {
-
-                            items.splice(index, 1);
-                            refreshTable();
-                        });
-                    });
-                }
-
-                if (items && items.length === maxCount) {
-                    $(addButton).addClass("disabled");
-                } else {
-                    $(addButton).removeClass("disabled");
-                }
-            }
-
-            refreshTable();
-        });
-    </script>
 </div>
 </body>
 </html>
