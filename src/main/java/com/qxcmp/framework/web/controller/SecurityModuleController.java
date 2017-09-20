@@ -8,13 +8,12 @@ import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
-import com.qxcmp.framework.web.form.AdminSecurityAuthenticationForm;
-import com.qxcmp.framework.web.form.AdminSecurityRoleForm;
+import com.qxcmp.framework.security.web.AdminSecurityAuthenticationForm;
+import com.qxcmp.framework.security.web.AdminSecurityRoleForm;
 import com.qxcmp.framework.web.form.AdminSecurityUserForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +30,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/security")
 @RequiredArgsConstructor
 public class SecurityModuleController extends QXCMPBackendController2 {

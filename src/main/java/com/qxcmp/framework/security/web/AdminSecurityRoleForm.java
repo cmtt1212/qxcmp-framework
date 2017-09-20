@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.form;
+package com.qxcmp.framework.security.web;
 
 import com.qxcmp.framework.security.Privilege;
 import com.qxcmp.framework.view.annotation.FormView;
