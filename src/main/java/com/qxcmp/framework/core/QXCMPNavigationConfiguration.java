@@ -23,10 +23,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR, "系统后台侧边导航栏")
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-USER", "用户管理", QXCMP_BACKEND_URL + "/user")).setOrder(10)
-                .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-SERVICE", "消息服务").setOrder(20)
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-SERVICE-EMAIL", "邮件服务", QXCMP_BACKEND_URL + "/message/email")).setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_MANAGEMENT))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-SERVICE-SMS", "短息服务", QXCMP_BACKEND_URL + "/message/sms")).setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_MANAGEMENT))
-                )
+                .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-MESSAGE-SERVICE", "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(20))
                 .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SECURITY", "安全配置").setOrder(30)
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SECURITY-AUTHENTICATION", "认证配置", QXCMP_BACKEND_URL + "/security/authentication").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SECURITY_MANAGEMENT)))
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SECURITY-PRIVILEGE", "权限管理", QXCMP_BACKEND_URL + "/security/privilege").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SECURITY_MANAGEMENT)))

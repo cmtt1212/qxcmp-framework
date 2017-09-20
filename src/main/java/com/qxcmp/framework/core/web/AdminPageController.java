@@ -29,14 +29,14 @@ public class AdminPageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView homePage() {
-        return page().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
-                .addItem(new Col().addComponent(new PageHeader(HeaderType.H2, siteService.getTitle())))
-        ).build();
+        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
+                .addComponent(new Overview(new PageHeader(HeaderType.H1, siteService.getTitle()).setSubTitle("欢迎登陆")))
+        )).build();
     }
 
     @GetMapping("/about")
     public ModelAndView aboutPage() {
-        return page().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
+        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
                 .addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(getAboutContent()).addLink("返回", QXCMP_BACKEND_URL))
         )).build();
     }

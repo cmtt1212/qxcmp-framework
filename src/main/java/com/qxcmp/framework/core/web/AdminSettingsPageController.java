@@ -24,7 +24,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/settings")
 @RequiredArgsConstructor
-public class SettingsAdminPageController extends QXCMPBackendController {
+public class AdminSettingsPageController extends QXCMPBackendController {
 
     private static final List<String> WATERMARK_POSITIONS = ImmutableList.of("左上", "中上", "右上", "左中", "居中", "右中", "左下", "中下", "右下");
 

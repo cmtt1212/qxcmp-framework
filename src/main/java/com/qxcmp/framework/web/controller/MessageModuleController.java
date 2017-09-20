@@ -6,9 +6,9 @@ import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
-import com.qxcmp.framework.web.form.AdminMessageEmailConfigForm;
-import com.qxcmp.framework.web.form.AdminMessageSmsConfigForm;
-import com.qxcmp.framework.web.form.AdminMessageSmsTestForm;
+import com.qxcmp.framework.message.web.AdminMessageEmailConfigForm;
+import com.qxcmp.framework.message.web.AdminMessageSmsConfigForm;
+import com.qxcmp.framework.message.web.AdminMessageSmsTestForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/message")
 @RequiredArgsConstructor
 public class MessageModuleController extends QXCMPBackendController2 {
