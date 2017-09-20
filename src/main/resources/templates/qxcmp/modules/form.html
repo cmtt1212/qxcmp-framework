@@ -409,7 +409,7 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AlbumField"*/-->
-<div th:fragment="field-album(component)" th:with="items=*{__${component.name}__}"
+<div th:fragment="field-album(component)"
      th:id="${component.id}" th:class="${component.getClassName()}">
     <input th:field="*{__${component.name}__}" type="hidden"/>
     <input type="file" style="display: none"
@@ -639,6 +639,92 @@
 
                 $(id).removeClass("error");
             });
+        });
+    </script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.DynamicField"*/-->
+<div th:fragment="field-dynamic(component)"
+     th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="component">
+        <table class="ui celled very compact unstackable center aligned table">
+            <thead>
+            <tr>
+                <th th:each="head : ${component.itemHeaders}" th:utext="${head}"></th>
+                <th>
+                    <button class="ui tiny basic link icon button" type="button"><i class="plus icon"></i></button>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "",
+                fieldName = /*[[${component.name}]]*/"",
+                items = /*[[*{__${component.name}__}]]*/ [],
+                maxCount = /*[[${component.maxCount}]]*/0,
+                fields = /*[[${component.itemFields}]]*/[],
+                content = $(id).find(".component table tbody"),
+                addButton = $(id).find(".component thead button");
+
+            $(addButton).click(function () {
+                var item = {};
+                $(fields).each(function (index, field) {
+                    item[field] = "";
+                });
+
+                if (!items) {
+                    items = [];
+                }
+
+                items.push(item);
+                refreshTable();
+            });
+
+            function refreshTable() {
+                $(content).empty();
+
+                if (!items || items.length === 0) {
+                    $(content).append($('<tr><td colspan="' + (fields.length + 1) + '">暂无内容</td></tr>'))
+                } else {
+                    $(items).each(function (index, item) {
+                        var row = $('<tr id="' + index + '"></tr>');
+
+                        $(fields).each(function (i, v) {
+                            var fieldCell = $('<td></td>');
+                            var fieldInput = $('<div class="ui input"><input id="' + fieldName + index + '.' + v + '" name="' + fieldName + '[' + index + ']' + '.' + v + ' " value="' + item[v] + '"/></div>');
+
+                            $(fieldCell).append(fieldInput);
+                            $(row).append(fieldCell);
+                        });
+
+                        var removeButton = $('<button class="ui tiny basic link icon button" type="button"><i class="remove icon"></i></button>');
+                        var removeCell = $('<td></td>');
+                        $(removeCell).append(removeButton);
+                        $(row).append(removeCell);
+                        $(content).append(row);
+
+                        $(removeButton).click(function () {
+
+                            items.splice(index, 1);
+                            refreshTable();
+                        });
+                    });
+                }
+
+                if (items && items.length === maxCount) {
+                    $(addButton).addClass("disabled");
+                } else {
+                    $(addButton).removeClass("disabled");
+                }
+            }
+
+            refreshTable();
         });
     </script>
 </div>

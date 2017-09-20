@@ -1,8 +1,12 @@
 package com.qxcmp.framework.message.web;
 
+import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.annotation.form.DynamicField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import lombok.Data;
+
+import java.util.List;
 
 @Form("短信服务配置")
 @Data
@@ -25,4 +29,7 @@ public class AdminMessageSmsConfigForm {
 
     @TextInputField(value = "验证码模板", section = "业务配置", tooltip = "选择阿里云短信服务中的模板CODE")
     private String captchaTemplate;
+
+    @DynamicField(value = "其他模板", section = "业务配置", itemHeaders = {"业务名称", "模板Code"}, itemFields = {"name", "code"})
+    private List<SmsTemplate> templates = Lists.newArrayList();
 }
