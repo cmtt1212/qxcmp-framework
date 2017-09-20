@@ -242,6 +242,7 @@
             <button class="ui basic secondary captcha button" type="button">获取短信验证码</button>
         </div>
     </div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
@@ -323,6 +324,7 @@
             <i class="plus large grey icon"></i>
         </div>
     </div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
@@ -400,6 +402,146 @@
                 if ($(input).val()) {
                     $(component).find("img,i.plus.icon").remove();
                     $(component).append($('<img class="avatar image" src="' + $(input).val() + '"/>'));
+                }
+            }
+        });
+    </script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AlbumField"*/-->
+<div th:fragment="field-album(component)" th:with="items=*{__${component.name}__}"
+     th:id="${component.id}" th:class="${component.getClassName()}">
+    <input th:field="*{__${component.name}__}" type="hidden"/>
+    <input type="file" style="display: none"
+           th:attr="data-max-size=${component.maxSize},data-max-count=${component.maxCount}"/>
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="album upload component"></div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "",
+                component = $(id).find(".album.upload.component"),
+                input = $(id).find("input[type='hidden']"),
+                file = $(id).find("input[type='file']"),
+                maxSize = $(file).attr("data-max-size"),
+                maxCount = $(file).attr("data-max-count");
+
+            refreshAlbumField();
+
+            function refreshAlbumField() {
+                $(component).empty();
+
+                var items = $(input).val().split(",");
+
+                $(items).each(function (index, item) {
+
+                    if (item === "") {
+                        return;
+                    }
+
+                    var value = item;
+
+                    var root = $('<div class="image upload-box"></div>');
+                    var deleteButton = $('<div class="ui baisc inverted grey link icon button"><i class="remove icon"></i></div>');
+                    var dimmer = $('<div class="ui dimmer"><div class="content"><div class="center"></div></div></div>');
+                    var image = $('<img class="album image" src="' + item + '"/>');
+
+                    $(dimmer).find(".center").append(deleteButton);
+                    $(root).append(dimmer).append(image);
+                    $(component).append(root);
+
+                    $(deleteButton).click(function () {
+
+                        var newItems = [];
+
+                        $(items).each(function (index, item) {
+                            if (value !== item && value !== "") {
+                                newItems.push(item);
+                            }
+                        });
+
+                        $(input).val(newItems.join(","));
+
+                        refreshAlbumField();
+                    })
+                });
+
+                $(id).find(".image.upload-box").dimmer({on: "hover"});
+
+                if (items.length < maxCount) {
+                    var root = $('<div class="file upload-box"></div>');
+                    var progressDimmer = $('<div class="ui progress-dimmer dimmer"><div class="ui text loader"></div></div>');
+                    var errorDimmer = $('<div class="ui error-dimmer dimmer"><div class="content"><div class="center"><p class="ui inverted red icon header"><i class="warning circle icon"></i><span></span></p></div></div></div>');
+                    var icon = $('<i class="plus grey icon"></i>');
+                    $(root).append(progressDimmer).append(errorDimmer).append(icon);
+                    $(component).append(root);
+
+                    $(root).click(function (e) {
+                        $(file).click();
+                        e.stopPropagation();
+                    });
+
+                    $(file).off("change");
+                    $(file).on("change", function () {
+
+                        if (this.files.length > 0) {
+                            var file = this.files[0];
+
+                            if (file.size > 1024 * maxSize) {
+                                $(errorDimmer).find(".ui.header span").text("图片大小不能超过" + maxSize + "KB");
+                                $(errorDimmer).dimmer("show");
+                                setTimeout(function () {
+                                    $(errorDimmer).dimmer("hide");
+                                }, 3000);
+                                return;
+                            }
+
+                            var formData = new FormData();
+                            formData.append("file", file);
+
+                            $(progressDimmer).dimmer("show");
+
+                            $.ajax("/api/image/upload", {
+                                xhr: function () {
+                                    var xhr = $.ajaxSettings.xhr();
+
+                                    if (xhr.upload) {
+                                        xhr.upload.addEventListener("progress", function (e) {
+                                            if (e.lengthComputable) {
+                                                var percentComplete = e.loaded / e.total;
+                                                percentComplete = parseInt(percentComplete * 100);
+                                                $(progressDimmer).find(".ui.text.loader").text(percentComplete + "%");
+                                            }
+                                        }, false);
+                                    }
+
+                                    return xhr;
+                                },
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    var items = $(input).val().split(",");
+                                    if (items[0] === "") {
+                                        $(input).val(response);
+                                    } else {
+                                        $(input).val($(input).val() + "," + response);
+                                    }
+                                    $(progressDimmer).dimmer("hide");
+                                    refreshAlbumField();
+                                },
+                                error: function (response) {
+                                    $(progressDimmer).dimmer("hide");
+                                    $(errorDimmer).find(".ui.header span").text(response.responseText);
+                                    $(errorDimmer).dimmer("show");
+                                    setTimeout(function () {
+                                        $(errorDimmer).dimmer("hide");
+                                    }, 3000);
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });

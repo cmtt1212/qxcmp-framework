@@ -12,12 +12,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class AvatarField extends AbstractFormField {
+public class AvatarField extends AbstractUploadField {
 
-    /**
-     * 最大图片大小(KB)
-     */
-    private long maxSize;
 
     @Override
     public String getFragmentName() {

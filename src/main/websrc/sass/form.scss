@@ -1,4 +1,5 @@
 $avatar-field-size: 150px;
+$album-field-size: 96px;
 $number-field-width: 122.1px;
 
 .ui.form {
@@ -145,6 +146,46 @@ $number-field-width: 122.1px;
 
     &:hover {
       border-color: rgba(34, 36, 38, .35);
+    }
+  }
+}
+
+/* Album field */
+.ui.form .album.qxcmp.field {
+  .album.upload.component {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .upload-box {
+      margin: 5px;
+      width: $album-field-size;
+      height: $album-field-size;
+      border: 1px dashed #d9d9d9;
+      border-radius: .28571429rem;
+      cursor: pointer;
+
+      i.plus {
+        display: table-cell;
+        vertical-align: middle;
+        width: $album-field-size;
+        height: $album-field-size;
+      }
+
+      .album.image {
+        vertical-align: middle;
+        width: $album-field-size - 12px;
+        height: $album-field-size - 12px;
+        margin: 5px;
+      }
+
+      .error-dimmer p {
+        font-size: 0.7rem;
+      }
+
+      &:hover {
+        border-color: rgba(34, 36, 38, .35);
+      }
     }
   }
 }

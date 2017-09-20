@@ -179,6 +179,8 @@ public class FormHelper {
                     addPhoneField(form, field, (PhoneField) annotation);
                 } else if (annotation instanceof AvatarField) {
                     addAvatarField(form, field, (AvatarField) annotation);
+                } else if (annotation instanceof AlbumField) {
+                    addAlbumField(form, field, (AlbumField) annotation);
                 } else if (annotation instanceof BooleanField) {
                     addBooleanField(form, field, (BooleanField) annotation);
                 } else if (annotation instanceof TextSelectionField) {
@@ -319,6 +321,20 @@ public class FormHelper {
         avatarField.setMaxSize(annotation.maxSize());
 
         form.addItem(avatarField, annotation.section());
+    }
+
+    private void addAlbumField(AbstractForm form, Field field, AlbumField annotation) {
+
+        final com.qxcmp.framework.web.view.modules.form.field.AlbumField albumField = new com.qxcmp.framework.web.view.modules.form.field.AlbumField();
+
+        albumField.setName(field.getName());
+        albumField.setLabel(annotation.value());
+        albumField.setTooltip(annotation.tooltip());
+        albumField.setRequired(annotation.required());
+        albumField.setMaxSize(annotation.maxSize());
+        albumField.setMaxCount(annotation.maxCount());
+
+        form.addItem(albumField, annotation.section());
     }
 
     private void addBooleanField(AbstractForm form, Field field, BooleanField annotation) {
