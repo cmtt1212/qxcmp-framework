@@ -7,10 +7,11 @@ import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.table.*;
+import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.views.Overview;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP;
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
 @Controller
@@ -34,9 +36,9 @@ public class AdminPageController extends QXCMPBackendController {
 
     @GetMapping("/about")
     public ModelAndView aboutPage() {
-        return page().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                .addComponent(new Overview("关于").addComponent(getAboutContent()).addLink("返回", QXCMP_BACKEND_URL))
-        ))).build();
+        return page().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
+                .addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(getAboutContent()).addLink("返回", QXCMP_BACKEND_URL))
+        )).build();
     }
 
     private AbstractTable getAboutContent() {
@@ -50,10 +52,17 @@ public class AdminPageController extends QXCMPBackendController {
         } catch (Exception ignored) {
 
         }
-        return new Table().setBody((AbstractTableBody) new TableBody()
-                .addRow(new TableRow().addCell(new TableHead("平台版本")).addCell(new TableData(appVersion)))
-                .addRow(new TableRow().addCell(new TableHead("构建日期")).addCell(new TableData(appBuildDate)))
-                .addRow(new TableRow().addCell(new TableHead("启动日期")).addCell(new TableData(appStartUpDate)))
-        );
+
+        if (StringUtils.isBlank(appVersion)) {
+            appVersion = "暂无版本信息";
+        }
+
+        return new Table().setCelled().setSelectable()
+                .setBody((AbstractTableBody) new TableBody()
+                        .addRow(new TableRow().addCell(new TableData("平台版本")).addCell(new TableData(appVersion)))
+                        .addRow(new TableRow().addCell(new TableData("构建日期")).addCell(new TableData(appBuildDate)))
+                        .addRow(new TableRow().addCell(new TableData("启动日期")).addCell(new TableData(appStartUpDate)))
+                );
     }
+
 }
