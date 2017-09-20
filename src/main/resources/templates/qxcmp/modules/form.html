@@ -668,11 +668,18 @@
                 </td>
             </tr>
             <tr th:each="item : *{__${component.name}__}">
-                <td th:each="field : ${component.itemFields}">
+                <td th:if="${component.rawType}">
                     <div class="ui input">
-                        <input th:field="*{__${component.name}__[__${itemStat.index}__].__${field}__}"/>
+                        <input th:field="*{__${component.name}__[__${itemStat.index}__]}"/>
                     </div>
                 </td>
+                <th:block th:unless="${component.rawType}">
+                    <td th:each="field : ${component.itemFields}">
+                        <div class="ui input">
+                            <input th:field="*{__${component.name}__[__${itemStat.index}__].__${field}__}"/>
+                        </div>
+                    </td>
+                </th:block>
                 <td>
                     <button class="ui tiny basic link icon button" type="submit"
                             th:name="|remove_${component.name}|" th:value="${itemStat.index}">

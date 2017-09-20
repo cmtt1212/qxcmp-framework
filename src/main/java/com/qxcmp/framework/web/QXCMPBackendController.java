@@ -8,6 +8,7 @@ import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.BackendPage;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
@@ -17,6 +18,7 @@ import com.qxcmp.framework.web.view.elements.menu.item.LogoImageItem;
 import com.qxcmp.framework.web.view.elements.menu.item.SidebarIconItem;
 import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
 import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
+import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Fixed;
 import com.qxcmp.framework.web.view.views.Overview;
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +61,6 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
      * @param form       要提交的表单
      * @param action     要执行的操作
      * @param biConsumer 返回的结果页面
-     *
      * @return 提交后的页面
      */
     protected ModelAndView submitForm(Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
@@ -76,7 +77,16 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
 
         return actionExecutor.execute(title, request.getRequestURL().toString(), getRequestContent(request), currentUser().orElse(null), action)
                 .map(auditLog -> {
-                    Overview overview = new Overview(new IconHeader(auditLog.getTitle(), new Icon("info circle")).setSubTitle("操作成功"));
+                    Overview overview = null;
+                    switch (auditLog.getStatus()) {
+                        case SUCCESS:
+                            overview = new Overview(new IconHeader(auditLog.getTitle(), new Icon("info circle")).setSubTitle("操作成功"));
+                            break;
+                        case FAILURE:
+                            overview = new Overview(new IconHeader(auditLog.getTitle(), new Icon("warning circle").setColor(Color.RED)).setSubTitle("操作失败")).addComponent(new P(auditLog.getComments()));
+                            break;
+                    }
+
 
                     biConsumer.accept(auditLog.getActionContext(), overview);
 

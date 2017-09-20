@@ -42,6 +42,8 @@ public @interface DynamicField {
      * 项目字段
      * <p>
      * 需要编辑的项目字段
+     * <p>
+     * 如果此值留空则表明为原始类型
      */
-    String[] itemFields();
+    String[] itemFields() default {};
 }

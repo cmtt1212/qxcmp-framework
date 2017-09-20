@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,7 +34,6 @@ public class ActionExecutorImpl implements ActionExecutor {
      * @param content 操作内容
      * @param user    执行操作的用户
      * @param action  要执行的操作
-     *
      * @return 如果审计日志保存失败，则返回 {@link Optional#empty()}
      */
     @Override
@@ -55,7 +56,20 @@ public class ActionExecutorImpl implements ActionExecutor {
                 auditLog.setComments("");
                 auditLog.setStatus(AuditLog.Status.SUCCESS);
             } catch (ActionException e) {
-                auditLog.setComments(e.getMessage());
+
+                if (StringUtils.isNotBlank(e.getMessage())) {
+                    auditLog.setComments(e.getMessage());
+                } else if (Objects.nonNull(e.getCause())) {
+                    auditLog.setComments(e.getCause().toString());
+                } else {
+                    StringWriter stringWriter = new StringWriter();
+                    PrintWriter printWriter = new PrintWriter(stringWriter);
+                    e.printStackTrace(printWriter);
+                    printWriter.flush();
+                    stringWriter.flush();
+                    auditLog.setComments(stringWriter.toString());
+                }
+
                 auditLog.setStatus(AuditLog.Status.FAILURE);
             }
 

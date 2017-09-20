@@ -35,6 +35,13 @@ public class DynamicField extends AbstractFormField {
      */
     private List<String> itemFields;
 
+    /**
+     * 是否为原始类型
+     * <p>
+     * 如果为原始类型，则不用填写 itemFields
+     */
+    private boolean rawType;
+
     @Override
     public String getFragmentName() {
         return "field-dynamic";
