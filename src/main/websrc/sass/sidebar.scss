@@ -60,7 +60,17 @@ $sidebar-bottom-menu-height: 40px;
   }
 }
 
-.ui.top.fixed.menu .item.logo .title {
-  margin-left: 8px;
-  font-weight: bold;
+.ui.top.fixed.menu {
+  .item.logo .title {
+    margin-left: 8px;
+    font-weight: bold;
+  }
+  .item.backend.account {
+    padding: 8px;
+
+    .ui.image {
+      width: 32px;
+      height: 32px;
+    }
+  }
 }
