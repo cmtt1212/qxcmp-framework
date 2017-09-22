@@ -50,7 +50,6 @@ public class AdminSettingsForm {
     @NumberField(value = "字体大小", min = 1, max = 36, section = "水印设置")
     private int watermarkFontSize;
 
-
     @BooleanField(value = "用户名注册", section = "账户注册配置", style = BooleanFieldStyle.TOGGLE)
     private boolean accountEnableUsername;
 
