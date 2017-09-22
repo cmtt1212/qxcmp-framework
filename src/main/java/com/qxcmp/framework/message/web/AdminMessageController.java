@@ -4,11 +4,8 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
 import com.qxcmp.framework.web.QXCMPBackendController;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.ColumnCount;
+import com.qxcmp.framework.web.view.modules.table.*;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -42,9 +39,22 @@ public class AdminMessageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView messagePage() {
-        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
-                .addComponent(new Overview("消息服务").addLink("邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config").addLink("短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config").addLink("短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify"))
-        )).build();
+        return page().addComponent(new Overview("消息服务").addComponent(new Table().setSelectable().setStriped()
+                .setHeader((AbstractTableHeader) new TableHeader().addRow(new TableRow().addCell(new TableHead("配置项")).addCell(new TableHead("配置值"))))
+                .setBody((AbstractTableBody) new TableBody()
+                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 主机名")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME_DEFAULT_VALUE))))
+                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 端口")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT).orElse(String.valueOf(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT_DEFAULT_VALUE)))))
+                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 用户名")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_USERNAME_DEFAULT_VALUE))))
+                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 密码")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PASSWORD).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_PASSWORD))))
+                        .addRow(new TableRow().addCell(new TableData("短信服务 - AccessKey")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY_DEFAULT_VALUE))))
+                        .addRow(new TableRow().addCell(new TableData("短信服务 - AccessSecret")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET_DEFAULT_VALUE))))
+                        .addRow(new TableRow().addCell(new TableData("短信服务 - EndPoint")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_END_POINT).orElse(SYSTEM_CONFIG_MESSAGE_SMS_END_POINT_DEFAULT_VALUE))))
+                        .addRow(new TableRow().addCell(new TableData("短信服务 - 主题名称")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF).orElse(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF_DEFAULT_VALUE))))
+                        .addRow(new TableRow().addCell(new TableData("短信服务 - 短信签名ID")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE))))
+                )))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务")
+                .setVerticalMenu("", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                .build();
     }
 
     @GetMapping("/email/config")
@@ -71,10 +81,10 @@ public class AdminMessageController extends QXCMPBackendController {
     public ModelAndView emailConfigPage(@Valid final AdminMessageEmailConfigForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件服务配置")
+                    .setVerticalMenu("邮件服务配置", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         return submitForm(form, context -> {
@@ -104,10 +114,10 @@ public class AdminMessageController extends QXCMPBackendController {
         form.setSign(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE));
         form.setCaptchaTemplate(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE).orElse(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE_DEFAULT_VALUE));
 
-        return page()
-                .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(convertToForm(form))
-                ))).build();
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                .setVerticalMenu("短信服务配置", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                .build();
     }
 
     @PostMapping("/sms/config")
@@ -117,25 +127,25 @@ public class AdminMessageController extends QXCMPBackendController {
 
         if (addTemplates) {
             form.getTemplates().add(new SmsTemplate());
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                    .setVerticalMenu("短信服务配置", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         if (Objects.nonNull(removeTemplates)) {
             form.getTemplates().remove(removeTemplates.intValue());
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                    .setVerticalMenu("短信服务配置", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         if (bindingResult.hasErrors()) {
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                    .setVerticalMenu("短信服务配置", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         return submitForm(form, context -> {
@@ -160,10 +170,10 @@ public class AdminMessageController extends QXCMPBackendController {
         form.getParameters().add(smsMessageParameter);
         form.getPhones().add(currentUser().orElseThrow(null).getPhone());
 
-        return page()
-                .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(convertToForm(form))
-                ))).build();
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                .setVerticalMenu("短信发送验证", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                .build();
     }
 
     @PostMapping("/sms/verify")
@@ -175,41 +185,41 @@ public class AdminMessageController extends QXCMPBackendController {
 
         if (addPhones) {
             form.getPhones().add("");
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu("短信发送验证", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         if (Objects.nonNull(removePhones)) {
             form.getPhones().remove(removePhones.intValue());
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu("短信发送验证", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         if (addParameters) {
             form.getParameters().add(new SmsMessageParameter());
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu("短信发送验证", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         if (Objects.nonNull(removeParameters)) {
             form.getParameters().remove(removeParameters.intValue());
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu("短信发送验证", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         if (bindingResult.hasErrors()) {
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu("短信发送验证", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                    .build();
         }
 
         return submitForm(form, context -> {
