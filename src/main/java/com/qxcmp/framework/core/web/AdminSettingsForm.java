@@ -62,7 +62,7 @@ public class AdminSettingsForm {
 
     @BooleanField(value = "邀请码注册", section = "账户注册配置", style = BooleanFieldStyle.TOGGLE)
     private boolean accountEnableInvite;
-
+    
     @NumberField(value = "线程池大小", section = "任务调度配置", tooltip = "修改该配置需要重新服务")
     private int threadPoolSize;
 

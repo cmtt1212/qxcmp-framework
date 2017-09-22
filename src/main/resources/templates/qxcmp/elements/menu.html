@@ -126,14 +126,5 @@
     </th:block>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.BackendAccountMenuItem"*/-->
-<div th:fragment="item-backend-account(component)" th:class="${component.getClassName()}">
-    <div class="ui rounded image">
-        <img th:src="@{${component.user.portrait}}"/>
-    </div>
-    <div class="ui popup ">
-        <div th:each="navigation : ${component.navigationList}" th:utext="${navigation.title}"></div>
-    </div>
-</div>
 </body>
 </html>

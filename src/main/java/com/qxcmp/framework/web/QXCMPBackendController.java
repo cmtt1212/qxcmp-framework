@@ -3,7 +3,6 @@ package com.qxcmp.framework.web;
 import com.google.gson.Gson;
 import com.qxcmp.framework.audit.Action;
 import com.qxcmp.framework.audit.ActionExecutor;
-import com.qxcmp.framework.core.QXCMPNavigationConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.BackendPage;
@@ -14,7 +13,10 @@ import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.menu.Menu;
 import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
-import com.qxcmp.framework.web.view.elements.menu.item.*;
+import com.qxcmp.framework.web.view.elements.menu.item.AccordionMenuItem;
+import com.qxcmp.framework.web.view.elements.menu.item.LogoImageItem;
+import com.qxcmp.framework.web.view.elements.menu.item.SidebarIconItem;
+import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
 import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Fixed;
@@ -40,7 +42,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
     @Override
     protected BackendPage page() {
         BackendPage page = applicationContext.getBean(BackendPage.class, request, response);
-        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())).setRightMenu((RightMenu) new RightMenu().addItem(new BackendAccountMenuItem(currentUser().orElseThrow(() -> new RuntimeException("No user authenticated for backend")), navigationService.get(QXCMPNavigationConfiguration.NAVIGATION_QXCMP_ADMIN_ACCOUNT).getItems()))));
+        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())));
         page.setBottomMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("关于", QXCMP_BACKEND_URL + "/about"))));
         addPageSidebarContent(page, currentUser().orElse(null));
         return page;
