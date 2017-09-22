@@ -59,7 +59,8 @@ public class AdminSettingsPageController extends QXCMPBackendController {
         form.setWatermarkFontSize(systemConfigService.getInteger(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE).orElse(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", "", "网站配置")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", QXCMP_BACKEND_URL + "/settings", "网站配置")
+                .setVerticalMenu(getVerticalMenu("网站配置"))
                 .addObject("selection_items_position", WATERMARK_POSITIONS)
                 .build();
     }
@@ -69,7 +70,8 @@ public class AdminSettingsPageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", "", "网站配置")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", QXCMP_BACKEND_URL + "/settings", "网站配置")
+                    .setVerticalMenu(getVerticalMenu("网站配置"))
                     .addObject("selection_items_position", WATERMARK_POSITIONS)
                     .build();
         }
@@ -98,8 +100,8 @@ public class AdminSettingsPageController extends QXCMPBackendController {
         form.setEnableInvite(systemConfigService.getBoolean(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE).orElse(false));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", "", "账户配置")
-                .addObject("selection_items_position", WATERMARK_POSITIONS)
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", QXCMP_BACKEND_URL + "/settings", "账户配置")
+                .setVerticalMenu(getVerticalMenu("账户配置"))
                 .build();
     }
 
@@ -108,8 +110,8 @@ public class AdminSettingsPageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", "", "账户配置")
-                    .addObject("selection_items_position", WATERMARK_POSITIONS)
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置", QXCMP_BACKEND_URL + "/settings", "账户配置")
+                    .setVerticalMenu(getVerticalMenu("账户配置"))
                     .build();
         }
 
@@ -120,5 +122,9 @@ public class AdminSettingsPageController extends QXCMPBackendController {
             systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isEnableInvite()));
             accountService.loadConfig();
         });
+    }
+
+    private List<String> getVerticalMenu(String activeItem) {
+        return ImmutableList.of(activeItem, "网站配置", QXCMP_BACKEND_URL + "/settings/site", "账户配置", QXCMP_BACKEND_URL + "/settings/account");
     }
 }
