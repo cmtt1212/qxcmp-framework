@@ -7,6 +7,7 @@ import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -62,6 +63,11 @@ public class Col extends AbstractGridItem {
         return this;
     }
 
+    public Col addComponents(Collection<? extends Component> components) {
+        this.components.addAll(components);
+        return this;
+    }
+
     @Override
     public String getFragmentName() {
         return "col";
@@ -79,6 +85,11 @@ public class Col extends AbstractGridItem {
     @Override
     public String getClassSuffix() {
         return "column";
+    }
+
+    public Col setGeneralWide(Wide wide) {
+        this.generalWide = wide;
+        return this;
     }
 
     public Col setComputerWide(Wide wide) {
