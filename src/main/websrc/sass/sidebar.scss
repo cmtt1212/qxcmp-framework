@@ -4,7 +4,7 @@ $sidebar-top-menu-logo-size: 32px;
 $sidebar-bottom-menu-height: 40px;
 
 .ui.sidebar + .pusher {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .ui.top-fixed-menu.sidebar {
