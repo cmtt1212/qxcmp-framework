@@ -30,10 +30,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-TOOL-SPIDER", "蜘蛛管理", QXCMP_BACKEND_URL + "/spider").setOrder(50).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SPIDER_MANAGEMENT)))
                         .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-TOOL-LOG", "系统日志", QXCMP_BACKEND_URL + "/log").setOrder(100).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_LOG_MANAGEMENT)))
                 )
-                .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "系统设置").setOrder(50)
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SETTINGS-SITE", "网站配置", QXCMP_BACKEND_URL + "/settings/site").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
-                        .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SETTINGS-ACCOUNT", "账户配置", QXCMP_BACKEND_URL + "/settings/account").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SITE_MANAGEMENT)))
-                )
+                .addItem(new Navigation("QXCMP-ADMIN-SIDEBAR-SYSTEM-SETTINGS", "系统设置", QXCMP_BACKEND_URL + "/settings").setOrder(50))
         );
     }
 }

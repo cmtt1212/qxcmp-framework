@@ -14,6 +14,7 @@ import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.SidebarConfig;
 import com.qxcmp.framework.web.view.support.Wide;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -99,10 +101,18 @@ public class BackendPage extends AbstractPage {
         Breadcrumb bc = new Breadcrumb();
 
         for (int i = 0; i < breadcrumb.length; i += 2) {
+
+            String text = breadcrumb[i];
+
             if (i + 1 == breadcrumb.length) {
-                bc.addItem(new BreadcrumbItem(breadcrumb[i]));
+                bc.addItem(new BreadcrumbItem(text));
             } else {
-                bc.addItem(new BreadcrumbItem(breadcrumb[i], breadcrumb[i + 1]));
+                String url = breadcrumb[i + 1];
+                if (StringUtils.isNotBlank(url)) {
+                    bc.addItem(new BreadcrumbItem(text, url));
+                } else {
+                    bc.addItem(new BreadcrumbItem(text));
+                }
             }
         }
 
@@ -112,6 +122,27 @@ public class BackendPage extends AbstractPage {
 
     public BackendPage setVerticalMenu(VerticalMenu verticalMenu) {
         this.verticalMenu = verticalMenu;
+        return this;
+    }
+
+    public BackendPage setVerticalMenu(List<String> menus) {
+        checkArgument(!menus.isEmpty());
+        String activeItem = menus.get(0);
+
+        VerticalMenu verticalMenu = new VerticalMenu().setFluid();
+
+        for (int i = 1; i < menus.size(); i += 2) {
+            TextItem textItem = new TextItem(menus.get(i), menus.get(i + 1));
+
+            if (textItem.getText().equals(activeItem)) {
+                textItem.setActive();
+            }
+
+            verticalMenu.addItem(textItem);
+        }
+
+        this.verticalMenu = verticalMenu;
+
         return this;
     }
 
