@@ -61,10 +61,10 @@ public class AdminMessageController extends QXCMPBackendController {
         form.setBindingSubject(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_SUBJECT).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_SUBJECT_DEFAULT_VALUE));
         form.setBindingContent(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT_DEFAULT_VALUE));
 
-        return page()
-                .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(convertToForm(form))
-                ))).build();
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件服务配置")
+                .setVerticalMenu("邮件服务配置", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify")
+                .build();
     }
 
     @PostMapping("/email/config")

@@ -6,6 +6,7 @@ import com.qxcmp.framework.web.view.support.Floated;
 import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -77,7 +78,19 @@ public class Col extends AbstractGridItem {
     public String getClassContent() {
         final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
 
-        stringBuilder.append(generalWide.toString()).append(computerWide.toString()).append(tabletWide.toString()).append(mobileWide.toString()).append(floated.toString());
+        if (StringUtils.isNotBlank(computerWide.toString())) {
+            stringBuilder.append(computerWide).append(" computer");
+        }
+
+        if (StringUtils.isNotBlank(tabletWide.toString())) {
+            stringBuilder.append(tabletWide).append(" tablet");
+        }
+
+        if (StringUtils.isNotBlank(mobileWide.toString())) {
+            stringBuilder.append(mobileWide).append(" mobile");
+        }
+
+        stringBuilder.append(generalWide.toString()).append(floated.toString());
 
         return stringBuilder.toString();
     }

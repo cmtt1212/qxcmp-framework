@@ -21,4 +21,9 @@ public class VerticalMenu extends AbstractMenu {
     public String getClassSuffix() {
         return "vertical " + super.getClassSuffix();
     }
+
+    public VerticalMenu setFluid() {
+        setFluid(true);
+        return this;
+    }
 }
