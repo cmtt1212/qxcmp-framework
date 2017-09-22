@@ -127,13 +127,26 @@
 </div>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.BackendAccountMenuItem"*/-->
-<div th:fragment="item-backend-account(component)" th:class="${component.getClassName()}">
-    <div class="ui rounded image">
-        <img th:src="@{${component.user.portrait}}"/>
+<th:block th:fragment="item-backend-account(component)">
+    <div th:class="${component.getClassName()}">
+        <div class="ui rounded image">
+            <img th:src="@{${component.user.portrait}}"/>
+        </div>
     </div>
-    <div class="ui popup ">
-        <div th:each="navigation : ${component.navigationList}" th:utext="${navigation.title}"></div>
+    <div class="ui inverted bottom left popup">
+        <div class="ui inverted vertical menu">
+            <a th:each="navigation : ${component.navigationList}" class="item" th:href="@{${navigation.anchor.href}}" th:utext="${navigation.title}"></a>
+            <form class="link item" th:action="@{/logout}" method="post" onclick="$(this).submit()">退出账户</form>
+        </div>
     </div>
-</div>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $(".ui.top.fixed.menu .item.backend.account").popup({
+                inline: true,
+                on: "click"
+            });
+        });
+    </script>
+</th:block>
 </body>
 </html>
