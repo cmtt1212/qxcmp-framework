@@ -1,15 +1,12 @@
 package com.qxcmp.framework.security.web;
 
+import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.web.QXCMPBackendController;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.ColumnCount;
-import com.qxcmp.framework.web.view.views.Overview;
+import com.qxcmp.framework.web.view.elements.segment.Segments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
@@ -34,9 +32,10 @@ public class AdminSecurityPageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView messagePage() {
-        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
-                .addComponent(new Overview("安全配置").addLink("认证配置", QXCMP_BACKEND_URL + "/security/authentication").addLink("权限管理", QXCMP_BACKEND_URL + "/security/privilege").addLink("角色管理", QXCMP_BACKEND_URL + "/security/role"))
-        )).build();
+        return page().addComponent(new Segments())
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
+                .setVerticalMenu(getVerticalMenu(""))
+                .build();
     }
 
     @GetMapping("/authentication")
@@ -53,20 +52,20 @@ public class AdminSecurityPageController extends QXCMPBackendController {
         form.setExpireCredentialDuration(systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION_DEFAULT_VALUE));
         form.setUniqueCredential(systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE_DEFAULT_VALUE));
 
-        return page()
-                .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                        .addComponent(convertToForm(form))
-                ))).build();
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "认证配置")
+                .setVerticalMenu(getVerticalMenu("认证配置"))
+                .build();
     }
 
     @PostMapping("/authentication")
     public ModelAndView authenticationPage(@Valid final AdminSecurityAuthenticationForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return page()
-                    .addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(new Segment()
-                            .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    ))).build();
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "认证配置")
+                    .setVerticalMenu(getVerticalMenu("认证配置"))
+                    .build();
         }
 
         return submitForm(form, context -> {
@@ -85,5 +84,9 @@ public class AdminSecurityPageController extends QXCMPBackendController {
                 throw new ActionException(e.getMessage(), e);
             }
         });
+    }
+
+    private List<String> getVerticalMenu(String activeItem) {
+        return ImmutableList.of(activeItem, "角色管理", QXCMP_BACKEND_URL + "/security/role", "权限管理", QXCMP_BACKEND_URL + "/security/privilege", "认证配置", QXCMP_BACKEND_URL + "/security/authentication");
     }
 }
