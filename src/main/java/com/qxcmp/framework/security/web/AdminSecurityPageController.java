@@ -8,6 +8,7 @@ import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.segment.Segments;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,14 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView messagePage() {
         return page().addComponent(new Segments())
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
+                .setVerticalMenu(getVerticalMenu(""))
+                .build();
+    }
+
+    @GetMapping("/privilege")
+    public ModelAndView privilegePage(Pageable pageable) {
+        return page().addComponent(convertToTable(pageable, privilegeService))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();

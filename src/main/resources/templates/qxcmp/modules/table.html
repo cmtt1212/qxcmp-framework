@@ -73,5 +73,14 @@
         <th:block th:unless="${#strings.isEmpty(component.content)}" th:utext="${component.content}"/>
     </td>
 </th:block>
+
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTable"*/-->
+<th:block th:fragment="entity-table(component)">
+    <th:block th:if="${component.tableHeader ne null}">
+        <div th:replace="~{qxcmp/globals/components :: component(${component.tableHeader})}"></div>
+    </th:block>
+    <div th:replace="~{:: table(${component})}"></div>
+</th:block>
 </body>
 </html>

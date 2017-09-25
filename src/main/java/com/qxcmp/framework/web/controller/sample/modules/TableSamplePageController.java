@@ -2,11 +2,12 @@ package com.qxcmp.framework.web.controller.sample.modules;
 
 import com.qxcmp.framework.web.controller.sample.AbstractSamplePageController;
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class TableSamplePageController extends AbstractSamplePageController {
 
     @GetMapping("")
     public ModelAndView sample() {
-        return page().addComponent( new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
+        return page().addComponent(new Container().addComponent(new VerticallyDividedGrid().setVerticallyPadded().setColumnCount(ColumnCount.ONE)
                 .addItem(new Row()
                         .addCol(new Col().addComponent(new Segment().addComponent(createTable1())))
                 ))).build();
@@ -52,10 +53,14 @@ public class TableSamplePageController extends AbstractSamplePageController {
     }
 
     private TableFooter createTableFooter() {
-        return (TableFooter) new TableFooter()
-                .addRow(new TableRow()
-                        .addCell(new TableHead("总计： 3人").setColSpan(3))
-                );
+        TableFooter abstractTableSection = new TableFooter();
+
+        TableHead tableHead = new TableHead();
+        tableHead.setColSpan(3);
+        tableHead.setComponent(new Pagination("/test/sample/pagination", "&search=content", 0, 500, 20).setShowQuickJumper().setShowSizeChanger().setShowTotal());
+
+        abstractTableSection.addRow(new TableRow().addCell(tableHead));
+        return abstractTableSection;
     }
 
 }

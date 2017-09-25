@@ -1,11 +1,13 @@
 package com.qxcmp.framework.security;
 
-import com.qxcmp.framework.view.form.InputFiledType;
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;
 import com.qxcmp.framework.view.annotation.ListView;
 import com.qxcmp.framework.view.annotation.ListViewField;
+import com.qxcmp.framework.view.form.InputFiledType;
 import com.qxcmp.framework.view.list.ListViewFieldTypeEnum;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
+@EntityTable("权限列表")
 @Entity
 @Table
 @FormView(caption = "权限修改", action = QXCMP_BACKEND_URL + "/security/privilege")
@@ -40,6 +43,7 @@ public class Privilege {
      */
     @FormViewField(type = InputFiledType.LABEL, label = "权限名称")
     @ListViewField(type = ListViewFieldTypeEnum.TITLE)
+    @TableField("权限名称")
     private String name;
 
     /**
@@ -47,6 +51,7 @@ public class Privilege {
      */
     @FormViewField(type = InputFiledType.LABEL, label = "权限描述")
     @ListViewField(type = ListViewFieldTypeEnum.DESCRIPTION)
+    @TableField("权限描述")
     private String description;
 
     /**

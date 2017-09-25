@@ -2,6 +2,7 @@ package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
+import com.qxcmp.framework.core.entity.EntityService;
 import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaExpiredException;
 import com.qxcmp.framework.domain.CaptchaIncorrectException;
@@ -14,13 +15,16 @@ import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
+import com.qxcmp.framework.web.view.modules.table.EntityTable;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
+import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.Overview;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +53,8 @@ public abstract class AbstractQXCMPController {
     protected SystemConfigService systemConfigService;
 
     private FormHelper formHelper;
+
+    private TableHelper tableHelper;
 
     private CaptchaService captchaService;
 
@@ -79,6 +85,15 @@ public abstract class AbstractQXCMPController {
 
     protected ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
         return formHelper.convertToErrorMessage(bindingResult, object);
+    }
+
+    protected EntityTable convertToTable(Pageable pageable, EntityService entityService) {
+        return convertToTable("", pageable, entityService);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected EntityTable convertToTable(String tableName, Pageable pageable, EntityService entityService) {
+        return tableHelper.convert(tableName, entityService.type(), entityService.findAll(pageable));
     }
 
 
@@ -164,6 +179,11 @@ public abstract class AbstractQXCMPController {
     @Autowired
     public void setFormHelper(FormHelper formHelper) {
         this.formHelper = formHelper;
+    }
+
+    @Autowired
+    public void setTableHelper(TableHelper tableHelper) {
+        this.tableHelper = tableHelper;
     }
 
     @Autowired

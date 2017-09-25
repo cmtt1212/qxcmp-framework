@@ -3,7 +3,8 @@
 <body>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.pagination.Pagination"*/-->
-<div th:id="${component.id}" th:fragment="default(component)" th:if="${component.getTotalPage() gt 1}">
+<div th:id="${component.id}" th:fragment="default(component)"
+     th:if="${component.showSizeChanger or (component.getTotalPage() gt 1)}">
     <small th:if="${component.showTotal}" style="margin-right: 1em" th:utext="${component.getTotalText()}"></small>
     <div th:class="${component.getClassName()}">
         <a class="icon item" th:href="@{${component.getItemUrl(component.current - 1)}}"><i

@@ -170,7 +170,7 @@ public abstract class AbstractPagination extends AbstractComponent {
     }
 
     public String getChangeSizeUrl(String pageSize) {
-        return String.format("%s?size=%s&page=%d", url, pageSize, current) + queryString;
+        return String.format("%s?size=%s&page=%d", url, pageSize, current - 1) + queryString;
     }
 
     public String getTotalText() {

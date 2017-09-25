@@ -28,9 +28,9 @@ public @interface EntityTable {
     /**
      * 数据表格名称
      * <p>
-     * 可用于一个实体
+     * 用于在实体上区分多个表格
      */
-    String id() default "";
+    String name() default "";
 
     /**
      * 实体索引字段
@@ -56,7 +56,7 @@ public @interface EntityTable {
 
     /**
      * 是否支持多选
-     *
+     * <p>
      * 多选以后的实体操作只支持 {@link #tableActions()}
      */
     boolean multiple() default false;
@@ -99,12 +99,12 @@ public @interface EntityTable {
     /**
      * 是否开始行高亮
      */
-    boolean selectable() default false;
+    boolean selectable() default true;
 
     /**
      * 是否显示单双行的条纹
      */
-    boolean striped() default false;
+    boolean striped() default true;
 
     /**
      * 是否翻转颜色
