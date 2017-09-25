@@ -5,11 +5,11 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.model.navigation.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.segment.Segments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -51,13 +51,27 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     }
 
     @PostMapping("/privilege/{id}/enable")
-    public ResponseEntity<String> privilegeEnable(@PathVariable String id) {
-        return privilegeService.findOne(id).map(privilege -> privilegeService.update(privilege.getId(), p -> p.setDisabled(false)).map(p -> ResponseEntity.ok("")).orElse(ResponseEntity.status(HttpStatus.BAD_GATEWAY).build())).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<RestfulResponse> privilegeEnable(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("启用权限", context -> {
+            try {
+                privilegeService.update(Long.parseLong(id), privilege -> privilege.setDisabled(false));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     @PostMapping("/privilege/{id}/disable")
-    public ResponseEntity<String> privilegeDisable(@PathVariable String id) {
-        return privilegeService.findOne(id).map(privilege -> privilegeService.update(privilege.getId(), p -> p.setDisabled(true)).map(p -> ResponseEntity.ok("")).orElse(ResponseEntity.status(HttpStatus.BAD_GATEWAY).build())).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<RestfulResponse> privilegeDisable(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("禁用权限", context -> {
+            try {
+                privilegeService.update(Long.parseLong(id), privilege -> privilege.setDisabled(true));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     @GetMapping("/authentication")

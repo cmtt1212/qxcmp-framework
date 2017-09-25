@@ -6,6 +6,7 @@ import com.qxcmp.framework.audit.ActionExecutor;
 import com.qxcmp.framework.core.QXCMPNavigationConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
+import com.qxcmp.framework.web.model.navigation.RestfulResponse;
 import com.qxcmp.framework.web.view.BackendPage;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -21,6 +22,7 @@ import com.qxcmp.framework.web.view.support.Fixed;
 import com.qxcmp.framework.web.view.views.Overview;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +96,21 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
 
                     return overviewPage(overview).build();
                 }).orElse(overviewPage(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
+    }
+
+    protected RestfulResponse audit(String title, Action action) {
+        return actionExecutor.execute(title, request.getRequestURL().toString(), getRequestContent(request), currentUser().orElse(null), action).map(auditLog -> {
+
+            switch (auditLog.getStatus()) {
+                case SUCCESS:
+                    return new RestfulResponse(HttpStatus.OK.value(), "", auditLog.getTitle(), auditLog.getComments());
+                case FAILURE:
+                    return new RestfulResponse(HttpStatus.BAD_GATEWAY.value(), "", auditLog.getTitle(), auditLog.getComments());
+            }
+
+            return new RestfulResponse(HttpStatus.NOT_ACCEPTABLE.value(), "", auditLog.getTitle(), auditLog.getComments());
+
+        }).orElse(new RestfulResponse(HttpStatus.BAD_GATEWAY.value(), "", "Can't save audit log"));
     }
 
     private void addPageSidebarContent(BackendPage page, User user) {

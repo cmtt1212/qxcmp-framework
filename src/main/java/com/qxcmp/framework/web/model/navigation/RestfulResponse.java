@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class RestfulResponse {
 
-    private String status;
+    private int status;
 
     private String code;
 
@@ -20,29 +20,29 @@ public class RestfulResponse {
 
     private String moreInfo;
 
-    public RestfulResponse(String status) {
+    public RestfulResponse(int status) {
         this.status = status;
     }
 
-    public RestfulResponse(String status, String code) {
+    public RestfulResponse(int status, String code) {
         this.status = status;
         this.code = code;
     }
 
-    public RestfulResponse(String status, String code, String message) {
+    public RestfulResponse(int status, String code, String message) {
         this.status = status;
         this.code = code;
         this.message = message;
     }
 
-    public RestfulResponse(String status, String code, String message, String developerMessage) {
+    public RestfulResponse(int status, String code, String message, String developerMessage) {
         this.status = status;
         this.code = code;
         this.message = message;
         this.developerMessage = developerMessage;
     }
 
-    public RestfulResponse(String status, String code, String message, String developerMessage, String moreInfo) {
+    public RestfulResponse(int status, String code, String message, String developerMessage, String moreInfo) {
         this.status = status;
         this.code = code;
         this.message = message;
