@@ -24,19 +24,17 @@ public @interface RowAction {
     String action();
 
     /**
-     * 操作是否为表单提交
-     */
-    boolean isForm() default false;
-
-    /**
+     * 默认为超链接
+     * <p>
      * 操作如果为表单提交
      * <p>
      * 指定表单的提交方式
      */
-    FormMethod method() default FormMethod.POST;
+    FormMethod method() default FormMethod.NONE;
 
     /**
      * 操作的打开方式
      */
     AnchorTarget target() default AnchorTarget.NONE;
+
 }

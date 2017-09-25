@@ -82,5 +82,10 @@
     </th:block>
     <div th:replace="~{:: table(${component})}"></div>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTableActionButton"*/-->
+<button th:fragment="action-button(component)" th:class="${component.getClassName()}"
+        th:attr="action=@{${component.anchor.href}}" th:utext="${component.text}">
+</button>
 </body>
 </html>

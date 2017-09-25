@@ -7,7 +7,9 @@ import com.qxcmp.framework.view.annotation.ListViewField;
 import com.qxcmp.framework.view.form.InputFiledType;
 import com.qxcmp.framework.view.list.ListViewFieldTypeEnum;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -22,7 +24,8 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@EntityTable("权限列表")
+@EntityTable(value = "权限列表", action = QXCMP_BACKEND_URL + "/security/privilege",
+        rowActions = {@RowAction(value = "激活", action = "enable", method = FormMethod.POST), @RowAction(value = "禁用", action = "disable", method = FormMethod.POST)})
 @Entity
 @Table
 @FormView(caption = "权限修改", action = QXCMP_BACKEND_URL + "/security/privilege")

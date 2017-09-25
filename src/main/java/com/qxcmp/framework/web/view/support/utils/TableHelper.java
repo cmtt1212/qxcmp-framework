@@ -4,11 +4,15 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.elements.button.Button;
+import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
 import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Size;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanWrapperImpl;
@@ -83,7 +87,6 @@ public class TableHelper {
 
             entityTableAction.setTitle(tableAction.value());
             entityTableAction.setAction(table.getAction() + tableAction.action());
-            entityTableAction.setForm(tableAction.isForm());
             entityTableAction.setMethod(tableAction.method());
             entityTableAction.setTarget(tableAction.target());
             entityTableAction.setSupportMultiple(tableAction.supportMultiple());
@@ -95,8 +98,7 @@ public class TableHelper {
             EntityTableRowAction entityTableRowAction = new EntityTableRowAction();
 
             entityTableRowAction.setTitle(rowAction.value());
-            entityTableRowAction.setAction(table.getAction() + table.getEntityIndex() + "/" + rowAction.action());
-            entityTableRowAction.setForm(rowAction.isForm());
+            entityTableRowAction.setAction(rowAction.action());
             entityTableRowAction.setMethod(rowAction.method());
             entityTableRowAction.setTarget(rowAction.target());
 
@@ -142,6 +144,13 @@ public class TableHelper {
             tableHead.setContent(entityTableField.getTitle());
             tableRow.addCell(tableHead);
         });
+
+        if (!table.getRowActions().isEmpty()) {
+            final TableHead tableHead = new TableHead();
+            tableHead.setContent("操作");
+            tableRow.addCell(tableHead);
+        }
+
         tableHeader.addRow(tableRow);
         table.setHeader(tableHeader);
     }
@@ -160,6 +169,12 @@ public class TableHelper {
                 tableRow.addCell(tableData);
             });
 
+            if (!table.getRowActions().isEmpty()) {
+                final TableData tableData = new TableData();
+                renderTableActionCell(table, tableData, table.getRowActions(), t);
+                tableRow.addCell(tableData);
+            }
+
             tableBody.addRow(tableRow);
         });
 
@@ -169,6 +184,26 @@ public class TableHelper {
     private <T> void renderTableCell(TableData tableData, EntityTableField entityTableField, T t) {
         final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
         tableData.setContent(beanWrapper.getPropertyValue(entityTableField.getField()).toString());
+    }
+
+    private <T> void renderTableActionCell(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableData tableData, List<EntityTableRowAction> rowActions, T t) {
+        final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
+        final Buttons buttons = new Buttons();
+
+        buttons.setSize(Size.TINY);
+
+        rowActions.forEach(entityTableRowAction -> {
+            if (entityTableRowAction.getMethod().equals(FormMethod.NONE)) {
+                final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                buttons.addButton(button);
+            } else {
+                final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                button.setMethod(entityTableRowAction.getMethod());
+                buttons.addButton(button);
+            }
+        });
+
+        tableData.setComponent(buttons);
     }
 
     private <T> void renderTableFooter(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Page<T> tPage) {

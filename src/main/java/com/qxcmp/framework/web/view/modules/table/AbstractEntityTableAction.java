@@ -13,8 +13,6 @@ public abstract class AbstractEntityTableAction {
 
     private String action;
 
-    private boolean form;
-
     private FormMethod method;
 
     private AnchorTarget target;
