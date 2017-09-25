@@ -3,6 +3,7 @@ package com.qxcmp.framework.web.view.support.utils;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowActionCheck;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
@@ -20,9 +21,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -137,7 +140,7 @@ public class TableHelper {
 
         renderTableHeader(table, entityTableFields);
 
-        renderTableBody(table, entityTableFields, tPage);
+        renderTableBody(table, entityTableFields, tClass, tPage);
 
         renderTableFooter(table, entityTableFields, tPage);
     }
@@ -161,7 +164,7 @@ public class TableHelper {
         table.setHeader(tableHeader);
     }
 
-    private <T> void renderTableBody(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Page<T> tPage) {
+    private <T> void renderTableBody(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Class<T> tClass, Page<T> tPage) {
         final TableBody tableBody = new TableBody();
 
         tPage.getContent().forEach(t -> {
@@ -177,7 +180,8 @@ public class TableHelper {
 
             if (!table.getRowActions().isEmpty()) {
                 final TableData tableData = new TableData();
-                renderTableActionCell(table, tableData, table.getRowActions(), t);
+
+                renderTableActionCell(table, tableData, table.getRowActions(), tClass, t);
                 tableRow.addCell(tableData);
             }
 
@@ -192,26 +196,50 @@ public class TableHelper {
         tableData.setContent(beanWrapper.getPropertyValue(entityTableField.getField()).toString());
     }
 
-    private <T> void renderTableActionCell(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableData tableData, List<EntityTableRowAction> rowActions, T t) {
+    private <T> void renderTableActionCell(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableData tableData, List<EntityTableRowAction> rowActions, Class<T> tClass, T t) {
         final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
         final Buttons buttons = new Buttons();
 
         buttons.setSize(Size.TINY);
 
         rowActions.forEach(entityTableRowAction -> {
-            if (entityTableRowAction.getMethod().equals(FormMethod.NONE)) {
-                final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
-                button.setColor(entityTableRowAction.getColor());
-                button.setInverted(entityTableRowAction.isInverted());
-                button.setBasic(entityTableRowAction.isBasic());
-                buttons.addButton(button);
-            } else {
-                final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
-                button.setMethod(entityTableRowAction.getMethod());
-                button.setColor(entityTableRowAction.getColor());
-                button.setInverted(entityTableRowAction.isInverted());
-                button.setBasic(entityTableRowAction.isBasic());
-                buttons.addButton(button);
+
+            Method checkMethod = Arrays.stream(tClass.getDeclaredMethods()).filter(method -> {
+                if (method.getReturnType().equals(boolean.class)) {
+                    for (RowActionCheck rowActionCheck : method.getAnnotationsByType(RowActionCheck.class)) {
+                        if (StringUtils.equals(rowActionCheck.value(), entityTableRowAction.getTitle())) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }).findFirst().orElse(null);
+
+            boolean canPerform = true;
+
+            if (Objects.nonNull(checkMethod)) {
+                try {
+                    canPerform = (boolean) checkMethod.invoke(t);
+                } catch (Exception ignored) {
+
+                }
+            }
+
+            if (canPerform) {
+                if (entityTableRowAction.getMethod().equals(FormMethod.NONE)) {
+                    final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                    button.setColor(entityTableRowAction.getColor());
+                    button.setInverted(entityTableRowAction.isInverted());
+                    button.setBasic(entityTableRowAction.isBasic());
+                    buttons.addButton(button);
+                } else {
+                    final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                    button.setMethod(entityTableRowAction.getMethod());
+                    button.setColor(entityTableRowAction.getColor());
+                    button.setInverted(entityTableRowAction.isInverted());
+                    button.setBasic(entityTableRowAction.isBasic());
+                    buttons.addButton(button);
+                }
             }
         });
 

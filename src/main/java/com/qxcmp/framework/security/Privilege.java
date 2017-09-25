@@ -2,6 +2,7 @@ package com.qxcmp.framework.security;
 
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.RowAction;
+import com.qxcmp.framework.web.view.annotation.table.RowActionCheck;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.support.Color;
@@ -51,7 +52,6 @@ public class Privilege {
     /**
      * 权限是否禁用，若权限禁用以后，该权限关联的所有操作将会失效
      */
-    @TableField("是否禁用")
     private boolean disabled;
 
     public Privilege() {
@@ -60,5 +60,15 @@ public class Privilege {
     public Privilege(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    @RowActionCheck("激活")
+    public boolean canPerformEnable() {
+        return this.disabled;
+    }
+
+    @RowActionCheck("禁用")
+    public boolean canPerformDisable() {
+        return !this.disabled;
     }
 }
