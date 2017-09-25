@@ -3,11 +3,15 @@ package com.qxcmp.framework.security.web;
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.PrivilegeService;
+import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.model.navigation.RestfulResponse;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.segment.Segments;
+import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -45,15 +49,100 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     @GetMapping("/role")
     public ModelAndView rolePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, roleService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理")
                 .setVerticalMenu(getVerticalMenu("角色管理"))
                 .build();
+    }
+
+    @GetMapping("/role/new")
+    public ModelAndView roleNew(final AdminSecurityRoleNewForm form) {
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "新建角色")
+                .setVerticalMenu(getVerticalMenu("角色管理"))
+                .addObject("selection_items_privileges", privilegeService.findAll())
+                .build();
+    }
+
+    @PostMapping("/role/new")
+    public ModelAndView roleNew(@Valid final AdminSecurityRoleNewForm form, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "新建角色")
+                    .setVerticalMenu(getVerticalMenu("角色管理"))
+                    .addObject("selection_items_privileges", privilegeService.findAll())
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                roleService.create(() -> {
+                    Role role = roleService.next();
+                    role.setName(form.getName());
+                    role.setDescription(form.getDescription());
+                    role.setPrivileges(form.getPrivileges());
+                    return role;
+                });
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回角色管理", QXCMP_BACKEND_URL + "/security/role").addLink("继续新建角色", QXCMP_BACKEND_URL + "/security/role/new"));
+    }
+
+    @GetMapping("/role/{id}/edit")
+    public ModelAndView roleEdit(@PathVariable String id, final AdminSecurityRoleEditForm form) {
+        return roleService.findOne(id).map(role -> {
+            form.setName(role.getName());
+            form.setDescription(role.getDescription());
+            form.setPrivileges(role.getPrivileges());
+
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "编辑角色")
+                    .setVerticalMenu(getVerticalMenu("角色管理"))
+                    .addObject("selection_items_privileges", privilegeService.findAll())
+                    .build();
+        }).orElse(overviewPage(new Overview(new IconHeader("角色不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/security/role")).build());
+    }
+
+    @PostMapping("/role/{id}/edit")
+    public ModelAndView roleEdit(@PathVariable String id, @Valid final AdminSecurityRoleEditForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "编辑角色")
+                    .setVerticalMenu(getVerticalMenu("角色管理"))
+                    .addObject("selection_items_privileges", privilegeService.findAll())
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                roleService.update(Long.parseLong(id), role -> {
+                    role.setName(form.getName());
+                    role.setDescription(form.getDescription());
+                    role.setPrivileges(form.getPrivileges());
+                });
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/security/role"));
+    }
+
+    @PostMapping("/role/{id}/remove")
+    public ResponseEntity<RestfulResponse> roleRemove(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("删除角色", context -> {
+            try {
+                roleService.remove(Long.parseLong(id));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     @GetMapping("/privilege")
     public ModelAndView privilegePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, privilegeService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "权限管理")
                 .setVerticalMenu(getVerticalMenu("权限管理"))
                 .build();
     }

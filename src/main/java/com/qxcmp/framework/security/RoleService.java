@@ -18,6 +18,14 @@ public class RoleService extends AbstractEntityService<Role, Long, RoleRepositor
         super(repository);
     }
 
+    public Optional<Role> findOne(String id) {
+        try {
+            return findOne(Long.parseLong(id));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     public Optional<Role> findByName(String name) {
         return repository.findByName(name);
     }
