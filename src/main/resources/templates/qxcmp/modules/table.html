@@ -80,12 +80,47 @@
     <th:block th:if="${component.tableHeader ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.tableHeader})}"></div>
     </th:block>
-    <div th:replace="~{:: table(${component})}"></div>
+    <div th:id="${component.id}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div th:replace="~{:: table(${component})}"></div>
+    </div>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var csrf = $(id).find("input[name='_csrf']").val();
+            var table = $(id).find("table");
+            var rowActionButton = $(table).find("tbody tr td .action.button");
+
+            $(rowActionButton).click(function () {
+                var button = $(this);
+                var action = $(button).attr("data-action");
+
+                if (action) {
+                    $(button).addClass("loading");
+
+                    $.ajax(action, {
+                        type: "POST",
+                        data: {
+                            "_csrf": csrf
+                        },
+                        success: function () {
+                            $(button).removeClass("loading");
+                            window.location.reload();
+                        },
+                        error: function (requset) {
+                            $(button).removeClass("loading");
+                            $(button).addClass("error");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTableActionButton"*/-->
 <button th:fragment="action-button(component)" th:class="${component.getClassName()}"
-        th:attr="action=@{${component.anchor.href}}" th:utext="${component.text}">
+        th:attr="data-action=@{${component.anchor.href}}" th:utext="${component.text}">
 </button>
 </body>
 </html>

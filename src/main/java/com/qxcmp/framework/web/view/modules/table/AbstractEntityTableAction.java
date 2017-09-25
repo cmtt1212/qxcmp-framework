@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.view.modules.table;
 
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
+import com.qxcmp.framework.web.view.support.Color;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,10 @@ public abstract class AbstractEntityTableAction {
     private FormMethod method;
 
     private AnchorTarget target;
+
+    private Color color = Color.NONE;
+
+    private boolean inverted;
+
+    private boolean basic;
 }

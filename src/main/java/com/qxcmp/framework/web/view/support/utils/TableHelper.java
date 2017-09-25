@@ -89,6 +89,9 @@ public class TableHelper {
             entityTableAction.setAction(table.getAction() + tableAction.action());
             entityTableAction.setMethod(tableAction.method());
             entityTableAction.setTarget(tableAction.target());
+            entityTableAction.setColor(tableAction.color());
+            entityTableAction.setInverted(tableAction.inverted());
+            entityTableAction.setBasic(tableAction.basic());
             entityTableAction.setSupportMultiple(tableAction.supportMultiple());
 
             table.getTableActions().add(entityTableAction);
@@ -101,6 +104,9 @@ public class TableHelper {
             entityTableRowAction.setAction(rowAction.action());
             entityTableRowAction.setMethod(rowAction.method());
             entityTableRowAction.setTarget(rowAction.target());
+            entityTableRowAction.setColor(rowAction.color());
+            entityTableRowAction.setInverted(rowAction.inverted());
+            entityTableRowAction.setBasic(rowAction.basic());
 
             table.getRowActions().add(entityTableRowAction);
         });
@@ -195,10 +201,16 @@ public class TableHelper {
         rowActions.forEach(entityTableRowAction -> {
             if (entityTableRowAction.getMethod().equals(FormMethod.NONE)) {
                 final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                button.setColor(entityTableRowAction.getColor());
+                button.setInverted(entityTableRowAction.isInverted());
+                button.setBasic(entityTableRowAction.isBasic());
                 buttons.addButton(button);
             } else {
                 final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
                 button.setMethod(entityTableRowAction.getMethod());
+                button.setColor(entityTableRowAction.getColor());
+                button.setInverted(entityTableRowAction.isInverted());
+                button.setBasic(entityTableRowAction.isBasic());
                 buttons.addButton(button);
             }
         });
