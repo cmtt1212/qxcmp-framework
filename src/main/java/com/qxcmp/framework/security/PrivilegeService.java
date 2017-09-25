@@ -27,6 +27,14 @@ public class PrivilegeService extends AbstractEntityService<Privilege, Long, Pri
 
     }
 
+    public Optional<Privilege> findOne(String id) {
+        try {
+            return findOne(Long.parseLong(id));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     public void enable(String id) throws ActionException {
         try {
             Long pId = Long.parseLong(id);

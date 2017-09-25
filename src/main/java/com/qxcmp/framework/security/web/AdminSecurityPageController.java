@@ -9,9 +9,12 @@ import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.elements.segment.Segments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +48,16 @@ public class AdminSecurityPageController extends QXCMPBackendController {
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
+    }
+
+    @PostMapping("/privilege/{id}/enable")
+    public ResponseEntity<String> privilegeEnable(@PathVariable String id) {
+        return privilegeService.findOne(id).map(privilege -> privilegeService.update(privilege.getId(), p -> p.setDisabled(false)).map(p -> ResponseEntity.ok("")).orElse(ResponseEntity.status(HttpStatus.BAD_GATEWAY).build())).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @PostMapping("/privilege/{id}/disable")
+    public ResponseEntity<String> privilegeDisable(@PathVariable String id) {
+        return privilegeService.findOne(id).map(privilege -> privilegeService.update(privilege.getId(), p -> p.setDisabled(true)).map(p -> ResponseEntity.ok("")).orElse(ResponseEntity.status(HttpStatus.BAD_GATEWAY).build())).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/authentication")

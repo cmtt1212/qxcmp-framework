@@ -51,6 +51,7 @@ public class Privilege {
     /**
      * 权限是否禁用，若权限禁用以后，该权限关联的所有操作将会失效
      */
+    @TableField("是否禁用")
     private boolean disabled;
 
     public Privilege() {
