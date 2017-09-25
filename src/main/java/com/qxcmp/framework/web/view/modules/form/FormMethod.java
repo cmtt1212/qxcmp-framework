@@ -6,6 +6,7 @@ package com.qxcmp.framework.web.view.modules.form;
  * @author Aaric
  */
 public enum FormMethod {
+    NONE(""),
     GET("get"),
     POST("post");
 
