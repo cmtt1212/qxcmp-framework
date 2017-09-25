@@ -43,6 +43,16 @@ public @interface TableAction {
     Color color() default Color.NONE;
 
     /**
+     * 是否为主要按钮
+     */
+    boolean primary() default false;
+
+    /**
+     * 是否为次要按钮
+     */
+    boolean secondary() default false;
+
+    /**
      * 是否翻转颜色
      */
     boolean inverted() default false;

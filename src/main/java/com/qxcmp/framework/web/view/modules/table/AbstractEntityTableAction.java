@@ -20,6 +20,10 @@ public abstract class AbstractEntityTableAction {
 
     private Color color = Color.NONE;
 
+    private boolean primary;
+
+    private boolean secondary;
+
     private boolean inverted;
 
     private boolean basic;

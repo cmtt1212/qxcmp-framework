@@ -93,6 +93,8 @@ public class TableHelper {
             entityTableAction.setMethod(tableAction.method());
             entityTableAction.setTarget(tableAction.target());
             entityTableAction.setColor(tableAction.color());
+            entityTableAction.setPrimary(tableAction.primary());
+            entityTableAction.setSecondary(tableAction.secondary());
             entityTableAction.setInverted(tableAction.inverted());
             entityTableAction.setBasic(tableAction.basic());
             entityTableAction.setSupportMultiple(tableAction.supportMultiple());
@@ -108,6 +110,8 @@ public class TableHelper {
             entityTableRowAction.setMethod(rowAction.method());
             entityTableRowAction.setTarget(rowAction.target());
             entityTableRowAction.setColor(rowAction.color());
+            entityTableRowAction.setPrimary(rowAction.primary());
+            entityTableRowAction.setSecondary(rowAction.secondary());
             entityTableRowAction.setInverted(rowAction.inverted());
             entityTableRowAction.setBasic(rowAction.basic());
 
@@ -164,6 +168,59 @@ public class TableHelper {
 
     private void renderTableHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields) {
         final TableHeader tableHeader = new TableHeader();
+
+        renderTableActionHeader(table, entityTableFields, tableHeader);
+
+        renderTableTitleHeader(table, entityTableFields, tableHeader);
+
+        table.setHeader(tableHeader);
+    }
+
+    private void renderTableActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
+        final TableRow tableRow = new TableRow();
+        final TableHead tableHead = new TableHead();
+        final Buttons buttons = new Buttons();
+
+        int colSpan = entityTableFields.size();
+
+        if (table.isMultiple()) {
+            ++colSpan;
+        }
+
+        if (!table.getRowActions().isEmpty()) {
+            ++colSpan;
+        }
+
+        tableHead.setColSpan(colSpan);
+
+        buttons.setSize(Size.TINY);
+
+        table.getTableActions().forEach(entityTableAction -> {
+            if (entityTableAction.getMethod().equals(FormMethod.NONE)) {
+                final Button button = new Button(entityTableAction.getTitle(), entityTableAction.getAction(), entityTableAction.getTarget());
+                button.setColor(entityTableAction.getColor());
+                button.setPrimary(entityTableAction.isPrimary());
+                button.setSecondary(entityTableAction.isSecondary());
+                button.setInverted(entityTableAction.isInverted());
+                button.setBasic(entityTableAction.isBasic());
+                buttons.addButton(button);
+            } else {
+                final EntityTableActionButton button = new EntityTableActionButton(entityTableAction.getTitle(), entityTableAction.getAction(), entityTableAction.getTarget());
+                button.setColor(entityTableAction.getColor());
+                button.setPrimary(entityTableAction.isPrimary());
+                button.setSecondary(entityTableAction.isSecondary());
+                button.setInverted(entityTableAction.isInverted());
+                button.setBasic(entityTableAction.isBasic());
+                buttons.addButton(button);
+            }
+        });
+
+        tableHead.setComponent(buttons);
+        tableRow.addCell(tableHead);
+        tableHeader.addRow(tableRow);
+    }
+
+    private void renderTableTitleHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
         final TableRow tableRow = new TableRow();
         entityTableFields.forEach(entityTableField -> {
             final TableHead tableHead = new TableHead();
@@ -178,7 +235,6 @@ public class TableHelper {
         }
 
         tableHeader.addRow(tableRow);
-        table.setHeader(tableHeader);
     }
 
     private <T> void renderTableBody(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Class<T> tClass, Page<T> tPage) {
@@ -279,17 +335,21 @@ public class TableHelper {
 
             if (canPerform) {
                 if (entityTableRowAction.getMethod().equals(FormMethod.NONE)) {
-                    final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                    final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction(), entityTableRowAction.getTarget());
                     button.setColor(entityTableRowAction.getColor());
                     button.setInverted(entityTableRowAction.isInverted());
                     button.setBasic(entityTableRowAction.isBasic());
+                    button.setPrimary(entityTableRowAction.isPrimary());
+                    button.setSecondary(entityTableRowAction.isSecondary());
                     buttons.addButton(button);
                 } else {
-                    final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                    final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction(), entityTableRowAction.getTarget());
                     button.setMethod(entityTableRowAction.getMethod());
                     button.setColor(entityTableRowAction.getColor());
                     button.setInverted(entityTableRowAction.isInverted());
                     button.setBasic(entityTableRowAction.isBasic());
+                    button.setPrimary(entityTableRowAction.isPrimary());
+                    button.setSecondary(entityTableRowAction.isSecondary());
                     buttons.addButton(button);
                 }
             }
