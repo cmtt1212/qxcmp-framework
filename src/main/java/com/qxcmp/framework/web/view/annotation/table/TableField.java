@@ -34,6 +34,16 @@ public @interface TableField {
     String fieldSuffix() default "";
 
     /**
+     * 如果字段为集合元素，则最多显示多少个集合类型
+     */
+    int maxCollectionCount() default 5;
+
+    /**
+     * 集合元素的索引
+     */
+    String collectionEntityIndex() default "";
+
+    /**
      * 是否渲染为超链接
      */
     boolean enableUrl() default false;

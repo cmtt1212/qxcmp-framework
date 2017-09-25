@@ -9,6 +9,8 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.label.Label;
+import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
@@ -22,10 +24,8 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -122,14 +122,31 @@ public class TableHelper {
             Arrays.stream(field.getDeclaredAnnotationsByType(TableField.class)).filter(tableField -> StringUtils.isBlank(tableField.name()) || StringUtils.equals(tableField.name(), entityTable.name())).findAny().ifPresent(tableField -> {
                 EntityTableField entityTableField = new EntityTableField();
 
-                entityTableField.setField(field.getName());
+                entityTableField.setField(field);
                 entityTableField.setTitle(tableField.value());
                 entityTableField.setDescription(tableField.description());
                 entityTableField.setOrder(tableField.order());
                 entityTableField.setFieldSuffix(tableField.fieldSuffix());
+                entityTableField.setMaxCollectionCount(tableField.maxCollectionCount());
+                entityTableField.setCollectionEntityIndex(tableField.collectionEntityIndex());
                 entityTableField.setEnableUrl(tableField.enableUrl());
-                entityTableField.setUrlPrefix(tableField.urlPrefix());
-                entityTableField.setUrlEntityIndex(tableField.urlEntityIndex());
+
+                if (StringUtils.isNotBlank(tableField.urlPrefix())) {
+                    entityTableField.setUrlPrefix(tableField.urlPrefix());
+
+                    if (!StringUtils.endsWith(entityTableField.getUrlPrefix(), "/")) {
+                        entityTableField.setUrlPrefix(entityTableField.getUrlPrefix() + "/");
+                    }
+                } else {
+                    entityTableField.setUrlPrefix(table.getAction());
+                }
+
+                if (StringUtils.isNotBlank(tableField.urlEntityIndex())) {
+                    entityTableField.setUrlEntityIndex(tableField.urlEntityIndex());
+                } else {
+                    entityTableField.setUrlEntityIndex(entityTableField.getCollectionEntityIndex());
+                }
+
                 entityTableField.setUrlSuffix(tableField.urlSuffix());
 
                 entityTableFields.add(entityTableField);
@@ -191,9 +208,44 @@ public class TableHelper {
         table.setBody(tableBody);
     }
 
+    @SuppressWarnings("unchecked")
     private <T> void renderTableCell(TableData tableData, EntityTableField entityTableField, T t) {
         final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
-        tableData.setContent(beanWrapper.getPropertyValue(entityTableField.getField()).toString());
+
+        if (Collection.class.isAssignableFrom(entityTableField.getField().getType())) {
+            try {
+                String entityIndex = entityTableField.getCollectionEntityIndex();
+
+                entityTableField.getField().setAccessible(true);
+                Collection collection = (Collection) entityTableField.getField().get(t);
+                List list = (List) collection.stream().limit(entityTableField.getMaxCollectionCount()).collect(Collectors.toList());
+                final Labels labels = new Labels();
+                list.forEach(item -> {
+
+                    BeanWrapperImpl itemWrapper = new BeanWrapperImpl(item);
+
+                    String labelText = null;
+
+                    if (StringUtils.isNotBlank(entityIndex)) {
+                        labelText = itemWrapper.getPropertyValue(entityIndex).toString();
+                    } else {
+                        labelText = item.toString();
+                    }
+
+                    if (entityTableField.isEnableUrl()) {
+                        String url = entityTableField.getUrlPrefix() + itemWrapper.getPropertyValue(entityTableField.getUrlEntityIndex()) + "/" + entityTableField.getUrlSuffix();
+                        labels.addLabel(new Label(labelText).setUrl(url));
+                    } else {
+                        labels.addLabel(new Label(labelText));
+                    }
+                });
+                tableData.setComponent(labels);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            tableData.setContent(beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix()).toString());
+        }
     }
 
     private <T> void renderTableActionCell(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableData tableData, List<EntityTableRowAction> rowActions, Class<T> tClass, T t) {

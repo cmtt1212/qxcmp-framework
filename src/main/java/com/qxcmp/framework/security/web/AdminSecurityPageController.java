@@ -42,11 +42,19 @@ public class AdminSecurityPageController extends QXCMPBackendController {
                 .build();
     }
 
+    @GetMapping("/role")
+    public ModelAndView rolePage(Pageable pageable) {
+        return page().addComponent(convertToTable(pageable, roleService))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
+                .setVerticalMenu(getVerticalMenu("角色管理"))
+                .build();
+    }
+
     @GetMapping("/privilege")
     public ModelAndView privilegePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, privilegeService))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalMenu(getVerticalMenu("权限管理"))
                 .build();
     }
 
