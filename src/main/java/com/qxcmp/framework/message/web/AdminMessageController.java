@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +59,7 @@ public class AdminMessageController extends QXCMPBackendController {
     }
 
     @GetMapping("/sms/send")
-    public ModelAndView smsVerifyPage(final AdminMessageSmsSendForm form) {
+    public ModelAndView smsSendPage(final AdminMessageSmsSendForm form) {
         SmsMessageParameter smsMessageParameter = new SmsMessageParameter();
         smsMessageParameter.setKey("captcha");
         smsMessageParameter.setValue(RandomStringUtils.randomNumeric(6));
@@ -68,22 +69,22 @@ public class AdminMessageController extends QXCMPBackendController {
         form.getPhones().add(currentUser().orElseThrow(null).getPhone());
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
                 .setVerticalMenu(getVerticalMenu("短信发送服务"))
                 .build();
     }
 
     @PostMapping("/sms/send")
-    public ModelAndView smsVerifyPage(@Valid final AdminMessageSmsSendForm form, BindingResult bindingResult,
-                                      @RequestParam(value = "add_phones", required = false) boolean addPhones,
-                                      @RequestParam(value = "remove_phones", required = false) Integer removePhones,
-                                      @RequestParam(value = "add_parameters", required = false) boolean addParameters,
-                                      @RequestParam(value = "remove_parameters", required = false) Integer removeParameters) {
+    public ModelAndView smsSendPage(@Valid final AdminMessageSmsSendForm form, BindingResult bindingResult,
+                                    @RequestParam(value = "add_phones", required = false) boolean addPhones,
+                                    @RequestParam(value = "remove_phones", required = false) Integer removePhones,
+                                    @RequestParam(value = "add_parameters", required = false) boolean addParameters,
+                                    @RequestParam(value = "remove_parameters", required = false) Integer removeParameters) {
 
         if (addPhones) {
             form.getPhones().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -91,7 +92,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removePhones)) {
             form.getPhones().remove(removePhones.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -99,7 +100,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (addParameters) {
             form.getParameters().add(new SmsMessageParameter());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -107,14 +108,14 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removeParameters)) {
             form.getParameters().remove(removeParameters.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -123,6 +124,89 @@ public class AdminMessageController extends QXCMPBackendController {
             try {
                 smsService.send(form.getPhones(), form.getTemplateCode(), stringStringMap -> {
                     form.getParameters().forEach(smsMessageParameter -> stringStringMap.put(smsMessageParameter.getKey(), smsMessageParameter.getValue()));
+                });
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+    }
+
+    @GetMapping("/email/send")
+    public ModelAndView emailSendPage(final AdminMessageEmailSendForm form) {
+        form.getTo().add("");
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                .build();
+    }
+
+    @PostMapping("/email/send")
+    public ModelAndView emailSendPage(@Valid final AdminMessageEmailSendForm form, BindingResult bindingResult,
+                                      @RequestParam(value = "add_to", required = false) boolean addTo,
+                                      @RequestParam(value = "remove_to", required = false) Integer removeTo,
+                                      @RequestParam(value = "add_cc", required = false) boolean addCc,
+                                      @RequestParam(value = "remove_cc", required = false) Integer removeCc) {
+
+        if (addTo) {
+            form.getTo().add("");
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeTo)) {
+            form.getTo().remove(removeTo.intValue());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .build();
+        }
+
+        if (addCc) {
+            form.getCc().add("");
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeCc)) {
+            form.getCc().remove(removeCc.intValue());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .build();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                emailService.send(mimeMessageHelper -> {
+                    mimeMessageHelper.setSubject(form.getSubject());
+                    form.getTo().forEach(s -> {
+                        try {
+                            mimeMessageHelper.addTo(s);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    form.getCc().forEach(s -> {
+                        try {
+                            mimeMessageHelper.addCc(s);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    mimeMessageHelper.setText(form.getContent());
                 });
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
@@ -234,6 +318,6 @@ public class AdminMessageController extends QXCMPBackendController {
     }
 
     private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "短信发送服务", QXCMP_BACKEND_URL + "/message/sms/send", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config");
+        return ImmutableList.of(activeItem, "短信发送服务", QXCMP_BACKEND_URL + "/message/sms/send", "邮件发送服务", QXCMP_BACKEND_URL + "/message/email/send", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config");
     }
 }

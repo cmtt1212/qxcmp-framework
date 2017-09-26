@@ -29,6 +29,9 @@ public @interface DynamicField {
      */
     boolean required() default false;
 
+    /**
+     * 最大个数
+     */
     int maxCount() default 4;
 
     /**
