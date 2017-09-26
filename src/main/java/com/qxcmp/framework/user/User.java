@@ -7,6 +7,7 @@ import com.qxcmp.framework.core.validation.Username;
 import com.qxcmp.framework.domain.Label;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,8 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@EntityTable(value = "用户管理", action = QXCMP_BACKEND_URL + "/user")
+@EntityTable(value = "用户管理", action = QXCMP_BACKEND_URL + "/user",
+        rowActions = {@RowAction(value = "查看", action = "details", primary = true)})
 @Entity
 @Table
 @Data

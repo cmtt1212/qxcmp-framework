@@ -44,6 +44,7 @@ public class TableHelper {
         if (dictionary.isEmpty()) {
             TableRow tableRow = new TableRow();
             TableData tableData = new TableData();
+            tableData.setAlignment(Alignment.CENTER);
             tableData.setColSpan(2);
             tableData.setContent("暂无内容");
             tableRow.addCell(tableData);
@@ -371,9 +372,8 @@ public class TableHelper {
 
                 String labelText;
 
-                Object itemValue = itemWrapper.getPropertyValue(entityIndex);
-
                 if (StringUtils.isNotBlank(entityIndex)) {
+                    Object itemValue = itemWrapper.getPropertyValue(entityIndex);
                     labelText = Objects.nonNull(itemValue) ? itemValue.toString() : "";
                 } else {
                     labelText = item.toString();
