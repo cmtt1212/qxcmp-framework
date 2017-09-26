@@ -50,16 +50,16 @@ public @interface EntityTable {
     TableAction[] tableActions() default {};
 
     /**
+     * 批处理操作
+     * <p>
+     * 如果设置了批处理操作，表格将会生成多选列在第一列
+     */
+    BatchAction[] batchActions() default {};
+
+    /**
      * 行操作
      */
     RowAction[] rowActions() default {};
-
-    /**
-     * 是否支持多选
-     * <p>
-     * 多选以后的实体操作只支持 {@link #tableActions()}
-     */
-    boolean multiple() default false;
 
     /**
      * 是否在单元格之间显示分隔符

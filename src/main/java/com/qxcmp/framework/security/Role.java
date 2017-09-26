@@ -19,6 +19,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  */
 @EntityTable(value = "角色列表", action = QXCMP_BACKEND_URL + "/security/role",
         tableActions = {@TableAction(value = "新建", action = "new", primary = true)},
+        batchActions = @BatchAction(value = "批量删除", action = "remove", color = Color.RED),
         rowActions = {@RowAction(value = "编辑", action = "edit", secondary = true), @RowAction(value = "删除", action = "remove", method = FormMethod.POST, color = Color.RED)}
 )
 @Entity

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.RowActionCheck;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.elements.button.AbstractButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -47,7 +48,6 @@ public class TableHelper {
         return table;
     }
 
-
     private <T> void configEntityTable(com.qxcmp.framework.web.view.modules.table.EntityTable table, EntityTable entityTable, Class<T> tClass) {
 
         if (StringUtils.isNotBlank(entityTable.value())) {
@@ -66,7 +66,6 @@ public class TableHelper {
             table.setAction(table.getAction() + "/");
         }
 
-        table.setMultiple(entityTable.multiple());
         table.setCelled(entityTable.celled());
         table.setBasic(entityTable.basic());
         table.setVeryBasic(entityTable.veryBasic());
@@ -97,9 +96,24 @@ public class TableHelper {
             entityTableAction.setSecondary(tableAction.secondary());
             entityTableAction.setInverted(tableAction.inverted());
             entityTableAction.setBasic(tableAction.basic());
-            entityTableAction.setSupportMultiple(tableAction.supportMultiple());
 
             table.getTableActions().add(entityTableAction);
+        });
+
+        Arrays.stream(entityTable.batchActions()).forEach(batchAction -> {
+            EntityTableBatchAction entityTableBatchAction = new EntityTableBatchAction();
+
+            entityTableBatchAction.setTitle(batchAction.value());
+            entityTableBatchAction.setAction(table.getAction() + batchAction.action());
+            entityTableBatchAction.setMethod(batchAction.method());
+            entityTableBatchAction.setTarget(batchAction.target());
+            entityTableBatchAction.setColor(batchAction.color());
+            entityTableBatchAction.setPrimary(batchAction.primary());
+            entityTableBatchAction.setSecondary(batchAction.secondary());
+            entityTableBatchAction.setInverted(batchAction.inverted());
+            entityTableBatchAction.setBasic(batchAction.basic());
+
+            table.getBatchActions().add(entityTableBatchAction);
         });
 
         Arrays.stream(entityTable.rowActions()).forEach(rowAction -> {
@@ -117,6 +131,8 @@ public class TableHelper {
 
             table.getRowActions().add(entityTableRowAction);
         });
+
+        table.setMultiple(!table.getBatchActions().isEmpty());
     }
 
     private <T> void renderTableContent(com.qxcmp.framework.web.view.modules.table.EntityTable table, EntityTable entityTable, Class<T> tClass, Page<T> tPage) {
@@ -169,7 +185,13 @@ public class TableHelper {
     private void renderTableHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields) {
         final TableHeader tableHeader = new TableHeader();
 
-        renderTableActionHeader(table, entityTableFields, tableHeader);
+        if (!table.getTableActions().isEmpty()) {
+            renderTableActionHeader(table, entityTableFields, tableHeader);
+        }
+
+        if (!table.getBatchActions().isEmpty()) {
+            renderTableBatchActionHeader(table, entityTableFields, tableHeader);
+        }
 
         renderTableTitleHeader(table, entityTableFields, tableHeader);
 
@@ -192,27 +214,37 @@ public class TableHelper {
         }
 
         tableHead.setColSpan(colSpan);
-
         buttons.setSize(Size.MINI);
 
         table.getTableActions().forEach(entityTableAction -> {
-            if (entityTableAction.getMethod().equals(FormMethod.NONE)) {
-                final Button button = new Button(entityTableAction.getTitle(), entityTableAction.getAction(), entityTableAction.getTarget());
-                button.setColor(entityTableAction.getColor());
-                button.setPrimary(entityTableAction.isPrimary());
-                button.setSecondary(entityTableAction.isSecondary());
-                button.setInverted(entityTableAction.isInverted());
-                button.setBasic(entityTableAction.isBasic());
-                buttons.addButton(button);
-            } else {
-                final EntityTableActionButton button = new EntityTableActionButton(entityTableAction.getTitle(), entityTableAction.getAction(), entityTableAction.getTarget());
-                button.setColor(entityTableAction.getColor());
-                button.setPrimary(entityTableAction.isPrimary());
-                button.setSecondary(entityTableAction.isSecondary());
-                button.setInverted(entityTableAction.isInverted());
-                button.setBasic(entityTableAction.isBasic());
-                buttons.addButton(button);
-            }
+            buttons.addButton(convertActionToButton(entityTableAction));
+        });
+
+        tableHead.setComponent(buttons);
+        tableRow.addCell(tableHead);
+        tableHeader.addRow(tableRow);
+    }
+
+    private void renderTableBatchActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
+        final TableRow tableRow = new TableRow();
+        final TableHead tableHead = new TableHead();
+        final Buttons buttons = new Buttons();
+
+        int colSpan = entityTableFields.size();
+
+        if (table.isMultiple()) {
+            ++colSpan;
+        }
+
+        if (!table.getRowActions().isEmpty()) {
+            ++colSpan;
+        }
+
+        tableHead.setColSpan(colSpan);
+        buttons.setSize(Size.MINI);
+
+        table.getBatchActions().forEach(entityTableBatchAction -> {
+            buttons.addButton(convertActionToButton(entityTableBatchAction));
         });
 
         tableHead.setComponent(buttons);
@@ -334,24 +366,10 @@ public class TableHelper {
             }
 
             if (canPerform) {
-                if (entityTableRowAction.getMethod().equals(FormMethod.NONE)) {
-                    final Button button = new Button(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction(), entityTableRowAction.getTarget());
-                    button.setColor(entityTableRowAction.getColor());
-                    button.setInverted(entityTableRowAction.isInverted());
-                    button.setBasic(entityTableRowAction.isBasic());
-                    button.setPrimary(entityTableRowAction.isPrimary());
-                    button.setSecondary(entityTableRowAction.isSecondary());
-                    buttons.addButton(button);
-                } else {
-                    final EntityTableActionButton button = new EntityTableActionButton(entityTableRowAction.getTitle(), table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction(), entityTableRowAction.getTarget());
-                    button.setMethod(entityTableRowAction.getMethod());
-                    button.setColor(entityTableRowAction.getColor());
-                    button.setInverted(entityTableRowAction.isInverted());
-                    button.setBasic(entityTableRowAction.isBasic());
-                    button.setPrimary(entityTableRowAction.isPrimary());
-                    button.setSecondary(entityTableRowAction.isSecondary());
-                    buttons.addButton(button);
-                }
+                AbstractButton button = convertActionToButton(entityTableRowAction);
+                button.getAnchor().setHref(table.getAction() + beanWrapper.getPropertyValue(table.getEntityIndex()) + "/" + entityTableRowAction.getAction());
+                button.getAnchor().setTarget(entityTableRowAction.getTarget().toString());
+                buttons.addButton(button);
             }
         });
 
@@ -380,5 +398,23 @@ public class TableHelper {
         tableRow.addCell(tableHead);
         tableFooter.addRow(tableRow);
         table.setFooter(tableFooter);
+    }
+
+    private AbstractButton convertActionToButton(AbstractEntityTableAction tableAction) {
+        AbstractButton button;
+
+        if (tableAction.getMethod().equals(FormMethod.NONE)) {
+            button = new Button(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+        } else {
+            button = new EntityTableActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+        }
+
+        button.setColor(tableAction.getColor());
+        button.setPrimary(tableAction.isPrimary());
+        button.setSecondary(tableAction.isSecondary());
+        button.setInverted(tableAction.isInverted());
+        button.setBasic(tableAction.isBasic());
+
+        return button;
     }
 }

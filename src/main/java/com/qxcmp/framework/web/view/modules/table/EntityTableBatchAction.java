@@ -5,5 +5,5 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EntityTableAction extends AbstractEntityTableAction {
+public class EntityTableBatchAction extends AbstractEntityTableAction {
 }

@@ -24,6 +24,8 @@ public class EntityTable extends AbstractTable {
 
     private List<EntityTableAction> tableActions = Lists.newArrayList();
 
+    private List<EntityTableBatchAction> batchActions = Lists.newArrayList();
+
     private List<EntityTableRowAction> rowActions = Lists.newArrayList();
 
     @Override
