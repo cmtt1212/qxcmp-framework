@@ -1,6 +1,8 @@
 package com.qxcmp.framework.core.web;
 
+import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.account.AccountService;
+import com.qxcmp.framework.account.username.AccountSecurityQuestion;
 import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.user.User;
@@ -29,7 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
@@ -41,7 +45,11 @@ public class AdminProfilePageController extends QXCMPBackendController {
     private static final String EMAIL_BINDING_SESSION_ATTR = "EMAIL_BINDING_CAPTCHA";
     private static final String EMAIL_BINDING_CONTENT_SESSION_ATTR = "EMAIL_BINDING_CONTENT";
 
-    private final AccountSecurityQuestionService accountSecurityQuestionService;
+    private static final List<String> QUESTIONS_LIST_1 = ImmutableList.of("您高中三年级班主任的名字", "您小学六年级班主任的名字", "您大学时的学号", "您大学本科时的上/下铺叫什么名字", "您大学的导师叫什么名字");
+    private static final List<String> QUESTIONS_LIST_2 = ImmutableList.of("您父母称呼您的昵称", "您出生的医院名称", "您最好的朋友叫什么名字", "您母亲的姓名是", "您配偶的生日是");
+    private static final List<String> QUESTIONS_LIST_3 = ImmutableList.of("您第一个宠物的名字", "您的第一任男朋友/女朋友姓名", "您第一家任职的公司名字");
+
+    private final AccountSecurityQuestionService securityQuestionService;
 
     private final AccountService accountService;
 
@@ -87,15 +95,15 @@ public class AdminProfilePageController extends QXCMPBackendController {
     public ModelAndView securityPage() {
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        boolean hasSecurityQuestion = accountSecurityQuestionService.findByUserId(user.getId()).map(accountSecurityQuestion -> StringUtils.isNotBlank(accountSecurityQuestion.getQuestion1()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion2()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion3())).orElse(false);
+        boolean hasSecurityQuestion = securityQuestionService.findByUserId(user.getId()).map(accountSecurityQuestion -> StringUtils.isNotBlank(accountSecurityQuestion.getQuestion1()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion2()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion3())).orElse(false);
 
         return page().addComponent(new Segment()
                 .addComponent(new PageHeader(HeaderType.H2, "安全设置").setDividing())
                 .addComponent(new Table().setBasic().setHeader((AbstractTableHeader) new TableHeader()
                         .addRow(new TableRow().addCell(new TableHead("登录密码").setAlignment(Alignment.CENTER)).addCell(new TableData("安全性高的密码可以使帐号更安全")).addCell(new TableData(StringUtils.isNotBlank(user.getPassword()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/password").setBasic()).setAlignment(Alignment.CENTER)))
-                        .addRow(new TableRow().addCell(new TableHead("手机绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("手机号可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getPhone()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/phone").setBasic()).setAlignment(Alignment.CENTER)))
-                        .addRow(new TableRow().addCell(new TableHead("邮箱绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("邮箱可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getEmail()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/email").setBasic()).setAlignment(Alignment.CENTER)))
-                        .addRow(new TableRow().addCell(new TableHead("密保问题").setAlignment(Alignment.CENTER)).addCell(new TableData("建议设置三个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全")).addCell(new TableData(hasSecurityQuestion ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/question").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("手机绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("手机号可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getPhone()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("绑定", QXCMP_BACKEND_URL + "/profile/security/phone").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("邮箱绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("邮箱可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getEmail()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("绑定", QXCMP_BACKEND_URL + "/profile/security/email").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("密保问题").setAlignment(Alignment.CENTER)).addCell(new TableData("建议设置三个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全")).addCell(new TableData(hasSecurityQuestion ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("设置", QXCMP_BACKEND_URL + "/profile/security/question").setBasic()).setAlignment(Alignment.CENTER)))
                 )))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置")
                 .build();
@@ -216,6 +224,61 @@ public class AdminProfilePageController extends QXCMPBackendController {
                 String email = (String) request.getSession().getAttribute(EMAIL_BINDING_CONTENT_SESSION_ATTR);
                 userService.update(user.getId(), u -> u.setEmail(email));
                 refreshUser();
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security"));
+    }
+
+    @GetMapping("/security/question")
+    public ModelAndView securityQuestionPage(final AdminProfileSecurityQuestionForm form) {
+        return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "密保问题")
+                .addObject("selection_items_question1", QUESTIONS_LIST_1)
+                .addObject("selection_items_question2", QUESTIONS_LIST_2)
+                .addObject("selection_items_question3", QUESTIONS_LIST_3)
+                .build();
+    }
+
+    @PostMapping("/security/question")
+    public ModelAndView securityQuestionPage(@Valid final AdminProfileSecurityQuestionForm form, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "密保问题")
+                    .addObject("selection_items_question1", QUESTIONS_LIST_1)
+                    .addObject("selection_items_question2", QUESTIONS_LIST_2)
+                    .addObject("selection_items_question3", QUESTIONS_LIST_3)
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                User user = currentUser().orElseThrow(RuntimeException::new);
+
+                Optional<AccountSecurityQuestion> securityQuestionOptional = securityQuestionService.findByUserId(user.getId());
+
+                if (securityQuestionOptional.isPresent()) {
+                    securityQuestionService.update(securityQuestionOptional.get().getId(), securityQuestion -> {
+                        securityQuestion.setQuestion1(form.getQuestion1());
+                        securityQuestion.setAnswer1(form.getAnswer1());
+                        securityQuestion.setQuestion2(form.getQuestion2());
+                        securityQuestion.setAnswer2(form.getAnswer2());
+                        securityQuestion.setQuestion3(form.getQuestion3());
+                        securityQuestion.setAnswer3(form.getAnswer3());
+                    });
+                } else {
+                    securityQuestionService.create(() -> {
+                        AccountSecurityQuestion securityQuestion = securityQuestionService.next();
+                        securityQuestion.setUserId(user.getId());
+                        securityQuestion.setQuestion1(form.getQuestion1());
+                        securityQuestion.setAnswer1(form.getAnswer1());
+                        securityQuestion.setQuestion2(form.getQuestion2());
+                        securityQuestion.setAnswer2(form.getAnswer2());
+                        securityQuestion.setQuestion3(form.getQuestion3());
+                        securityQuestion.setAnswer3(form.getAnswer3());
+                        return securityQuestion;
+                    });
+                }
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
