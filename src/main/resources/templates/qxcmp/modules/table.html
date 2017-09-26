@@ -82,14 +82,22 @@
     </th:block>
     <div th:id="${component.id}">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="ui inverted blurring load dimmer">
+            <div class="ui text loader"></div>
+        </div>
         <div th:replace="~{:: table(${component})}"></div>
     </div>
     <script th:inline="javascript">
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
             var csrf = $(id).find("input[name='_csrf']").val();
+            var loadDimmer = $(id).find(".ui.load.dimmer");
             var table = $(id).find("table");
             var rowActionButton = $(table).find("tbody tr td .action.button");
+
+            $(loadDimmer).dimmer({
+                closeable: false
+            });
 
             $(rowActionButton).click(function () {
                 var button = $(this);
@@ -105,9 +113,10 @@
                         },
                         success: function () {
                             $(button).removeClass("loading");
+                            $(loadDimmer).dimmer("show");
                             window.location.reload();
                         },
-                        error: function (requset) {
+                        error: function (response) {
                             $(button).removeClass("loading");
                             $(button).addClass("error");
                         }

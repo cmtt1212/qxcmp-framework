@@ -193,7 +193,7 @@ public class TableHelper {
 
         tableHead.setColSpan(colSpan);
 
-        buttons.setSize(Size.TINY);
+        buttons.setSize(Size.MINI);
 
         table.getTableActions().forEach(entityTableAction -> {
             if (entityTableAction.getMethod().equals(FormMethod.NONE)) {
@@ -308,7 +308,7 @@ public class TableHelper {
         final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
         final Buttons buttons = new Buttons();
 
-        buttons.setSize(Size.TINY);
+        buttons.setSize(Size.MINI);
 
         rowActions.forEach(entityTableRowAction -> {
 

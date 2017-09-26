@@ -37,6 +37,7 @@ public @interface TableAction {
      * 操作的打开方式
      */
     AnchorTarget target() default AnchorTarget.NONE;
+
     /**
      * 按钮颜色
      */
