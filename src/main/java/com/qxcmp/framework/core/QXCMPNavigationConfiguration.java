@@ -34,7 +34,6 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 ));
 
         navigationService.add(new Navigation(NAVIGATION_QXCMP_ADMIN_ACCOUNT, "系统后台用户中心导航栏")
-                .addItem(new Navigation("QXCMP-ADMIN-ACCOUNT-CENTER", "个人中心", QXCMP_BACKEND_URL + "/profile"))
                 .addItem(new Navigation("QXCMP-ADMIN-ACCOUNT-INFO", "基本资料", QXCMP_BACKEND_URL + "/profile/info"))
                 .addItem(new Navigation("QXCMP-ADMIN-ACCOUNT-SECURITY", "安全设置", QXCMP_BACKEND_URL + "/profile/security"))
         );

@@ -32,7 +32,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aairc
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/account")
 @RequiredArgsConstructor
 public class AccountModuleController extends QXCMPBackendController2 {
