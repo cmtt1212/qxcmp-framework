@@ -15,6 +15,7 @@ import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
+import com.qxcmp.framework.web.view.modules.table.dictionary.AbstractDictionaryValueCell;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @RequiredArgsConstructor
 public class TableHelper {
 
-    public Table convert(Map<String, String> dictionary) {
+    public Table convert(Map<String, Object> dictionary) {
         final Table table = new Table();
         table.setCelled().setStriped().setBasic().setSize(Size.SMALL);
         table.setBody(new TableBody());
@@ -50,15 +51,32 @@ public class TableHelper {
             dictionary.forEach((key, value) -> {
                 TableRow tableRow = new TableRow();
                 TableData keyCell = new TableData();
-                TableData valueCell = new TableData();
                 keyCell.setContent(key);
-                valueCell.setContent(value);
-                tableRow.addCell(keyCell).addCell(valueCell);
+                tableRow.addCell(keyCell);
+
+                parseValueCell(tableRow, value);
+
                 table.getBody().addRow(tableRow);
             });
         }
 
         return table;
+    }
+
+    private void parseValueCell(TableRow tableRow, Object value) {
+
+        if (Objects.isNull(value)) {
+            tableRow.addCell(new TableData(""));
+        } else {
+            if (value instanceof Boolean) {
+                tableRow.addCell(new TableData(Boolean.parseBoolean(value.toString()) ? "是" : "否"));
+            } else if (value instanceof AbstractDictionaryValueCell) {
+                AbstractDictionaryValueCell dictionaryValueCell = (AbstractDictionaryValueCell) value;
+                tableRow.addCell(dictionaryValueCell.parse());
+            } else {
+                tableRow.addCell(new TableData(value.toString()));
+            }
+        }
     }
 
     public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, Class<T> tClass, Page<T> tPage) {

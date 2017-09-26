@@ -100,12 +100,12 @@ public abstract class AbstractQXCMPController {
         return tableHelper.convert(tableName, entityService.type(), entityService.findAll(pageable));
     }
 
-    protected Table convertToTable(Map<String, String> dictionary) {
+    protected Table convertToTable(Map<String, Object> dictionary) {
         return tableHelper.convert(dictionary);
     }
 
-    protected Table convertToTable(Consumer<Map<String, String>> consumer) {
-        Map<String, String> dictionary = Maps.newLinkedHashMap();
+    protected Table convertToTable(Consumer<Map<String, Object>> consumer) {
+        Map<String, Object> dictionary = Maps.newLinkedHashMap();
         consumer.accept(dictionary);
         return convertToTable(dictionary);
     }
