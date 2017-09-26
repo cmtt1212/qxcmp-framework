@@ -6,6 +6,8 @@ import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.modules.table.dictionary.AnchorValueCell;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;

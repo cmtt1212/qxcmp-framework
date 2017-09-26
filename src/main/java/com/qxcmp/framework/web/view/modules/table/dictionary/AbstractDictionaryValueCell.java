@@ -13,7 +13,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractDictionaryValueCell {
+public abstract class AbstractDictionaryValueCell<T> {
+
+    protected T object;
+
+    public AbstractDictionaryValueCell(T object) {
+        this.object = object;
+    }
 
     public abstract AbstractTableCell parse();
 }
