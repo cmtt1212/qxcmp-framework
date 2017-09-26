@@ -1,15 +1,13 @@
 package com.qxcmp.framework.user;
 
 import com.google.common.collect.Sets;
-import com.qxcmp.framework.domain.Label;
-import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.core.validation.Phone;
 import com.qxcmp.framework.core.validation.Username;
-import com.qxcmp.framework.view.annotation.TableView;
-import com.qxcmp.framework.view.annotation.TableViewAction;
-import com.qxcmp.framework.view.annotation.TableViewField;
-import com.qxcmp.framework.view.table.TableViewActionEntity;
+import com.qxcmp.framework.domain.Label;
+import com.qxcmp.framework.security.Role;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Email;
@@ -31,10 +29,9 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
+@EntityTable(value = "用户管理", action = QXCMP_BACKEND_URL + "/user")
 @Entity
 @Table
-@TableView(name = "user", caption = "用户管理", actionUrlPrefix = QXCMP_BACKEND_URL + "/security/user/", entityIndex = "username", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true))
-@TableView(name = "wechat", caption = "公众号用户", actionUrlPrefix = QXCMP_BACKEND_URL + "/weixin/user/", createAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "同步", type = TableViewActionEntity.ActionType.TABLE, urlSuffix = "sync", isForm = true))
 @Data
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
@@ -52,7 +49,7 @@ public class User implements UserDetails {
      */
     @Username
     @Column(length = 30, unique = true)
-    @TableViewField(name = "user", title = "用户名")
+    @TableField("用户名")
     private String username;
 
     /**
@@ -80,7 +77,6 @@ public class User implements UserDetails {
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
-    @TableViewField(name = "user", title = "拥有角色", isCollection = true, collectionEntityIndex = "name", urlEnabled = true, urlPrefix = QXCMP_BACKEND_URL + "/security/role/", urlSuffix = "/edit")
     private Set<Role> roles = Sets.newHashSet();
 
     /**
@@ -112,25 +108,21 @@ public class User implements UserDetails {
     /**
      * 用户账户是否未过期
      */
-    @TableViewField(title = "账户是否未过期", name = "user", useI18n = true)
     private boolean accountNonExpired;
 
     /**
      * 用户账户是否被锁定
      */
-    @TableViewField(title = "账户是否未锁定", name = "user", useI18n = true)
     private boolean accountNonLocked;
 
     /**
      * 用户密码是否未过期
      */
-    @TableViewField(title = "密码是否未过期", name = "user", useI18n = true)
     private boolean credentialsNonExpired;
 
     /**
      * 用户账户是否可用
      */
-    @TableViewField(title = "账户是否启用", name = "user", useI18n = true)
     private boolean enabled;
 
     /**
@@ -161,49 +153,43 @@ public class User implements UserDetails {
     /**
      * 用户昵称
      */
-    @TableViewField(name = "wechat", title = "昵称")
+    @TableField("昵称")
     private String nickname;
 
     /**
      * 用户头像URL
      */
-    @TableViewField(name = "wechat", title = "头像", order = 1, isImage = true)
+    @TableField(value = "头像", image = true, order = Integer.MIN_VALUE)
     private String portrait;
 
     /**
      * 用户是否订阅平台所属的公众号
      */
-    @TableViewField(name = "wechat", title = "订阅", useI18n = true)
     private boolean subscribe;
 
     /**
      * 用户性别
      */
-    @TableViewField(name = "wechat", title = "性别")
     private String sex;
 
     /**
      * 用户所使用语言
      */
-    @TableViewField(name = "wechat", title = "语言")
     private String language;
 
     /**
      * 用户所在城市
      */
-    @TableViewField(name = "wechat", title = "城市")
     private String city;
 
     /**
      * 用户所在省份
      */
-    @TableViewField(name = "wechat", title = "省份")
     private String province;
 
     /**
      * 用户所在国家
      */
-    @TableViewField(name = "wechat", title = "国家")
     private String country;
 
     /**

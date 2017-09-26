@@ -51,7 +51,7 @@ public class Role {
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
-    @TableField(value = "拥有权限", collectionEntityIndex = "name", enableUrl = true, urlPrefix = QXCMP_BACKEND_URL + "/security/privilege", urlEntityIndex = "id", maxCollectionCount = 3)
+    @TableField(value = "拥有权限", collectionEntityIndex = "name", maxCollectionCount = 3)
     private Set<Privilege> privileges = Sets.newHashSet();
 
     @RowActionCheck("编辑")

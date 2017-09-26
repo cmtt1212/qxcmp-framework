@@ -23,6 +23,8 @@ public class EntityTableField {
 
     private String collectionEntityIndex;
 
+    private boolean image;
+
     private boolean enableUrl;
 
     private String urlPrefix;

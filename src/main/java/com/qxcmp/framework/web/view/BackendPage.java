@@ -183,8 +183,8 @@ public class BackendPage extends AbstractPage {
         }
 
         if (Objects.nonNull(verticalMenu)) {
-            row.addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(verticalMenu));
-            row.addCol(container.setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN));
+            row.addCol(new Col().setComputerWide(Wide.TWO).setMobileWide(Wide.SIXTEEN).addComponent(verticalMenu));
+            row.addCol(container.setComputerWide(Wide.FOURTEEN).setMobileWide(Wide.SIXTEEN));
         } else {
             row.addCol(container.setGeneralWide(Wide.SIXTEEN));
         }

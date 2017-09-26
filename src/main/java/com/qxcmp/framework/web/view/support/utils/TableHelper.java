@@ -10,6 +10,7 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.image.Avatar;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
@@ -194,6 +195,7 @@ public class TableHelper {
                 entityTableField.setFieldSuffix(tableField.fieldSuffix());
                 entityTableField.setMaxCollectionCount(tableField.maxCollectionCount());
                 entityTableField.setCollectionEntityIndex(tableField.collectionEntityIndex());
+                entityTableField.setImage(tableField.image());
                 entityTableField.setEnableUrl(tableField.enableUrl());
 
                 if (StringUtils.isNotBlank(tableField.urlPrefix())) {
@@ -355,39 +357,38 @@ public class TableHelper {
     private <T> void renderTableCell(TableData tableData, EntityTableField entityTableField, T t) {
         final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
 
-        if (Collection.class.isAssignableFrom(entityTableField.getField().getType())) {
-            try {
-                String entityIndex = entityTableField.getCollectionEntityIndex();
+        Object value = beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix());
 
-                entityTableField.getField().setAccessible(true);
-                Collection collection = (Collection) entityTableField.getField().get(t);
-                List list = (List) collection.stream().limit(entityTableField.getMaxCollectionCount()).collect(Collectors.toList());
-                final Labels labels = new Labels();
-                list.forEach(item -> {
+        if (entityTableField.isImage()) {
+            tableData.setCollapsing().setComponent(new Avatar(Objects.nonNull(value) ? value.toString() : ""));
+        } else if (Collection.class.isAssignableFrom(entityTableField.getField().getType())) {
+            String entityIndex = entityTableField.getCollectionEntityIndex();
+            List list = (List) ((Collection) value).stream().limit(entityTableField.getMaxCollectionCount()).collect(Collectors.toList());
+            final Labels labels = new Labels();
+            list.forEach(item -> {
 
-                    BeanWrapperImpl itemWrapper = new BeanWrapperImpl(item);
+                BeanWrapperImpl itemWrapper = new BeanWrapperImpl(item);
 
-                    String labelText = null;
+                String labelText;
 
-                    if (StringUtils.isNotBlank(entityIndex)) {
-                        labelText = itemWrapper.getPropertyValue(entityIndex).toString();
-                    } else {
-                        labelText = item.toString();
-                    }
+                Object itemValue = itemWrapper.getPropertyValue(entityIndex);
 
-                    if (entityTableField.isEnableUrl()) {
-                        String url = entityTableField.getUrlPrefix() + itemWrapper.getPropertyValue(entityTableField.getUrlEntityIndex()) + "/" + entityTableField.getUrlSuffix();
-                        labels.addLabel(new Label(labelText).setUrl(url));
-                    } else {
-                        labels.addLabel(new Label(labelText));
-                    }
-                });
-                tableData.setComponent(labels);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+                if (StringUtils.isNotBlank(entityIndex)) {
+                    labelText = Objects.nonNull(itemValue) ? itemValue.toString() : "";
+                } else {
+                    labelText = item.toString();
+                }
+
+                if (entityTableField.isEnableUrl()) {
+                    String url = entityTableField.getUrlPrefix() + itemWrapper.getPropertyValue(entityTableField.getUrlEntityIndex()) + "/" + entityTableField.getUrlSuffix();
+                    labels.addLabel(new Label(labelText).setUrl(url));
+                } else {
+                    labels.addLabel(new Label(labelText));
+                }
+            });
+            tableData.setComponent(labels);
         } else {
-            tableData.setContent(beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix()).toString());
+            tableData.setContent(Objects.nonNull(value) ? value.toString() : "");
         }
     }
 

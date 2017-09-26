@@ -44,6 +44,11 @@ public @interface TableField {
     String collectionEntityIndex() default "";
 
     /**
+     * 是否显示为图片
+     */
+    boolean image() default false;
+
+    /**
      * 是否渲染为超链接
      */
     boolean enableUrl() default false;
