@@ -74,6 +74,25 @@
     </td>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.TableHeadCheckbox"*/-->
+<th:block th:fragment="table-head-checkbox(component)">
+    <th th:class="${component.getClassName()}">
+        <div class="ui head fitted checkbox" th:attr="data-key=${component.key}">
+            <input type="checkbox"/>
+            <label></label>
+        </div>
+    </th>
+</th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.TableHeadCheckbox"*/-->
+<th:block th:fragment="table-data-checkbox(component)">
+    <td th:class="${component.getClassName()}">
+        <div class="ui data fitted checkbox" th:attr="data-key=${component.key}">
+            <input type="checkbox"/>
+            <label></label>
+        </div>
+    </td>
+</th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTable"*/-->
 <th:block th:fragment="entity-table(component)">
@@ -93,6 +112,9 @@
             var csrf = $(id).find("input[name='_csrf']").val();
             var loadDimmer = $(id).find(".ui.load.dimmer");
             var table = $(id).find("table");
+            var headCheckbox = $(table).find("thead .ui.head.checkbox");
+            var dataCheckbox = $(table).find("tbody .ui.data.checkbox");
+            var batchActionButton = $(table).find("thead tr .batch.action.button");
             var rowActionButton = $(table).find("tbody tr td .action.button");
 
             $(loadDimmer).dimmer({
@@ -116,13 +138,83 @@
                             $(loadDimmer).dimmer("show");
                             window.location.reload();
                         },
-                        error: function (response) {
+                        error: function () {
                             $(button).removeClass("loading");
                             $(button).addClass("error");
                         }
                     });
                 }
             });
+
+            $(batchActionButton).click(function () {
+                var button = $(this);
+                var action = $(button).attr("data-action");
+                var keys = [];
+
+                $.each(dataCheckbox, function () {
+                    if ($(this).checkbox("is checked")) {
+                        keys.push($(this).attr("data-key"))
+                    }
+                });
+
+                if (action && keys.length > 0) {
+                    $(button).addClass("loading");
+
+                    $.ajax(action, {
+                        type: "POST",
+                        data: {
+                            "_csrf": csrf,
+                            "keys": keys
+                        },
+                        success: function () {
+                            $(button).removeClass("loading");
+                            $(loadDimmer).dimmer("show");
+                            window.location.reload();
+                        },
+                        error: function () {
+                            $(button).removeClass("loading");
+                            $(button).addClass("error");
+                        }
+                    });
+                }
+            });
+
+            $(headCheckbox).checkbox({
+                onChecked: function () {
+                    $(dataCheckbox).checkbox("set checked");
+                },
+                onUnchecked: function () {
+                    $(dataCheckbox).checkbox("set unchecked");
+                }
+            });
+
+            $(dataCheckbox).checkbox({
+                onChange: function () {
+                    $(headCheckbox).checkbox(getHeadCheckboxState());
+                }
+            });
+
+            function getHeadCheckboxState() {
+                var allCheck = true;
+                var allUncheck = true;
+                $.each(dataCheckbox, function () {
+                    if ($(this).checkbox("is checked")) {
+                        allUncheck = false;
+                    } else {
+                        allCheck = false;
+                    }
+                });
+
+                if (allCheck) {
+                    return "set checked";
+                }
+
+                if (allUncheck) {
+                    return "set unchecked";
+                }
+
+                return "set indeterminate";
+            }
         });
     </script>
 </th:block>

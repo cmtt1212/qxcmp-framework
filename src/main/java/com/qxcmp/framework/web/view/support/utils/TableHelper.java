@@ -105,7 +105,7 @@ public class TableHelper {
 
             entityTableBatchAction.setTitle(batchAction.value());
             entityTableBatchAction.setAction(table.getAction() + batchAction.action());
-            entityTableBatchAction.setMethod(batchAction.method());
+            entityTableBatchAction.setMethod(FormMethod.POST);
             entityTableBatchAction.setTarget(batchAction.target());
             entityTableBatchAction.setColor(batchAction.color());
             entityTableBatchAction.setPrimary(batchAction.primary());
@@ -254,6 +254,11 @@ public class TableHelper {
 
     private void renderTableTitleHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
         final TableRow tableRow = new TableRow();
+
+        if (table.isMultiple()) {
+            tableRow.addCell(new TableHeadCheckbox("root"));
+        }
+
         entityTableFields.forEach(entityTableField -> {
             final TableHead tableHead = new TableHead();
             tableHead.setContent(entityTableField.getTitle());
@@ -274,6 +279,11 @@ public class TableHelper {
 
         tPage.getContent().forEach(t -> {
             final TableRow tableRow = new TableRow();
+
+            if (table.isMultiple()) {
+                final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
+                tableRow.addCell(new TableDataCheckbox(beanWrapper.getPropertyValue(table.getEntityIndex()).toString()));
+            }
 
             entityTableFields.forEach(entityTableField -> {
                 final TableData tableData = new TableData();
@@ -406,7 +416,11 @@ public class TableHelper {
         if (tableAction.getMethod().equals(FormMethod.NONE)) {
             button = new Button(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
         } else {
-            button = new EntityTableActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+            if (tableAction instanceof EntityTableBatchAction) {
+                button = new EntityTableBatchActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+            } else {
+                button = new EntityTableActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+            }
         }
 
         button.setColor(tableAction.getColor());

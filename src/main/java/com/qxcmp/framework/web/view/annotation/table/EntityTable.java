@@ -64,7 +64,7 @@ public @interface EntityTable {
     /**
      * 是否在单元格之间显示分隔符
      */
-    boolean celled() default false;
+    boolean celled() default true;
 
     /**
      * 是否为基本表格
