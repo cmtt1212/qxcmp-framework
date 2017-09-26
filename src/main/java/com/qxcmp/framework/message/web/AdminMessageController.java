@@ -6,8 +6,6 @@ import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.modules.table.dictionary.AnchorValueCell;
-import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -57,6 +55,79 @@ public class AdminMessageController extends QXCMPBackendController {
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
+    }
+
+    @GetMapping("/sms/send")
+    public ModelAndView smsVerifyPage(final AdminMessageSmsSendForm form) {
+        SmsMessageParameter smsMessageParameter = new SmsMessageParameter();
+        smsMessageParameter.setKey("captcha");
+        smsMessageParameter.setValue(RandomStringUtils.randomNumeric(6));
+
+        form.setTemplateCode(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE).orElse(""));
+        form.getParameters().add(smsMessageParameter);
+        form.getPhones().add(currentUser().orElseThrow(null).getPhone());
+
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                .build();
+    }
+
+    @PostMapping("/sms/send")
+    public ModelAndView smsVerifyPage(@Valid final AdminMessageSmsSendForm form, BindingResult bindingResult,
+                                      @RequestParam(value = "add_phones", required = false) boolean addPhones,
+                                      @RequestParam(value = "remove_phones", required = false) Integer removePhones,
+                                      @RequestParam(value = "add_parameters", required = false) boolean addParameters,
+                                      @RequestParam(value = "remove_parameters", required = false) Integer removeParameters) {
+
+        if (addPhones) {
+            form.getPhones().add("");
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .build();
+        }
+
+        if (Objects.nonNull(removePhones)) {
+            form.getPhones().remove(removePhones.intValue());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .build();
+        }
+
+        if (addParameters) {
+            form.getParameters().add(new SmsMessageParameter());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeParameters)) {
+            form.getParameters().remove(removeParameters.intValue());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .build();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
+                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                smsService.send(form.getPhones(), form.getTemplateCode(), stringStringMap -> {
+                    form.getParameters().forEach(smsMessageParameter -> stringStringMap.put(smsMessageParameter.getKey(), smsMessageParameter.getValue()));
+                });
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
     }
 
     @GetMapping("/email/config")
@@ -162,80 +233,7 @@ public class AdminMessageController extends QXCMPBackendController {
         });
     }
 
-    @GetMapping("/sms/verify")
-    public ModelAndView smsVerifyPage(final AdminMessageSmsVerifyForm form) {
-        SmsMessageParameter smsMessageParameter = new SmsMessageParameter();
-        smsMessageParameter.setKey("captcha");
-        smsMessageParameter.setValue(RandomStringUtils.randomNumeric(6));
-
-        form.setTemplateCode(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE).orElse(""));
-        form.getParameters().add(smsMessageParameter);
-        form.getPhones().add(currentUser().orElseThrow(null).getPhone());
-
-        return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
-                .setVerticalMenu(getVerticalMenu("短信发送验证"))
-                .build();
-    }
-
-    @PostMapping("/sms/verify")
-    public ModelAndView smsVerifyPage(@Valid final AdminMessageSmsVerifyForm form, BindingResult bindingResult,
-                                      @RequestParam(value = "add_phones", required = false) boolean addPhones,
-                                      @RequestParam(value = "remove_phones", required = false) Integer removePhones,
-                                      @RequestParam(value = "add_parameters", required = false) boolean addParameters,
-                                      @RequestParam(value = "remove_parameters", required = false) Integer removeParameters) {
-
-        if (addPhones) {
-            form.getPhones().add("");
-            return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
-                    .setVerticalMenu(getVerticalMenu("短信发送验证"))
-                    .build();
-        }
-
-        if (Objects.nonNull(removePhones)) {
-            form.getPhones().remove(removePhones.intValue());
-            return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
-                    .setVerticalMenu(getVerticalMenu("短信发送验证"))
-                    .build();
-        }
-
-        if (addParameters) {
-            form.getParameters().add(new SmsMessageParameter());
-            return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
-                    .setVerticalMenu(getVerticalMenu("短信发送验证"))
-                    .build();
-        }
-
-        if (Objects.nonNull(removeParameters)) {
-            form.getParameters().remove(removeParameters.intValue());
-            return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
-                    .setVerticalMenu(getVerticalMenu("短信发送验证"))
-                    .build();
-        }
-
-        if (bindingResult.hasErrors()) {
-            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送验证")
-                    .setVerticalMenu(getVerticalMenu("短信发送验证"))
-                    .build();
-        }
-
-        return submitForm(form, context -> {
-            try {
-                smsService.send(form.getPhones(), form.getTemplateCode(), stringStringMap -> {
-                    form.getParameters().forEach(smsMessageParameter -> stringStringMap.put(smsMessageParameter.getKey(), smsMessageParameter.getValue()));
-                });
-            } catch (Exception e) {
-                throw new ActionException(e.getMessage(), e);
-            }
-        });
-    }
-
     private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config", "短信发送验证", QXCMP_BACKEND_URL + "/message/sms/verify");
+        return ImmutableList.of(activeItem, "短信发送服务", QXCMP_BACKEND_URL + "/message/sms/send", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config");
     }
 }
