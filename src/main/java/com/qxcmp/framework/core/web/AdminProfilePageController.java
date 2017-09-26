@@ -4,10 +4,10 @@ import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.elements.html.Anchor;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.table.*;
@@ -15,6 +15,7 @@ import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,15 +78,50 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         boolean hasSecurityQuestion = accountSecurityQuestionService.findByUserId(user.getId()).map(accountSecurityQuestion -> StringUtils.isNotBlank(accountSecurityQuestion.getQuestion1()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion2()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion3())).orElse(false);
 
-        return page()
+        return page().addComponent(new Segment()
                 .addComponent(new PageHeader(HeaderType.H2, "安全设置").setDividing())
                 .addComponent(new Table().setBasic().setHeader((AbstractTableHeader) new TableHeader()
-                        .addRow(new TableRow().addCell(new TableHead("登录密码").setAlignment(Alignment.CENTER)).addCell(new TableData("安全性高的密码可以使帐号更安全")).addCell(new TableData(StringUtils.isNotBlank(user.getPassword()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Anchor("修改", QXCMP_BACKEND_URL + "/profile/security/password")).setAlignment(Alignment.CENTER)))
-                        .addRow(new TableRow().addCell(new TableHead("手机绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("您的手机号可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getPhone()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Anchor("修改", QXCMP_BACKEND_URL + "/profile/security/phone")).setAlignment(Alignment.CENTER)))
-                        .addRow(new TableRow().addCell(new TableHead("邮箱绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("您的邮箱可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getEmail()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Anchor("修改", QXCMP_BACKEND_URL + "/profile/security/email")).setAlignment(Alignment.CENTER)))
-                        .addRow(new TableRow().addCell(new TableHead("密保问题").setAlignment(Alignment.CENTER)).addCell(new TableData("建议您设置三个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全")).addCell(new TableData(hasSecurityQuestion ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Anchor("修改", QXCMP_BACKEND_URL + "/profile/security/question")).setAlignment(Alignment.CENTER)))
-                ))
+                        .addRow(new TableRow().addCell(new TableHead("登录密码").setAlignment(Alignment.CENTER)).addCell(new TableData("安全性高的密码可以使帐号更安全")).addCell(new TableData(StringUtils.isNotBlank(user.getPassword()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/password").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("手机绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("手机号可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getPhone()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/phone").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("邮箱绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("邮箱可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getEmail()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/email").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("密保问题").setAlignment(Alignment.CENTER)).addCell(new TableData("建议设置三个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全")).addCell(new TableData(hasSecurityQuestion ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/question").setBasic()).setAlignment(Alignment.CENTER)))
+                )))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置")
                 .build();
+    }
+
+    @GetMapping("/security/password")
+    public ModelAndView securityPasswordPage(final AdminProfileSecurityPasswordForm form) {
+        return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/security", "修改登录密码")
+                .build();
+    }
+
+    @PostMapping("/security/password")
+    public ModelAndView securityPasswordPage(@Valid final AdminProfileSecurityPasswordForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        if (!new BCryptPasswordEncoder().matches(form.getOldPassword(), user.getPassword())) {
+            bindingResult.rejectValue("oldPassword", "BadCredential");
+        }
+
+        if (!StringUtils.equals(form.getNewPassword(), form.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/security", "修改登录密码")
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                userService.update(user.getId(), u -> u.setPassword(new BCryptPasswordEncoder().encode(form.getNewPassword())));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
     }
 }
