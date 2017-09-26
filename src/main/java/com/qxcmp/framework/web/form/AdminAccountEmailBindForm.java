@@ -3,6 +3,7 @@ package com.qxcmp.framework.web.form;
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;
 import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.Form;
 import lombok.Data;
 
 /**

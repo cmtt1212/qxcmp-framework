@@ -110,17 +110,17 @@ public class QXCMPSystemConfigConfiguration {
      * 该配置可以设置发送的密码重置邮件主题
      */
     public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT = "message.email.account.reset.subject";
-    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT_DEFAULT_VALUE = "请重置您的密码";
+    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT_DEFAULT_VALUE = "请重置你的密码";
     /**
      * 邮件服务 - 密码重置邮件内容
      */
     public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT = "message.email.account.reset.content";
-    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT_DEFAULT_VALUE = "点击该链接来重置您的密码: ${link}";
+    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT_DEFAULT_VALUE = "点击该链接来重置你的密码: ${link}";
     /**
      * 邮件服务 - 账户激活邮件主题
      */
     public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT = "message.email.account.activate.subject";
-    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT_DEFAULT_VALUE = "请激活您的账户";
+    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT_DEFAULT_VALUE = "请激活你的账户";
     /**
      * 邮件服务 - 账户激活邮件内容
      */
@@ -135,7 +135,7 @@ public class QXCMPSystemConfigConfiguration {
      * 邮件服务 - 账户绑定邮件内容
      */
     public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT = "message.email.account.binding.content";
-    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT_DEFAULT_VALUE = "您的账户绑定验证码为： ${captcha}";
+    public static String SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT_DEFAULT_VALUE = "你的账户绑定验证码为： ${captcha}";
     /**
      * 短信服务 - 阿里云AccessKey
      */
