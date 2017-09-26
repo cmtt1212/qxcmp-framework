@@ -3,9 +3,10 @@ package com.qxcmp.framework.web.view.modules.form;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.button.AbstractButton;
+import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.elements.button.LabeledIconButton;
 import com.qxcmp.framework.web.view.elements.header.AbstractHeader;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.message.SuccessMessage;
@@ -319,12 +320,11 @@ public abstract class AbstractForm extends AbstractComponent {
     }
 
     public AbstractForm setSubmitButton(String submitText) {
-        this.submitButton = new Button(submitText).setSecondary();
-        return this;
+        return setSubmitButton(submitText, "send");
     }
 
     public AbstractForm setSubmitButton(String submitText, String submitIcon) {
-        this.submitButton = new LabeledIconButton(submitIcon, submitText).setSecondary();
+        this.submitButton = new AnimatedButton().setVisibleText(submitText).setHiddenIcon(new Icon(submitIcon)).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary();
         return this;
     }
 

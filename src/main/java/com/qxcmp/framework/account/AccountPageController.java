@@ -6,7 +6,6 @@ import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
 import com.qxcmp.framework.web.form.LoginForm;
 import com.qxcmp.framework.web.view.AbstractPage;
-import com.qxcmp.framework.web.view.elements.button.AnimatedButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
@@ -64,7 +63,7 @@ public class AccountPageController extends QXCMPFrontendController {
 
         return buildPage(segment -> segment
                 .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setDividing())
-                .addComponent(convertToForm(loginForm).setSubmitButton(new AnimatedButton().setVisibleText("登录").setHiddenIcon(new Icon("sign in")).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary()).setErrorMessage(getLoginErrorMessage()))
+                .addComponent(convertToForm(loginForm).setErrorMessage(getLoginErrorMessage()))
                 .addComponent(new HorizontalDivider("或"))
                 .addComponent(new Container().setAlignment(Alignment.CENTER).addComponent(new Anchor("注册新用户", "/account/logon")).addComponent(new Anchor("忘记密码?", "/account/reset")))).addObject(loginForm)
                 .build();

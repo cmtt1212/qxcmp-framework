@@ -3,10 +3,9 @@ package com.qxcmp.framework.web.form;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.PasswordField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
-@Form
+@Form(submitIcon = "sign in")
 @Data
 public class LoginForm {
 
