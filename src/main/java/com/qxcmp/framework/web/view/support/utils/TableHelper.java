@@ -34,6 +34,33 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @RequiredArgsConstructor
 public class TableHelper {
 
+    public Table convert(Map<String, String> dictionary) {
+        final Table table = new Table();
+        table.setCelled().setStriped().setBasic().setSize(Size.SMALL);
+        table.setBody(new TableBody());
+
+        if (dictionary.isEmpty()) {
+            TableRow tableRow = new TableRow();
+            TableData tableData = new TableData();
+            tableData.setColSpan(2);
+            tableData.setContent("暂无内容");
+            tableRow.addCell(tableData);
+            table.getBody().addRow(tableRow);
+        } else {
+            dictionary.forEach((key, value) -> {
+                TableRow tableRow = new TableRow();
+                TableData keyCell = new TableData();
+                TableData valueCell = new TableData();
+                keyCell.setContent(key);
+                valueCell.setContent(value);
+                tableRow.addCell(keyCell).addCell(valueCell);
+                table.getBody().addRow(tableRow);
+            });
+        }
+
+        return table;
+    }
+
     public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, Class<T> tClass, Page<T> tPage) {
         checkNotNull(tableName);
 

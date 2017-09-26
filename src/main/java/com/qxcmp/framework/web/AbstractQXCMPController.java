@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web;
 
+import com.google.common.collect.Maps;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.entity.EntityService;
@@ -16,6 +17,7 @@ import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import com.qxcmp.framework.web.view.modules.table.EntityTable;
+import com.qxcmp.framework.web.view.modules.table.Table;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
@@ -33,8 +35,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public abstract class AbstractQXCMPController {
 
@@ -96,6 +100,15 @@ public abstract class AbstractQXCMPController {
         return tableHelper.convert(tableName, entityService.type(), entityService.findAll(pageable));
     }
 
+    protected Table convertToTable(Map<String, String> dictionary) {
+        return tableHelper.convert(dictionary);
+    }
+
+    protected Table convertToTable(Consumer<Map<String, String>> consumer) {
+        Map<String, String> dictionary = Maps.newLinkedHashMap();
+        consumer.accept(dictionary);
+        return convertToTable(dictionary);
+    }
 
     /**
      * 验证验证码是否有效，如果无效将错误信息放入 {@code BindingResult} 中

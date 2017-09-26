@@ -6,7 +6,6 @@ import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.modules.table.*;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -41,19 +40,18 @@ public class AdminMessageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView messagePage() {
-        return page().addComponent(new Overview("消息服务").addComponent(new Table().setSelectable().setStriped()
-                .setHeader((AbstractTableHeader) new TableHeader().addRow(new TableRow().addCell(new TableHead("配置项")).addCell(new TableHead("配置值"))))
-                .setBody((AbstractTableBody) new TableBody()
-                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 主机名")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME_DEFAULT_VALUE))))
-                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 端口")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT).orElse(String.valueOf(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT_DEFAULT_VALUE)))))
-                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 用户名")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_USERNAME_DEFAULT_VALUE))))
-                        .addRow(new TableRow().addCell(new TableData("邮件服务 - 密码")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PASSWORD).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_PASSWORD))))
-                        .addRow(new TableRow().addCell(new TableData("短信服务 - AccessKey")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY_DEFAULT_VALUE))))
-                        .addRow(new TableRow().addCell(new TableData("短信服务 - AccessSecret")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET_DEFAULT_VALUE))))
-                        .addRow(new TableRow().addCell(new TableData("短信服务 - EndPoint")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_END_POINT).orElse(SYSTEM_CONFIG_MESSAGE_SMS_END_POINT_DEFAULT_VALUE))))
-                        .addRow(new TableRow().addCell(new TableData("短信服务 - 主题名称")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF).orElse(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF_DEFAULT_VALUE))))
-                        .addRow(new TableRow().addCell(new TableData("短信服务 - 短信签名ID")).addCell(new TableData(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE))))
-                )))
+        return page().addComponent(new Overview("消息服务")
+                .addComponent(convertToTable(stringStringMap -> {
+                    stringStringMap.put("邮件服务 - 主机名", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME_DEFAULT_VALUE));
+                    stringStringMap.put("邮件服务 - 端口", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT).orElse(String.valueOf(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT_DEFAULT_VALUE)));
+                    stringStringMap.put("邮件服务 - 用户名", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_USERNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_USERNAME_DEFAULT_VALUE));
+                    stringStringMap.put("邮件服务 - 密码", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PASSWORD).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_PASSWORD_DEFAULT_VALUE));
+                    stringStringMap.put("短信服务 - AccessKey", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY_DEFAULT_VALUE));
+                    stringStringMap.put("短信服务 - AccessSecret", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET_DEFAULT_VALUE));
+                    stringStringMap.put("短信服务 - EndPoint", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_END_POINT).orElse(SYSTEM_CONFIG_MESSAGE_SMS_END_POINT_DEFAULT_VALUE));
+                    stringStringMap.put("短信服务 - 主题名称", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF).orElse(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF_DEFAULT_VALUE));
+                    stringStringMap.put("短信服务 - 短信签名ID", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE));
+                })))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
