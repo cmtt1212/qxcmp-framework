@@ -93,7 +93,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
     @GetMapping("/security/password")
     public ModelAndView securityPasswordPage(final AdminProfileSecurityPasswordForm form) {
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/security", "修改登录密码")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改登录密码")
                 .build();
     }
 
@@ -112,13 +112,43 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/security", "修改登录密码")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改登录密码")
                     .build();
         }
 
         return submitForm(form, context -> {
             try {
                 userService.update(user.getId(), u -> u.setPassword(new BCryptPasswordEncoder().encode(form.getNewPassword())));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+    }
+
+    @GetMapping("/security/phone")
+    public ModelAndView securityPhonePage(final AdminProfileSecurityPhoneForm form) {
+        return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "手机绑定")
+                .build();
+    }
+
+    @PostMapping("/security/phone")
+    public ModelAndView securityPhonePage(@Valid final AdminProfileSecurityPhoneForm form, BindingResult bindingResult) {
+
+        userService.findByPhone(form.getPhone()).ifPresent(user -> bindingResult.rejectValue("phone", "Account.bind.phoneExist"));
+
+        verifyCaptcha(form.getCaptcha(), bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "手机绑定")
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                User user = currentUser().orElseThrow(RuntimeException::new);
+                userService.update(user.getId(), u -> u.setPhone(form.getPhone())).ifPresent(u -> refreshUser());
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }

@@ -6,7 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Size;
 
-@Form("修改登录密码")
+@Form(value = "修改登录密码", submitText = "确认修改")
 @Data
 public class AdminProfileSecurityPasswordForm {
 
