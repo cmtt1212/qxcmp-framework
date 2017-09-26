@@ -1,8 +1,8 @@
 package com.qxcmp.framework.account.username;
 
-import com.qxcmp.framework.view.annotation.FormView;
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
+import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.HiddenField;
+import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import lombok.Data;
 
 /**
@@ -13,44 +13,29 @@ import lombok.Data;
  * @author aaric
  * @see AccountUsernameResetForm
  */
-@FormView(caption = "我的密保问题", submitTitle = "找回我的密码", disableSubmitIcon = true, showDialog = false)
+@Form(submitText = "立即重置")
 @Data
 public class AccountUsernameResetQuestionForm {
 
-    @FormViewField(type = InputFiledType.HIDDEN)
+    @HiddenField
     private String userId;
 
-    /**
-     * 密保问题一
-     * <p>
-     * 标签需要动态从用户对应的密保问题中设置
-     */
-    @FormViewField(type = InputFiledType.LABEL)
+    @TextInputField(value = "问题一", readOnly = true)
     private String question1;
 
-    @FormViewField(type = InputFiledType.TEXT, autoFocus = true)
+    @TextInputField(value = "答案", required = true, autoFocus = true)
     private String answer1;
 
-    /**
-     * 密保问题二
-     * <p>
-     * 标签需要动态从用户对应的密保问题中设置
-     */
-    @FormViewField(type = InputFiledType.LABEL)
+    @TextInputField(value = "问题二", readOnly = true)
     private String question2;
 
-    @FormViewField(type = InputFiledType.TEXT, autoFocus = true)
+    @TextInputField(value = "答案", required = true)
     private String answer2;
 
-    /**
-     * 密保问题三
-     * <p>
-     * 标签需要动态从用户对应的密保问题中设置
-     */
-    @FormViewField(type = InputFiledType.LABEL)
+    @TextInputField(value = "问题三", readOnly = true)
     private String question3;
 
-    @FormViewField(type = InputFiledType.TEXT, autoFocus = true)
+    @TextInputField(value = "答案", required = true)
     private String answer3;
 
 }

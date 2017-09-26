@@ -1,10 +1,10 @@
 package com.qxcmp.framework.account.email;
 
+import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
@@ -43,8 +43,7 @@ public class AccountEmailController extends AccountPageController {
         return buildPage(segment -> segment
                 .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
-        ).addObject(form)
-                .build();
+        ).build();
     }
 
     @PostMapping("logon")
@@ -72,8 +71,7 @@ public class AccountEmailController extends AccountPageController {
             return buildPage(segment -> segment
                     .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱注册").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-            ).addObject(form)
-                    .build();
+            ).build();
         }
 
         try {
@@ -106,8 +104,7 @@ public class AccountEmailController extends AccountPageController {
         return buildPage(segment -> segment
                 .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱找回密码").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
-        ).addObject(form)
-                .build();
+        ).build();
     }
 
     @PostMapping("reset")
@@ -129,8 +126,7 @@ public class AccountEmailController extends AccountPageController {
             return buildPage(segment -> segment
                     .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("邮箱找回密码").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-            ).addObject(form)
-                    .build();
+            ).build();
         }
 
         try {

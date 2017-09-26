@@ -1,11 +1,11 @@
 package com.qxcmp.framework.account.phone;
 
+import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
@@ -49,8 +49,7 @@ public class AccountPhoneController extends AccountPageController {
         return buildPage(segment -> segment
                 .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("手机号注册").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
-        ).addObject(form)
-                .build();
+        ).build();
     }
 
     @PostMapping("logon")
@@ -78,8 +77,7 @@ public class AccountPhoneController extends AccountPageController {
             return buildPage(segment -> segment
                     .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("手机号注册").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-            ).addObject(form)
-                    .build();
+            ).build();
         }
 
         try {
@@ -112,8 +110,7 @@ public class AccountPhoneController extends AccountPageController {
         return buildPage(segment -> segment
                 .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
                 .addComponent(convertToForm(form))
-        ).addObject(form)
-                .build();
+        ).build();
     }
 
     @PostMapping("reset")
@@ -135,8 +132,7 @@ public class AccountPhoneController extends AccountPageController {
             return buildPage(segment -> segment
                     .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setSubTitle("短信找回密码").setDividing().setAlignment(Alignment.LEFT))
                     .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-            ).addObject(form)
-                    .build();
+            ).build();
         }
 
         Code code = codeService.nextPasswordCode(userOptional.get().getId());

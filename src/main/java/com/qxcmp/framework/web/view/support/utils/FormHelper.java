@@ -41,6 +41,7 @@ public class FormHelper {
      *
      * @param bindingResult 错误对象
      * @param object        表单对象
+     *
      * @return 错误消息组件
      */
     public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
@@ -100,6 +101,7 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
+     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {
@@ -161,7 +163,9 @@ public class FormHelper {
     private void configFormField(AbstractForm form, Object object) {
         for (Field field : object.getClass().getDeclaredFields()) {
             for (Annotation annotation : field.getDeclaredAnnotations()) {
-                if (annotation instanceof TextInputField) {
+                if (annotation instanceof HiddenField) {
+                    addHiddenField(form, field, (HiddenField) annotation);
+                } else if (annotation instanceof TextInputField) {
                     addTextInputField(form, field, (TextInputField) annotation);
                 } else if (annotation instanceof PasswordField) {
                     addPasswordInputField(form, field, (PasswordField) annotation);
@@ -190,6 +194,12 @@ public class FormHelper {
                 }
             }
         }
+    }
+
+    private void addHiddenField(AbstractForm form, Field field, HiddenField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.HiddenField hiddenField = new com.qxcmp.framework.web.view.modules.form.field.HiddenField();
+        hiddenField.setName(field.getName());
+        form.addItem(hiddenField, annotation.section());
     }
 
     private void addTextInputField(AbstractForm form, Field field, TextInputField annotation) {

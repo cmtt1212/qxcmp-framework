@@ -92,6 +92,11 @@
     </script>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.HiddenField"*/-->
+<th:block th:fragment="field-hidden(component)">
+    <input th:field="*{__${component.name}__}" type="hidden"/>
+</th:block>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
