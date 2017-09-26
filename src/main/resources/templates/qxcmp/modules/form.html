@@ -198,12 +198,14 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.ImageCaptchaField"*/-->
 <div th:fragment="field-captcha-image(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
-    <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
-           th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
-           th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
-    <a class="captcha link" href="#">
-        <img th:src="@{${component.captchaUrl}}"/>
-    </a>
+    <div class="captcha section">
+        <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
+               th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+               th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+        <a class="captcha link" href="#">
+            <img th:src="@{${component.captchaUrl}}"/>
+        </a>
+    </div>
     <script th:replace="~{:: field-common-script(${component})}"></script>
     <script th:inline="javascript">
         $(document).ready(function () {

@@ -73,15 +73,26 @@ $number-field-width: 122.1px;
 /* Captcha field */
 .ui.form .image.captcha.field {
 
-  .captcha.link {
-    flex: 1;
-    margin-left: 1rem;
-    min-width: 120px;
-    position: relative;
-    top: 12px;
+  .captcha.section {
+    padding: 0;
+    flex: 100;
+    display: flex;
+    flex-direction: row;
 
-    img {
+    input {
+      flex: 100;
+    }
+
+    .captcha.link {
+      flex: 1;
+      margin-left: 1rem;
+      min-width: 120px;
+      top: 12px;
       height: 37.8px;
+
+      img {
+        height: 37.8px;
+      }
     }
   }
 }
