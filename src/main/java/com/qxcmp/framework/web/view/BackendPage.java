@@ -130,6 +130,7 @@ public class BackendPage extends AbstractPage {
         String activeItem = menus.get(0);
 
         VerticalMenu verticalMenu = new VerticalMenu().setFluid();
+        verticalMenu.setTabular();
 
         for (int i = 1; i < menus.size(); i += 2) {
             TextItem textItem = new TextItem(menus.get(i), menus.get(i + 1));
@@ -183,8 +184,8 @@ public class BackendPage extends AbstractPage {
         }
 
         if (Objects.nonNull(verticalMenu)) {
-            row.addCol(new Col().setComputerWide(Wide.TWO).setMobileWide(Wide.SIXTEEN).addComponent(verticalMenu));
-            row.addCol(container.setComputerWide(Wide.FOURTEEN).setMobileWide(Wide.SIXTEEN));
+            row.addCol(new Col().setComputerWide(Wide.THREE).setMobileWide(Wide.SIXTEEN).addComponent(verticalMenu));
+            row.addCol(container.setComputerWide(Wide.THIRTEEN).setMobileWide(Wide.SIXTEEN));
         } else {
             row.addCol(container.setGeneralWide(Wide.SIXTEEN));
         }
