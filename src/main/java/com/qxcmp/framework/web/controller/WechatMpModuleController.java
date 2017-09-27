@@ -10,8 +10,8 @@ import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminArticleNewForm;
-import com.qxcmp.framework.web.form.AdminWeixinSettingsConfigForm;
-import com.qxcmp.framework.web.form.AdminWeixinSettingsMenuForm;
+import com.qxcmp.framework.weixin.web.AdminWeixinMpForm;
+import com.qxcmp.framework.weixin.web.AdminWeixinSettingsMenuForm;
 import com.qxcmp.framework.weixin.WechatService;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -25,7 +25,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -205,7 +204,7 @@ public class WechatMpModuleController extends QXCMPBackendController2 {
     }
 
     @GetMapping("/settings/config")
-    public ModelAndView serviceGet(final AdminWeixinSettingsConfigForm form) {
+    public ModelAndView serviceGet(final AdminWeixinMpForm form) {
         form.setAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
         form.setSecret(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SECRET).orElse(""));
         form.setToken(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_TOKEN).orElse(""));
@@ -220,7 +219,7 @@ public class WechatMpModuleController extends QXCMPBackendController2 {
     }
 
     @PostMapping("/settings/config")
-    public ModelAndView servicePost(@Valid @ModelAttribute(FORM_OBJECT) AdminWeixinSettingsConfigForm form, BindingResult bindingResult) {
+    public ModelAndView servicePost(@Valid @ModelAttribute(FORM_OBJECT) AdminWeixinMpForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return builder().setFormView(form).build();

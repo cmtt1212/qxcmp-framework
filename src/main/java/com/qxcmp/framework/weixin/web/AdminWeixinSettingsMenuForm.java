@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.form;
+package com.qxcmp.framework.weixin.web;
 
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;
