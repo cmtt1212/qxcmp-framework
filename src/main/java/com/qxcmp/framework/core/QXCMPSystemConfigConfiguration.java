@@ -136,8 +136,6 @@ public class QXCMPSystemConfigConfiguration {
     /*
      * 微信公众平台相关配置
      * */
-    public static String SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE;
-    public static boolean SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE = false;
     public static String SYSTEM_CONFIG_WECHAT_APP_ID = "wechat.app.id";
     public static String SYSTEM_CONFIG_WECHAT_SECRET = "wechat.secret";
     public static String SYSTEM_CONFIG_WECHAT_TOKEN = "wechat.token";
@@ -146,6 +144,8 @@ public class QXCMPSystemConfigConfiguration {
     public static String SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL;
     public static String SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE = "";
     public static String SYSTEM_CONFIG_WECHAT_DEBUG = "";
+    public static String SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE;
+    public static boolean SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE = false;
     public static String SYSTEM_CONFIG_WECHAT_MCH_ID = "wechat.mch.id";
     public static String SYSTEM_CONFIG_WECHAT_MCH_KEY = "wechat.mch.key";
     public static String SYSTEM_CONFIG_WECHAT_SUB_APP_ID = "wechat.sub.app.id";
