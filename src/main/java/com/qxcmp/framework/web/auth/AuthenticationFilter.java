@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.auth;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
@@ -67,8 +68,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     /**
      * 检查账户锁定情况
      * <p>
-     * 如果满足以下全部条件，则解锁账户： <ol> <li>开启了账户锁定功能</li> <li>账户锁定时间超过了 {@link AuthenticationSystemConfig#SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_LOCK_DURATION}
-     * 分钟</li> </ol>
+     * 如果满足以下全部条件，则解锁账户： <ol> <li>开启了账户锁定功能</li> <li>账户锁定时间超过了 分钟</li> </ol>
      *
      * @param userLoginId 账户登录名
      * @param user        账户信息
@@ -92,8 +92,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     /**
      * 检查账户过期情况
      * <p>
-     * 如果满足以下全部条件，则使账户过期 <ol> <li>开启了账户过期功能</li> <li>账户上次登陆时间超过了 {@link AuthenticationSystemConfig#SYSTEM_CONFIG_AUTHENTICATION_ACCOUNT_EXPIRE_DURATION}
-     * 天</li> </ol>
+     * 如果满足以下全部条件，则使账户过期 <ol> <li>开启了账户过期功能</li> <li>账户上次登陆时间超过了 天</li> </ol>
      *
      * @param userLoginId 账户登录名
      * @param user        账户信息
@@ -117,8 +116,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     /**
      * 检查账户密码是否过期
      * <p>
-     * 如果满足以下条件，则使账户密码过期 <ol> <li>开启了密码过期功能</li> <li>账户上次密码修改时间超过了 {@link AuthenticationSystemConfig#SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION}
-     * 天</li> </ol>
+     * 如果满足以下条件，则使账户密码过期 <ol> <li>开启了密码过期功能</li> <li>账户上次密码修改时间超过了 天</li> </ol>
      *
      * @param userLoginId 账户登录名
      * @param user        账户信息
@@ -151,12 +149,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             boolean showCaptcha = (boolean) request.getSession().getAttribute(AuthenticationFailureHandler.AUTHENTICATION_SHOW_CAPTCHA);
             if (showCaptcha) {
                 if (request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR) != null) {
-                    String sessionCaptcha = (String) request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR);
+                    Captcha sessionCaptcha = (Captcha) request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR);
 
                     if (request.getParameter(CaptchaService.CAPTCHA_SESSION_ATTR) != null) {
                         String userCaptcha = request.getParameter(CaptchaService.CAPTCHA_SESSION_ATTR);
 
-                        if (!userCaptcha.equalsIgnoreCase(sessionCaptcha)) {
+                        if (!userCaptcha.equalsIgnoreCase(sessionCaptcha.getCaptcha())) {
                             throw new SessionAuthenticationException("Authentication.captchaInvalid");
                         }
 

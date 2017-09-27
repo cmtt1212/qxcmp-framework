@@ -4,7 +4,7 @@ import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
-import com.qxcmp.framework.web.form.LoginForm;
+import com.qxcmp.framework.web.auth.AuthenticationFailureHandler;
 import com.qxcmp.framework.web.view.AbstractPage;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
@@ -57,16 +57,22 @@ public class AccountPageController extends QXCMPFrontendController {
     protected final CodeService codeService;
 
     @GetMapping("/login")
-    public ModelAndView loginPage() {
+    public ModelAndView loginPage(final LoginForm loginForm, final LoginFormWithCaptcha loginFormWithCaptcha) {
 
-        LoginForm loginForm = new LoginForm();
+        return buildPage(segment -> {
 
-        return buildPage(segment -> segment
-                .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setDividing())
-                .addComponent(convertToForm(loginForm).setErrorMessage(getLoginErrorMessage()))
-                .addComponent(new HorizontalDivider("或"))
-                .addComponent(new Container().setAlignment(Alignment.CENTER).addComponent(new Anchor("注册新用户", "/account/logon")).addComponent(new Anchor("忘记密码?", "/account/reset")))).addObject(loginForm)
-                .build();
+            boolean showCaptcha = false;
+
+            if (request.getSession().getAttribute(AuthenticationFailureHandler.AUTHENTICATION_SHOW_CAPTCHA) != null) {
+                showCaptcha = (boolean) request.getSession().getAttribute(AuthenticationFailureHandler.AUTHENTICATION_SHOW_CAPTCHA);
+            }
+
+            segment
+                    .addComponent(new PageHeader(HeaderType.H2, siteService.getTitle()).setImage(new Image(siteService.getLogo())).setDividing())
+                    .addComponent(convertToForm(showCaptcha ? loginFormWithCaptcha : loginForm).setErrorMessage(getLoginErrorMessage()))
+                    .addComponent(new HorizontalDivider("或"))
+                    .addComponent(new Container().setAlignment(Alignment.CENTER).addComponent(new Anchor("注册新用户", "/account/logon")).addComponent(new Anchor("忘记密码?", "/account/reset")));
+        }).build();
     }
 
     @GetMapping("/account/logon")

@@ -1,6 +1,7 @@
-package com.qxcmp.framework.web.form;
+package com.qxcmp.framework.account;
 
 import com.qxcmp.framework.web.view.annotation.form.Form;
+import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
 import com.qxcmp.framework.web.view.annotation.form.PasswordField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import lombok.Data;
@@ -13,5 +14,4 @@ public class LoginForm {
     private String username;
 
     @PasswordField("登录密码")
-    private String password;
-}
+    private String password;}
