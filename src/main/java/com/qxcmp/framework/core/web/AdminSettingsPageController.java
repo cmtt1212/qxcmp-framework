@@ -39,7 +39,9 @@ public class AdminSettingsPageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView settingsPage() {
-        return page()
+        return page().addComponent(new Overview("系统配置")
+                .addComponent(convertToTable(stringObjectMap -> {
+                })))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
