@@ -23,9 +23,10 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
         navigationService.add(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR, "系统后台侧边导航栏")
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-USER", "用户管理", QXCMP_BACKEND_URL + "/user")).setOrder(10)
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-MESSAGE-SERVICE", "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(20))
-                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-SECURITY", "安全配置", QXCMP_BACKEND_URL + "/security").setOrder(30))
-                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-SETTINGS", "系统配置", QXCMP_BACKEND_URL + "/settings").setOrder(40))
-                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-TOOLS", "系统工具", QXCMP_BACKEND_URL + "/tools").setOrder(50)));
+                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-WEIXIN", "微信公众平台", QXCMP_BACKEND_URL + "/weixin").setOrder(30))
+                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-SECURITY", "安全配置", QXCMP_BACKEND_URL + "/security").setOrder(40))
+                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-SETTINGS", "系统配置", QXCMP_BACKEND_URL + "/settings").setOrder(50))
+                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-TOOLS", "系统工具", QXCMP_BACKEND_URL + "/tools").setOrder(60)));
 
         navigationService.add(new Navigation(NAVIGATION_QXCMP_ADMIN_ACCOUNT, "系统后台用户中心导航栏")
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_ACCOUNT + "-INFO", "基本资料", QXCMP_BACKEND_URL + "/profile/info").setOrder(10))

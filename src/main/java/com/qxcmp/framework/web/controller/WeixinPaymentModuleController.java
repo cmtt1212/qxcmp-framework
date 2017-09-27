@@ -25,7 +25,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/finance/payment/weixin")
 @RequiredArgsConstructor
 public class WeixinPaymentModuleController extends QXCMPBackendController2 {

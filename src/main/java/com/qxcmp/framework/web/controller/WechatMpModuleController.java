@@ -44,7 +44,6 @@ import static com.qxcmp.framework.view.component.ElementType.P;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/weixin")
 @RequiredArgsConstructor
 public class WechatMpModuleController extends QXCMPBackendController2 {
