@@ -671,7 +671,7 @@
             <tbody>
             <tr th:if="${#lists.isEmpty(items)}">
                 <td th:colspan="${#lists.size(component.itemFields) + 1}">
-                    <i class="info circle grey icon"></i> 暂时没有内容
+                    <i class="info circle grey icon"></i> 暂无内容
                 </td>
             </tr>
             <tr th:each="item : *{__${component.name}__}">

@@ -251,15 +251,7 @@ public class TableHelper {
         final TableHead tableHead = new TableHead();
         final Buttons buttons = new Buttons();
 
-        int colSpan = entityTableFields.size();
-
-        if (table.isMultiple()) {
-            ++colSpan;
-        }
-
-        if (!table.getRowActions().isEmpty()) {
-            ++colSpan;
-        }
+        int colSpan = getColSpan(table, entityTableFields);
 
         tableHead.setColSpan(colSpan);
         buttons.setSize(Size.MINI);
@@ -278,15 +270,7 @@ public class TableHelper {
         final TableHead tableHead = new TableHead();
         final Buttons buttons = new Buttons();
 
-        int colSpan = entityTableFields.size();
-
-        if (table.isMultiple()) {
-            ++colSpan;
-        }
-
-        if (!table.getRowActions().isEmpty()) {
-            ++colSpan;
-        }
+        int colSpan = getColSpan(table, entityTableFields);
 
         tableHead.setColSpan(colSpan);
         buttons.setSize(Size.MINI);
@@ -324,6 +308,12 @@ public class TableHelper {
 
     private <T> void renderTableBody(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Class<T> tClass, Page<T> tPage) {
         final TableBody tableBody = new TableBody();
+
+        if (tPage.getContent().isEmpty()) {
+            final TableRow tableRow = new TableRow();
+            tableRow.addCell(new TableData("暂无内容").setColSpan(getColSpan(table, entityTableFields)).setAlignment(Alignment.CENTER));
+            tableBody.addRow(tableRow);
+        }
 
         tPage.getContent().forEach(t -> {
             final TableRow tableRow = new TableRow();
@@ -437,6 +427,18 @@ public class TableHelper {
         final TableRow tableRow = new TableRow();
         final TableHead tableHead = new TableHead();
 
+        int colSpan = getColSpan(table, entityTableFields);
+
+        tableHead.setColSpan(colSpan);
+        tableHead.setAlignment(Alignment.CENTER);
+        tableHead.setComponent(new Pagination("", tPage.getNumber() + 1, (int) tPage.getTotalElements(), tPage.getSize()).setShowSizeChanger().setShowQuickJumper().setShowTotal());
+
+        tableRow.addCell(tableHead);
+        tableFooter.addRow(tableRow);
+        table.setFooter(tableFooter);
+    }
+
+    private int getColSpan(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields) {
         int colSpan = entityTableFields.size();
 
         if (table.isMultiple()) {
@@ -446,14 +448,7 @@ public class TableHelper {
         if (!table.getRowActions().isEmpty()) {
             ++colSpan;
         }
-
-        tableHead.setColSpan(colSpan);
-        tableHead.setAlignment(Alignment.CENTER);
-        tableHead.setComponent(new Pagination("", tPage.getNumber() + 1, (int) tPage.getTotalElements(), tPage.getSize()).setShowSizeChanger().setShowQuickJumper().setShowTotal());
-
-        tableRow.addCell(tableHead);
-        tableFooter.addRow(tableRow);
-        table.setFooter(tableFooter);
+        return colSpan;
     }
 
     private AbstractButton convertActionToButton(AbstractEntityTableAction tableAction) {

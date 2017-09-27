@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.advertisement;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.springframework.data.domain.Page;

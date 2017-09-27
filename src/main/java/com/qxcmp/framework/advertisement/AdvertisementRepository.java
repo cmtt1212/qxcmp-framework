@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.advertisement;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

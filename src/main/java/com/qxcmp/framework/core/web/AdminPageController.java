@@ -3,10 +3,14 @@ package com.qxcmp.framework.core.web;
 import com.jcabi.manifests.Manifests;
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.list.List;
+import com.qxcmp.framework.web.view.elements.list.item.TextItem;
+import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -58,5 +62,14 @@ public class AdminPageController extends QXCMPBackendController {
                     stringObjectMap.put("软件版本", System.getProperty("java.version"));
                 })).addLink("返回", QXCMP_BACKEND_URL))
         )).build();
+    }
+
+    @GetMapping("/tools")
+    public ModelAndView toolsPage() {
+        return page().addComponent(new TextContainer().addComponent(new Segment().setAlignment(Alignment.CENTER)
+                .addComponent(new PageHeader(HeaderType.H1, "系统工具"))
+                .addComponent(new List().setSelection()
+                        .addItem(new TextItem("广告管理").setUrl(QXCMP_BACKEND_URL + "/advertisement"))
+                ))).build();
     }
 }
