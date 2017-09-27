@@ -7,7 +7,6 @@ import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.modules.table.*;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -37,32 +36,27 @@ public class AdminPageController extends QXCMPBackendController {
     @GetMapping("/about")
     public ModelAndView aboutPage() {
         return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
-                .addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(getAboutContent()).addLink("返回", QXCMP_BACKEND_URL))
+                .addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(convertToTable(stringObjectMap -> {
+
+                    String appVersion = QXCMPConfiguration.class.getPackage().getImplementationVersion();
+                    String appBuildDate = "development";
+                    String appStartUpDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(applicationContext.getStartupDate()));
+
+                    try {
+                        appBuildDate = Manifests.read("Build-Date");
+                    } catch (Exception ignored) {
+
+                    }
+
+                    if (StringUtils.isBlank(appVersion)) {
+                        appVersion = "暂无版本信息";
+                    }
+
+                    stringObjectMap.put("平台版本", appVersion);
+                    stringObjectMap.put("构建日期", appBuildDate);
+                    stringObjectMap.put("启动日期", appStartUpDate);
+                    stringObjectMap.put("软件版本", System.getProperty("java.version"));
+                })).addLink("返回", QXCMP_BACKEND_URL))
         )).build();
     }
-
-    private AbstractTable getAboutContent() {
-
-        String appVersion = QXCMPConfiguration.class.getPackage().getImplementationVersion();
-        String appBuildDate = "development";
-        String appStartUpDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(applicationContext.getStartupDate()));
-
-        try {
-            appBuildDate = Manifests.read("Build-Date");
-        } catch (Exception ignored) {
-
-        }
-
-        if (StringUtils.isBlank(appVersion)) {
-            appVersion = "暂无版本信息";
-        }
-
-        return new Table().setCelled().setSelectable()
-                .setBody((AbstractTableBody) new TableBody()
-                        .addRow(new TableRow().addCell(new TableData("平台版本")).addCell(new TableData(appVersion)))
-                        .addRow(new TableRow().addCell(new TableData("构建日期")).addCell(new TableData(appBuildDate)))
-                        .addRow(new TableRow().addCell(new TableData("启动日期")).addCell(new TableData(appStartUpDate)))
-                );
-    }
-
 }

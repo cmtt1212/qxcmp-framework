@@ -56,8 +56,8 @@ public class Image extends AbstractImage {
      */
     private Size size = Size.NONE;
 
-    public Image(String source) {
-        super(source);
+    public Image(String image) {
+        super(image);
     }
 
     public Image(String image, String url) {
