@@ -39,9 +39,8 @@ public class AdminPageController extends QXCMPBackendController {
 
     @GetMapping("/about")
     public ModelAndView aboutPage() {
-        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
-                .addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(convertToTable(stringObjectMap -> {
-
+        return page()
+                .addComponent(new TextContainer().addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(convertToTable(stringObjectMap -> {
                     String appVersion = QXCMPConfiguration.class.getPackage().getImplementationVersion();
                     String appBuildDate = "development";
                     String appStartUpDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(applicationContext.getStartupDate()));
@@ -60,16 +59,19 @@ public class AdminPageController extends QXCMPBackendController {
                     stringObjectMap.put("构建日期", appBuildDate);
                     stringObjectMap.put("启动日期", appStartUpDate);
                     stringObjectMap.put("软件版本", System.getProperty("java.version"));
-                })).addLink("返回", QXCMP_BACKEND_URL))
-        )).build();
+                })).addLink("返回", QXCMP_BACKEND_URL)))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "关于")
+                .build();
     }
 
     @GetMapping("/tools")
     public ModelAndView toolsPage() {
         return page().addComponent(new TextContainer().addComponent(new Segment().setAlignment(Alignment.CENTER)
-                .addComponent(new PageHeader(HeaderType.H1, "系统工具"))
+                .addComponent(new PageHeader(HeaderType.H1, "系统工具").setDividing())
                 .addComponent(new List().setSelection()
                         .addItem(new TextItem("广告管理").setUrl(QXCMP_BACKEND_URL + "/advertisement"))
-                ))).build();
+                )))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具")
+                .build();
     }
 }
