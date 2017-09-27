@@ -1,6 +1,10 @@
 package com.qxcmp.framework.user.web;
 
+import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.view.elements.button.Button;
+import com.qxcmp.framework.web.view.elements.button.Buttons;
+import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
@@ -8,17 +12,23 @@ import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.table.dictionary.CollectionValueCell;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
@@ -26,6 +36,8 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @RequestMapping(QXCMP_BACKEND_URL + "/user")
 @RequiredArgsConstructor
 public class AdminUserPageController extends QXCMPBackendController {
+
+    private final RoleService roleService;
 
     @GetMapping("")
     public ModelAndView userPage(Pageable pageable) {
@@ -38,6 +50,10 @@ public class AdminUserPageController extends QXCMPBackendController {
     public ModelAndView userDetailsPage(@PathVariable String id) {
         return userService.findOne(id).map(user -> page()
                 .addComponent(new VerticallyDividedGrid().setVerticallyPadded()
+                        .addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN)
+                                .addComponent(new Buttons()
+                                        .addButton(new Button("编辑用户角色", QXCMP_BACKEND_URL + "/user/" + id + "/role", AnchorTarget.BLANK).setBasic().setSecondary()))
+                        ))
                         .addItem(new Row()
                                 .addCol(new Col().setComputerWide(Wide.TEN).setMobileWide(Wide.SIXTEEN)
                                         .addComponent(new ContentHeader("基本资料", Size.NONE).setDividing())
@@ -75,4 +91,32 @@ public class AdminUserPageController extends QXCMPBackendController {
                 .build()
         ).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
     }
+
+    @GetMapping("/{id}/role")
+    public ModelAndView userRolePage(@PathVariable String id, final AdminUserRoleForm form) {
+        return userService.findOne(id).map(user -> {
+            form.setUsername(user.getUsername());
+            form.setRoles(user.getRoles());
+            return page()
+                    .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户角色")
+                    .addObject("selection_items_roles", roleService.findAll())
+                    .build();
+        }).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
+    }
+
+    @PostMapping("/{id}/role")
+    public ModelAndView userRolePage(@PathVariable String id, @Valid final AdminUserRoleForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return page()
+                    .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户角色")
+                    .addObject("selection_items_roles", roleService.findAll())
+                    .build();
+        }
+
+        return submitForm(form, context -> userService.update(id, user -> user.setRoles(form.getRoles())), (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
+    }
+
 }
