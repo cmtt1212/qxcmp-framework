@@ -2,18 +2,24 @@ package com.qxcmp.framework.core.web;
 
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.account.AccountService;
+import com.qxcmp.framework.config.SystemDictionaryItem;
+import com.qxcmp.framework.config.SystemDictionaryItemService;
+import com.qxcmp.framework.config.SystemDictionaryService;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
@@ -27,8 +33,20 @@ public class AdminSettingsPageController extends QXCMPBackendController {
 
     private final AccountService accountService;
 
+    private final SystemDictionaryService systemDictionaryService;
+
+    private final SystemDictionaryItemService systemDictionaryItemService;
+
     @GetMapping("")
-    public ModelAndView sitePage(final AdminSettingsForm form) {
+    public ModelAndView settingsPage() {
+        return page()
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置")
+                .setVerticalMenu(getVerticalMenu(""))
+                .build();
+    }
+
+    @GetMapping("/site")
+    public ModelAndView sitePage(final AdminSettingsSiteForm form) {
 
         form.setLogo(systemConfigService.getString(SYSTEM_CONFIG_SITE_LOGO).orElse(SYSTEM_CONFIG_SITE_LOGO_DEFAULT_VALUE));
         form.setFavicon(systemConfigService.getString(SYSTEM_CONFIG_SITE_FAVICON).orElse(SYSTEM_CONFIG_SITE_FAVICON_DEFAULT_VALUE));
@@ -56,17 +74,19 @@ public class AdminSettingsPageController extends QXCMPBackendController {
         form.setPreventLogin(systemConfigService.getBoolean(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "网站配置")
+                .setVerticalMenu(getVerticalMenu("网站配置"))
                 .addObject("selection_items_position", WATERMARK_POSITIONS)
                 .build();
     }
 
-    @PostMapping("")
-    public ModelAndView sitePage(@Valid final AdminSettingsForm form, BindingResult bindingResult) {
+    @PostMapping("/site")
+    public ModelAndView sitePage(@Valid final AdminSettingsSiteForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统设置")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "网站配置")
+                    .setVerticalMenu(getVerticalMenu("网站配置"))
                     .addObject("selection_items_position", WATERMARK_POSITIONS)
                     .build();
         }
@@ -99,5 +119,63 @@ public class AdminSettingsPageController extends QXCMPBackendController {
 
             accountService.loadConfig();
         });
+    }
+
+    @GetMapping("/dictionary")
+    public ModelAndView dictionaryPage(Pageable pageable) {
+        return page().addComponent(convertToTable(pageable, systemDictionaryService))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典")
+                .setVerticalMenu(getVerticalMenu("系统字典"))
+                .build();
+    }
+
+    @PostMapping("/dictionary")
+    public ModelAndView dictionaryPage(@Valid final AdminSettingsDictionaryForm form,
+                                       @RequestParam(value = "add_items", required = false) boolean addItems,
+                                       @RequestParam(value = "remove_items", required = false) Integer removeItems) {
+
+        if (addItems) {
+            form.getItems().add(new SystemDictionaryItem());
+            return page()
+                    .addComponent(convertToForm(form))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "系统字典编辑")
+                    .setVerticalMenu(getVerticalMenu("系统字典"))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeItems)) {
+            form.getItems().remove(removeItems.intValue());
+            return page()
+                    .addComponent(convertToForm(form))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "系统字典编辑")
+                    .setVerticalMenu(getVerticalMenu("系统字典"))
+                    .build();
+        }
+
+        return systemDictionaryService.findOne(form.getName()).map(systemDictionary -> submitForm(form, context -> {
+            systemDictionary.getItems().forEach(systemDictionaryItemService::remove);
+            form.getItems().forEach(systemDictionaryItem -> {
+                systemDictionaryItem.setId(null);
+                systemDictionaryItem.setParent(systemDictionary);
+                systemDictionaryItemService.create(() -> systemDictionaryItem);
+            });
+        })).orElse(overviewPage(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
+    }
+
+    @GetMapping("/dictionary/{name}/edit")
+    public ModelAndView dictionaryEditPage(@PathVariable String name, final AdminSettingsDictionaryForm form) {
+        return systemDictionaryService.findOne(name).map(systemDictionary -> {
+            form.setName(systemDictionary.getName());
+            form.setItems(systemDictionary.getItems());
+            return page()
+                    .addComponent(convertToForm(form))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "系统字典编辑")
+                    .setVerticalMenu(getVerticalMenu("系统字典"))
+                    .build();
+        }).orElse(overviewPage(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
+    }
+
+    private List<String> getVerticalMenu(String activeItem) {
+        return ImmutableList.of(activeItem, "网站配置", QXCMP_BACKEND_URL + "/settings/site", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary");
     }
 }

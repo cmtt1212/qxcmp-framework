@@ -8,14 +8,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-/**
- * 网站信息配置表单
- *
- * @author aaric
- */
-@Form("系统设置")
+@Form("网站配置")
 @Data
-public class AdminSettingsForm {
+public class AdminSettingsSiteForm {
 
     @AvatarField(value = "网站LOGO", section = "网站配置")
     private String logo;
