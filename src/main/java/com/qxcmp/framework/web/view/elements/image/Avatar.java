@@ -1,13 +1,20 @@
 package com.qxcmp.framework.web.view.elements.image;
 
 import com.qxcmp.framework.view.component.AnchorTarget;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 头像
  *
  * @author aaric
  */
+@Getter
+@Setter
 public class Avatar extends AbstractImage {
+
+    private boolean centered;
+
     public Avatar(String source) {
         super(source);
     }
@@ -22,6 +29,11 @@ public class Avatar extends AbstractImage {
 
     @Override
     public String getClassContent() {
-        return super.getClassContent() + " avatar";
+        return super.getClassContent() + (centered ? " centered" : "") + " avatar";
+    }
+
+    public Avatar setCentered() {
+        setCentered(true);
+        return this;
     }
 }

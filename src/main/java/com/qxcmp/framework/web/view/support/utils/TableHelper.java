@@ -361,7 +361,7 @@ public class TableHelper {
         Object value = beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix());
 
         if (entityTableField.isImage()) {
-            tableData.setCollapsing().setComponent(new Avatar(Objects.nonNull(value) ? value.toString() : ""));
+            tableData.setCollapsing().setComponent(new Avatar(Objects.nonNull(value) ? value.toString() : "").setCentered());
         } else if (Collection.class.isAssignableFrom(entityTableField.getField().getType())) {
             String entityIndex = entityTableField.getCollectionEntityIndex();
             List list = (List) ((Collection) value).stream().limit(entityTableField.getMaxCollectionCount()).collect(Collectors.toList());
