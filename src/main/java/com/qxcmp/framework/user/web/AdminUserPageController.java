@@ -52,8 +52,9 @@ public class AdminUserPageController extends QXCMPBackendController {
                 .addComponent(new VerticallyDividedGrid().setVerticallyPadded()
                         .addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN)
                                 .addComponent(new Buttons()
-                                        .addButton(new Button("编辑用户角色", QXCMP_BACKEND_URL + "/user/" + id + "/role", AnchorTarget.BLANK).setBasic().setSecondary()))
-                        ))
+                                        .addButton(new Button("编辑用户角色", QXCMP_BACKEND_URL + "/user/" + id + "/role", AnchorTarget.BLANK).setBasic().setSecondary())
+                                        .addButton(new Button("编辑用户状态", QXCMP_BACKEND_URL + "/user/" + id + "/status", AnchorTarget.BLANK).setBasic().setSecondary())
+                                )))
                         .addItem(new Row()
                                 .addCol(new Col().setComputerWide(Wide.TEN).setMobileWide(Wide.SIXTEEN)
                                         .addComponent(new ContentHeader("基本资料", Size.NONE).setDividing())
@@ -119,4 +120,38 @@ public class AdminUserPageController extends QXCMPBackendController {
         return submitForm(form, context -> userService.update(id, user -> user.setRoles(form.getRoles())), (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
     }
 
+    @GetMapping("/{id}/status")
+    public ModelAndView userStatusPage(@PathVariable String id, final AdminUserStatusForm form) {
+        return userService.findOne(id).map(user -> {
+
+            form.setUsername(user.getUsername());
+            form.setDisabled(!user.isEnabled());
+            form.setLocked(!user.isAccountNonLocked());
+            form.setExpired(!user.isAccountNonExpired());
+            form.setCredentialExpired(!user.isCredentialsNonExpired());
+
+            return page()
+                    .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户状态")
+                    .build();
+        }).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
+    }
+
+    @PostMapping("/{id}/status")
+    public ModelAndView userStatusPage(@PathVariable String id, @Valid final AdminUserStatusForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return page()
+                    .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户状态")
+                    .build();
+        }
+
+        return submitForm(form, context -> userService.update(id, user -> {
+            user.setEnabled(!form.isDisabled());
+            user.setAccountNonLocked(!form.isLocked());
+            user.setAccountNonExpired(!form.isExpired());
+            user.setCredentialsNonExpired(!form.isCredentialExpired());
+        }), (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
+    }
 }
