@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.redeem;
 
 import com.qxcmp.framework.user.User;
 import lombok.AllArgsConstructor;

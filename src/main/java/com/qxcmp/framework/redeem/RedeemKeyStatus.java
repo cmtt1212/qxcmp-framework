@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.redeem;
 
 /**
  * 兑换码状态

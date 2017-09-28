@@ -1,8 +1,9 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.redeem;
 
-import com.qxcmp.framework.view.annotation.TableView;
-import com.qxcmp.framework.view.annotation.TableViewAction;
-import com.qxcmp.framework.view.annotation.TableViewField;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
+import com.qxcmp.framework.web.view.annotation.table.TableAction;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,13 +19,12 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
+@EntityTable(value = "兑换码管理", action = QXCMP_BACKEND_URL + "/redeem",
+        tableActions = @TableAction(value = "生成兑换码", action = "generate", primary = true),
+        rowActions = @RowAction(value = "查看", action = "details"))
 @Entity
 @Table
 @Data
-@TableView(caption = "兑换码列表", actionUrlPrefix = QXCMP_BACKEND_URL + "/redeem/list/",
-        createAction = @TableViewAction(disabled = true),
-        removeAction = @TableViewAction(disabled = true),
-        updateAction = @TableViewAction(disabled = true))
 public class RedeemKey {
 
     /**
@@ -41,7 +41,7 @@ public class RedeemKey {
     /**
      * 兑换码类型，用于具体业务逻辑处理
      */
-    @TableViewField(title = "业务类型")
+    @TableField("业务名称")
     private String type;
 
     /**
@@ -52,20 +52,27 @@ public class RedeemKey {
     /**
      * 兑换码状态
      */
-    @TableViewField(title = "使用状态", fieldSuffix = ".value")
+    @TableField(value = "使用状态", fieldSuffix = ".value")
     private RedeemKeyStatus status;
+
+    /**
+     * 兑换码使用时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField("使用时间")
+    private Date dateUsed;
 
     /**
      * 兑换码创建时间
      */
-    @TableViewField(title = "创建时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField("创建时间")
     private Date dateCreated;
 
     /**
      * 兑换码过期时间
      */
-    @TableViewField(title = "过期时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField("过期时间")
     private Date dateExpired;
 }

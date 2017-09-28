@@ -1,9 +1,9 @@
 package com.qxcmp.framework.web.controller;
 
-import com.qxcmp.framework.domain.RedeemKey;
-import com.qxcmp.framework.domain.RedeemKeyEvent;
-import com.qxcmp.framework.domain.RedeemKeyService;
-import com.qxcmp.framework.domain.RedeemKeyStatus;
+import com.qxcmp.framework.redeem.RedeemKey;
+import com.qxcmp.framework.redeem.RedeemKeyEvent;
+import com.qxcmp.framework.redeem.RedeemKeyService;
+import com.qxcmp.framework.redeem.RedeemKeyStatus;
 import com.qxcmp.framework.web.QXCMPFrontendController2;
 import com.qxcmp.framework.web.form.RedeemForm;
 import lombok.RequiredArgsConstructor;

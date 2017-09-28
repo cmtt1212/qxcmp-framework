@@ -167,6 +167,9 @@ public class QXCMPSystemConfigConfiguration {
     public static String SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION;
     public static int SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE = 7200;
     public static String SYSTEM_CONFIG_REDEEM_TYPE_LIST;
-    public static String SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE = "";
+
+    /*
+     * 文章相关配置
+     * */
     public static String SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG = "";
 }

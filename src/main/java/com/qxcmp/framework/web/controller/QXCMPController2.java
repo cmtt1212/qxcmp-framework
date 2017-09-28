@@ -4,12 +4,12 @@ import com.google.common.collect.Lists;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
-import com.qxcmp.framework.domain.RedeemKey;
-import com.qxcmp.framework.domain.RedeemKeyService;
+import com.qxcmp.framework.redeem.RedeemKey;
+import com.qxcmp.framework.redeem.RedeemKeyService;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
-import com.qxcmp.framework.web.form.AdminRedeemGenerateForm;
-import com.qxcmp.framework.web.form.AdminRedeemSettingsForm;
+import com.qxcmp.framework.redeem.web.AdminRedeemGenerateForm;
+import com.qxcmp.framework.redeem.web.AdminRedeemSettingsForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +35,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/redeem")
 @RequiredArgsConstructor
 public class QXCMPController2 extends QXCMPBackendController2 {
@@ -57,7 +56,6 @@ public class QXCMPController2 extends QXCMPBackendController2 {
         form.setDateExpired(new Date(System.currentTimeMillis() + 1000 * systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE)));
         form.setQuantity(1);
         return builder().setTitle("生成兑换码")
-                .setFormView(form, getRedeemTypes())
                 .addNavigation("生成兑换码", Navigation.Type.NORMAL, "兑换码管理")
                 .build();
     }
@@ -66,7 +64,7 @@ public class QXCMPController2 extends QXCMPBackendController2 {
     public ModelAndView redeemGeneratePost(@Valid @ModelAttribute(FORM_OBJECT) AdminRedeemGenerateForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return builder().setFormView(form, getRedeemTypes()).build();
+            return builder().build();
         }
 
         List<RedeemKey> redeemKeys = Lists.newArrayList();
@@ -100,30 +98,6 @@ public class QXCMPController2 extends QXCMPBackendController2 {
         ).build();
     }
 
-    @GetMapping("/settings")
-    public ModelAndView settingsGet(final AdminRedeemSettingsForm form) {
-        form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_ENABLE_DEFAULT_VALUE));
-        form.setType(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE));
-        form.setExpireDuration(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE));
-        return builder().setTitle("兑换码设置")
-                .setFormView(form)
-                .addNavigation("兑换码设置", Navigation.Type.NORMAL, "兑换码管理")
-                .build();
-    }
-
-    @PostMapping("/settings")
-    public ModelAndView settingsPost(@Valid @ModelAttribute(FORM_OBJECT) AdminRedeemSettingsForm form, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return builder().setFormView(form).build();
-        }
-
-        return action("修改兑换码配置", context -> {
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST, trimTypeContent(form.getType()));
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_ENABLE, String.valueOf(form.isEnable()));
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION, form.getExpireDuration().toString());
-        }).build();
-    }
 
     @GetMapping("/list")
     public ModelAndView redeemList(Pageable pageable) {
@@ -150,13 +124,6 @@ public class QXCMPController2 extends QXCMPBackendController2 {
             });
 
         }).build()).orElse(error(HttpStatus.NOT_FOUND, "兑换码不存在").build());
-    }
-
-    private List<String> getRedeemTypes() {
-        List<String> types = Lists.newArrayList();
-        String typeContent = systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_TYPE_LIST_DEFAULT_VALUE);
-        types.addAll(Arrays.asList(typeContent.split("\n")));
-        return types;
     }
 
     private String trimTypeContent(String type) {

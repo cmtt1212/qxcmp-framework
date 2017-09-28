@@ -69,6 +69,7 @@ public class AdminPageController extends QXCMPBackendController {
         return page().addComponent(new TextContainer().addComponent(new Segment().setAlignment(Alignment.CENTER)
                 .addComponent(new PageHeader(HeaderType.H1, "系统工具").setDividing())
                 .addComponent(new List().setSelection()
+                        .addItem(new TextItem("兑换码管理").setUrl(QXCMP_BACKEND_URL + "/redeem"))
                         .addItem(new TextItem("广告管理").setUrl(QXCMP_BACKEND_URL + "/advertisement"))
                         .addItem(new TextItem("蜘蛛管理").setUrl(QXCMP_BACKEND_URL + "/spider"))
                 )))
