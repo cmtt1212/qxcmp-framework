@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.exception;
 
 /**
  * 验证码过期异常
