@@ -1,4 +1,4 @@
-package com.qxcmp.framework.site;
+package com.qxcmp.framework.config;
 
 import org.springframework.stereotype.Service;
 

@@ -8,7 +8,7 @@ import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaExpiredException;
 import com.qxcmp.framework.domain.CaptchaIncorrectException;
 import com.qxcmp.framework.domain.CaptchaService;
-import com.qxcmp.framework.site.SiteService;
+import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.view.AbstractPage;

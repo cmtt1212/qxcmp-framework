@@ -2,7 +2,7 @@ package com.qxcmp.framework.view;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.core.entity.EntityService;
-import com.qxcmp.framework.site.SiteService;
+import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.view.annotation.ListViewField;
 import com.qxcmp.framework.view.annotation.TableViewField;

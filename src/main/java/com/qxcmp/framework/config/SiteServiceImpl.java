@@ -1,6 +1,5 @@
-package com.qxcmp.framework.site;
+package com.qxcmp.framework.config;
 
-import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

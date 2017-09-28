@@ -7,7 +7,7 @@ import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.message.EmailService;
-import com.qxcmp.framework.site.SiteService;
+import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
