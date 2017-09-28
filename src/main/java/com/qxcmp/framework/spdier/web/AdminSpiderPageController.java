@@ -8,7 +8,7 @@ import com.qxcmp.framework.spdier.SpiderDefinition;
 import com.qxcmp.framework.spdier.SpiderRuntime;
 import com.qxcmp.framework.spdier.log.SpiderLogService;
 import com.qxcmp.framework.web.QXCMPBackendController;
-import com.qxcmp.framework.web.model.navigation.RestfulResponse;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

@@ -6,7 +6,7 @@ import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.web.QXCMPBackendController;
-import com.qxcmp.framework.web.model.navigation.RestfulResponse;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;

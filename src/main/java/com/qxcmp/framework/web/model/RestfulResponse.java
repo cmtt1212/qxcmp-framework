@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.model.navigation;
+package com.qxcmp.framework.web.model;
 
 import lombok.Data;
 

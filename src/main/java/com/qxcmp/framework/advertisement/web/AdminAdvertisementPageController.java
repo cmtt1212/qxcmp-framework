@@ -5,7 +5,7 @@ import com.qxcmp.framework.advertisement.Advertisement;
 import com.qxcmp.framework.advertisement.AdvertisementService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.web.QXCMPBackendController;
-import com.qxcmp.framework.web.model.navigation.RestfulResponse;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.views.Overview;
