@@ -1,9 +1,13 @@
 package com.qxcmp.framework.weixin.web;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.html.P;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +15,7 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
@@ -109,7 +115,48 @@ public class AdminWeixinPageController extends QXCMPBackendController {
         }, (stringObjectMap, overview) -> overview.addComponent(convertToTable(map -> map.put("网页授权链接", stringObjectMap.get("oauth2Url")))));
     }
 
+    @GetMapping("/menu")
+    public ModelAndView weixinMenuPage(final AdminWeixinMenuForm form) {
+        try {
+            WxMpMenu wxMpMenu = wxMpService.getMenuService().menuGet();
+            if (Objects.nonNull(wxMpMenu)) {
+                form.setContent(new GsonBuilder().setPrettyPrinting().create().toJson(wxMpService.getMenuService().menuGet().getMenu()));
+            } else {
+                form.setContent("当前公众号还未设置自定义菜单");
+            }
+            return page()
+                    .addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "公众号菜单")
+                    .setVerticalMenu(getVerticalMenu("公众号菜单"))
+                    .build();
+        } catch (Exception e) {
+            return overviewPage(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
+                    .addComponent(new P(e.getMessage()))
+                    .addLink("返回", QXCMP_BACKEND_URL + "/weixin")).build();
+        }
+    }
+
+    @PostMapping("/menu")
+    public ModelAndView weixinMenuPage(@Valid final AdminWeixinMenuForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return page()
+                    .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "公众号菜单")
+                    .setVerticalMenu(getVerticalMenu("公众号菜单"))
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                wxMpService.getMenuService().menuCreate(form.getContent());
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+    }
+
     private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "素材管理", QXCMP_BACKEND_URL + "/weixin/material", "公众号菜单", QXCMP_BACKEND_URL + "/menu", "公众号配置", QXCMP_BACKEND_URL + "/weixin/mp");
+        return ImmutableList.of(activeItem, "素材管理", QXCMP_BACKEND_URL + "/weixin/material", "公众号菜单", QXCMP_BACKEND_URL + "/weixin/menu", "公众号配置", QXCMP_BACKEND_URL + "/weixin/mp");
     }
 }
