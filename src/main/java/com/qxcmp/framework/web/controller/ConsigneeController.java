@@ -73,8 +73,6 @@ public class ConsigneeController extends QXCMPFrontendController2 {
         }
 
         try {
-
-
             if (StringUtils.isEmpty(form.getId())) {
                 consigneeService.create(() -> {
                     final Consignee consignee = consigneeService.next();

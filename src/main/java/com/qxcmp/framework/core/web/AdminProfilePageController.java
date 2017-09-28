@@ -22,6 +22,8 @@ import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
 @Controller
@@ -88,7 +91,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
-        });
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/info"));
     }
 
     @GetMapping("/security")
@@ -101,6 +104,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
                 .addComponent(new PageHeader(HeaderType.H2, "安全设置").setDividing())
                 .addComponent(new Table().setBasic().setHeader((AbstractTableHeader) new TableHeader()
                         .addRow(new TableRow().addCell(new TableHead("登录密码").setAlignment(Alignment.CENTER)).addCell(new TableData("安全性高的密码可以使帐号更安全")).addCell(new TableData(StringUtils.isNotBlank(user.getPassword()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("修改", QXCMP_BACKEND_URL + "/profile/security/password").setBasic()).setAlignment(Alignment.CENTER)))
+                        .addRow(new TableRow().addCell(new TableHead("支付密码").setAlignment(Alignment.CENTER)).addCell(new TableData("支付密码可以提高在支付场合的安全性")).addCell(new TableData(StringUtils.isNotBlank(user.getPayPassword()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button(StringUtils.isNotBlank(user.getPayPassword()) ? "修改" : "设置", QXCMP_BACKEND_URL + (StringUtils.isNotBlank(user.getPayPassword()) ? "/profile/security/pay/password/edit" : "/profile/security/pay/password")).setBasic()).setAlignment(Alignment.CENTER)))
                         .addRow(new TableRow().addCell(new TableHead("手机绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("手机号可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getPhone()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("绑定", QXCMP_BACKEND_URL + "/profile/security/phone").setBasic()).setAlignment(Alignment.CENTER)))
                         .addRow(new TableRow().addCell(new TableHead("邮箱绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("邮箱可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getEmail()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("绑定", QXCMP_BACKEND_URL + "/profile/security/email").setBasic()).setAlignment(Alignment.CENTER)))
                         .addRow(new TableRow().addCell(new TableHead("密保问题").setAlignment(Alignment.CENTER)).addCell(new TableData("建议设置三个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全")).addCell(new TableData(hasSecurityQuestion ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("设置", QXCMP_BACKEND_URL + "/profile/security/question").setBasic()).setAlignment(Alignment.CENTER)))
@@ -141,8 +145,93 @@ public class AdminProfilePageController extends QXCMPBackendController {
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
-        });
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/security"));
     }
+
+    @GetMapping("/security/pay/password")
+    public ModelAndView securityPayPasswordPage(final AdminProfileSecurityPayPasswordForm form) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        checkState(StringUtils.isBlank(user.getPayPassword()), "已经设置了支付密码");
+
+        return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "设置支付密码")
+                .build();
+    }
+
+    @PostMapping("/security/pay/password")
+    public ModelAndView securityPayPasswordPage(@Valid final AdminProfileSecurityPayPasswordForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        if (!StringUtils.equals(form.getPassword(), form.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "设置支付密码")
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                userService.update(user.getId(), u -> {
+                    u.setPayPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
+                    u.getPasswordHistory().add(u.getPayPassword());
+                }).ifPresent(u -> SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(u, u.getPassword(), u.getAuthorities())));
+
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/security"));
+    }
+
+    @GetMapping("/security/pay/password/edit")
+    public ModelAndView securityPayPasswordEditPage(final AdminProfileSecurityPayPasswordEditForm form) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        checkState(StringUtils.isNotBlank(user.getPayPassword()), "尚未设置支付密码");
+
+        return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改支付密码")
+                .build();
+    }
+
+    @PostMapping("/security/pay/password/edit")
+    public ModelAndView securityPayPasswordEditPage(@Valid final AdminProfileSecurityPayPasswordEditForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        if (!new BCryptPasswordEncoder().matches(form.getOldPassword(), user.getPayPassword())) {
+            bindingResult.rejectValue("oldPassword", "BadCredential");
+        }
+
+        if (!StringUtils.equals(form.getNewPassword(), form.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "PasswordConfirm");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改支付密码")
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                userService.update(user.getId(), u -> {
+                    u.setPayPassword(new BCryptPasswordEncoder().encode(form.getNewPassword()));
+                    u.getPasswordHistory().add(u.getPayPassword());
+                }).ifPresent(u -> SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(u, u.getPassword(), u.getAuthorities())));
+
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/security"));
+    }
+
 
     @GetMapping("/security/phone")
     public ModelAndView securityPhonePage(final AdminProfileSecurityPhoneForm form) {
@@ -171,7 +260,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
-        });
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/security"));
     }
 
     @GetMapping("/security/email")
@@ -227,7 +316,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
-        }, (stringObjectMap, overview) -> overview.addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security"));
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/security"));
     }
 
     @GetMapping("/security/question")
@@ -282,6 +371,6 @@ public class AdminProfilePageController extends QXCMPBackendController {
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
-        }, (stringObjectMap, overview) -> overview.addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security"));
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/security"));
     }
 }
