@@ -178,6 +178,6 @@ public class AdminSettingsPageController extends QXCMPBackendController {
     }
 
     private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "网站配置", QXCMP_BACKEND_URL + "/settings/site", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary");
+        return ImmutableList.of(activeItem, "网站配置", QXCMP_BACKEND_URL + "/settings/site", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "安全配置", QXCMP_BACKEND_URL + "/security");
     }
 }

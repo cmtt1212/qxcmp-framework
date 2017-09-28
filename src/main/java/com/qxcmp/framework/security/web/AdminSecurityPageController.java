@@ -51,7 +51,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
                     stringStringMap.put("密码过期时间", systemConfigService.getInteger(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION_DEFAULT_VALUE));
                     stringStringMap.put("是否启用唯一密码", systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE_DEFAULT_VALUE));
                 })))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
     }
@@ -59,7 +59,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     @GetMapping("/role")
     public ModelAndView rolePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, roleService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理")
                 .setVerticalMenu(getVerticalMenu("角色管理"))
                 .build();
     }
@@ -67,7 +67,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     @GetMapping("/role/new")
     public ModelAndView roleNew(final AdminSecurityRoleNewForm form) {
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "新建角色")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "新建角色")
                 .setVerticalMenu(getVerticalMenu("角色管理"))
                 .addObject("selection_items_privileges", privilegeService.findAll())
                 .build();
@@ -77,7 +77,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     public ModelAndView roleNew(@Valid final AdminSecurityRoleNewForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "新建角色")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "新建角色")
                     .setVerticalMenu(getVerticalMenu("角色管理"))
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
@@ -106,7 +106,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
             form.setPrivileges(role.getPrivileges());
 
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "编辑角色")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "编辑角色")
                     .setVerticalMenu(getVerticalMenu("角色管理"))
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
@@ -118,7 +118,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "编辑角色")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "角色管理", QXCMP_BACKEND_URL + "/security/role", "编辑角色")
                     .setVerticalMenu(getVerticalMenu("角色管理"))
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
@@ -166,7 +166,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
     @GetMapping("/privilege")
     public ModelAndView privilegePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, privilegeService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "权限管理")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "权限管理")
                 .setVerticalMenu(getVerticalMenu("权限管理"))
                 .build();
     }
@@ -210,7 +210,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
         form.setUniqueCredential(systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "认证配置")
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "认证配置")
                 .setVerticalMenu(getVerticalMenu("认证配置"))
                 .build();
     }
@@ -220,7 +220,7 @@ public class AdminSecurityPageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "安全配置", QXCMP_BACKEND_URL + "/security", "认证配置")
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "安全配置", QXCMP_BACKEND_URL + "/security", "认证配置")
                     .setVerticalMenu(getVerticalMenu("认证配置"))
                     .build();
         }
