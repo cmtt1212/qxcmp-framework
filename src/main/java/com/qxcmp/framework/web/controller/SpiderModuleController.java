@@ -32,7 +32,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/spider")
 @RequiredArgsConstructor
 public class SpiderModuleController extends QXCMPBackendController2 {

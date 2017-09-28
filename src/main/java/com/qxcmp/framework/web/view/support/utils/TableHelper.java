@@ -288,7 +288,7 @@ public class TableHelper {
         final TableRow tableRow = new TableRow();
 
         if (table.isMultiple()) {
-            tableRow.addCell(new TableHeadCheckbox("root"));
+            tableRow.addCell(new TableHeadCheckbox("root").setAlignment(Alignment.CENTER));
         }
 
         entityTableFields.forEach(entityTableField -> {
@@ -320,7 +320,7 @@ public class TableHelper {
 
             if (table.isMultiple()) {
                 final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
-                tableRow.addCell(new TableDataCheckbox(beanWrapper.getPropertyValue(table.getEntityIndex()).toString()));
+                tableRow.addCell(new TableDataCheckbox(beanWrapper.getPropertyValue(table.getEntityIndex()).toString()).setAlignment(Alignment.CENTER));
             }
 
             entityTableFields.forEach(entityTableField -> {

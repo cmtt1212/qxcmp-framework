@@ -26,6 +26,7 @@ import com.qxcmp.framework.web.view.views.Overview;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -98,6 +99,14 @@ public abstract class AbstractQXCMPController {
     @SuppressWarnings("unchecked")
     protected EntityTable convertToTable(String tableName, Pageable pageable, EntityService entityService) {
         return tableHelper.convert(tableName, entityService.type(), entityService.findAll(pageable));
+    }
+
+    protected <T> EntityTable convertToTable(Class<T> tClass, Page<T> tPage) {
+        return convertToTable("", tClass, tPage);
+    }
+
+    protected <T> EntityTable convertToTable(String tableName, Class<T> tClass, Page<T> tPage) {
+        return tableHelper.convert(tableName, tClass, tPage);
     }
 
     protected Table convertToTable(Map<String, Object> dictionary) {
