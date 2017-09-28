@@ -4,6 +4,11 @@ import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.annotation.table.TableFieldRender;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.modules.table.TableData;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -104,5 +109,17 @@ public class AuditLog {
         public String getValue() {
             return value;
         }
+    }
+
+    @TableFieldRender("status")
+    public TableData renderStatusField() {
+        final TableData tableData = new TableData();
+        if (status.equals(Status.SUCCESS)) {
+            tableData.setComponent(new Icon("check circle").setColor(Color.GREEN));
+        } else {
+            tableData.setComponent(new Icon("warning circle").setColor(Color.RED));
+        }
+        tableData.setAlignment(Alignment.CENTER);
+        return tableData;
     }
 }

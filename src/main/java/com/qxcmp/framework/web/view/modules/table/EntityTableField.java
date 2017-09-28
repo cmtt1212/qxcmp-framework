@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 @Getter
 @Setter
 public class EntityTableField {
 
     private Field field;
+
+    private Method render;
 
     private String title;
 
