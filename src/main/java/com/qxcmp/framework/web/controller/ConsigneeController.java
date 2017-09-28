@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.controller;
 
-import com.qxcmp.framework.domain.Consignee;
-import com.qxcmp.framework.domain.ConsigneeService;
+import com.qxcmp.framework.mall.Consignee;
+import com.qxcmp.framework.mall.ConsigneeService;
 import com.qxcmp.framework.view.list.ListView;
 import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.web.QXCMPFrontendController2;

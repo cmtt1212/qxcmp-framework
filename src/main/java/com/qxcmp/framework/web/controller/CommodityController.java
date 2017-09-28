@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.controller;
 
-import com.qxcmp.framework.domain.*;
+import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.list.ListView;

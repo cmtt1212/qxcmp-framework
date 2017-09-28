@@ -1,8 +1,8 @@
 package com.qxcmp.framework.web.controller;
 
 
-import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.exception.ShoppingCartServiceException;
+import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.web.QXCMPFrontendController2;

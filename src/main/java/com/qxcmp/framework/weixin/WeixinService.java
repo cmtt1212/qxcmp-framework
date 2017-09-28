@@ -1,8 +1,6 @@
 package com.qxcmp.framework.weixin;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.domain.WechatMpNewsArticle;
-import com.qxcmp.framework.domain.WechatMpNewsArticleService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,5 @@
 package com.qxcmp.framework.mall;
 
-import com.qxcmp.framework.domain.Offer;
-import com.qxcmp.framework.domain.OfferService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,9 +1,9 @@
 package com.qxcmp.framework.web.controller;
 
-import com.qxcmp.framework.domain.CommodityOrder;
-import com.qxcmp.framework.domain.CommodityOrderService;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
+import com.qxcmp.framework.mall.CommodityOrder;
+import com.qxcmp.framework.mall.CommodityOrderService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;

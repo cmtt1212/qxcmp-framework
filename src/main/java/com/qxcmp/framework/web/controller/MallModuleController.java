@@ -2,6 +2,10 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.domain.*;
+import com.qxcmp.framework.mall.Commodity;
+import com.qxcmp.framework.mall.CommodityOrderService;
+import com.qxcmp.framework.mall.CommodityService;
+import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.web.QXCMPBackendController2;
 import com.qxcmp.framework.web.form.AdminMallCommodityForm;
 import com.qxcmp.framework.web.form.AdminMallOrderForm;

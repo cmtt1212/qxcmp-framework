@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.controller;
 
+import com.qxcmp.framework.article.*;
 import com.qxcmp.framework.core.QXCMPSecurityConfiguration;
 import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.security.RoleService;
