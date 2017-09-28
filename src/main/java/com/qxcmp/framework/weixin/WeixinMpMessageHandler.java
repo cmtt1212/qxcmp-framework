@@ -25,14 +25,14 @@ import static me.chanjar.weixin.common.api.WxConsts.*;
  */
 @Component
 @RequiredArgsConstructor
-public class WechatMpMessageHandler implements WxMpMessageHandler {
+public class WeixinMpMessageHandler implements WxMpMessageHandler {
 
     private final ApplicationContext applicationContext;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
 
-        BaseWechatMessageEvent wechatMessageEvent = convertMessageToEvent(wxMessage, context, wxMpService, sessionManager, null);
+        BaseWeixinMessageEvent wechatMessageEvent = convertMessageToEvent(wxMessage, context, wxMpService, sessionManager, null);
 
         applicationContext.publishEvent(wechatMessageEvent);
 
@@ -55,42 +55,42 @@ public class WechatMpMessageHandler implements WxMpMessageHandler {
      *
      * @return 平台微信消息事件
      */
-    private BaseWechatMessageEvent convertMessageToEvent(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
+    private BaseWeixinMessageEvent convertMessageToEvent(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
         switch (wxMessage.getMsgType()) {
             case XML_MSG_TEXT:
-                return new WechatMpTextMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpTextMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_IMAGE:
-                return new WechatMpImageMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpImageMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_VOICE:
-                return new WechatMpVoiceMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpVoiceMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_SHORTVIDEO:
-                return new WechatMpShortVideoMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpShortVideoMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_VIDEO:
-                return new WechatMpVideoMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpVideoMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_LOCATION:
-                return new WechatMpLocationMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpLocationMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_LINK:
-                return new WechatMpLinkMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpLinkMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
             case XML_MSG_EVENT: {
                 switch (wxMessage.getEvent()) {
                     case EVT_SUBSCRIBE:
-                        return new WechatMpSubscribeEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpSubscribeEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     case EVT_UNSUBSCRIBE:
-                        return new WechatMpUnsubscribeEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpUnsubscribeEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     case EVT_SCAN:
-                        return new WechatMpScanEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpScanEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     case EVT_LOCATION:
-                        return new WechatMpLocationEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpLocationEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     case EVT_CLICK:
-                        return new WechatMpMenuClickEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpMenuClickEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     case EVT_VIEW:
-                        return new WechatMpMenuViewEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpMenuViewEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     default:
-                        return new WechatMpDefaultMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                        return new WeixinMpDefaultMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                 }
             }
             default:
-                return new WechatMpDefaultMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
+                return new WeixinMpDefaultMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
         }
     }
 }

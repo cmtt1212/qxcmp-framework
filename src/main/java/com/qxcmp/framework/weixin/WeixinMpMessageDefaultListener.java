@@ -2,8 +2,8 @@ package com.qxcmp.framework.weixin;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.weixin.event.WechatMpSubscribeEvent;
-import com.qxcmp.framework.weixin.event.WechatMpUnsubscribeEvent;
+import com.qxcmp.framework.weixin.event.WeixinMpSubscribeEvent;
+import com.qxcmp.framework.weixin.event.WeixinMpUnsubscribeEvent;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
@@ -22,16 +22,16 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
  */
 @Component
 @RequiredArgsConstructor
-public class WechatMpMessageDefaultListener {
+public class WeixinMpMessageDefaultListener {
 
-    private final WechatService wechatService;
+    private final WeixinService wechatService;
 
     private final UserService userService;
 
     private final SystemConfigService systemConfigService;
 
     @EventListener
-    public void onSubscribe(WechatMpSubscribeEvent event) {
+    public void onSubscribe(WeixinMpSubscribeEvent event) {
         try {
             WxMpUser wxMpUser = event.getWxMpService().getUserService().userInfo(event.getWxMpXmlMessage().getFromUser());
 
@@ -44,7 +44,7 @@ public class WechatMpMessageDefaultListener {
     }
 
     @EventListener
-    public void onUnsubscribe(WechatMpUnsubscribeEvent event) {
+    public void onUnsubscribe(WeixinMpUnsubscribeEvent event) {
         userService.update(event.getWxMpXmlMessage().getFromUser(), user -> user.setSubscribe(false));
     }
 }

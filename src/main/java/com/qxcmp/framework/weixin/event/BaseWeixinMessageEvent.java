@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Data
 @AllArgsConstructor
-public abstract class BaseWechatMessageEvent {
+public abstract class BaseWeixinMessageEvent {
 
     /**
      * 收到的微信消息

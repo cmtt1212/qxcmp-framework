@@ -4,7 +4,7 @@ import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.weixin.WechatMpMessageHandler;
+import com.qxcmp.framework.weixin.WeixinMpMessageHandler;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
@@ -49,7 +49,7 @@ public class QXCMPConfiguration {
      */
     public static final String QXCMP_BACKEND_URL = "/admin";
 
-    private final WechatMpMessageHandler defaultMessageHandler;
+    private final WeixinMpMessageHandler defaultMessageHandler;
 
     private final SystemConfigService systemConfigService;
 

@@ -8,12 +8,12 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import java.util.Map;
 
 /**
- * 菜单按钮点击事件
+ * 二维码扫描事件
  *
  * @author aaric
  */
-public class WechatMpMenuClickEvent extends BaseWechatMessageEvent {
-    public WechatMpMenuClickEvent(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager wxSessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
+public class WeixinMpScanEvent extends BaseWeixinMessageEvent {
+    public WeixinMpScanEvent(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager wxSessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
         super(wxMpXmlMessage, context, wxMpService, wxSessionManager, wxMpXmlOutMessage);
     }
 }

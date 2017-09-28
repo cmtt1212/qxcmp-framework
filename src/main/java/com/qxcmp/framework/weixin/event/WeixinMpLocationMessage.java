@@ -8,12 +8,12 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import java.util.Map;
 
 /**
- * 小视频消息
+ * 位置消息
  *
  * @author aaric
  */
-public class WechatMpShortVideoMessage extends BaseWechatMessageEvent {
-    public WechatMpShortVideoMessage(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager wxSessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
+public class WeixinMpLocationMessage extends BaseWeixinMessageEvent {
+    public WeixinMpLocationMessage(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager wxSessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
         super(wxMpXmlMessage, context, wxMpService, wxSessionManager, wxMpXmlOutMessage);
     }
 }

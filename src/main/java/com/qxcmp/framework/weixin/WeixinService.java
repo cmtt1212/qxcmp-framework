@@ -32,7 +32,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class WechatService {
+public class WeixinService {
 
     private static final int MAX_COUNT = 10000;
 

@@ -12,8 +12,8 @@ import java.util.Map;
  *
  * @author aaric
  */
-public class WechatMpTextMessage extends BaseWechatMessageEvent {
-    public WechatMpTextMessage(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager wxSessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
+public class WeixinMpTextMessage extends BaseWeixinMessageEvent {
+    public WeixinMpTextMessage(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager wxSessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
         super(wxMpXmlMessage, context, wxMpService, wxSessionManager, wxMpXmlOutMessage);
     }
 }

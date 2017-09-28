@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author aaric
  */
 @Component
-public class WechatPageHelper {
+public class WeixinPageHelper {
 
     /**
      * 向一个模型视图注入JS-SDK配置，模板使用该配置进行JS-SDK接入
