@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.view.nav.Navigation;
 import com.qxcmp.framework.web.QXCMPBackendController2;
-import com.qxcmp.framework.weixin.web.AdminFinancePaymentWeixinSettingsForm;
+import com.qxcmp.framework.weixin.web.AdminWeixinPayForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +40,7 @@ public class WeixinPaymentModuleController extends QXCMPBackendController2 {
      * @return 钱包充值页面
      */
     @GetMapping("/settings")
-    public ModelAndView wechatSetting(final AdminFinancePaymentWeixinSettingsForm form) {
+    public ModelAndView wechatSetting(final AdminWeixinPayForm form) {
         form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE));
         form.setTradeType(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE));
         form.setAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
@@ -57,7 +57,7 @@ public class WeixinPaymentModuleController extends QXCMPBackendController2 {
     }
 
     @PostMapping("/settings")
-    public ModelAndView servicePost(@Valid @ModelAttribute(FORM_OBJECT) AdminFinancePaymentWeixinSettingsForm form, BindingResult bindingResult) {
+    public ModelAndView servicePost(@Valid @ModelAttribute(FORM_OBJECT) AdminWeixinPayForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return builder().setFormView(form, SUPPORT_PAYMENT).build();

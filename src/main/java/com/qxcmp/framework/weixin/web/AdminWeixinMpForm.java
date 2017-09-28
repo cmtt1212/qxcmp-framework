@@ -25,7 +25,7 @@ public class AdminWeixinMpForm {
     @TextInputField("AES Key")
     private String aesKey;
 
-    @TextInputField("网页授权回调URL")
+    @TextInputField("授权回调链接")
     private String oauth2Url;
 
     @TextAreaField(value = "关注欢迎语", maxLength = 300, rows = 10)
