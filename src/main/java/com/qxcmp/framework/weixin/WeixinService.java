@@ -16,6 +16,7 @@ import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNewsBatchGetResult;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -167,6 +168,7 @@ public class WeixinService {
         } else {
             userService.create(() -> {
                 User user = userService.next();
+                user.setUsername(nextUsername());
                 setUserWechatInfo(user, wxMpUser);
                 return user;
             });
@@ -205,5 +207,15 @@ public class WeixinService {
         user.setRemark(wxMpUser.getRemark());
         user.setGroupId(wxMpUser.getGroupId());
         user.setTagIds(wxMpUser.getTagIds());
+    }
+
+    private String nextUsername() {
+        String username = RandomStringUtils.randomAlphanumeric(10);
+
+        while (userService.findByUsername(username).isPresent()) {
+            username = RandomStringUtils.randomAlphanumeric(10);
+        }
+
+        return username;
     }
 }
