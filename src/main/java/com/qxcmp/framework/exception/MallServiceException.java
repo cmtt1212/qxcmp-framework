@@ -5,7 +5,7 @@ package com.qxcmp.framework.exception;
  *
  * @author aaric
  */
-public abstract class MallServiceException extends Exception {
+public abstract class MallServiceException extends BaseQXCMPException {
 
     public MallServiceException() {
     }

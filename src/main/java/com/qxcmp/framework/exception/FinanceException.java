@@ -5,7 +5,7 @@ package com.qxcmp.framework.exception;
  *
  * @author aaric
  */
-public abstract class FinanceException extends Exception {
+public abstract class FinanceException extends BaseQXCMPException {
 
     /**
      * 异常错误代码

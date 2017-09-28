@@ -2,6 +2,9 @@ package com.qxcmp.framework.redeem;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
+import com.qxcmp.framework.exception.RedeemKeyException;
+import com.qxcmp.framework.user.User;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -15,8 +18,35 @@ import java.util.function.Supplier;
  */
 @Service
 public class RedeemKeyService extends AbstractEntityService<RedeemKey, String, RedeemKeyRepository> {
-    public RedeemKeyService(RedeemKeyRepository repository) {
+
+    private final ApplicationContext applicationContext;
+
+    public RedeemKeyService(RedeemKeyRepository repository, ApplicationContext applicationContext) {
         super(repository);
+        this.applicationContext = applicationContext;
+    }
+
+    public void redeem(User user, String id) throws RedeemKeyException {
+        RedeemKey key = findOne(id).filter(redeemKey -> !redeemKey.getStatus().equals(RedeemKeyStatus.USED)).orElseThrow(() -> new RedeemKeyException("Invalid id"));
+
+        if (System.currentTimeMillis() - key.getDateExpired().getTime() > 0) {
+            try {
+                update(id, redeemKey -> redeemKey.setStatus(RedeemKeyStatus.EXPIRED));
+                throw new RedeemKeyException("Expired");
+            } catch (Exception e) {
+                throw new RedeemKeyException(e.getMessage(), e);
+            }
+        }
+
+        try {
+            update(id, redeemKey -> {
+                redeemKey.setUserId(user.getId());
+                redeemKey.setDateUsed(new Date());
+                redeemKey.setStatus(RedeemKeyStatus.USED);
+            }).ifPresent(redeemKey -> applicationContext.publishEvent(new RedeemKeyEvent(user, redeemKey)));
+        } catch (Exception e) {
+            throw new RedeemKeyException(e.getMessage(), e);
+        }
     }
 
     @Override
