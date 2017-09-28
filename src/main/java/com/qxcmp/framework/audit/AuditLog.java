@@ -1,7 +1,9 @@
 package com.qxcmp.framework.audit;
 
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.view.annotation.*;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,14 +22,10 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
+@EntityTable(value = "系统日志", action = QXCMP_BACKEND_URL + "/audit",
+        rowActions = @RowAction(value = "查看", action = "details"))
 @Entity
 @Table
-@TableView(caption = "审计日志",
-        actionUrlPrefix = QXCMP_BACKEND_URL + "/log/audit/",
-        createAction = @TableViewAction(disabled = true),
-        updateAction = @TableViewAction(disabled = true),
-        removeAction = @TableViewAction(disabled = true))
-@DictionaryView(title = "审计日志")
 @Data
 public class AuditLog {
 
@@ -36,15 +34,14 @@ public class AuditLog {
      */
     @Id
     @GeneratedValue
-    @DictionaryViewField("ID")
+    @TableField("ID")
     private Long id;
 
     /**
      * 日志时间
      */
-    @TableViewField(title = "时间")
+    @TableField("时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DictionaryViewField("操作时间")
     private Date dateCreated;
 
     /**
@@ -55,14 +52,14 @@ public class AuditLog {
     /**
      * 日志名称
      */
-    @TableViewField(title = "名称")
+    @TableField("名称")
     private String title;
 
     /**
      * 日志当事人
      */
-    @TableViewField(title = "当事人", fieldSuffix = ".nickname")
     @ManyToOne
+    @TableField(value = "当事人", fieldSuffix = ".username")
     private User owner;
 
     /**
@@ -80,7 +77,7 @@ public class AuditLog {
     /**
      * 结果状态
      */
-    @TableViewField(title = "结果")
+    @TableField(value = "结果")
     @Enumerated(EnumType.STRING)
     private Status status;
 

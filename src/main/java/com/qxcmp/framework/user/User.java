@@ -11,6 +11,7 @@ import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -249,5 +250,22 @@ public class User implements UserDetails {
             }
         }));
         return grantedAuthorities;
+    }
+
+    /**
+     * 从真实姓名、昵称、用户名中获取
+     *
+     * @return 用户显示名称
+     */
+    public String getDisplayName() {
+        if (StringUtils.isNotBlank(name)) {
+            return name;
+        }
+
+        if (StringUtils.isNotBlank(nickname)) {
+            return nickname;
+        }
+
+        return username;
     }
 }
