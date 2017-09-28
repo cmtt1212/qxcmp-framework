@@ -1,10 +1,7 @@
 package com.qxcmp.framework.finance;
 
-import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.exception.OrderExpiredException;
 import com.qxcmp.framework.exception.OrderStatusException;
-import com.qxcmp.framework.mall.DepositOrder;
-import com.qxcmp.framework.mall.DepositOrderService;
 import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
 import org.junit.Test;

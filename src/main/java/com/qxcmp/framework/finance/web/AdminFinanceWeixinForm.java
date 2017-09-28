@@ -1,4 +1,4 @@
-package com.qxcmp.framework.weixin.web;
+package com.qxcmp.framework.finance.web;
 
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.web.view.annotation.form.BooleanField;
@@ -10,7 +10,7 @@ import lombok.Data;
 @FormView(caption = "微信支付设置")
 @Form("微信支付配置")
 @Data
-public class AdminWeixinPayForm {
+public class AdminFinanceWeixinForm {
 
     @BooleanField("开启支付功能")
     private boolean enable;

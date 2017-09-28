@@ -1,5 +1,6 @@
-package com.qxcmp.framework.mall;
+package com.qxcmp.framework.finance;
 
+import com.qxcmp.framework.mall.OrderStatusEnum;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

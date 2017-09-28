@@ -2,8 +2,8 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
-import com.qxcmp.framework.mall.DepositOrder;
-import com.qxcmp.framework.mall.DepositOrderService;
+import com.qxcmp.framework.finance.DepositOrder;
+import com.qxcmp.framework.finance.DepositOrderService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.view.dictionary.DictionaryView;
 import com.qxcmp.framework.view.list.ListView;

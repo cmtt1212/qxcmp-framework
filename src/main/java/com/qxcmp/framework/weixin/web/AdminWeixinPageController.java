@@ -1,6 +1,5 @@
 package com.qxcmp.framework.weixin.web;
 
-import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
@@ -31,13 +30,9 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @RequiredArgsConstructor
 public class AdminWeixinPageController extends QXCMPBackendController {
 
-    private static final List<String> SUPPORT_PAYMENT = ImmutableList.of("NATIVE", "JSAPI");
-
     private final WxMpService wxMpService;
 
     private final WxMpConfigStorage wxMpConfigStorage;
-
-    private final WxPayConfig wxPayConfig;
 
     @GetMapping("")
     public ModelAndView weixinPage() {
@@ -51,14 +46,6 @@ public class AdminWeixinPageController extends QXCMPBackendController {
                     stringObjectMap.put("网页授权链接", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL).orElse(""));
                     stringObjectMap.put("调试模式", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_DEBUG).orElse(""));
                     stringObjectMap.put("欢迎语", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE).orElse(""));
-                    stringObjectMap.put("是否开启微信支付", systemConfigService.getBoolean(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE));
-                    stringObjectMap.put("商户号", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_MCH_ID).orElse(""));
-                    stringObjectMap.put("商户密钥", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_MCH_KEY).orElse(""));
-                    stringObjectMap.put("子商户公众号ID", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUB_APP_ID).orElse(""));
-                    stringObjectMap.put("子商户号", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUB_MCH_ID).orElse(""));
-                    stringObjectMap.put("支付结果通知链接", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_NOTIFY_URL).orElse(""));
-                    stringObjectMap.put("证书路径", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
-                    stringObjectMap.put("支付方式", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(""));
                 })))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台")
                 .setVerticalMenu(getVerticalMenu(""))
@@ -122,61 +109,7 @@ public class AdminWeixinPageController extends QXCMPBackendController {
         }, (stringObjectMap, overview) -> overview.addComponent(convertToTable(map -> map.put("网页授权链接", stringObjectMap.get("oauth2Url")))));
     }
 
-    @GetMapping("/pay")
-    public ModelAndView weixinPayPage(final AdminWeixinPayForm form) {
-
-        form.setEnable(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE));
-        form.setTradeType(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE_DEFAULT_VALUE));
-        form.setAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
-        form.setMchId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_ID).orElse(""));
-        form.setMchKey(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_KEY).orElse(""));
-        form.setNotifyUrl(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL).orElse(""));
-        form.setSubAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_APP_ID).orElse(""));
-        form.setSubMchId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_MCH_ID).orElse(""));
-        form.setKeyPath(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
-
-        return page()
-                .addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "微信支付配置")
-                .setVerticalMenu(getVerticalMenu("微信支付配置"))
-                .addObject("selection_items_tradeType", SUPPORT_PAYMENT)
-                .build();
-    }
-
-    @PostMapping("/pay")
-    public ModelAndView weixinPayPage(@Valid final AdminWeixinPayForm form, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return page()
-                    .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "微信支付配置")
-                    .setVerticalMenu(getVerticalMenu("微信支付配置"))
-                    .addObject("selection_items_tradeType", SUPPORT_PAYMENT)
-                    .build();
-        }
-
-        return submitForm(form, context -> {
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE, String.valueOf(form.isEnable()));
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_DEFAULT_TRADE_TYPE, form.getTradeType());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_ID, form.getMchId());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_MCH_KEY, form.getMchKey());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_APP_ID, form.getSubAppId());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUB_MCH_ID, form.getSubMchId());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL, form.getNotifyUrl());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_KEY_PATH, form.getKeyPath());
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FINANCE_PAYMENT_SUPPORT_WEIXIN, systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_PAYMENT_ENABLE_DEFAULT_VALUE).toString());
-
-            wxPayConfig.setAppId(form.getAppId());
-            wxPayConfig.setMchId(form.getMchId());
-            wxPayConfig.setMchKey(form.getMchKey());
-            wxPayConfig.setSubAppId(form.getSubAppId());
-            wxPayConfig.setSubMchId(form.getSubMchId());
-            wxPayConfig.setNotifyUrl(form.getNotifyUrl());
-            wxPayConfig.setKeyPath(form.getKeyPath());
-        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/weixin"));
-    }
-
     private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "素材管理", QXCMP_BACKEND_URL + "/weixin/material", "公众号配置", QXCMP_BACKEND_URL + "/weixin/mp", "微信支付配置", QXCMP_BACKEND_URL + "/weixin/pay");
+        return ImmutableList.of(activeItem, "素材管理", QXCMP_BACKEND_URL + "/weixin/material", "公众号菜单", QXCMP_BACKEND_URL + "/menu", "公众号配置", QXCMP_BACKEND_URL + "/weixin/mp");
     }
 }

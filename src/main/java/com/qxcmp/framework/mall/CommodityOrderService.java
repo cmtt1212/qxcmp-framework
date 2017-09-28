@@ -1,11 +1,12 @@
 package com.qxcmp.framework.mall;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
-import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
 import com.qxcmp.framework.exception.OrderStatusException;
 import com.qxcmp.framework.core.support.IDGenerator;
+import com.qxcmp.framework.finance.Wallet;
+import com.qxcmp.framework.finance.WalletService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;

@@ -1,7 +1,5 @@
 package com.qxcmp.framework.finance;
 
-import com.qxcmp.framework.domain.Wallet;
-import com.qxcmp.framework.domain.WalletService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,7 +1,7 @@
 package com.qxcmp.framework.mall;
 
-import com.qxcmp.framework.domain.Wallet;
-import com.qxcmp.framework.domain.WalletService;
+import com.qxcmp.framework.finance.Wallet;
+import com.qxcmp.framework.finance.WalletService;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.qxcmp.framework.mall;
+package com.qxcmp.framework.finance;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

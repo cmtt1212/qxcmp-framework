@@ -1,12 +1,11 @@
-package com.qxcmp.framework.mall;
+package com.qxcmp.framework.finance;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
-import com.qxcmp.framework.domain.Wallet;
-import com.qxcmp.framework.domain.WalletService;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.OrderExpiredException;
 import com.qxcmp.framework.exception.OrderStatusException;
 import com.qxcmp.framework.core.support.IDGenerator;
+import com.qxcmp.framework.mall.OrderStatusEnum;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
