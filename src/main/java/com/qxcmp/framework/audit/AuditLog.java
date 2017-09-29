@@ -5,6 +5,7 @@ import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import com.qxcmp.framework.web.view.annotation.table.TableFieldRender;
+import com.qxcmp.framework.web.view.elements.html.Span;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.modules.table.TableData;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -97,8 +98,8 @@ public class AuditLog {
      */
     public enum Status {
 
-        SUCCESS("success"),
-        FAILURE("failure");
+        SUCCESS("成功"),
+        FAILURE("失败");
 
         private String value;
 
@@ -115,10 +116,13 @@ public class AuditLog {
     public TableData renderStatusField() {
         final TableData tableData = new TableData();
         if (status.equals(Status.SUCCESS)) {
-            tableData.setComponent(new Icon("check circle").setColor(Color.GREEN));
+            tableData.addComponent(new Icon("check circle").setColor(Color.GREEN));
         } else {
-            tableData.setComponent(new Icon("warning circle").setColor(Color.RED));
+            tableData.addComponent(new Icon("warning circle").setColor(Color.RED));
         }
+
+        tableData.addComponent(new Span(status.value));
+
         tableData.setAlignment(Alignment.CENTER);
         return tableData;
     }

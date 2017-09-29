@@ -1,7 +1,8 @@
 package com.qxcmp.framework.web.view.modules.table.dictionary;
 
+import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.label.Label;
-import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.table.AbstractTableCell;
 import com.qxcmp.framework.web.view.modules.table.TableData;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class CollectionValueCell extends AbstractDictionaryValueCell {
     @Override
     public AbstractTableCell parse() {
         final TableData tableData = new TableData();
-        final Labels labels = new Labels();
+        List<Component> components = Lists.newArrayList();
 
         List list = (List) ((Collection) object).stream().collect(Collectors.toList());
 
@@ -42,13 +43,13 @@ public class CollectionValueCell extends AbstractDictionaryValueCell {
 
             if (StringUtils.isNotBlank(entityIndex)) {
                 Object itemValue = beanWrapper.getPropertyValue(entityIndex);
-                labels.addLabel(new Label(Objects.nonNull(itemValue) ? itemValue.toString() : ""));
+                components.add(new Label(Objects.nonNull(itemValue) ? itemValue.toString() : ""));
             } else {
-                labels.addLabel(new Label(item.toString()));
+                components.add(new Label(item.toString()));
             }
         });
 
-        tableData.setComponent(labels);
+        tableData.addComponents(components);
         return tableData;
     }
 }

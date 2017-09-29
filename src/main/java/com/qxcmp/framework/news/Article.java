@@ -142,7 +142,7 @@ public class Article {
      * 文章所属的栏目
      */
     @ManyToMany
-    @TableField(value = "所属栏目", collectionEntityIndex = "id", maxCollectionCount = 3)
+    @TableField(value = "所属栏目", collectionEntityIndex = "name", maxCollectionCount = 3)
     private List<Channel> channels = Lists.newArrayList();
 
     /**

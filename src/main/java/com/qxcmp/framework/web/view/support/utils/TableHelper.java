@@ -13,7 +13,6 @@ import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.image.Avatar;
 import com.qxcmp.framework.web.view.elements.label.Label;
-import com.qxcmp.framework.web.view.elements.label.Labels;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
@@ -279,7 +278,7 @@ public class TableHelper {
             buttons.addButton(convertActionToButton(entityTableAction));
         });
 
-        tableHead.setComponent(buttons);
+        tableHead.addComponent(buttons);
         tableRow.addCell(tableHead);
         tableHeader.addRow(tableRow);
     }
@@ -298,7 +297,7 @@ public class TableHelper {
             buttons.addButton(convertActionToButton(entityTableBatchAction));
         });
 
-        tableHead.setComponent(buttons);
+        tableHead.addComponent(buttons);
         tableRow.addCell(tableHead);
         tableHeader.addRow(tableRow);
     }
@@ -381,11 +380,11 @@ public class TableHelper {
             }
 
             if (entityTableField.isImage()) {
-                tableData.setCollapsing().setComponent(new Avatar(Objects.nonNull(value) ? value.toString() : "").setCentered());
+                tableData.setCollapsing().addComponent(new Avatar(Objects.nonNull(value) ? value.toString() : "").setCentered());
             } else if (Collection.class.isAssignableFrom(entityTableField.getField().getType())) {
                 String entityIndex = entityTableField.getCollectionEntityIndex();
                 List list = (List) ((Collection) value).stream().limit(entityTableField.getMaxCollectionCount()).collect(Collectors.toList());
-                final Labels labels = new Labels();
+                List<com.qxcmp.framework.web.view.Component> components = Lists.newArrayList();
                 list.forEach(item -> {
 
                     BeanWrapperImpl itemWrapper = new BeanWrapperImpl(item);
@@ -401,12 +400,12 @@ public class TableHelper {
 
                     if (entityTableField.isEnableUrl()) {
                         String url = entityTableField.getUrlPrefix() + itemWrapper.getPropertyValue(entityTableField.getUrlEntityIndex()) + "/" + entityTableField.getUrlSuffix();
-                        labels.addLabel(new Label(labelText).setUrl(url));
+                        components.add(new Label(labelText).setUrl(url));
                     } else {
-                        labels.addLabel(new Label(labelText));
+                        components.add(new Label(labelText));
                     }
                 });
-                tableData.setComponent(labels);
+                tableData.addComponents(components);
             } else {
                 tableData.setContent(Objects.nonNull(value) ? value.toString() : "");
             }
@@ -452,7 +451,7 @@ public class TableHelper {
             }
         });
 
-        tableData.setComponent(buttons);
+        tableData.addComponent(buttons);
     }
 
     private <T> void renderTableFooter(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Page<T> tPage) {
@@ -464,7 +463,7 @@ public class TableHelper {
 
         tableHead.setColSpan(colSpan);
         tableHead.setAlignment(Alignment.CENTER);
-        tableHead.setComponent(new Pagination("", tPage.getNumber() + 1, (int) tPage.getTotalElements(), tPage.getSize()).setShowSizeChanger().setShowQuickJumper().setShowTotal());
+        tableHead.addComponent(new Pagination("", tPage.getNumber() + 1, (int) tPage.getTotalElements(), tPage.getSize()).setShowSizeChanger().setShowQuickJumper().setShowTotal());
 
         tableRow.addCell(tableHead);
         tableFooter.addRow(tableRow);

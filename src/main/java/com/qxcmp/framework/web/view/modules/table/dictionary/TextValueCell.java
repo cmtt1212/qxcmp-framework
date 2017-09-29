@@ -17,7 +17,7 @@ public class TextValueCell extends AbstractDictionaryValueCell {
         final TableData tableData = new TableData();
 
         if (Objects.nonNull(getAnchor())) {
-            tableData.setComponent(new Anchor(object.toString(), getAnchor().getHref(), getAnchor().getTarget()));
+            tableData.addComponent(new Anchor(object.toString(), getAnchor().getHref(), getAnchor().getTarget()));
         } else {
             tableData.setContent(object.toString());
         }

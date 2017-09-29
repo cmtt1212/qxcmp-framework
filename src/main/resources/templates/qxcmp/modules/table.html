@@ -55,10 +55,12 @@
     <th th:class="${component.getClassName()}"
         th:rowspan="${component.rowSpan gt 1 ? component.rowSpan : _}"
         th:colspan="${component.colSpan gt 1 ? component.colSpan : _}">
-        <th:block th:if="${component.component ne null}">
-            <div th:replace="~{qxcmp/globals/components :: component(${component.component})}"></div>
+        <th:block th:if="${not #lists.isEmpty(component.components)}">
+            <th:block th:each="component : ${component.components}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component})}"></div>
+            </th:block>
         </th:block>
-        <th:block th:if="${component.component eq null}" th:utext="${component.content}"/>
+        <th:block th:if="${#lists.isEmpty(component.components)}" th:utext="${component.content}"/>
     </th>
 </th:block>
 
@@ -67,10 +69,12 @@
     <td th:class="${component.getClassName()}"
         th:rowspan="${component.rowSpan gt 1 ? component.rowSpan : _}"
         th:colspan="${component.colSpan gt 1 ? component.colSpan : _}">
-        <th:block th:if="${component.component ne null}">
-            <div th:replace="~{qxcmp/globals/components :: component(${component.component})}"></div>
+        <th:block th:if="${not #lists.isEmpty(component.components)}">
+            <th:block th:each="component : ${component.components}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component})}"></div>
+            </th:block>
         </th:block>
-        <th:block th:if="${component.component eq null}" th:utext="${component.content}"/>
+        <th:block th:if="${#lists.isEmpty(component.components)}" th:utext="${component.content}"/>
     </td>
 </th:block>
 

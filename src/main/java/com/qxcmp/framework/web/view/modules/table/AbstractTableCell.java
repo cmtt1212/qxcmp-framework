@@ -1,11 +1,15 @@
 package com.qxcmp.framework.web.view.modules.table;
 
+import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;
 import com.qxcmp.framework.web.view.support.Wide;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 数据表格单元格抽象类
@@ -19,7 +23,7 @@ public abstract class AbstractTableCell extends AbstractTableComponent {
     /**
      * 单元格内容
      */
-    private Component component;
+    private List<Component> components = Lists.newArrayList();
 
     /**
      * 单元格文本
@@ -107,7 +111,17 @@ public abstract class AbstractTableCell extends AbstractTableComponent {
     }
 
     public AbstractTableCell(Component component) {
-        this.component = component;
+        this.components.add(component);
+    }
+
+    public AbstractTableCell addComponent(Component component) {
+        this.components.add(component);
+        return this;
+    }
+
+    public AbstractTableCell addComponents(Collection<? extends Component> components) {
+        this.components.addAll(components);
+        return this;
     }
 
     @Override

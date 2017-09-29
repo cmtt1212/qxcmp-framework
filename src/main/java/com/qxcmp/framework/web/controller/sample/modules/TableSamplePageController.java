@@ -57,7 +57,7 @@ public class TableSamplePageController extends AbstractSamplePageController {
 
         TableHead tableHead = new TableHead();
         tableHead.setColSpan(3);
-        tableHead.setComponent(new Pagination("/test/sample/pagination", "&search=content", 0, 500, 20).setShowQuickJumper().setShowSizeChanger().setShowTotal());
+        tableHead.addComponent(new Pagination("/test/sample/pagination", "&search=content", 0, 500, 20).setShowQuickJumper().setShowSizeChanger().setShowTotal());
 
         abstractTableSection.addRow(new TableRow().addCell(tableHead));
         return abstractTableSection;
