@@ -101,6 +101,56 @@ public class AdminNewsPageController extends QXCMPBackendController {
         }, (stringObjectMap, overview) -> overview.addLink("返回栏目管理", QXCMP_BACKEND_URL + "/news/channel").addLink("继续新建栏目", QXCMP_BACKEND_URL + "/news/channel/new"));
     }
 
+    @GetMapping("/channel/{id}/edit")
+    public ModelAndView newsChannelEditPage(@PathVariable String id, @Valid final AdminNewsChannelEditForm form) {
+        return channelService.findOne(id).map(channel -> {
+            form.setCover(channel.getCover());
+            form.setName(channel.getName());
+            form.setDescription(channel.getDescription());
+            form.setOwner(channel.getOwner());
+            form.setAdmins(channel.getAdmins());
+            form.setContent(channel.getContent());
+            form.setContentQuill(channel.getContentQuill());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "编辑栏目")
+                    .setVerticalMenu(getVerticalMenu("栏目管理"))
+                    .addObject("selection_items_owner", userService.findAll())
+                    .addObject("selection_items_admins", userService.findAll())
+                    .build();
+        }).orElse(overviewPage(new Overview(new IconHeader("栏目不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/channel")).build());
+    }
+
+    @PostMapping("/channel/{id}/edit")
+    public ModelAndView newsChannelEditPage(@PathVariable String id, final AdminNewsChannelEditForm form, BindingResult bindingResult) {
+        return channelService.findOne(id).map(channel -> {
+
+            if (bindingResult.hasErrors()) {
+                return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                        .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "编辑栏目")
+                        .setVerticalMenu(getVerticalMenu("栏目管理"))
+                        .addObject("selection_items_owner", userService.findAll())
+                        .addObject("selection_items_admins", userService.findAll())
+                        .build();
+            }
+
+            return submitForm(form, context -> {
+                try {
+                    channelService.update(channel.getId(), c -> {
+                        c.setCover(form.getCover());
+                        c.setName(form.getName());
+                        c.setDescription(form.getDescription());
+                        c.setOwner(form.getOwner());
+                        c.setAdmins(form.getAdmins());
+                        c.setContent(form.getContent());
+                        c.setContentQuill(form.getContentQuill());
+                    });
+                } catch (Exception e) {
+                    throw new ActionException(e.getMessage(), e);
+                }
+            }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/news/channel"));
+        }).orElse(overviewPage(new Overview(new IconHeader("栏目不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/channel")).build());
+    }
+
     private List<String> getVerticalMenu(String activeItem) {
         return ImmutableList.of(activeItem, "文章管理", QXCMP_BACKEND_URL + "/news/article", "栏目管理", QXCMP_BACKEND_URL + "/news/channel");
     }
