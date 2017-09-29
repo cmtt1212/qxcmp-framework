@@ -9,11 +9,19 @@ import com.qxcmp.framework.news.ChannelService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.model.RestfulResponse;
+import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Row;
+import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.HtmlText;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.modules.table.dictionary.CollectionValueCell;
 import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
@@ -184,7 +192,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
         return articleService.findOne(id)
                 .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
                 .map(article -> page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
-                        .addComponent(new HtmlText(article.getContent()))
+                        .addComponent(getArticlePreviewContent(article))
                         .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/article/user")
                         .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
                         .addLink("新建文章", QXCMP_BACKEND_URL + "/news/article/user/new"))
@@ -192,6 +200,19 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                         .setVerticalMenu(getVerticalMenu(""))
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
+    }
+
+    private Component getArticlePreviewContent(Article article) {
+        final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
+        grid.addItem(new Row()
+                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered()))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(stringObjectMap -> {
+                    stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
+                    stringObjectMap.put("文章摘要", article.getDigest());
+                })))
+        );
+        grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
+        return grid;
     }
 
     @PostMapping("/{id}/remove")

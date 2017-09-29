@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.web.view.annotation.table.*;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,7 +25,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
         rowActions = {@RowAction(value = "预览", action = "preview")})
 @EntityTable(value = "草稿箱", name = "userDraft", action = QXCMP_BACKEND_URL + "/news/article/user",
         tableActions = @TableAction(value = "新建文章", action = "new", primary = true),
-        batchActions = @BatchAction(value = "批量删除", action = "remove"),
+        batchActions = @BatchAction(value = "批量删除", action = "remove", color = Color.RED),
         rowActions = {
                 @RowAction(value = "申请审核", action = "audit"),
                 @RowAction(value = "预览", action = "preview"),
