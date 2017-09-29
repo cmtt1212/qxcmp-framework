@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.view.support.utils;
 
 import com.google.common.base.CaseFormat;
+import com.qxcmp.framework.core.support.ReflectionUtils;
 import com.qxcmp.framework.web.view.annotation.form.*;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
@@ -35,6 +36,8 @@ public class FormHelper {
     private static final String DEFAULT_SELECTION_ITEM_PREFIX = "selection_items_";
 
     private final ApplicationContext applicationContext;
+
+    private final ReflectionUtils reflectionUtils;
 
     /**
      * 将表单错误对象转换为错误消息组件
@@ -161,7 +164,7 @@ public class FormHelper {
     }
 
     private void configFormField(AbstractForm form, Object object) {
-        for (Field field : object.getClass().getDeclaredFields()) {
+        for (Field field : reflectionUtils.getAllFields(object.getClass())) {
             for (Annotation annotation : field.getDeclaredAnnotations()) {
                 if (annotation instanceof HiddenField) {
                     addHiddenField(form, field, (HiddenField) annotation);
