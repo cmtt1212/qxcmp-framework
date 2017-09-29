@@ -3,7 +3,7 @@
 <body>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.views.Overview"*/-->
-<div th:fragment="default(component)" class="ui segment">
+<div th:fragment="default(component)" th:class="${component.getClassName()}">
     <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
     <th:block th:if="not ${#lists.isEmpty(component.components)}">
         <div class="ui divider"></div>

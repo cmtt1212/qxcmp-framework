@@ -449,10 +449,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                 bindingResult.rejectValue("alias", "", "栏目Url不能为空");
             }
 
-            if (channelService.findByAlias(form.getAlias()).isPresent()) {
-                bindingResult.rejectValue("alias", "", "栏目Url已经存在");
-            }
-
             if (bindingResult.hasErrors()) {
                 return builder().setTitle("新建栏目")
                         .setFormView(form, systemConfigService.getList(SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG),
@@ -463,11 +459,8 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             return action("新建栏目", context -> channelService.create(() -> {
                 Channel channel = channelService.next();
                 channel.setName(form.getName().replaceAll("\\s+", ""));
-                channel.setAlias(form.getAlias());
                 channel.setOwner(currentUser());
                 channel.setAdmins(form.getAdmins());
-                channel.setQuillContent(form.getQuillContent());
-                channel.setHtmlContent(form.getHtmlContent());
                 channel.setDescription(form.getDescription());
                 channel.setCatalog(form.getCatalogs());
 
@@ -502,12 +495,9 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                 form.setId(channel.getId());
                 form.setName(channel.getName());
                 form.setCover(channel.getCover());
-                form.setAlias(channel.getAlias());
                 form.setOwner(channel.getOwner());
                 form.setDescription(channel.getDescription());
                 form.setAdmins(channel.getAdmins());
-                form.setQuillContent(channel.getQuillContent());
-                form.setHtmlContent(channel.getHtmlContent());
                 form.setCatalogs(channel.getCatalog());
 
                 return builder().setTitle("编辑栏目")
@@ -526,7 +516,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
         return channelService.findOne(id).map(channel -> builder().setTitle("预览栏目")
                 .addElement(H4, channel.getName())
                 .addDivider()
-                .addHtml(channel.getHtmlContent())
                 .build()).orElse(error(HttpStatus.NOT_FOUND, "栏目不存在").build());
     }
 
@@ -540,10 +529,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
             if (StringUtils.isBlank(form.getAlias())) {
                 bindingResult.rejectValue("alias", "", "栏目Url不能为空");
-            }
-
-            if (channelService.findByAlias(form.getAlias()).isPresent() && !channelService.findByAlias(form.getAlias()).get().getId().equals(form.getId())) {
-                bindingResult.rejectValue("alias", "", "栏目Url已经存在");
             }
 
             if (bindingResult.hasErrors()) {
@@ -565,12 +550,9 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
             return action("编辑栏目", context -> channelService.update(form.getId(), channel -> {
                 channel.setName(form.getName());
-                channel.setAlias(form.getAlias());
                 channel.setOwner(form.getOwner());
                 channel.setAdmins(form.getAdmins());
                 channel.setDescription(form.getDescription());
-                channel.setQuillContent(form.getQuillContent());
-                channel.setHtmlContent(form.getHtmlContent());
                 channel.setCatalog(form.getCatalogs());
 
                 if (Objects.nonNull(form.getCoverFile()) && StringUtils.isNotBlank(form.getCoverFile().getOriginalFilename())) {

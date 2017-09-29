@@ -14,7 +14,7 @@ public class AdminNewsChannelNewForm {
     @AvatarField("栏目封面")
     private String cover;
 
-    @TextInputField("栏目名称")
+    @TextInputField(value = "栏目名称", required = true, autoFocus = true)
     private String name;
 
     @TextAreaField(value = "栏目描述", rows = 4)
@@ -28,6 +28,5 @@ public class AdminNewsChannelNewForm {
 
     @HtmlField("栏目内容")
     private String content;
-
     private String contentQuill;
 }

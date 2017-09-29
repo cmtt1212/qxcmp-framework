@@ -8,6 +8,7 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.header.AbstractHeader;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +39,11 @@ public class Overview extends AbstractComponent {
      * 额外内容
      */
     private List<Component> components = Lists.newArrayList();
+
+    /**
+     * 内容对齐方式
+     */
+    private Alignment alignment = Alignment.NONE;
 
     public Overview addLink(AbstractButton button) {
         links.add(button);
@@ -79,5 +85,25 @@ public class Overview extends AbstractComponent {
     @Override
     public String getFragmentFile() {
         return "qxcmp/views/overview";
+    }
+
+    @Override
+    public String getClassPrefix() {
+        return "ui";
+    }
+
+    @Override
+    public String getClassContent() {
+        return String.valueOf(alignment);
+    }
+
+    @Override
+    public String getClassSuffix() {
+        return "segment";
+    }
+
+    public Overview setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+        return this;
     }
 }

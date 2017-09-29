@@ -372,7 +372,13 @@ public class TableHelper {
         } else {
             final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
 
-            Object value = beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix());
+            Object value = null;
+
+            try {
+                value = beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix());
+            } catch (Exception ignored) {
+
+            }
 
             if (entityTableField.isImage()) {
                 tableData.setCollapsing().setComponent(new Avatar(Objects.nonNull(value) ? value.toString() : "").setCentered());

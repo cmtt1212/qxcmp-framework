@@ -7,7 +7,6 @@ import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
-import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,7 +24,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
         rowActions = {
                 @RowAction(value = "预览", action = "preview"),
                 @RowAction(value = "编辑", action = "edit"),
-                @RowAction(value = "删除", action = "remove", method = FormMethod.POST, color = Color.RED)
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
         })
 @Entity
 @Table
@@ -46,12 +45,6 @@ public class Channel {
     @TableField("名称")
     private String name;
 
-    /**
-     * 栏目别名，用户访问栏目使用
-     */
-    @Column(unique = true)
-    private String alias;
-
     @TableField(value = "封面", image = true, order = Integer.MIN_VALUE)
     private String cover;
 
@@ -64,26 +57,26 @@ public class Channel {
      * 栏目自定义页面
      */
     @Lob
-    private String quillContent;
+    private String content;
 
     /**
      * 栏目自定义页面
      */
     @Lob
-    private String htmlContent;
+    private String contentQuill;
 
     /**
      * 栏目所有者
      */
     @ManyToOne
-    @TableField(value = "所有者", fieldSuffix = ".getDisplayName()")
+    @TableField(value = "所有者", fieldSuffix = ".username")
     private User owner;
 
     /**
      * 栏目管理者
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @TableField(value = "管理员", collectionEntityIndex = "getDisplayName()")
+    @TableField(value = "管理员", collectionEntityIndex = ".username")
     private Set<User> admins = Sets.newHashSet();
 
     /**

@@ -34,10 +34,6 @@ public class ChannelService extends AbstractEntityService<Channel, Long, Channel
         return channels;
     }
 
-    public Optional<Channel> findByAlias(String alias) {
-        return repository.findByAlias(alias);
-    }
-
     public List<Channel> findByCatalog(String catalog) {
         return repository.findByCatalog(catalog);
     }

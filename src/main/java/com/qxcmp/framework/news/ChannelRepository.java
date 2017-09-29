@@ -14,8 +14,6 @@ import java.util.Set;
 @Repository
 interface ChannelRepository extends JpaRepository<Channel, Long>, JpaSpecificationExecutor<Channel> {
 
-    Optional<Channel> findByAlias(String alias);
-
     List<Channel> findByOwner(User owner);
 
     @Query("select channel from Channel channel inner join channel.admins admin where admin = :user")
