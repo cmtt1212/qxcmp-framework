@@ -2,9 +2,9 @@ package com.qxcmp.framework.news;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.qxcmp.framework.view.annotation.TableView;
-import com.qxcmp.framework.view.annotation.TableViewAction;
 import com.qxcmp.framework.view.annotation.TableViewField;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,17 +20,18 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
+@EntityTable(value = "我的文章", name = "user", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "草稿箱", name = "userDraft", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "审核中文章", name = "userAuditing", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "未通过文章", name = "userRejected", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "已发布文章", name = "userPublished", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "已禁用文章", name = "userDisabled", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "待审核文章", name = "auditing", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "已发布文章", name = "published", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "已禁用文章", name = "disabled", action = QXCMP_BACKEND_URL + "/news/article")
 @Entity
 @Table
 @Data
-@TableView(name = "draft", caption = "我的草稿", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), customActions = @TableViewAction(title = "申请发布", urlSuffix = "/auditing", isForm = true))
-@TableView(name = "auditing", caption = "待审核文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"))
-@TableView(name = "reject", caption = "未通过文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), customActions = @TableViewAction(title = "申请发布", urlSuffix = "/auditing", isForm = true))
-@TableView(name = "published", caption = "已发布文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true))
-@TableView(name = "disabled", caption = "被禁用文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"))
-@TableView(name = "audit", caption = "审核文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(title = "审核", urlSuffix = "/audit"), removeAction = @TableViewAction(disabled = true))
-@TableView(name = "publish", caption = "已发布文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "禁用", urlSuffix = "/disable", isForm = true))
-@TableView(name = "disable", caption = "已禁用文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "启用", urlSuffix = "/enable", isForm = true))
 public class Article {
 
     /**
@@ -48,13 +49,15 @@ public class Article {
     /**
      * 文章标题
      */
-    @TableViewField(title = "标题")
+    @TableField("标题")
     private String title;
 
     /**
      * 文章作者
      */
-    @TableViewField(name = "audit", title = "作者")
+    @TableField(value = "作者", name = "auditing", fieldSuffix = ".username")
+    @TableField(value = "作者", name = "published", fieldSuffix = ".username")
+    @TableField(value = "作者", name = "disabled", fieldSuffix = ".username")
     private String author;
 
     /**
@@ -65,20 +68,20 @@ public class Article {
     /**
      * 文章封面图片Url
      */
-    @TableViewField(title = "ID", order = Integer.MIN_VALUE, isImage = true)
+    @TableField(value = "封面", image = true, order = Integer.MIN_VALUE)
     private String cover;
 
     /**
      * 编辑器内容，用于编辑时使用
      */
     @Lob
-    private String quillContent;
+    private String content;
 
     /**
      * HTML内容，用于只读时使用
      */
     @Lob
-    private String htmlContent;
+    private String contentQuill;
 
     /**
      * 文章是否被发布

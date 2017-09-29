@@ -159,7 +159,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                 .addElement(H6, article.getAuthor())
                 .addElement(P, new SimpleDateFormat("创建于：yyyy-MM-dd HH:mm").format(article.getDateCreated()))
                 .addDivider()
-                .addHtml(article.getHtmlContent())
                 .build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
     }
 
@@ -201,8 +200,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             article.setAuthor(form.getAuthor());
             article.setDigest(form.getDigest());
             article.setChannels(form.getChannelList());
-            article.setQuillContent(form.getQuillContent());
-            article.setHtmlContent(form.getHtmlContent());
             article.setCover(form.getCover());
             article.setUserId(currentUser().getId());
 
@@ -231,8 +228,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                 form.setAuthor(article.getAuthor());
                 form.setDigest(article.getDigest());
                 form.setChannelList(article.getChannels());
-                form.setQuillContent(article.getQuillContent());
-                form.setHtmlContent(article.getHtmlContent());
                 return builder().setTitle("编辑文章")
                         .setFormView(form, channelService.findByUserId(currentUser()))
                         .addNavigation("我的文章", Navigation.Type.NORMAL, "文章管理")
@@ -261,8 +256,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                 a.setAuthor(form.getAuthor());
                 a.setDigest(form.getDigest());
                 a.setChannels(form.getChannelList());
-                a.setQuillContent(form.getQuillContent());
-                a.setHtmlContent(form.getHtmlContent());
                 a.setCover(form.getCover());
                 a.setUserId(currentUser().getId());
 
@@ -305,7 +298,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                     .addFragment("qxcmp/news-widget", "auditor")
                     .addElement(P, "正文内容")
                     .addDivider()
-                    .addHtml(article.getHtmlContent())
                     .addNavigation("文章审核", Navigation.Type.NORMAL, "文章管理")
                     .addObject(article)
                     .addObject("dictionaryView", DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
@@ -322,7 +314,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> builder().setTitle("驳回文章")
                     .setFormView(new AdminArticleRejectForm())
                     .addDictionaryView(DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
-                    .addHtml(article.getHtmlContent())
                     .addNavigation("文章审核", Navigation.Type.NORMAL, "文章管理")
                     .build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
@@ -339,7 +330,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                     return builder().setTitle("驳回文章")
                             .setFormView(form)
                             .addDictionaryView(DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
-                            .addHtml(article.getHtmlContent())
                             .addNavigation("文章审核", Navigation.Type.NORMAL, "文章管理").build();
                 }
 
@@ -362,7 +352,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> builder().setTitle("发布文章")
                     .setFormView(new AdminArticlePublishForm())
                     .addDictionaryView(DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
-                    .addHtml(article.getHtmlContent())
                     .addNavigation("文章审核", Navigation.Type.NORMAL, "文章管理")
                     .build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
@@ -379,7 +368,6 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                     return builder().setTitle("发布文章")
                             .setFormView(form)
                             .addDictionaryView(DictionaryView.builder().dictionary("作者", article.getAuthor()).dictionary("摘要", article.getDigest()).dictionary("所属栏目", article.getChannels().stream().map(Channel::getName).collect(Collectors.toList()).toString()).build())
-                            .addHtml(article.getHtmlContent())
                             .addNavigation("文章审核", Navigation.Type.NORMAL, "文章管理").build();
                 }
 
