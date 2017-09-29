@@ -155,6 +155,9 @@ public class Article {
     /**
      * 文章流量
      */
-    @TableField("访问量")
+    @TableField(value = "访问量", name = "userPublished")
+    @TableField(value = "访问量", name = "userDisabled")
+    @TableField(value = "访问量", name = "published")
+    @TableField(value = "访问量", name = "disabled")
     private int viewCount;
 }

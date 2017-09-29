@@ -27,7 +27,9 @@ import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -164,7 +167,6 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                     return submitForm(form, context -> {
                         try {
                             articleService.update(article.getId(), a -> {
-                                a.setStatus(ArticleStatus.NEW);
                                 a.setCover(form.getCover());
                                 a.setTitle(form.getTitle());
                                 a.setAuthor(form.getAuthor());
@@ -172,6 +174,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                                 a.setChannels(form.getChannels());
                                 a.setContent(form.getContent());
                                 a.setContentQuill(form.getContentQuill());
+                                a.setDateModified(new Date());
                             });
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
@@ -200,19 +203,6 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                         .setVerticalMenu(getVerticalMenu(""))
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
-    }
-
-    private Component getArticlePreviewContent(Article article) {
-        final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
-        grid.addItem(new Row()
-                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered()))
-                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(stringObjectMap -> {
-                    stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
-                    stringObjectMap.put("文章摘要", article.getDigest());
-                })))
-        );
-        grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
-        return grid;
     }
 
     @PostMapping("/{id}/remove")
@@ -255,12 +245,59 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
         return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
+    @GetMapping("/{id}/audit")
+    public ModelAndView userArticleAuditPage(@PathVariable String id, final AdminNewsArticleUserAuditForm form) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return articleService.findOne(id)
+                .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
+                .map(article -> page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
+                        .addComponent(getArticleAuditContent(article, form))
+                        .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/article/user")
+                        .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
+                        .addLink("新建文章", QXCMP_BACKEND_URL + "/news/article/user/new"))
+                        .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "申请审核")
+                        .setVerticalMenu(getVerticalMenu(""))
+                        .build())
+                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
+    }
+
+    @PostMapping("/{id}/audit")
+    public ModelAndView userArticleAuditPage(@PathVariable String id, final AdminNewsArticleUserAuditForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return articleService.findOne(id)
+                .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
+                .map(article -> submitForm(form, context -> {
+                            try {
+                                articleService.update(article.getId(), a -> {
+                                    a.setAuditRequest(form.getAuditRequest());
+                                    a.setDateAuditing(new Date());
+                                    a.setStatus(ArticleStatus.AUDITING);
+                                });
+                            } catch (Exception e) {
+                                throw new ActionException(e.getMessage(), e);
+                            }
+                        }, (stringObjectMap, overview) -> {
+                            overview.setHeader(new IconHeader("申请审核成功", new Icon("info circle")));
+                            overview
+                                    .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/article/user")
+                                    .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft");
+                        }
+                ))
+                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
+    }
+
     @GetMapping("/draft")
     public ModelAndView userArticleDraftPage(Pageable pageable) {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, pageable);
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
         return page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "草稿箱")
@@ -322,5 +359,32 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
     private List<String> getVerticalMenu(String activeItem) {
         return ImmutableList.of(activeItem, "草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft", "审核中文章", QXCMP_BACKEND_URL + "/news/article/user/auditing", "未通过文章", QXCMP_BACKEND_URL + "/news/article/user/rejected", "已发布文章", QXCMP_BACKEND_URL + "/news/article/user/published", "已禁用文章", QXCMP_BACKEND_URL + "/news/article/user/disabled");
+    }
+
+    private Component getArticlePreviewContent(Article article) {
+        final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
+        grid.addItem(new Row()
+                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered()))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(stringObjectMap -> {
+                    stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
+                    stringObjectMap.put("文章摘要", article.getDigest());
+                })))
+        );
+        grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
+        return grid;
+    }
+
+    private Component getArticleAuditContent(Article article, AdminNewsArticleUserAuditForm form) {
+        final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
+        grid.addItem(new Row()
+                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered()))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(stringObjectMap -> {
+                    stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
+                    stringObjectMap.put("文章摘要", article.getDigest());
+                    stringObjectMap.put("文章状态", article.getStatus().getName());
+                })).addComponent(convertToForm(form)))
+        );
+        grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
+        return grid;
     }
 }
