@@ -254,21 +254,24 @@ public class TableHelper {
 
     private void renderTableHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields) {
         final TableHeader tableHeader = new TableHeader();
-        final TableRow tableRow = new TableRow();
-        final TableHead tableHead = new TableHead();
+        final TableRow tableActionRow = new TableRow();
+        final TableHead tableActionHead = new TableHead();
 
-        tableRow.addCell(tableHead);
-        tableHeader.addRow(tableRow);
+        tableActionRow.addCell(tableActionHead);
 
         int colSpan = getColSpan(table, entityTableFields);
-        tableHead.setColSpan(colSpan);
+        tableActionHead.setColSpan(colSpan);
 
         if (!table.getTableActions().isEmpty()) {
-            renderTableActionHeader(table, tableHead);
+            renderTableActionHeader(table, tableActionHead);
         }
 
         if (!table.getBatchActions().isEmpty()) {
-            renderTableBatchActionHeader(table, tableHead);
+            renderTableBatchActionHeader(table, tableActionHead);
+        }
+
+        if (!tableActionHead.getComponents().isEmpty()) {
+            tableHeader.addRow(tableActionRow);
         }
 
         renderTableTitleHeader(table, entityTableFields, tableHeader);

@@ -31,10 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -164,6 +161,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing")).build());
     }
 
+
     @PostMapping("/{id}/remove")
     public ResponseEntity<RestfulResponse> articleRemove(@PathVariable String id) {
         return articleService.findOne(id)
@@ -221,6 +219,97 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                     });
                     return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+
+    @PostMapping("/publish")
+    public ResponseEntity<RestfulResponse> articleBatchPublish(@RequestParam("keys[]") List<String> keys) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        RestfulResponse restfulResponse = audit("批量发布文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> article.getStatus().equals(ArticleStatus.AUDITING))
+                            .ifPresent(article -> articleService.update(article.getId(), a -> {
+                                a.setAuditor(user.getId());
+                                a.setAuditResponse("批量发布");
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.PUBLISHED);
+                            }));
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+    }
+
+
+    @PostMapping("/reject")
+    public ResponseEntity<RestfulResponse> userArticleBatchReject(@RequestParam("keys[]") List<String> keys) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        RestfulResponse restfulResponse = audit("批量驳回文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> article.getStatus().equals(ArticleStatus.AUDITING))
+                            .ifPresent(article -> articleService.update(article.getId(), a -> {
+                                a.setAuditor(user.getId());
+                                a.setAuditResponse("批量驳回");
+                                a.setDateRejected(new Date());
+                                a.setStatus(ArticleStatus.REJECT);
+                            }));
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+    }
+
+    @PostMapping("/remove")
+    public ResponseEntity<RestfulResponse> userArticleBatchRemove(@RequestParam("keys[]") List<String> keys) {
+
+        RestfulResponse restfulResponse = audit("批量删除文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> !article.getStatus().equals(ArticleStatus.PUBLISHED))
+                            .ifPresent(articleService::remove);
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+    }
+
+    @PostMapping("/disable")
+    public ResponseEntity<RestfulResponse> userArticleBatchDisable(@RequestParam("keys[]") List<String> keys) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        RestfulResponse restfulResponse = audit("批量禁用文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                            .filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED))
+                            .ifPresent(article -> articleService.update(article.getId(), a -> {
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.DISABLED);
+                                a.setDisableUser(user.getId());
+                            }));
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     private List<String> getVerticalMenu(String activeItem) {

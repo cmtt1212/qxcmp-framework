@@ -41,10 +41,14 @@
         <script th:inline="javascript">
             $(document).ready(function () {
                 var jumpForm = /*[[|#${component.id} form.jump|]]*/ "";
+                var jumpButton = /*[[|#${component.id} form.jump button|]]*/ "";
                 var targetPage = /*[[|#${component.id} form.jump input.page|]]*/ "";
+
                 $(jumpForm).submit(function () {
+                    $(jumpButton).addClass("loading");
                     var page = $(targetPage);
-                    page.val(page.val() - 1);
+                    var pageNumber = Number.parseInt(page.val()) || -1;
+                    page.val(pageNumber < 0 ? 0 : page.val() - 1);
                 });
             });
         </script>

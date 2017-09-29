@@ -297,26 +297,6 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 
-    @PostMapping("/remove")
-    public ResponseEntity<RestfulResponse> userArticleBatchRemove(@RequestParam("keys[]") List<String> keys) {
-
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        RestfulResponse restfulResponse = audit("批量删除文章", context -> {
-            try {
-                for (String key : keys) {
-                    articleService.findOne(key)
-                            .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
-                            .filter(article -> !article.getStatus().equals(ArticleStatus.PUBLISHED))
-                            .ifPresent(articleService::remove);
-                }
-            } catch (Exception e) {
-                throw new ActionException(e.getMessage(), e);
-            }
-        });
-        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
-    }
-
     @GetMapping("/{id}/audit")
     public ModelAndView userArticleAuditPage(@PathVariable String id, final AdminNewsArticleUserAuditForm form) {
 
@@ -355,8 +335,9 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                                 throw new ActionException(e.getMessage(), e);
                             }
                         }, (stringObjectMap, overview) -> overview
-                                .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/article/user")
-                                .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
+                                .addLink("我的文章", QXCMP_BACKEND_URL + "/news/article/user")
+                                .addLink("草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
+                                .addLink("未通过文章", QXCMP_BACKEND_URL + "/news/article/user/rejected")
                 ))
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
     }
@@ -429,6 +410,74 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                     });
                     return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/remove")
+    public ResponseEntity<RestfulResponse> userArticleBatchRemove(@RequestParam("keys[]") List<String> keys) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        RestfulResponse restfulResponse = audit("批量删除文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                            .filter(article -> !article.getStatus().equals(ArticleStatus.PUBLISHED))
+                            .ifPresent(articleService::remove);
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+    }
+
+    @PostMapping("/audit")
+    public ResponseEntity<RestfulResponse> userArticleBatchAudit(@RequestParam("keys[]") List<String> keys) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        RestfulResponse restfulResponse = audit("批量申请文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                            .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
+                            .ifPresent(article -> articleService.update(article.getId(), a -> {
+                                a.setAuditRequest("批量申请文章");
+                                a.setDateAuditing(new Date());
+                                a.setStatus(ArticleStatus.AUDITING);
+                            }));
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+    }
+
+    @PostMapping("/disable")
+    public ResponseEntity<RestfulResponse> userArticleBatchDisable(@RequestParam("keys[]") List<String> keys) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        RestfulResponse restfulResponse = audit("批量禁用文章", context -> {
+            try {
+                for (String key : keys) {
+                    articleService.findOne(key)
+                            .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                            .filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED))
+                            .ifPresent(article -> articleService.update(article.getId(), a -> {
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.DISABLED);
+                                a.setDisableUser(user.getId());
+                            }));
+                }
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     private List<String> getVerticalMenu(String activeItem) {
