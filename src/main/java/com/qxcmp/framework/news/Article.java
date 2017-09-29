@@ -2,9 +2,8 @@ package com.qxcmp.framework.news;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.qxcmp.framework.view.annotation.TableViewField;
-import com.qxcmp.framework.web.view.annotation.table.EntityTable;
-import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.annotation.table.*;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,8 +19,18 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@EntityTable(value = "我的文章", name = "user", action = QXCMP_BACKEND_URL + "/news/article")
-@EntityTable(value = "草稿箱", name = "userDraft", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "我的文章", name = "user", action = QXCMP_BACKEND_URL + "/news/article/user",
+        tableActions = @TableAction(value = "新建文章", action = "new", primary = true),
+        rowActions = {@RowAction(value = "预览", action = "preview")})
+@EntityTable(value = "草稿箱", name = "userDraft", action = QXCMP_BACKEND_URL + "/news/article/user",
+        tableActions = @TableAction(value = "新建文章", action = "new", primary = true),
+        batchActions = @BatchAction(value = "批量删除", action = "remove"),
+        rowActions = {
+                @RowAction(value = "申请审核", action = "audit"),
+                @RowAction(value = "预览", action = "preview"),
+                @RowAction(value = "编辑", action = "edit"),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        })
 @EntityTable(value = "审核中文章", name = "userAuditing", action = QXCMP_BACKEND_URL + "/news/article")
 @EntityTable(value = "未通过文章", name = "userRejected", action = QXCMP_BACKEND_URL + "/news/article")
 @EntityTable(value = "已发布文章", name = "userPublished", action = QXCMP_BACKEND_URL + "/news/article")
@@ -55,9 +64,7 @@ public class Article {
     /**
      * 文章作者
      */
-    @TableField(value = "作者", name = "auditing", fieldSuffix = ".username")
-    @TableField(value = "作者", name = "published", fieldSuffix = ".username")
-    @TableField(value = "作者", name = "disabled", fieldSuffix = ".username")
+    @TableField("作者")
     private String author;
 
     /**
@@ -87,14 +94,12 @@ public class Article {
      * 文章是否被发布
      */
     @Enumerated
+    @TableField(name = "user", value = "状态", fieldSuffix = ".name")
     private ArticleStatus status;
 
     /**
      * 文章审核人
      */
-    @TableViewField(name = "reject", title = "审核人")
-    @TableViewField(name = "published", title = "审核人")
-    @TableViewField(name = "disabled", title = "禁用人")
     private String auditor;
 
     /**
@@ -105,7 +110,6 @@ public class Article {
     /**
      * 文章申请审核响应，如通过审核，说明通过原因，如驳回审核，说明驳回原因
      */
-    @TableViewField(name = "reject", title = "驳回理由")
     private String auditResponse;
 
     /**
@@ -116,9 +120,18 @@ public class Article {
     /**
      * 上次修改时间
      */
-    @TableViewField(title = "修改日期")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateModified;
+
+    /**
+     * 提交审计的时间
+     */
+    private Date dateAuditing;
+
+    /**
+     * 文章驳回时间
+     */
+    private Date dateRejected;
 
     /**
      * 文章发布时间
@@ -129,7 +142,7 @@ public class Article {
      * 文章所属的栏目
      */
     @ManyToMany
-    @TableViewField(name = "audit", title = "所属栏目", isCollection = true, collectionEntityIndex = "name")
+    @TableField(value = "所属栏目", collectionEntityIndex = "id", maxCollectionCount = 3)
     private List<Channel> channels = Lists.newArrayList();
 
     /**
@@ -141,5 +154,6 @@ public class Article {
     /**
      * 文章流量
      */
+    @TableField("访问量")
     private int viewCount;
 }

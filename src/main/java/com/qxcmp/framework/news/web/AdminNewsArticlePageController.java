@@ -28,7 +28,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
     private final TableHelper tableHelper;
 
     @GetMapping("")
-    public ModelAndView userArticlePage(Pageable pageable) {
+    public ModelAndView articlePage(Pageable pageable) {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
