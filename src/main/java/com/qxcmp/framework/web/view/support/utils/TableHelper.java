@@ -254,13 +254,21 @@ public class TableHelper {
 
     private void renderTableHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields) {
         final TableHeader tableHeader = new TableHeader();
+        final TableRow tableRow = new TableRow();
+        final TableHead tableHead = new TableHead();
+
+        tableRow.addCell(tableHead);
+        tableHeader.addRow(tableRow);
+
+        int colSpan = getColSpan(table, entityTableFields);
+        tableHead.setColSpan(colSpan);
 
         if (!table.getTableActions().isEmpty()) {
-            renderTableActionHeader(table, entityTableFields, tableHeader);
+            renderTableActionHeader(table, tableHead);
         }
 
         if (!table.getBatchActions().isEmpty()) {
-            renderTableBatchActionHeader(table, entityTableFields, tableHeader);
+            renderTableBatchActionHeader(table, tableHead);
         }
 
         renderTableTitleHeader(table, entityTableFields, tableHeader);
@@ -268,14 +276,9 @@ public class TableHelper {
         table.setHeader(tableHeader);
     }
 
-    private void renderTableActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
-        final TableRow tableRow = new TableRow();
-        final TableHead tableHead = new TableHead();
+    private void renderTableActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableHead tableHead) {
         final Buttons buttons = new Buttons();
 
-        int colSpan = getColSpan(table, entityTableFields);
-
-        tableHead.setColSpan(colSpan);
         buttons.setSize(Size.MINI);
 
         table.getTableActions().forEach(entityTableAction -> {
@@ -283,18 +286,11 @@ public class TableHelper {
         });
 
         tableHead.addComponent(buttons);
-        tableRow.addCell(tableHead);
-        tableHeader.addRow(tableRow);
     }
 
-    private void renderTableBatchActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
-        final TableRow tableRow = new TableRow();
-        final TableHead tableHead = new TableHead();
+    private void renderTableBatchActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableHead tableHead) {
         final Buttons buttons = new Buttons();
 
-        int colSpan = getColSpan(table, entityTableFields);
-
-        tableHead.setColSpan(colSpan);
         buttons.setSize(Size.MINI);
 
         table.getBatchActions().forEach(entityTableBatchAction -> {
@@ -302,8 +298,6 @@ public class TableHelper {
         });
 
         tableHead.addComponent(buttons);
-        tableRow.addCell(tableHead);
-        tableHeader.addRow(tableRow);
     }
 
     private void renderTableTitleHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, TableHeader tableHeader) {
