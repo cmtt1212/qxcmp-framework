@@ -22,7 +22,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR, "系统后台侧边导航栏")
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-USER", "用户管理", QXCMP_BACKEND_URL + "/user")).setOrder(10)
-                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-ARTICLE", "文章管理", QXCMP_BACKEND_URL + "/news")).setOrder(20)
+                .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-NEWS", "新闻管理", QXCMP_BACKEND_URL + "/news")).setOrder(20)
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-MALL", "商城管理", QXCMP_BACKEND_URL + "/mall")).setOrder(30)
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-MESSAGE-SERVICE", "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(40))
                 .addItem(new Navigation(NAVIGATION_QXCMP_ADMIN_SIDEBAR + "-WEIXIN", "微信公众平台", QXCMP_BACKEND_URL + "/weixin").setOrder(50))

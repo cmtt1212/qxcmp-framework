@@ -191,6 +191,8 @@ public class FormHelper {
                     addNumberField(form, field, (NumberField) annotation);
                 } else if (annotation instanceof DynamicField) {
                     addDynamicField(form, field, (DynamicField) annotation);
+                } else if (annotation instanceof HtmlField) {
+                    addHtmlField(form, field, (HtmlField) annotation);
                 }
             }
         }
@@ -418,5 +420,21 @@ public class FormHelper {
         }
 
         form.addItem(dynamicField, annotation.section());
+    }
+
+    private void addHtmlField(AbstractForm form, Field field, HtmlField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.HtmlField htmlField = new com.qxcmp.framework.web.view.modules.form.field.HtmlField();
+
+        htmlField.setName(field.getName());
+        htmlField.setLabel(annotation.value());
+        htmlField.setTooltip(annotation.tooltip());
+        htmlField.setRequired(annotation.required());
+        htmlField.setDisableAutoComplete(annotation.disableAutoComplete());
+        htmlField.setAutoFocus(annotation.autoFocus());
+        htmlField.setReadOnly(annotation.readOnly());
+        htmlField.setPlaceholder(annotation.placeholder());
+        htmlField.setRows(annotation.rows());
+
+        form.addItem(htmlField, annotation.section());
     }
 }

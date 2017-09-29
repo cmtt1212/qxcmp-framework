@@ -39,7 +39,6 @@ import static com.qxcmp.framework.view.component.ElementType.*;
  * @author aaric
  */
 @RequestMapping(QXCMP_BACKEND_URL + "/news")
-@Controller
 @RequiredArgsConstructor
 public class ArticleModuleController extends QXCMPBackendController2 {
 

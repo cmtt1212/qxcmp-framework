@@ -2,9 +2,12 @@ package com.qxcmp.framework.news;
 
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.view.annotation.TableView;
-import com.qxcmp.framework.view.annotation.TableViewAction;
-import com.qxcmp.framework.view.annotation.TableViewField;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
+import com.qxcmp.framework.web.view.annotation.table.TableAction;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,12 +20,16 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
+@EntityTable(value = "栏目管理", action = QXCMP_BACKEND_URL + "/news/channel",
+        tableActions = @TableAction(value = "新建栏目", action = "new", primary = true),
+        rowActions = {
+                @RowAction(value = "预览", action = "preview"),
+                @RowAction(value = "编辑", action = "edit"),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST, color = Color.RED)
+        })
 @Entity
 @Table
 @Data
-@TableView(caption = "栏目列表", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/channel/",
-        findAction = @TableViewAction(title = "预览", urlSuffix = "/preview"),
-        removeAction = @TableViewAction(disabled = true))
 public class Channel {
 
     /**
@@ -30,13 +37,13 @@ public class Channel {
      */
     @Id
     @GeneratedValue
-    @TableViewField(title = "ID")
+    @TableField("ID")
     private Long id;
 
     /**
      * 栏目显示名称
      */
-    @TableViewField(title = "名称")
+    @TableField("名称")
     private String name;
 
     /**
@@ -45,7 +52,7 @@ public class Channel {
     @Column(unique = true)
     private String alias;
 
-    @TableViewField(title = "封面", order = Integer.MIN_VALUE, isImage = true)
+    @TableField(value = "封面", image = true, order = Integer.MIN_VALUE)
     private String cover;
 
     /**
@@ -69,13 +76,14 @@ public class Channel {
      * 栏目所有者
      */
     @ManyToOne
-    @TableViewField(title = "所有者", fieldSuffix = ".username")
+    @TableField(value = "所有者", fieldSuffix = ".getDisplayName()")
     private User owner;
 
     /**
      * 栏目管理者
      */
     @ManyToMany(fetch = FetchType.EAGER)
+    @TableField(value = "管理员", collectionEntityIndex = "getDisplayName()")
     private Set<User> admins = Sets.newHashSet();
 
     /**

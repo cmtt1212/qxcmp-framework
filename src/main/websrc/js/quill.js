@@ -2,25 +2,32 @@ import "../lib/quill/quill.snow.css";
 import Quill from "../lib/quill/quill";
 import Delta from "quill-delta";
 
-$(document).ready(function () {
-    let toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{'color': []}, {'background': []}],
-        [{'indent': '-1'}, {'indent': '+1'}],
-        [{'align': []}],
-        [{'list': 'ordered'}, {'list': 'bullet'}],
+(function ($) {
+    $.fn.quill = function () {
+        let component = this;
 
-        ['link', 'image'],
-        ['blockquote', 'code-block'],
+        let htmlContent = $(component).find("input.html-content");
+        let quillContent = $(component).find("input.quill-content");
+        let quillImageFile = $(component).find("input.quill-image");
+        let quillEditor = $(component).find(".component .quill-container .quill-editor").get(0);
 
-        [{'size': ['small', false, 'large', 'huge']}],
-        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+        let toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],
+            [{'color': []}, {'background': []}],
+            [{'indent': '-1'}, {'indent': '+1'}],
+            [{'align': []}],
+            [{'list': 'ordered'}, {'list': 'bullet'}],
 
-        ['clean']
-    ];
+            ['link', 'image'],
+            ['blockquote', 'code-block'],
 
-    if (document.getElementById("quill")) {
-        let quill = new Quill('#quill', {
+            [{'size': ['small', false, 'large', 'huge']}],
+            [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+            ['clean']
+        ];
+
+        let quill = new Quill(quillEditor, {
             modules: {
                 toolbar: toolbarOptions
             },
@@ -29,31 +36,30 @@ $(document).ready(function () {
         });
 
         try {
-            quill.setContents(JSON.parse($("#quillContent").val()));
+            quill.setContents(JSON.parse($(quillContent).val()));
         } catch (err) {
             try {
-                quill.clipboard.dangerouslyPasteHTML($("#htmlContent").val());
+                quill.clipboard.dangerouslyPasteHTML($(htmlContent).val());
             } catch (err) {
 
             }
         }
 
         quill.on('text-change', function (delta, oldDelta, source) {
-            $("#quillContent").val(JSON.stringify(quill.getContents()));
-            $("#htmlContent").val(quill.root.innerHTML);
+            $(quillContent).val(JSON.stringify(quill.getContents()));
+            $(htmlContent).val(quill.root.innerHTML);
         });
 
         let toolbar = quill.getModule('toolbar');
         toolbar.addHandler('image', function () {
-            $('#quillImageFile').click();
+            $(quillImageFile).click();
         });
 
-        $('#quillImageFile').on('change', function () {
+        $(quillImageFile).on('change', function () {
             if (this.files.length > 0) {
                 let file = this.files[0];
 
                 if (file.size > 2 * 1024 * 1024) {
-                    Materialize.toast('上传失败: 图片大小最大为2MB', 5000);
                     return;
                 }
 
@@ -73,14 +79,13 @@ $(document).ready(function () {
                             .delete(range.length)
                             .insert({image: response}));
 
-                        Materialize.toast(`上传图片成功`, 3000);
                     },
                     error: function (response) {
-                        Materialize.toast('上传图片失败: ' + response.responseText, 5000);
                     }
                 });
             }
         });
-    }
 
-});
+        return this;
+    };
+}(jQuery));

@@ -1,6 +1,8 @@
 package com.qxcmp.framework.domain;
 
 
+import com.qxcmp.framework.exception.CaptchaExpiredException;
+import com.qxcmp.framework.exception.CaptchaIncorrectException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
