@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.form;
 
-import com.qxcmp.framework.article.Channel;
+import com.qxcmp.framework.news.Channel;
 import com.qxcmp.framework.core.validation.Image;
 import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.view.annotation.FormViewField;

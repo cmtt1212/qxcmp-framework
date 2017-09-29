@@ -1,4 +1,4 @@
-package com.qxcmp.framework.article;
+package com.qxcmp.framework.news;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -23,14 +23,14 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Entity
 @Table
 @Data
-@TableView(name = "draft", caption = "我的草稿", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), customActions = @TableViewAction(title = "申请发布", urlSuffix = "/auditing", isForm = true))
-@TableView(name = "auditing", caption = "待审核文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"))
-@TableView(name = "reject", caption = "未通过文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), customActions = @TableViewAction(title = "申请发布", urlSuffix = "/auditing", isForm = true))
-@TableView(name = "published", caption = "已发布文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true))
-@TableView(name = "disabled", caption = "被禁用文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"))
-@TableView(name = "audit", caption = "审核文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(title = "审核", urlSuffix = "/audit"), removeAction = @TableViewAction(disabled = true))
-@TableView(name = "publish", caption = "已发布文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "禁用", urlSuffix = "/disable", isForm = true))
-@TableView(name = "disable", caption = "已禁用文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "启用", urlSuffix = "/enable", isForm = true))
+@TableView(name = "draft", caption = "我的草稿", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), customActions = @TableViewAction(title = "申请发布", urlSuffix = "/auditing", isForm = true))
+@TableView(name = "auditing", caption = "待审核文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"))
+@TableView(name = "reject", caption = "未通过文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), customActions = @TableViewAction(title = "申请发布", urlSuffix = "/auditing", isForm = true))
+@TableView(name = "published", caption = "已发布文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true))
+@TableView(name = "disabled", caption = "被禁用文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(title = "预览"))
+@TableView(name = "audit", caption = "审核文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(title = "审核", urlSuffix = "/audit"), removeAction = @TableViewAction(disabled = true))
+@TableView(name = "publish", caption = "已发布文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "禁用", urlSuffix = "/disable", isForm = true))
+@TableView(name = "disable", caption = "已禁用文章", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/", createAction = @TableViewAction(disabled = true), findAction = @TableViewAction(disabled = true), updateAction = @TableViewAction(disabled = true), removeAction = @TableViewAction(disabled = true), customActions = @TableViewAction(title = "启用", urlSuffix = "/enable", isForm = true))
 public class Article {
 
     /**

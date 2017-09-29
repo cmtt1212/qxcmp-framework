@@ -18,7 +18,7 @@ import java.util.Set;
  *
  * @author aaric
  */
-@FormView(caption = "编辑栏目", action = QXCMPConfiguration.QXCMP_BACKEND_URL + "/article/channel", enctype = "multipart/form-data")
+@FormView(caption = "编辑栏目", action = QXCMPConfiguration.QXCMP_BACKEND_URL + "/news/channel", enctype = "multipart/form-data")
 @Data
 public class AdminArticleChannelEditForm {
 

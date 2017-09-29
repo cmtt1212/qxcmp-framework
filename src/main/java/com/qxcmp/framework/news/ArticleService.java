@@ -1,4 +1,4 @@
-package com.qxcmp.framework.article;
+package com.qxcmp.framework.news;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.springframework.data.domain.Page;

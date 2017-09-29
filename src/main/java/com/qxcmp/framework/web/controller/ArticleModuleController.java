@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.controller;
 
-import com.qxcmp.framework.article.*;
+import com.qxcmp.framework.news.*;
 import com.qxcmp.framework.core.QXCMPSecurityConfiguration;
 import com.qxcmp.framework.domain.*;
 import com.qxcmp.framework.security.RoleService;
@@ -38,7 +38,7 @@ import static com.qxcmp.framework.view.component.ElementType.*;
  *
  * @author aaric
  */
-@RequestMapping(QXCMP_BACKEND_URL + "/article")
+@RequestMapping(QXCMP_BACKEND_URL + "/news")
 @Controller
 @RequiredArgsConstructor
 public class ArticleModuleController extends QXCMPBackendController2 {
@@ -284,7 +284,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
     @PostMapping("/{id}/delete")
     public ModelAndView articleDelete(@PathVariable String id) {
-        return articleService.findOne(id).filter(article -> article.getUserId().equals(currentUser().getId()) && !article.getStatus().equals(ArticleStatus.PUBLISHED)).map(article -> action("删除文章", context -> articleService.remove(article.getId()), (context, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("新建文章", QXCMP_BACKEND_URL + "/article/new", "我的草稿", QXCMP_BACKEND_URL + "/article/draft")).build()).orElse(error(HttpStatus.BAD_REQUEST, "文章不存在").build());
+        return articleService.findOne(id).filter(article -> article.getUserId().equals(currentUser().getId()) && !article.getStatus().equals(ArticleStatus.PUBLISHED)).map(article -> action("删除文章", context -> articleService.remove(article.getId()), (context, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("新建文章", QXCMP_BACKEND_URL + "/news/new", "我的草稿", QXCMP_BACKEND_URL + "/news/draft")).build()).orElse(error(HttpStatus.BAD_REQUEST, "文章不存在").build());
     }
 
     @PostMapping("/{id}/auditing")
@@ -293,7 +293,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
             articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.AUDITING));
             return builder().setTitle("申请审核文章")
                     .setResult("申请审核成功", article.getTitle())
-                    .setResultNavigation("新建文章", QXCMP_BACKEND_URL + "/article/new", "我的草稿", QXCMP_BACKEND_URL + "/article/draft")
+                    .setResultNavigation("新建文章", QXCMP_BACKEND_URL + "/news/new", "我的草稿", QXCMP_BACKEND_URL + "/news/draft")
                     .build();
         }).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
     }
@@ -303,7 +303,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
 
         if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
             return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.AUDITING)).map(article -> builder().setTitle("文章审核")
-                    .addFragment("qxcmp/article-widget", "auditor")
+                    .addFragment("qxcmp/news-widget", "auditor")
                     .addElement(P, "正文内容")
                     .addDivider()
                     .addHtml(article.getHtmlContent())
@@ -348,7 +348,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                     a.setStatus(ArticleStatus.REJECT);
                     a.setAuditResponse(form.getReason());
                     a.setAuditor(currentUser().getUsername());
-                }), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/article/audit")).build();
+                }), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/news/audit")).build();
             }).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
             return error(HttpStatus.UNAUTHORIZED, "没有文章审核权限").build();
@@ -389,7 +389,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                     a.setAuditResponse(form.getReason());
                     a.setAuditor(currentUser().getUsername());
                     a.setDatePublished(new Date());
-                }), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/article/audit")).build();
+                }), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/news/audit")).build();
             }).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
             return error(HttpStatus.UNAUTHORIZED, "没有文章审核权限").build();
@@ -399,7 +399,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @PostMapping("/{id}/disable")
     public ModelAndView articleDisable(@PathVariable String id) {
         if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
-            return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED)).map(article -> action("禁用文章", context -> articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.DISABLED)), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/article/publish")).build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
+            return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED)).map(article -> action("禁用文章", context -> articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.DISABLED)), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/news/publish")).build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
             return error(HttpStatus.UNAUTHORIZED, "没有文章审核权限").build();
         }
@@ -408,7 +408,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
     @PostMapping("/{id}/enable")
     public ModelAndView articleEnable(@PathVariable String id) {
         if (userService.hasRole(currentUser(), QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)) {
-            return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.DISABLED)).map(article -> action("启用文章", context -> articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.PUBLISHED)), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/article/disable")).build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
+            return articleService.findOne(id).filter(article -> article.getStatus().equals(ArticleStatus.DISABLED)).map(article -> action("启用文章", context -> articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.PUBLISHED)), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("返回", QXCMP_BACKEND_URL + "/news/disable")).build()).orElse(error(HttpStatus.NOT_FOUND, "文章不存在").build());
         } else {
             return error(HttpStatus.UNAUTHORIZED, "没有文章审核权限").build();
         }
@@ -486,7 +486,7 @@ public class ArticleModuleController extends QXCMPBackendController2 {
                 channel.getAdmins().forEach(admin -> userService.update(admin.getId(), user -> roleService.findByName("文章编辑").ifPresent(role -> user.getRoles().add(role))));
 
                 return channel;
-            }), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("继续新建", "", "返回栏目管理列表", QXCMP_BACKEND_URL + "/article/channel", "添加文章到栏目", QXCMP_BACKEND_URL + "/article/new")).build();
+            }), (stringObjectMap, modelAndViewBuilder) -> modelAndViewBuilder.setResultNavigation("继续新建", "", "返回栏目管理列表", QXCMP_BACKEND_URL + "/news/channel", "添加文章到栏目", QXCMP_BACKEND_URL + "/news/new")).build();
         } else {
             return error(HttpStatus.FORBIDDEN, "抱歉，您没有创建新栏目的权限").build();
         }

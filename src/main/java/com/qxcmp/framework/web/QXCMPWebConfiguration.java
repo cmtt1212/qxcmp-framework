@@ -156,12 +156,12 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
                 .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_REDEEM_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_WECHAT_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/publish").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/disable").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/article/channel/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/publish").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/disable").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/channel/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/commodity/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MALL_COMMODITY_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/order/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MALL_ORDER_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SPIDER_MANAGEMENT)
@@ -182,14 +182,14 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
 
     public void configureNavigation(NavigationService navigationService) {
 //        Navigation navigation = navigationService.get(Navigation.Type.SIDEBAR, "内容管理", 900);
-//        navigationService.add(navigation, "文章管理", "", "", QXCMP_BACKEND_URL + "/article/draft", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_CREATE);
-//        navigationService.add(navigation, "栏目管理", "", "", QXCMP_BACKEND_URL + "/article/channel", AnchorTarget.SELF, 30, PRIVILEGE_CHANNEL_CREATE);
+//        navigationService.add(navigation, "文章管理", "", "", QXCMP_BACKEND_URL + "/news/draft", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_CREATE);
+//        navigationService.add(navigation, "栏目管理", "", "", QXCMP_BACKEND_URL + "/news/channel", AnchorTarget.SELF, 30, PRIVILEGE_CHANNEL_CREATE);
 //        navigation = navigationService.get(Navigation.Type.SIDEBAR, "商城管理", 9100);
 //        navigationService.add(navigation, "订单管理", "", "", QXCMP_BACKEND_URL + "/mall/order", AnchorTarget.SELF, 2, PRIVILEGE_MALL_ORDER_MANAGEMENT);
 //        navigationService.add(navigation, "商品管理", "", "", QXCMP_BACKEND_URL + "/mall/commodity", AnchorTarget.SELF, 5, PRIVILEGE_MALL_COMMODITY_MANAGEMENT);
 //
 //        navigation = navigationService.get(Navigation.Type.SIDEBAR, "微信公众平台", 9200);
-//        navigationService.add(navigation, "素材管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "素材管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/news", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
 //        navigationService.add(navigation, "用户管理", "", "", QXCMP_BACKEND_URL + "/weixin/user", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
 //        navigationService.add(navigation, "公众号设置", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
 //
@@ -204,18 +204,18 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
 //        navigationService.add(navigation, "个人中心", "", "", QXCMP_BACKEND_URL + "/account", AnchorTarget.SELF, 10);
 //
 //        navigation = navigationService.get(Navigation.Type.NORMAL, "文章管理", 0);
-//        navigationService.add(navigation, "文章审核", "", "", QXCMP_BACKEND_URL + "/article/audit", AnchorTarget.SELF, 10, PRIVILEGE_ARTICLE_AUDIT);
-//        navigationService.add(navigation, "已发布文章", "", "", QXCMP_BACKEND_URL + "/article/publish", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_AUDIT);
-//        navigationService.add(navigation, "已禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disable", AnchorTarget.SELF, 21, PRIVILEGE_ARTICLE_AUDIT);
-//        navigationService.add(navigation, "新建文章", "", "", QXCMP_BACKEND_URL + "/article/new", AnchorTarget.SELF, 30);
-//        navigationService.add(navigation, "我的文章草稿", "", "", QXCMP_BACKEND_URL + "/article/draft", AnchorTarget.SELF, 40);
-//        navigationService.add(navigation, "我的待审核文章", "", "", QXCMP_BACKEND_URL + "/article/auditing", AnchorTarget.SELF, 50);
-//        navigationService.add(navigation, "我的未通过文章", "", "", QXCMP_BACKEND_URL + "/article/reject", AnchorTarget.SELF, 60);
-//        navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/article/published", AnchorTarget.SELF, 70);
-//        navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/article/disabled", AnchorTarget.SELF, 80);
+//        navigationService.add(navigation, "文章审核", "", "", QXCMP_BACKEND_URL + "/news/audit", AnchorTarget.SELF, 10, PRIVILEGE_ARTICLE_AUDIT);
+//        navigationService.add(navigation, "已发布文章", "", "", QXCMP_BACKEND_URL + "/news/publish", AnchorTarget.SELF, 20, PRIVILEGE_ARTICLE_AUDIT);
+//        navigationService.add(navigation, "已禁用文章", "", "", QXCMP_BACKEND_URL + "/news/disable", AnchorTarget.SELF, 21, PRIVILEGE_ARTICLE_AUDIT);
+//        navigationService.add(navigation, "新建文章", "", "", QXCMP_BACKEND_URL + "/news/new", AnchorTarget.SELF, 30);
+//        navigationService.add(navigation, "我的文章草稿", "", "", QXCMP_BACKEND_URL + "/news/draft", AnchorTarget.SELF, 40);
+//        navigationService.add(navigation, "我的待审核文章", "", "", QXCMP_BACKEND_URL + "/news/auditing", AnchorTarget.SELF, 50);
+//        navigationService.add(navigation, "我的未通过文章", "", "", QXCMP_BACKEND_URL + "/news/reject", AnchorTarget.SELF, 60);
+//        navigationService.add(navigation, "我的已发布文章", "", "", QXCMP_BACKEND_URL + "/news/published", AnchorTarget.SELF, 70);
+//        navigationService.add(navigation, "我的被禁用文章", "", "", QXCMP_BACKEND_URL + "/news/disabled", AnchorTarget.SELF, 80);
 //
 //        navigation = navigationService.get(Navigation.Type.NORMAL, "公众号素材管理", 1);
-//        navigationService.add(navigation, "图文管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/article", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
+//        navigationService.add(navigation, "图文管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/news", AnchorTarget.SELF, 10, PRIVILEGE_WECHAT_MANAGEMENT);
 //        navigationService.add(navigation, "图片管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/image", AnchorTarget.SELF, 20, PRIVILEGE_WECHAT_MANAGEMENT);
 //        navigationService.add(navigation, "视频管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/video", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
 //        navigationService.add(navigation, "语音管理", "", "", QXCMP_BACKEND_URL + "/weixin/material/voice", AnchorTarget.SELF, 40, PRIVILEGE_WECHAT_MANAGEMENT);

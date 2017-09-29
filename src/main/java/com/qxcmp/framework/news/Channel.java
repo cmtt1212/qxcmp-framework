@@ -1,4 +1,4 @@
-package com.qxcmp.framework.article;
+package com.qxcmp.framework.news;
 
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.user.User;
@@ -20,7 +20,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Entity
 @Table
 @Data
-@TableView(caption = "栏目列表", actionUrlPrefix = QXCMP_BACKEND_URL + "/article/channel/",
+@TableView(caption = "栏目列表", actionUrlPrefix = QXCMP_BACKEND_URL + "/news/channel/",
         findAction = @TableViewAction(title = "预览", urlSuffix = "/preview"),
         removeAction = @TableViewAction(disabled = true))
 public class Channel {

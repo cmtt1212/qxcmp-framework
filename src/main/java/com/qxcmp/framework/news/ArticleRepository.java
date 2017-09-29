@@ -1,4 +1,4 @@
-package com.qxcmp.framework.article;
+package com.qxcmp.framework.news;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -19,7 +19,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Entity
 @Table
 @Data
-@TableView(caption = "图文列表", actionUrlPrefix = QXCMP_BACKEND_URL + "/weixin/material/article/",
+@TableView(caption = "图文列表", actionUrlPrefix = QXCMP_BACKEND_URL + "/weixin/material/news/",
         createAction = @TableViewAction(disabled = true),
         updateAction = @TableViewAction(disabled = true),
         removeAction = @TableViewAction(disabled = true),

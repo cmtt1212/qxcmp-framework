@@ -1,4 +1,4 @@
-package com.qxcmp.framework.article;
+package com.qxcmp.framework.news;
 
 import com.qxcmp.framework.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
