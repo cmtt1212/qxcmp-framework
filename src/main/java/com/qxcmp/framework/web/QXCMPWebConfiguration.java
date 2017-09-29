@@ -1,15 +1,11 @@
 package com.qxcmp.framework.web;
 
-import com.google.common.collect.ImmutableSet;
 import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.core.QXCMPSecurityConfiguration;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.security.PrivilegeAutowired;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.auth.AuthenticationFilter;
-import com.qxcmp.framework.web.model.navigation.Navigation;
-import com.qxcmp.framework.web.model.navigation.NavigationConfigurator;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +30,8 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.EnumSet;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.*;
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 
 
 /**
@@ -47,7 +44,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 @PrivilegeAutowired
 @Order
 @RequiredArgsConstructor
-public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
+public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SystemConfigService systemConfigService;
 
@@ -65,7 +62,6 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
      * 该过滤结果平台的认证配置进行相关的认证操作
      *
      * @return 平台认证过滤器
-     *
      * @throws Exception
      */
     @Bean
@@ -85,7 +81,6 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
      * Can't access principle in error page workaround
      *
      * @param springSecurityFilterChain springSecurityFilterChain
-     *
      * @return FilterRegistrationBean
      */
     @Bean
@@ -123,7 +118,6 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
      * 配置平台用户获取服务
      *
      * @param auth 认证管理器构建器
-     *
      * @throws Exception 如果配置失败则平台启动失败
      */
     @Autowired
@@ -139,7 +133,6 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
      * 拦截所有未知请求
      *
      * @param http Spring Security Http 安全配置
-     *
      * @throws Exception 如果配置失败则平台启动失败
      */
     @Override
@@ -147,24 +140,33 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
         http
                 .authorizeRequests()
                 .antMatchers("/assets/**", "/login/**", "/api/**", "/account/**").permitAll()
-                .antMatchers(QXCMP_BACKEND_URL + "/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SYSTEM_ADMIN)
-                .antMatchers(QXCMP_BACKEND_URL + "/ad/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ADVERTISEMENT_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/site/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SITE_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/security/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SECURITY_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MESSAGE_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/log/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_LOG_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/finance/payment/weixin/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_FINANCE_CONFIG_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_REDEEM_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_WECHAT_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/publish").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/disable").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/audit").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_ARTICLE_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/channel/new").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_CHANNEL_CREATE)
-                .antMatchers(QXCMP_BACKEND_URL + "/mall/commodity/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MALL_COMMODITY_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/mall/order/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_MALL_ORDER_MANAGEMENT)
-                .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(QXCMPSecurityConfiguration.PRIVILEGE_SPIDER_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/tools/**").hasRole(PRIVILEGE_ADMIN_TOOL)
+                .antMatchers(QXCMP_BACKEND_URL + "/settings/**").hasRole(PRIVILEGE_ADMIN_SETTINGS)
+                .antMatchers(QXCMP_BACKEND_URL + "/security/**").hasRole(PRIVILEGE_ADMIN_SECURITY)
+                .antMatchers(QXCMP_BACKEND_URL + "/audit/**").hasRole(PRIVILEGE_ADMIN_LOG)
+                .antMatchers(QXCMP_BACKEND_URL + "/advertisement/**").hasRole(PRIVILEGE_ADMIN_ADVERTISEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(PRIVILEGE_ADMIN_REDEEM)
+                .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(PRIVILEGE_ADMIN_SPIDER)
+                .antMatchers(QXCMP_BACKEND_URL + "/user/**/role/**").hasRole(PRIVILEGE_USER_ROLE)
+                .antMatchers(QXCMP_BACKEND_URL + "/user/**/status/**").hasRole(PRIVILEGE_USER_STATUS)
+                .antMatchers(QXCMP_BACKEND_URL + "/user/**").hasRole(PRIVILEGE_USER)
+                .antMatchers(QXCMP_BACKEND_URL + "/finance/weixin/**").hasRole(PRIVILEGE_FINANCE_WEIXIN)
+                .antMatchers(QXCMP_BACKEND_URL + "/finance/**").hasRole(PRIVILEGE_FINANCE)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/email/config/**").hasRole(PRIVILEGE_MESSAGE_EMAIL_CONFIG)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/email/send/**").hasRole(PRIVILEGE_MESSAGE_EMAIL_SEND)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/sms/config/**").hasRole(PRIVILEGE_MESSAGE_SMS_CONFIG)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/sms/send/**").hasRole(PRIVILEGE_MESSAGE_SMS_SEND)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(PRIVILEGE_MESSAGE)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/channel/**").hasRole(PRIVILEGE_NEWS_CHANNEL)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/preview", QXCMP_BACKEND_URL + "/news/article/user/**").hasRole(PRIVILEGE_NEWS_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/auditing", QXCMP_BACKEND_URL + "/news/article/**/audit", QXCMP_BACKEND_URL + "/news/article/**/publish", QXCMP_BACKEND_URL + "/news/article/**/reject").hasRole(PRIVILEGE_NEWS_ARTICLE_AUDIT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/published", QXCMP_BACKEND_URL + "/news/article/**/disabled", QXCMP_BACKEND_URL + "/news/article/**/publish", QXCMP_BACKEND_URL + "/news/article/**/disable", QXCMP_BACKEND_URL + "/news/article/**/remove").hasRole(PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/**").hasRole(PRIVILEGE_NEWS)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/mp/**").hasRole(PRIVILEGE_WEIXIN_CONFIG)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/menu/**").hasRole(PRIVILEGE_WEIXIN_MENU)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/material/**").hasRole(PRIVILEGE_WEIXIN_MATERIAL)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(PRIVILEGE_WEIXIN)
+                .antMatchers(QXCMP_BACKEND_URL + "/**").hasRole(PRIVILEGE_SYSTEM_ADMIN)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -194,11 +196,11 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
 //        navigationService.add(navigation, "公众号设置", "", "", QXCMP_BACKEND_URL + "/weixin/settings/config", AnchorTarget.SELF, 30, PRIVILEGE_WECHAT_MANAGEMENT);
 //
 //        navigation = navigationService.get(Navigation.Type.SIDEBAR, "系统设置", 10000);
-//        navigationService.add(navigation, "网站设置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "系统工具", "", "", QXCMP_BACKEND_URL + "/tool", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "网站设置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 30, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "系统工具", "", "", QXCMP_BACKEND_URL + "/tool", AnchorTarget.SELF, 30, PRIVILEGE_ADMIN_SETTINGS_SITE);
 //        navigationService.add(navigation, "消息服务", "", "", QXCMP_BACKEND_URL + "/message", AnchorTarget.SELF, 60, PRIVILEGE_MESSAGE_MANAGEMENT);
 //        navigationService.add(navigation, "安全设置", "", "", QXCMP_BACKEND_URL + "/security", AnchorTarget.SELF, 80, PRIVILEGE_SECURITY_MANAGEMENT);
-//        navigationService.add(navigation, "系统日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 90, PRIVILEGE_LOG_MANAGEMENT);
+//        navigationService.add(navigation, "系统日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 90, PRIVILEGE_ADMIN_LOG);
 //
 //        navigation = navigationService.get(Navigation.Type.ACTION, "核心操作", 15000);
 //        navigationService.add(navigation, "个人中心", "", "", QXCMP_BACKEND_URL + "/account", AnchorTarget.SELF, 10);
@@ -238,7 +240,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
 //        navigationService.add(navigation, "短信服务测试", "", "", QXCMP_BACKEND_URL + "/message/sms/test", AnchorTarget.SELF, 30, PRIVILEGE_MESSAGE_MANAGEMENT);
 //
 //        navigation = navigationService.get(Navigation.Type.NORMAL, "系统日志", 0);
-//        navigationService.add(navigation, "审计日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 10, PRIVILEGE_LOG_MANAGEMENT);
+//        navigationService.add(navigation, "审计日志", "", "", QXCMP_BACKEND_URL + "/log/audit", AnchorTarget.SELF, 10, PRIVILEGE_ADMIN_LOG);
 //        navigationService.add(navigation, "蜘蛛日志", "", "", QXCMP_BACKEND_URL + "/spider/log", AnchorTarget.SELF, 30, PRIVILEGE_SPIDER_MANAGEMENT);
 //
 //        navigation = navigationService.get(Navigation.Type.NORMAL, "安全设置", 0);
@@ -248,16 +250,16 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter  {
 //        navigationService.add(navigation, "平台认证配置", "", "", QXCMP_BACKEND_URL + "/security/authentication", AnchorTarget.SELF, 40, PRIVILEGE_SECURITY_MANAGEMENT);
 //
 //        navigation = navigationService.get(Navigation.Type.NORMAL, "网站设置", 0);
-//        navigationService.add(navigation, "网站配置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "账户注册配置", "", "", QXCMP_BACKEND_URL + "/site/account", AnchorTarget.SELF, 20, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "系统字典", "", "", QXCMP_BACKEND_URL + "/site/dictionary", AnchorTarget.SELF, 30, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "系统会话配置", "", "", QXCMP_BACKEND_URL + "/site/session", AnchorTarget.SELF, 40, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "任务调度配置", "", "", QXCMP_BACKEND_URL + "/site/task", AnchorTarget.SELF, 50, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "水印设置", "", "", QXCMP_BACKEND_URL + "/site/watermark", AnchorTarget.SELF, 60, PRIVILEGE_SITE_MANAGEMENT);
+//        navigationService.add(navigation, "网站配置", "", "", QXCMP_BACKEND_URL + "/site/config", AnchorTarget.SELF, 10, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "账户注册配置", "", "", QXCMP_BACKEND_URL + "/site/account", AnchorTarget.SELF, 20, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "系统字典", "", "", QXCMP_BACKEND_URL + "/site/dictionary", AnchorTarget.SELF, 30, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "系统会话配置", "", "", QXCMP_BACKEND_URL + "/site/session", AnchorTarget.SELF, 40, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "任务调度配置", "", "", QXCMP_BACKEND_URL + "/site/task", AnchorTarget.SELF, 50, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "水印设置", "", "", QXCMP_BACKEND_URL + "/site/watermark", AnchorTarget.SELF, 60, PRIVILEGE_ADMIN_SETTINGS_SITE);
 //
 //        navigation = navigationService.get(Navigation.Type.NORMAL, "系统工具", 0);
-//        navigationService.add(navigation, "账户邀请码", "", "", QXCMP_BACKEND_URL + "/tool/account/invite", AnchorTarget.SELF, 10, PRIVILEGE_SITE_MANAGEMENT);
-//        navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", AnchorTarget.SELF, 20, PRIVILEGE_ADVERTISEMENT_MANAGEMENT);
+//        navigationService.add(navigation, "账户邀请码", "", "", QXCMP_BACKEND_URL + "/tool/account/invite", AnchorTarget.SELF, 10, PRIVILEGE_ADMIN_SETTINGS_SITE);
+//        navigationService.add(navigation, "广告列表", "", "", QXCMP_BACKEND_URL + "/ad", AnchorTarget.SELF, 20, PRIVILEGE_ADMIN_ADVERTISEMENT);
 //        navigationService.add(navigation, "兑换码管理", "", "", QXCMP_BACKEND_URL + "/redeem", AnchorTarget.SELF, 30, PRIVILEGE_REDEEM_MANAGEMENT);
 //        navigationService.add(navigation, "蜘蛛管理", "", "", QXCMP_BACKEND_URL + "/spider", AnchorTarget.SELF, 40, PRIVILEGE_SPIDER_MANAGEMENT);
 //
