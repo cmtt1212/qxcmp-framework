@@ -61,8 +61,17 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
                 @BatchAction(value = "批量驳回", action = "reject", color = Color.RED)
         },
         rowActions = @RowAction(value = "开始审核", action = "audit"))
-@EntityTable(value = "已发布文章", name = "published", action = QXCMP_BACKEND_URL + "/news/article")
-@EntityTable(value = "已禁用文章", name = "disabled", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "已发布文章", name = "published", action = QXCMP_BACKEND_URL + "/news/article",
+        rowActions = {
+                @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK),
+                @RowAction(value = "禁用", action = "disable", method = FormMethod.POST)
+        })
+@EntityTable(value = "已禁用文章", name = "disabled", action = QXCMP_BACKEND_URL + "/news/article",
+        rowActions = {
+                @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK),
+                @RowAction(value = "启用", action = "enable", method = FormMethod.POST),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        })
 @Entity
 @Table
 @Data
@@ -123,7 +132,7 @@ public class Article {
     private ArticleStatus status;
 
     /**
-     * 文章审核人
+     * 文章审核人ID
      */
     private String auditor;
 
@@ -136,6 +145,11 @@ public class Article {
      * 文章申请审核响应，如通过审核，说明通过原因，如驳回审核，说明驳回原因
      */
     private String auditResponse;
+
+    /**
+     * 文章禁用人ID
+     */
+    private String disableUser;
 
     /**
      * 文章创建时间
@@ -162,6 +176,11 @@ public class Article {
      * 文章发布时间
      */
     private Date datePublished;
+
+    /**
+     * 文章禁用日期
+     */
+    private Date dateDisabled;
 
     /**
      * 文章所属的栏目

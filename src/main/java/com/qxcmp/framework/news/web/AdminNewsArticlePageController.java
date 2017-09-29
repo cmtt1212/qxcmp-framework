@@ -7,6 +7,7 @@ import com.qxcmp.framework.news.ArticleService;
 import com.qxcmp.framework.news.ArticleStatus;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -26,6 +27,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -101,6 +104,18 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                 .build();
     }
 
+    @GetMapping("/{id}/preview")
+    public ModelAndView userArticlePreviewPage(@PathVariable String id) {
+        return articleService.findOne(id)
+                .map(article -> page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
+                        .addComponent(getArticlePreviewContent(article))
+                        .addLink("返回", QXCMP_BACKEND_URL + "/news/article"))
+                        .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "查看文章")
+                        .setVerticalMenu(getVerticalMenu(""))
+                        .build())
+                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article")).build());
+    }
+
     @GetMapping("/{id}/audit")
     public ModelAndView articleAuditPage(@PathVariable String id, final AdminNewsArticleAuditForm form) {
         return articleService.findOne(id)
@@ -110,12 +125,12 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                     return page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
                             .addComponent(getArticleAuditContent(article, form))
                             .addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing"))
-                            .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "审核文章")
+                            .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "审核文章")
                             .setVerticalMenu(getVerticalMenu("待审核文章"))
                             .addObject("selection_items_operation", ImmutableList.of("通过文章", "驳回文章"))
                             .build();
                 })
-                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
+                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing")).build());
     }
 
     @PostMapping("/{id}/audit")
@@ -146,11 +161,80 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                         throw new ActionException(e.getMessage(), e);
                     }
                 }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing")))
-                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
+                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing")).build());
+    }
+
+    @PostMapping("/{id}/remove")
+    public ResponseEntity<RestfulResponse> articleRemove(@PathVariable String id) {
+        return articleService.findOne(id)
+                .filter(article -> !article.getStatus().equals(ArticleStatus.PUBLISHED))
+                .map(article -> {
+                    RestfulResponse restfulResponse = audit("删除文章", context -> {
+                        try {
+                            articleService.remove(article);
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/{id}/disable")
+    public ResponseEntity<RestfulResponse> articleDisable(@PathVariable String id) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return articleService.findOne(id)
+                .filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED))
+                .map(article -> {
+                    RestfulResponse restfulResponse = audit("禁用文章", context -> {
+                        try {
+                            articleService.update(article.getId(), a -> {
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.DISABLED);
+                                a.setDisableUser(user.getId());
+                            });
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/{id}/enable")
+    public ResponseEntity<RestfulResponse> articleEnable(@PathVariable String id) {
+
+        return articleService.findOne(id)
+                .filter(article -> article.getStatus().equals(ArticleStatus.DISABLED))
+                .map(article -> {
+                    RestfulResponse restfulResponse = audit("启用文章", context -> {
+                        try {
+                            articleService.update(article.getId(), a -> {
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.PUBLISHED);
+                            });
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 
     private List<String> getVerticalMenu(String activeItem) {
         return ImmutableList.of(activeItem, "待审核文章", QXCMP_BACKEND_URL + "/news/article/auditing", "已发布文章", QXCMP_BACKEND_URL + "/news/article/published", "已禁用文章", QXCMP_BACKEND_URL + "/news/article/disabled");
+    }
+
+    private Component getArticlePreviewContent(Article article) {
+        final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
+        grid.addItem(new Row()
+                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered().setBordered().setRounded()))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(adminNewsPageHelper.getArticleInfoTable(article))))
+        );
+        grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
+        return grid;
     }
 
     private Component getArticleAuditContent(Article article, AdminNewsArticleAuditForm form) {

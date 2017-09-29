@@ -42,7 +42,9 @@ public class AdminNewsPageHelper {
                 userService.findOne(article.getAuditor()).ifPresent(user -> stringObjectMap.put("审核人", user.getDisplayName()));
                 break;
             case DISABLED:
+                stringObjectMap.put("禁用日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDatePublished()));
                 userService.findOne(article.getAuditor()).ifPresent(user -> stringObjectMap.put("审核人", user.getDisplayName()));
+                userService.findOne(article.getDisableUser()).ifPresent(user -> stringObjectMap.put("禁用人", user.getDisplayName()));
                 break;
         }
         return stringObjectMap;

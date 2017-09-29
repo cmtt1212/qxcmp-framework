@@ -395,7 +395,11 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                 .map(article -> {
                     RestfulResponse restfulResponse = audit("禁用文章", context -> {
                         try {
-                            articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.DISABLED));
+                            articleService.update(article.getId(), a -> {
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.DISABLED);
+                                a.setDisableUser(user.getId());
+                            });
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
@@ -415,7 +419,10 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                 .map(article -> {
                     RestfulResponse restfulResponse = audit("启用文章", context -> {
                         try {
-                            articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.PUBLISHED));
+                            articleService.update(article.getId(), a -> {
+                                a.setDatePublished(new Date());
+                                a.setStatus(ArticleStatus.PUBLISHED);
+                            });
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
