@@ -59,7 +59,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<Article> articles = articleService.findByUserId(user.getId(), pageable);
+        Page<Article> articles = articleService.findByUserId(user.getId(), new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
         return page().addComponent(tableHelper.convert("user", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章")
@@ -183,7 +183,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                             .addLink("我的文章", QXCMP_BACKEND_URL + "/news/article/user")
                             .addLink("草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
                             .addLink("预览文章", QXCMP_BACKEND_URL + "/news/article/user/" + article.getId() + "/preview")
-                            .addLink("继续新建文章", QXCMP_BACKEND_URL + "/news/article/user/new"));
+                            .addLink("新建文章", QXCMP_BACKEND_URL + "/news/article/user/new"));
                 }).orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
     }
 
@@ -290,6 +290,29 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                         }
                 ))
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
+    }
+
+    @PostMapping("/{id}/repeal")
+    public ResponseEntity<RestfulResponse> userArticleRepeal(@PathVariable String id) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return articleService.findOne(id)
+                .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                .filter(article -> article.getStatus().equals(ArticleStatus.AUDITING))
+                .map(article -> {
+                    RestfulResponse restfulResponse = audit("撤销文章审核申请", context -> {
+                        try {
+                            articleService.update(article.getId(), a -> {
+                                a.setStatus(ArticleStatus.NEW);
+                                a.setDateModified(new Date());
+                            });
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 
     @GetMapping("/draft")
