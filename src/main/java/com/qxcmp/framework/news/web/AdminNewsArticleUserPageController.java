@@ -19,6 +19,7 @@ import com.qxcmp.framework.web.view.elements.html.HtmlText;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.modules.table.Table;
 import com.qxcmp.framework.web.view.modules.table.dictionary.CollectionValueCell;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Wide;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -387,11 +389,8 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
     private Component getArticlePreviewContent(Article article) {
         final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
         grid.addItem(new Row()
-                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered()))
-                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(stringObjectMap -> {
-                    stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
-                    stringObjectMap.put("文章摘要", article.getDigest());
-                })))
+                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered().setBordered().setRounded()))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(getArticleInfoTable(article)))
         );
         grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
         return grid;
@@ -400,14 +399,38 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
     private Component getArticleAuditContent(Article article, AdminNewsArticleUserAuditForm form) {
         final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
         grid.addItem(new Row()
-                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered()))
-                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(stringObjectMap -> {
-                    stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
-                    stringObjectMap.put("文章摘要", article.getDigest());
-                    stringObjectMap.put("文章状态", article.getStatus().getName());
-                })).addComponent(convertToForm(form)))
+                .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered().setBordered().setRounded()))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(getArticleInfoTable(article)).addComponent(convertToForm(form)))
         );
         grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
         return grid;
+    }
+
+    private Table getArticleInfoTable(Article article) {
+        return convertToTable(stringObjectMap -> {
+            stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
+            stringObjectMap.put("文章摘要", article.getDigest());
+            stringObjectMap.put("文章状态", article.getStatus().getName());
+            stringObjectMap.put("创建日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateCreated()));
+            stringObjectMap.put("上次修改", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateModified()));
+
+            switch (article.getStatus()) {
+                case NEW:
+                    break;
+                case AUDITING:
+                    stringObjectMap.put("申请说明", article.getAuditRequest());
+                    stringObjectMap.put("申请日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateAuditing()));
+                    break;
+                case REJECT:
+                    stringObjectMap.put("驳回原因", article.getAuditResponse());
+                    stringObjectMap.put("驳回日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateRejected()));
+                    break;
+                case PUBLISHED:
+                    stringObjectMap.put("发布日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDatePublished()));
+                    break;
+                case DISABLED:
+                    break;
+            }
+        });
     }
 }
