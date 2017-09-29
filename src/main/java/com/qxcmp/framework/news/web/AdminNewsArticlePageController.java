@@ -125,7 +125,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
 
         return articleService.findOne(id)
                 .filter(article -> article.getStatus().equals(ArticleStatus.AUDITING))
-                .map(article -> submitForm(form, context -> {
+                .map(article -> submitForm("审核文章", form, context -> {
                     try {
                         if (StringUtils.equals("通过文章", form.getOperation())) {
                             articleService.update(article.getId(), a -> {

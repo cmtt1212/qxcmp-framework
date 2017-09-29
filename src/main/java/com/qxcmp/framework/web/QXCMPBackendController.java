@@ -61,13 +61,29 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
      * @param form       要提交的表单
      * @param action     要执行的操作
      * @param biConsumer 返回的结果页面
+     *
      * @return 提交后的页面
      */
     protected ModelAndView submitForm(Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
-        String title = null;
+        return submitForm("", form, action, biConsumer);
+    }
+
+    /**
+     * 提交一个表单并执行相应操作
+     * <p>
+     * 该操作会被记录到审计日志中
+     *
+     * @param title      操作名称
+     * @param form       要提交的表单
+     * @param action     要执行的操作
+     * @param biConsumer 返回的结果页面
+     *
+     * @return 提交后的页面
+     */
+    protected ModelAndView submitForm(String title, Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
         Form annotation = form.getClass().getAnnotation(Form.class);
 
-        if (Objects.nonNull(annotation)) {
+        if (Objects.nonNull(annotation) && StringUtils.isNotBlank(annotation.value())) {
             title = annotation.value();
         }
 

@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 public @interface Form {
 
     /**
-     * 表单标题
+     * 表单标题和表单提交操作名称
      */
     String value() default "";
 

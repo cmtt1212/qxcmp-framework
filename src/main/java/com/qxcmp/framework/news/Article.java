@@ -38,9 +38,23 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
                 @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK),
                 @RowAction(value = "撤销申请", action = "repeal", method = FormMethod.POST)
         })
-@EntityTable(value = "未通过文章", name = "userRejected", action = QXCMP_BACKEND_URL + "/news/article/user")
-@EntityTable(value = "已发布文章", name = "userPublished", action = QXCMP_BACKEND_URL + "/news/article/user")
-@EntityTable(value = "已禁用文章", name = "userDisabled", action = QXCMP_BACKEND_URL + "/news/article/user")
+@EntityTable(value = "未通过文章", name = "userRejected", action = QXCMP_BACKEND_URL + "/news/article/user",
+        rowActions = {
+                @RowAction(value = "重新审核", action = "audit"),
+                @RowAction(value = "编辑", action = "edit"),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        })
+@EntityTable(value = "已发布文章", name = "userPublished", action = QXCMP_BACKEND_URL + "/news/article/user",
+        rowActions = {
+                @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK),
+                @RowAction(value = "禁用", action = "disable", method = FormMethod.POST)
+        })
+@EntityTable(value = "已禁用文章", name = "userDisabled", action = QXCMP_BACKEND_URL + "/news/article/user",
+        rowActions = {
+                @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK),
+                @RowAction(value = "启用", action = "enable", method = FormMethod.POST),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        })
 @EntityTable(value = "待审核文章", name = "auditing", action = QXCMP_BACKEND_URL + "/news/article",
         batchActions = {
                 @BatchAction(value = "批量发布", action = "publish", color = Color.GREEN),

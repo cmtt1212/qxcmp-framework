@@ -86,7 +86,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, pageable);
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateAuditing"));
 
         return page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "审核中文章")
@@ -99,7 +99,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, pageable);
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateRejected"));
 
         return page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "未通过文章")
@@ -112,7 +112,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, pageable);
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "datePublished"));
 
         return page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "已发布文章")
@@ -125,7 +125,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, pageable);
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateDisabled"));
 
         return page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "已禁用文章")
@@ -245,11 +245,17 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
-                    }, (context, overview) -> overview
-                            .addLink("我的文章", QXCMP_BACKEND_URL + "/news/article/user")
-                            .addLink("草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
-                            .addLink("预览文章", QXCMP_BACKEND_URL + "/news/article/user/" + article.getId() + "/preview")
-                            .addLink("新建文章", QXCMP_BACKEND_URL + "/news/article/user/new"));
+                    }, (context, overview) -> {
+                        if (article.getStatus().equals(ArticleStatus.NEW)) {
+                            overview
+                                    .addLink("我的文章", QXCMP_BACKEND_URL + "/news/article/user")
+                                    .addLink("草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
+                                    .addLink("预览文章", QXCMP_BACKEND_URL + "/news/article/user/" + article.getId() + "/preview")
+                                    .addLink("新建文章", QXCMP_BACKEND_URL + "/news/article/user/new");
+                        } else if (article.getStatus().equals(ArticleStatus.REJECT)) {
+                            overview.addLink("返回", QXCMP_BACKEND_URL + "/news/article/user/rejected");
+                        }
+                    });
                 }).orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
     }
 
@@ -278,7 +284,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
         return articleService.findOne(id)
                 .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
-                .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
+                .filter(article -> !article.getStatus().equals(ArticleStatus.PUBLISHED))
                 .map(article -> {
                     RestfulResponse restfulResponse = audit("删除文章", context -> {
                         try {
@@ -301,7 +307,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                 for (String key : keys) {
                     articleService.findOne(key)
                             .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
-                            .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
+                            .filter(article -> !article.getStatus().equals(ArticleStatus.PUBLISHED))
                             .ifPresent(articleService::remove);
                 }
             } catch (Exception e) {
@@ -338,7 +344,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
         return articleService.findOne(id)
                 .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
                 .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
-                .map(article -> submitForm(form, context -> {
+                .map(article -> submitForm("申请文章审核", form, context -> {
                             try {
                                 articleService.update(article.getId(), a -> {
                                     a.setAuditRequest(form.getAuditRequest());
@@ -348,12 +354,9 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                             } catch (Exception e) {
                                 throw new ActionException(e.getMessage(), e);
                             }
-                        }, (stringObjectMap, overview) -> {
-                            overview.setHeader(new IconHeader("申请审核成功", new Icon("info circle")));
-                            overview
-                                    .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/article/user")
-                                    .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft");
-                        }
+                        }, (stringObjectMap, overview) -> overview
+                                .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/article/user")
+                                .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft")
                 ))
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article/user")).build());
     }
@@ -373,6 +376,46 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                                 a.setStatus(ArticleStatus.NEW);
                                 a.setDateModified(new Date());
                             });
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/{id}/disable")
+    public ResponseEntity<RestfulResponse> userArticleDisable(@PathVariable String id) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return articleService.findOne(id)
+                .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                .filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED))
+                .map(article -> {
+                    RestfulResponse restfulResponse = audit("禁用文章", context -> {
+                        try {
+                            articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.DISABLED));
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/{id}/enable")
+    public ResponseEntity<RestfulResponse> userArticleEnable(@PathVariable String id) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return articleService.findOne(id)
+                .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
+                .filter(article -> article.getStatus().equals(ArticleStatus.DISABLED))
+                .map(article -> {
+                    RestfulResponse restfulResponse = audit("启用文章", context -> {
+                        try {
+                            articleService.update(article.getId(), a -> a.setStatus(ArticleStatus.PUBLISHED));
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
