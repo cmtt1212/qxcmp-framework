@@ -41,7 +41,12 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @EntityTable(value = "未通过文章", name = "userRejected", action = QXCMP_BACKEND_URL + "/news/article/user")
 @EntityTable(value = "已发布文章", name = "userPublished", action = QXCMP_BACKEND_URL + "/news/article/user")
 @EntityTable(value = "已禁用文章", name = "userDisabled", action = QXCMP_BACKEND_URL + "/news/article/user")
-@EntityTable(value = "待审核文章", name = "auditing", action = QXCMP_BACKEND_URL + "/news/article")
+@EntityTable(value = "待审核文章", name = "auditing", action = QXCMP_BACKEND_URL + "/news/article",
+        batchActions = {
+                @BatchAction(value = "批量发布", action = "publish", color = Color.GREEN),
+                @BatchAction(value = "批量驳回", action = "reject", color = Color.RED)
+        },
+        rowActions = @RowAction(value = "开始审核", action = "audit"))
 @EntityTable(value = "已发布文章", name = "published", action = QXCMP_BACKEND_URL + "/news/article")
 @EntityTable(value = "已禁用文章", name = "disabled", action = QXCMP_BACKEND_URL + "/news/article")
 @Entity

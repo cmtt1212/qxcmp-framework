@@ -19,8 +19,6 @@ import com.qxcmp.framework.web.view.elements.html.HtmlText;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.modules.table.Table;
-import com.qxcmp.framework.web.view.modules.table.dictionary.CollectionValueCell;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
@@ -39,7 +37,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +53,8 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
 
     private final TableHelper tableHelper;
 
+    private final AdminNewsPageHelper adminNewsPageHelper;
+
     @GetMapping("")
     public ModelAndView userArticlePage(Pageable pageable) {
 
@@ -66,6 +65,71 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
         return page().addComponent(tableHelper.convert("user", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章")
                 .setVerticalMenu(getVerticalMenu(""))
+                .build();
+    }
+
+    @GetMapping("/draft")
+    public ModelAndView userArticleDraftPage(Pageable pageable) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
+
+        return page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "草稿箱")
+                .setVerticalMenu(getVerticalMenu("草稿箱"))
+                .build();
+    }
+
+    @GetMapping("/auditing")
+    public ModelAndView userArticleAuditingPage(Pageable pageable) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, pageable);
+
+        return page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "审核中文章")
+                .setVerticalMenu(getVerticalMenu("审核中文章"))
+                .build();
+    }
+
+    @GetMapping("/rejected")
+    public ModelAndView userArticleRejectedPage(Pageable pageable) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, pageable);
+
+        return page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "未通过文章")
+                .setVerticalMenu(getVerticalMenu("未通过文章"))
+                .build();
+    }
+
+    @GetMapping("/published")
+    public ModelAndView userArticlePublishedPage(Pageable pageable) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, pageable);
+
+        return page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "已发布文章")
+                .setVerticalMenu(getVerticalMenu("已发布文章"))
+                .build();
+    }
+
+    @GetMapping("/disabled")
+    public ModelAndView userArticleDisabledPage(Pageable pageable) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, pageable);
+
+        return page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
+                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "已禁用文章")
+                .setVerticalMenu(getVerticalMenu("已禁用文章"))
                 .build();
     }
 
@@ -317,71 +381,6 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 
-    @GetMapping("/draft")
-    public ModelAndView userArticleDraftPage(Pageable pageable) {
-
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
-
-        return page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "草稿箱")
-                .setVerticalMenu(getVerticalMenu("草稿箱"))
-                .build();
-    }
-
-    @GetMapping("/auditing")
-    public ModelAndView userArticleAuditingPage(Pageable pageable) {
-
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, pageable);
-
-        return page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "审核中文章")
-                .setVerticalMenu(getVerticalMenu("审核中文章"))
-                .build();
-    }
-
-    @GetMapping("/rejected")
-    public ModelAndView userArticleRejectedPage(Pageable pageable) {
-
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, pageable);
-
-        return page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "未通过文章")
-                .setVerticalMenu(getVerticalMenu("未通过文章"))
-                .build();
-    }
-
-    @GetMapping("/published")
-    public ModelAndView userArticlePublishedPage(Pageable pageable) {
-
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, pageable);
-
-        return page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "已发布文章")
-                .setVerticalMenu(getVerticalMenu("已发布文章"))
-                .build();
-    }
-
-    @GetMapping("/disabled")
-    public ModelAndView userArticleDisabledPage(Pageable pageable) {
-
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, pageable);
-
-        return page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "已禁用文章")
-                .setVerticalMenu(getVerticalMenu("已禁用文章"))
-                .build();
-    }
-
     private List<String> getVerticalMenu(String activeItem) {
         return ImmutableList.of(activeItem, "草稿箱", QXCMP_BACKEND_URL + "/news/article/user/draft", "审核中文章", QXCMP_BACKEND_URL + "/news/article/user/auditing", "未通过文章", QXCMP_BACKEND_URL + "/news/article/user/rejected", "已发布文章", QXCMP_BACKEND_URL + "/news/article/user/published", "已禁用文章", QXCMP_BACKEND_URL + "/news/article/user/disabled");
     }
@@ -390,7 +389,7 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
         final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
         grid.addItem(new Row()
                 .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered().setBordered().setRounded()))
-                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(getArticleInfoTable(article)))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(adminNewsPageHelper.getArticleInfoTable(article))))
         );
         grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
         return grid;
@@ -400,37 +399,9 @@ public class AdminNewsArticleUserPageController extends QXCMPBackendController {
         final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
         grid.addItem(new Row()
                 .addCol(new Col().setComputerWide(Wide.FOUR).setMobileWide(Wide.SIXTEEN).addComponent(new Image(article.getCover()).setCentered().setBordered().setRounded()))
-                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(getArticleInfoTable(article)).addComponent(convertToForm(form)))
+                .addCol(new Col().setComputerWide(Wide.TWELVE).setMobileWide(Wide.SIXTEEN).addComponent(convertToTable(adminNewsPageHelper.getArticleInfoTable(article))).addComponent(convertToForm(form)))
         );
         grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
         return grid;
-    }
-
-    private Table getArticleInfoTable(Article article) {
-        return convertToTable(stringObjectMap -> {
-            stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
-            stringObjectMap.put("文章摘要", article.getDigest());
-            stringObjectMap.put("文章状态", article.getStatus().getName());
-            stringObjectMap.put("创建日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateCreated()));
-            stringObjectMap.put("上次修改", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateModified()));
-
-            switch (article.getStatus()) {
-                case NEW:
-                    break;
-                case AUDITING:
-                    stringObjectMap.put("申请说明", article.getAuditRequest());
-                    stringObjectMap.put("申请日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateAuditing()));
-                    break;
-                case REJECT:
-                    stringObjectMap.put("驳回原因", article.getAuditResponse());
-                    stringObjectMap.put("驳回日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDateRejected()));
-                    break;
-                case PUBLISHED:
-                    stringObjectMap.put("发布日期", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getDatePublished()));
-                    break;
-                case DISABLED:
-                    break;
-            }
-        });
     }
 }

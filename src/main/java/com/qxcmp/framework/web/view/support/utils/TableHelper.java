@@ -39,7 +39,7 @@ public class TableHelper {
 
     public Table convert(Map<String, Object> dictionary) {
         final Table table = new Table();
-        table.setCelled().setStriped().setBasic().setSize(Size.SMALL);
+        table.setCelled().setBasic().setSize(Size.SMALL);
         table.setBody(new TableBody());
 
         if (dictionary.isEmpty()) {
@@ -61,6 +61,10 @@ public class TableHelper {
 
                 table.getBody().addRow(tableRow);
             });
+        }
+
+        if (dictionary.size() > 5) {
+            table.setStriped();
         }
 
         return table;
