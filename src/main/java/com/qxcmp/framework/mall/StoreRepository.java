@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 interface StoreRepository extends JpaRepository<Store, String>, JpaSpecificationExecutor<Store> {
 
@@ -24,4 +26,7 @@ interface StoreRepository extends JpaRepository<Store, String>, JpaSpecification
      */
     @Query("select store from Store store left join store.admins admin where admin = :user or store.owner = :user")
     Page<Store> findByUser(@Param("user") User user, Pageable pageable);
+
+    @Query("select store from Store store left join store.admins admin where admin = :user or store.owner = :user")
+    List<Store> findByUser(@Param("user") User user);
 }

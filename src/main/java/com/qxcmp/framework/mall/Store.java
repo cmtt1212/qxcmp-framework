@@ -20,7 +20,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author Aaric
  */
-@EntityTable(value = "我的店铺", name = "userStore")
 @EntityTable(value = "店铺管理", name = "store", action = QXCMP_BACKEND_URL + "/mall/store",
         tableActions = @TableAction(value = "创建店铺", action = "new", primary = true),
         rowActions = {

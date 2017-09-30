@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -20,6 +21,10 @@ public class StoreService extends AbstractEntityService<Store, String, StoreRepo
 
     public Page<Store> findByUser(User user, Pageable pageable) {
         return repository.findByUser(user, pageable);
+    }
+
+    public List<Store> findByUser(User user) {
+        return repository.findByUser(user);
     }
 
     @Override
