@@ -26,7 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.news.web.AdminNewsPageController.getVerticalMenu;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS_CHANNEL;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/channel")
@@ -39,7 +40,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
     public ModelAndView newsChannelPage(Pageable pageable) {
         return page().addComponent(convertToTable("admin", pageable, channelService))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理")
-                .setVerticalMenu(getVerticalMenu("栏目管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_CHANNEL)
                 .build();
     }
 
@@ -49,7 +50,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
                 .addComponent(new HtmlText(channel.getContent()))
                 .addLink("返回", QXCMP_BACKEND_URL + "/news/channel"))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "栏目预览")
-                .setVerticalMenu(getVerticalMenu("栏目管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_CHANNEL)
                 .build()).orElse(overviewPage(new Overview(new IconHeader("栏目不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/channel")).build());
     }
 
@@ -62,7 +63,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "新建栏目")
-                .setVerticalMenu(getVerticalMenu("栏目管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_CHANNEL)
                 .addObject("selection_items_owner", userService.findAll())
                 .addObject("selection_items_admins", userService.findAll())
                 .build();
@@ -74,7 +75,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "新建栏目")
-                    .setVerticalMenu(getVerticalMenu("栏目管理"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_CHANNEL)
                     .addObject("selection_items_owner", userService.findAll())
                     .addObject("selection_items_admins", userService.findAll())
                     .build();
@@ -109,7 +110,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
             form.setContentQuill(channel.getContentQuill());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "编辑栏目")
-                    .setVerticalMenu(getVerticalMenu("栏目管理"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_CHANNEL)
                     .addObject("selection_items_owner", userService.findAll())
                     .addObject("selection_items_admins", userService.findAll())
                     .build();
@@ -123,7 +124,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
             if (bindingResult.hasErrors()) {
                 return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                         .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "编辑栏目")
-                        .setVerticalMenu(getVerticalMenu("栏目管理"))
+                        .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_CHANNEL)
                         .addObject("selection_items_owner", userService.findAll())
                         .addObject("selection_items_admins", userService.findAll())
                         .build();

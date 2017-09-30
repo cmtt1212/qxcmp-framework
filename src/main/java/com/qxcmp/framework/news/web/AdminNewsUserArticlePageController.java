@@ -1,11 +1,11 @@
 package com.qxcmp.framework.news.web;
 
-import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.news.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.model.RestfulResponse;
+import com.qxcmp.framework.web.view.BackendPage;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/user/article")
@@ -59,9 +60,9 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         Page<Article> articles = articleService.findByUserId(user.getId(), new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
-        return page().addComponent(tableHelper.convert("user", Article.class, articles))
+        return calculateBadge(page().addComponent(tableHelper.convert("user", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                 .build();
     }
 
@@ -72,9 +73,9 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
-        return page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
+        return calculateBadge(page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "草稿箱")
-                .setVerticalMenu(getVerticalMenu("草稿箱"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT), user)
                 .build();
     }
 
@@ -85,9 +86,9 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateAuditing"));
 
-        return page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
+        return calculateBadge(page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "审核中文章")
-                .setVerticalMenu(getVerticalMenu("审核中文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING), user)
                 .build();
     }
 
@@ -98,9 +99,9 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateRejected"));
 
-        return page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
+        return calculateBadge(page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "未通过文章")
-                .setVerticalMenu(getVerticalMenu("未通过文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED), user)
                 .build();
     }
 
@@ -111,9 +112,9 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "datePublished"));
 
-        return page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
+        return calculateBadge(page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "已发布文章")
-                .setVerticalMenu(getVerticalMenu("已发布文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED), user)
                 .build();
     }
 
@@ -124,9 +125,9 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateDisabled"));
 
-        return page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
+        return calculateBadge(page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "已禁用文章")
-                .setVerticalMenu(getVerticalMenu("已禁用文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED), user)
                 .build();
     }
 
@@ -137,10 +138,10 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         form.setAuthor(user.getDisplayName());
 
-        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+        return calculateBadge((BackendPage) page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "新建文章")
-                .setVerticalMenu(getVerticalMenu(""))
-                .addObject("selection_items_channels", channelService.findByUserId(user))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
+                .addObject("selection_items_channels", channelService.findByUserId(user)), user)
                 .build();
     }
 
@@ -156,10 +157,10 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         }
 
         if (bindingResult.hasErrors()) {
-            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+            return calculateBadge((BackendPage) page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "新建文章")
-                    .setVerticalMenu(getVerticalMenu(""))
-                    .addObject("selection_items_channels", channels)
+                    .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
+                    .addObject("selection_items_channels", channels), user)
                     .build();
         }
 
@@ -207,10 +208,10 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                     form.setContent(article.getContent());
                     form.setContentQuill(article.getContentQuill());
 
-                    return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    return calculateBadge((BackendPage) page().addComponent(new Segment().addComponent(convertToForm(form)))
                             .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "编辑文章")
-                            .setVerticalMenu(getVerticalMenu(""))
-                            .addObject("selection_items_channels", channelService.findByUserId(user))
+                            .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
+                            .addObject("selection_items_channels", channelService.findByUserId(user)), user)
                             .build();
                 }).orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
@@ -234,7 +235,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                     if (bindingResult.hasErrors()) {
                         return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "编辑文章")
-                                .setVerticalMenu(getVerticalMenu(""))
+                                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
                                 .addObject("selection_items_channels", channels)
                                 .build();
                     }
@@ -275,13 +276,13 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         return articleService.findOne(id)
                 .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
-                .map(article -> page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
+                .map(article -> calculateBadge(page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
                         .addComponent(getArticlePreviewContent(article))
                         .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/user/article")
                         .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft")
                         .addLink("新建文章", QXCMP_BACKEND_URL + "/news/user/article/new"))
                         .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "预览文章")
-                        .setVerticalMenu(getVerticalMenu(""))
+                        .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
@@ -314,13 +315,13 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         return articleService.findOne(id)
                 .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
                 .filter(article -> article.getStatus().equals(ArticleStatus.NEW) || article.getStatus().equals(ArticleStatus.REJECT))
-                .map(article -> page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
+                .map(article -> calculateBadge(page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
                         .addComponent(getArticleAuditContent(article, form))
                         .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/user/article")
                         .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft")
                         .addLink("新建文章", QXCMP_BACKEND_URL + "/news/user/article/new"))
                         .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "申请审核")
-                        .setVerticalMenu(getVerticalMenu(""))
+                        .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
@@ -489,10 +490,6 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft", "审核中文章", QXCMP_BACKEND_URL + "/news/user/article/auditing", "未通过文章", QXCMP_BACKEND_URL + "/news/user/article/rejected", "已发布文章", QXCMP_BACKEND_URL + "/news/user/article/published", "已禁用文章", QXCMP_BACKEND_URL + "/news/user/article/disabled");
-    }
-
     private Component getArticlePreviewContent(Article article) {
         final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
         grid.addItem(new Row()
@@ -511,5 +508,59 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         );
         grid.addItem(new Row().addCol(new Col().setGeneralWide(Wide.SIXTEEN).addComponent(new HtmlText(article.getContent()))));
         return grid;
+    }
+
+
+    private BackendPage calculateBadge(BackendPage backendPage, User user) {
+
+        final int MAX_COUNT = 100;
+
+        long draftCount = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(0, MAX_COUNT)).getTotalElements();
+        long auditingCount = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, new PageRequest(0, MAX_COUNT)).getTotalElements();
+        long rejectCount = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, new PageRequest(0, MAX_COUNT)).getTotalElements();
+        long publishCount = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, new PageRequest(0, MAX_COUNT)).getTotalElements();
+        long disableCount = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, new PageRequest(0, MAX_COUNT)).getTotalElements();
+
+        if (draftCount > 0) {
+            if (draftCount < 100) {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT, String.valueOf(draftCount));
+            } else {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT, "99+");
+            }
+        }
+
+        if (auditingCount > 0) {
+            if (auditingCount < 100) {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING, String.valueOf(auditingCount));
+            } else {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING, "99+");
+            }
+        }
+
+        if (rejectCount > 0) {
+            if (rejectCount < 100) {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED, String.valueOf(rejectCount));
+            } else {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED, "99+");
+            }
+        }
+
+        if (publishCount > 0) {
+            if (publishCount < 100) {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED, String.valueOf(publishCount));
+            } else {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED, "99+");
+            }
+        }
+
+        if (disableCount > 0) {
+            if (disableCount < 100) {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED, String.valueOf(disableCount));
+            } else {
+                backendPage.setVerticalNavigationBadge(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED, "99+");
+            }
+        }
+
+        return backendPage;
     }
 }

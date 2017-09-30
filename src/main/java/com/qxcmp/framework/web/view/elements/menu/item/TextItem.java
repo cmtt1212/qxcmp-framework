@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view.elements.menu.item;
 
+import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,8 @@ public class TextItem extends AbstractMenuItem {
     private String url;
 
     private String urlTarget;
+
+    private AbstractLabel badge;
 
     public TextItem(String text) {
         this.text = text;
@@ -32,6 +35,11 @@ public class TextItem extends AbstractMenuItem {
     @Override
     public String getFragmentName() {
         return "item-text";
+    }
+
+    public TextItem setBadge(AbstractLabel badge) {
+        this.badge = badge;
+        return this;
     }
 
 }

@@ -46,6 +46,16 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_NEWS_CHANNEL = NAVIGATION_ADMIN_NEWS + "-CHANNEL";
 
     /*
+     * 我的文章导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT = "ADMIN-NEWS-USER-ARTICLE-MANAGEMENT";
+    public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-DRAFT";
+    public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-AUDITING";
+    public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-REJECTED";
+    public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-PUBLISHED";
+    public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-DISABLED";
+
+    /*
      * 文章管理导航栏
      * */
     public static final String NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT = "ADMIN-NEWS-ARTICLE-MANAGEMENT";
@@ -55,7 +65,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
 
     @Override
     public void configureNavigation(NavigationService navigationService) {
-        navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "系统后台侧边导航栏")
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "侧边导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_USER, "用户管理", QXCMP_BACKEND_URL + "/user").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_NEWS, "新闻管理", QXCMP_BACKEND_URL + "/news").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_MESSAGE, "消息服务", QXCMP_BACKEND_URL + "/message").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE)))
@@ -65,19 +75,27 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_SETTINGS, "系统设置", QXCMP_BACKEND_URL + "/settings").setOrder(80).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
         );
 
-        navigationService.add(new Navigation(NAVIGATION_ADMIN_PROFILE, "系统后台用户中心导航栏")
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_PROFILE, "个人中心导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_PROFILE_INFO, "基本资料", QXCMP_BACKEND_URL + "/profile/info").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SYSTEM_ADMIN)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_PROFILE_SECURITY, "安全设置", QXCMP_BACKEND_URL + "/profile/security").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_SYSTEM_ADMIN)))
         );
 
-        navigationService.add(new Navigation(NAVIGATION_ADMIN_NEWS, "系统后台新闻管理页面导航栏")
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_NEWS, "新闻管理导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE, "我的文章", QXCMP_BACKEND_URL + "/news/user/article").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
-                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_CHANNEL, "我的栏目", QXCMP_BACKEND_URL + "/news/user/article").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
-                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE, "文章管理", QXCMP_BACKEND_URL + "/news/user/article").setOrder(10).setPrivilegesOr(ImmutableSet.of(PRIVILEGE_NEWS_ARTICLE_AUDIT, PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)))
-                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_CHANNEL, "栏目管理", QXCMP_BACKEND_URL + "/news/user/article").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS_CHANNEL)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_CHANNEL, "我的栏目", QXCMP_BACKEND_URL + "/news/user/channel").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE, "文章管理", QXCMP_BACKEND_URL + "/news/article").setOrder(30).setPrivilegesOr(ImmutableSet.of(PRIVILEGE_NEWS_ARTICLE_AUDIT, PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_CHANNEL, "栏目管理", QXCMP_BACKEND_URL + "/news/channel").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS_CHANNEL)))
         );
 
-        navigationService.add(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, "系统后台文章管理页面导航栏")
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, "我的文章导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT, "草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING, "审核中", QXCMP_BACKEND_URL + "/news/user/article/auditing").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED, "未通过", QXCMP_BACKEND_URL + "/news/user/article/rejected").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED, "已发布", QXCMP_BACKEND_URL + "/news/user/article/published").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED, "已禁用", QXCMP_BACKEND_URL + "/news/user/article/disabled").setOrder(50).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, "文章管理导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING, "待审核文章", QXCMP_BACKEND_URL + "/news/article/auditing").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS_ARTICLE_AUDIT)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_PUBLISHED, "已发布文章", QXCMP_BACKEND_URL + "/news/article/published").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_DISABLED, "已禁用文章", QXCMP_BACKEND_URL + "/news/article/disabled").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)))

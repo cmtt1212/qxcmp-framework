@@ -14,6 +14,8 @@ public interface Component {
      */
     String getFragmentFile();
 
+    Object getContext(String key);
+
     /**
      * @return 获取组件对应的渲染模板片段名称
      */

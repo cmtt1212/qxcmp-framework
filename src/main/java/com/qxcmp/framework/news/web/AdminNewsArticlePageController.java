@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/article")
@@ -64,7 +65,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                     stringObjectMap.put("已禁用文章数量", disabledArticleCount);
                 })))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, "")
                 .build();
     }
 
@@ -75,7 +76,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
 
         return page().addComponent(tableHelper.convert("auditing", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "待审核文章")
-                .setVerticalMenu(getVerticalMenu("待审核文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING)
                 .build();
     }
 
@@ -86,7 +87,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
 
         return page().addComponent(tableHelper.convert("published", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "已发布文章")
-                .setVerticalMenu(getVerticalMenu("已发布文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_PUBLISHED)
                 .build();
     }
 
@@ -97,7 +98,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
 
         return page().addComponent(tableHelper.convert("disabled", Article.class, articles))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "已禁用文章")
-                .setVerticalMenu(getVerticalMenu("已禁用文章"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_DISABLED)
                 .build();
     }
 
@@ -108,7 +109,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                         .addComponent(getArticlePreviewContent(article))
                         .addLink("返回", QXCMP_BACKEND_URL + "/news/article"))
                         .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "查看文章")
-                        .setVerticalMenu(getVerticalMenu(""))
+                        .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, "")
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article")).build());
     }
@@ -123,7 +124,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                             .addComponent(getArticleAuditContent(article, form))
                             .addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing"))
                             .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "审核文章")
-                            .setVerticalMenu(getVerticalMenu("待审核文章"))
+                            .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING)
                             .addObject("selection_items_operation", ImmutableList.of("通过文章", "驳回文章"))
                             .build();
                 })
@@ -310,10 +311,6 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
             }
         });
         return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "待审核文章", QXCMP_BACKEND_URL + "/news/article/auditing", "已发布文章", QXCMP_BACKEND_URL + "/news/article/published", "已禁用文章", QXCMP_BACKEND_URL + "/news/article/disabled");
     }
 
     private Component getArticlePreviewContent(Article article) {

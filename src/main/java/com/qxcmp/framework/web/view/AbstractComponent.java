@@ -1,5 +1,9 @@
 package com.qxcmp.framework.web.view;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+
 /**
  * 页面组件基本类
  * <p>
@@ -8,4 +12,16 @@ package com.qxcmp.framework.web.view;
  * @author aaric
  */
 public abstract class AbstractComponent implements Component {
+
+    private Map<String, Object> context = Maps.newLinkedHashMap();
+
+    public AbstractComponent addContext(String key, Object object) {
+        context.put(key, object);
+        return this;
+    }
+
+    @Override
+    public Object getContext(String key) {
+        return context.get(key);
+    }
 }

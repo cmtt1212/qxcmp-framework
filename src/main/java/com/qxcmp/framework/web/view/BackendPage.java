@@ -9,12 +9,15 @@ import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
+import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalMenu;
 import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
 import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.SidebarConfig;
+import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Wide;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -180,6 +183,8 @@ public class BackendPage extends AbstractPage {
                         textItem.setActive();
                     }
 
+                    textItem.addContext("navigation-id", navigation.getId());
+
                     verticalMenu.addItem(textItem);
                 }
             }
@@ -190,6 +195,39 @@ public class BackendPage extends AbstractPage {
         }
 
         return this;
+    }
+
+    /**
+     * 为垂直菜单项增加徽章
+     *
+     * @param id    导航栏ID
+     * @param label 徽章
+     *
+     * @return
+     */
+    public BackendPage setVerticalNavigationBadge(String id, AbstractLabel label) {
+
+        if (Objects.nonNull(verticalMenu)) {
+            verticalMenu.getItems().forEach(menuItem -> {
+                if (Objects.nonNull(menuItem.getContext("navigation-id")) && StringUtils.equals(menuItem.getContext("navigation-id").toString(), id)) {
+                    if (menuItem instanceof TextItem) {
+                        TextItem textItem = (TextItem) menuItem;
+                        textItem.setBadge(label);
+                    }
+                }
+            });
+        }
+
+        return this;
+    }
+
+    public BackendPage setVerticalNavigationBadge(String id, String text) {
+        return setVerticalNavigationBadge(id, text, Color.NONE);
+    }
+
+
+    public BackendPage setVerticalNavigationBadge(String id, String text, Color color) {
+        return setVerticalNavigationBadge(id, new Label(text).setColor(color));
     }
 
     @Override

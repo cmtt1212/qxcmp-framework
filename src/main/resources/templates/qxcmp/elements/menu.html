@@ -110,11 +110,21 @@
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.TextItem"*/-->
 <th:block th:fragment="item-text(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
-        <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
+        <div th:class="${component.getClassName()}">
+            [[${component.text}]]
+            <th:block th:if="${component.badge ne null}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.badge})}"></div>
+            </th:block>
+        </div>
     </th:block>
     <th:block th:unless="${#strings.isEmpty(component.url)}">
         <a th:class="${component.getClassName()}"
-           th:href="@{${component.url}}" th:target="${component.urlTarget}" th:utext="${component.text}"></a>
+           th:href="@{${component.url}}" th:target="${component.urlTarget}">
+            [[${component.text}]]
+            <th:block th:if="${component.badge ne null}">
+                <div th:replace="~{qxcmp/globals/components :: component(${component.badge})}"></div>
+            </th:block>
+        </a>
     </th:block>
 </th:block>
 
