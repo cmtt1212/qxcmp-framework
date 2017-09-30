@@ -6,7 +6,8 @@ import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.annotation.form.TextSelectionField;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 
 @Form(value = "创建店铺", submitText = "立即创建")
 @Data
@@ -18,7 +19,7 @@ public class AdminMallStoreNewForm {
     @TextInputField(value = "店铺名称", required = true, autoFocus = true, tooltip = "名称必须唯一")
     private String name;
 
-    @NotEmpty
+    @NotNull
     @TextSelectionField(value = "店铺所有者", required = true, itemValueIndex = "id", itemTextIndex = "username")
     private User owner;
 

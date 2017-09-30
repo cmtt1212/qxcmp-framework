@@ -25,7 +25,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -39,6 +41,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Component
 @RequiredArgsConstructor
 public class TableHelper {
+
+    private final FormattingConversionService conversionService;
 
     public Table convert(Map<String, Object> dictionary) {
         final Table table = new Table();
@@ -372,6 +376,9 @@ public class TableHelper {
     private <T> TableData renderTableCell(EntityTableField entityTableField, T t) {
         TableData tableData = new TableData();
 
+        /*
+         * 判断是否由自定义渲染器渲染
+         * */
         if (Objects.nonNull(entityTableField.getRender())) {
             try {
                 tableData = (TableData) entityTableField.getRender().invoke(t);
@@ -380,29 +387,25 @@ public class TableHelper {
             }
         } else {
             final BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(t);
+            final TypeDescriptor typeDescriptor = beanWrapper.getPropertyTypeDescriptor(entityTableField.getField().getName());
 
-            Object value = null;
+            final Object value = beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix());
 
-            try {
-                value = beanWrapper.getPropertyValue(entityTableField.getField().getName() + entityTableField.getFieldSuffix());
-            } catch (Exception ignored) {
-
-            }
-
-            if (entityTableField.isImage()) {
-                tableData.setCollapsing().addComponent(new Avatar(Objects.nonNull(value) ? value.toString() : "").setCentered());
-            } else if (Collection.class.isAssignableFrom(entityTableField.getField().getType())) {
-                String entityIndex = entityTableField.getCollectionEntityIndex();
+            /*
+             * 判断是否为集合类型
+             * */
+            if (typeDescriptor.isCollection()) {
+                String collectionEntityIndex = entityTableField.getCollectionEntityIndex();
                 List list = (List) ((Collection) value).stream().limit(entityTableField.getMaxCollectionCount()).collect(Collectors.toList());
                 List<com.qxcmp.framework.web.view.Component> components = Lists.newArrayList();
                 list.forEach(item -> {
 
-                    BeanWrapperImpl itemWrapper = new BeanWrapperImpl(item);
+                    final BeanWrapper itemWrapper = PropertyAccessorFactory.forBeanPropertyAccess(item);
 
                     String labelText;
 
-                    if (StringUtils.isNotBlank(entityIndex)) {
-                        Object itemValue = itemWrapper.getPropertyValue(entityIndex);
+                    if (StringUtils.isNotBlank(collectionEntityIndex)) {
+                        Object itemValue = itemWrapper.getPropertyValue(collectionEntityIndex);
                         labelText = Objects.nonNull(itemValue) ? itemValue.toString() : "";
                     } else {
                         labelText = item.toString();
@@ -422,8 +425,23 @@ public class TableHelper {
                 });
                 tableData.addComponents(components);
             } else {
-                tableData.setContent(Objects.nonNull(value) ? value.toString() : "");
+                if (entityTableField.isImage()) {
+                    tableData.setCollapsing().addComponent(new Avatar(Objects.nonNull(value) ? value.toString() : "").setCentered());
+                } else {
+
+                    String textValue;
+
+                    try {
+                        final TypeDescriptor strTypeDescriptor = TypeDescriptor.valueOf(String.class);
+                        textValue = (String) conversionService.convert(value, typeDescriptor, strTypeDescriptor);
+                    } catch (Exception e) {
+                        textValue = value.toString();
+                    }
+
+                    tableData.setContent(StringUtils.isNotBlank(textValue) ? textValue : "");
+                }
             }
+
         }
 
         return tableData;

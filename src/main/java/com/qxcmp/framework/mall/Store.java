@@ -7,6 +7,7 @@ import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -47,6 +48,7 @@ public class Store {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> admins = Sets.newHashSet();
 
-    @TableField("创建时间")
+    @TableField("创建日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateCreated;
 }
