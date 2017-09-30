@@ -36,7 +36,7 @@ public class AdminAuditPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView logPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, auditLogService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统日志")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "系统日志")
                 .build();
     }
 
@@ -56,6 +56,7 @@ public class AdminAuditPageController extends QXCMPBackendController {
                         .addComponent(new Segment().addComponent(new ContentHeader("操作内容", Size.SMALL).setDividing()).addComponent(new P(auditLog.getContent())))
                         .addLink("返回", QXCMP_BACKEND_URL + "/audit")
                 ))
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "系统日志", "audit", "日志详情")
                 .build()).orElse(overviewPage(new Overview(new IconHeader("日志不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/audit")).build());
     }
 }

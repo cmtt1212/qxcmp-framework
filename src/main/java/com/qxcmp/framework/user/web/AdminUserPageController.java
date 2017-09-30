@@ -42,7 +42,7 @@ public class AdminUserPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView userPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, userService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理")
+                .setBreadcrumb("控制台", "", "用户管理")
                 .build();
     }
 
@@ -88,7 +88,7 @@ public class AdminUserPageController extends QXCMPBackendController {
                                         })))
                         )
                 )
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情")
+                .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情")
                 .build()
         ).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
     }
@@ -100,7 +100,7 @@ public class AdminUserPageController extends QXCMPBackendController {
             form.setRoles(user.getRoles());
             return page()
                     .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户角色")
+                    .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情", "user/" + id + "/details", "编辑用户角色")
                     .addObject("selection_items_roles", roleService.findAll())
                     .build();
         }).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
@@ -112,7 +112,7 @@ public class AdminUserPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户角色")
+                    .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情", "user/" + id + "/details", "编辑用户角色")
                     .addObject("selection_items_roles", roleService.findAll())
                     .build();
         }
@@ -132,7 +132,7 @@ public class AdminUserPageController extends QXCMPBackendController {
 
             return page()
                     .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户状态")
+                    .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情", "user/" + id + "/details", "编辑用户状态")
                     .build();
         }).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
     }
@@ -143,7 +143,7 @@ public class AdminUserPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "用户管理", QXCMP_BACKEND_URL + "/user", "用户详情", QXCMP_BACKEND_URL + "/user/" + id + "/details", "编辑用户状态")
+                    .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情", "user/" + id + "/details", "编辑用户状态")
                     .build();
         }
 

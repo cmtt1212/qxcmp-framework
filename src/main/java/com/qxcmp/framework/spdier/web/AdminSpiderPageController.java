@@ -35,7 +35,7 @@ public class AdminSpiderPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView spiderPage() {
         return page().addComponent(convertToTable(SpiderDefinition.class, new PageImpl<>(Lists.newArrayList(spiderContextHolder.getSpiderDefinitions().values()), new PageRequest(0, 100), spiderContextHolder.getSpiderDefinitions().values().size())))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "蜘蛛管理")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "蜘蛛管理")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
     }
@@ -81,7 +81,7 @@ public class AdminSpiderPageController extends QXCMPBackendController {
     @GetMapping("/status")
     public ModelAndView spiderStatusPage() {
         return page().addComponent(convertToTable(SpiderRuntime.class, new PageImpl<>(Lists.newArrayList(spiderContextHolder.getSpiderRuntimeInfo()), new PageRequest(0, 100), spiderContextHolder.getSpiderRuntimeInfo().size())))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "蜘蛛管理", QXCMP_BACKEND_URL + "/spider", "运行状态")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "蜘蛛管理", "spider", "运行状态")
                 .setVerticalMenu(getVerticalMenu("运行状态"))
                 .build();
     }
@@ -109,7 +109,7 @@ public class AdminSpiderPageController extends QXCMPBackendController {
     @GetMapping("/log")
     public ModelAndView spiderLogPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, spiderLogService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "蜘蛛管理", QXCMP_BACKEND_URL + "/spider", "蜘蛛日志")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "蜘蛛管理", "spider", "蜘蛛日志")
                 .setVerticalMenu(getVerticalMenu("蜘蛛日志"))
                 .build();
     }

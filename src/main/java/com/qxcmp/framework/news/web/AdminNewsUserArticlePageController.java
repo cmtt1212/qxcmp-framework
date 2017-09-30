@@ -61,7 +61,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByUserId(user.getId(), new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("user", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                 .build();
     }
@@ -74,7 +74,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "草稿箱")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "草稿箱")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT), user)
                 .build();
     }
@@ -87,7 +87,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateAuditing"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "审核中文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "审核中文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING), user)
                 .build();
     }
@@ -100,7 +100,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateRejected"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "未通过文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "未通过文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED), user)
                 .build();
     }
@@ -113,7 +113,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "datePublished"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "已发布文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "已发布文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED), user)
                 .build();
     }
@@ -126,7 +126,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateDisabled"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "已禁用文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "已禁用文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED), user)
                 .build();
     }
@@ -139,7 +139,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         form.setAuthor(user.getDisplayName());
 
         return calculateBadge((BackendPage) page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "新建文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "新建文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
                 .addObject("selection_items_channels", channelService.findByUserId(user)), user)
                 .build();
@@ -158,7 +158,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return calculateBadge((BackendPage) page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "新建文章")
+                    .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "新建文章")
                     .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
                     .addObject("selection_items_channels", channels), user)
                     .build();
@@ -209,7 +209,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                     form.setContentQuill(article.getContentQuill());
 
                     return calculateBadge((BackendPage) page().addComponent(new Segment().addComponent(convertToForm(form)))
-                            .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "编辑文章")
+                            .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "编辑文章")
                             .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
                             .addObject("selection_items_channels", channelService.findByUserId(user)), user)
                             .build();
@@ -234,7 +234,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
                     if (bindingResult.hasErrors()) {
                         return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "编辑文章")
+                                .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "编辑文章")
                                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
                                 .addObject("selection_items_channels", channels)
                                 .build();
@@ -281,7 +281,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                         .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/user/article")
                         .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft")
                         .addLink("新建文章", QXCMP_BACKEND_URL + "/news/user/article/new"))
-                        .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "预览文章")
+                        .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "预览文章")
                         .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
@@ -320,7 +320,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                         .addLink("返回我的文章", QXCMP_BACKEND_URL + "/news/user/article")
                         .addLink("返回草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft")
                         .addLink("新建文章", QXCMP_BACKEND_URL + "/news/user/article/new"))
-                        .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "申请审核")
+                        .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "申请审核")
                         .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());

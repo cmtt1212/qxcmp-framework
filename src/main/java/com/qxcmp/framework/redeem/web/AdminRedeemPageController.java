@@ -38,7 +38,7 @@ public class AdminRedeemPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView redeemPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, redeemKeyService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理")
                 .setVerticalMenu(getVerticalMenu("兑换码管理"))
                 .build();
     }
@@ -58,7 +58,7 @@ public class AdminRedeemPageController extends QXCMPBackendController {
                             stringObjectMap.put("创建时间", redeemKey.getDateCreated());
                             stringObjectMap.put("过期时间", redeemKey.getDateExpired());
                         })).addLink("返回", QXCMP_BACKEND_URL + "/redeem")))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "兑换码详情")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码详情")
                 .build()).orElse(overviewPage(new Overview(new IconHeader("兑换码不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/redeem")).build());
     }
 
@@ -69,7 +69,7 @@ public class AdminRedeemPageController extends QXCMPBackendController {
         form.setQuantity(1);
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "生成兑换码")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "生成兑换码")
                 .setVerticalMenu(getVerticalMenu("兑换码管理"))
                 .addObject("selection_items_type", systemConfigService.getList(SYSTEM_CONFIG_REDEEM_TYPE_LIST))
                 .build();
@@ -81,7 +81,7 @@ public class AdminRedeemPageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "生成兑换码")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "生成兑换码")
                     .setVerticalMenu(getVerticalMenu("兑换码管理"))
                     .addObject("selection_items_type", systemConfigService.getList(SYSTEM_CONFIG_REDEEM_TYPE_LIST))
                     .build();
@@ -129,7 +129,7 @@ public class AdminRedeemPageController extends QXCMPBackendController {
         form.setType(systemConfigService.getList(SYSTEM_CONFIG_REDEEM_TYPE_LIST));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "兑换码配置")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
                 .setVerticalMenu(getVerticalMenu("兑换码配置"))
                 .build();
     }
@@ -142,7 +142,7 @@ public class AdminRedeemPageController extends QXCMPBackendController {
         if (addType) {
             form.getType().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "兑换码配置")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
                     .setVerticalMenu(getVerticalMenu("兑换码配置"))
                     .build();
         }
@@ -150,14 +150,14 @@ public class AdminRedeemPageController extends QXCMPBackendController {
         if (Objects.nonNull(removeType)) {
             form.getType().remove(removeType.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "兑换码配置")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
                     .setVerticalMenu(getVerticalMenu("兑换码配置"))
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "兑换码配置")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
                     .setVerticalMenu(getVerticalMenu("兑换码配置"))
                     .build();
         }

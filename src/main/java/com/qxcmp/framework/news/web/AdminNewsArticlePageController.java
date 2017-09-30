@@ -65,7 +65,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                     stringObjectMap.put("已发布文章数量", publishedArticleCount);
                     stringObjectMap.put("已禁用文章数量", disabledArticleCount);
                 })))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, ""))
                 .build();
     }
@@ -76,7 +76,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByStatus(ArticleStatus.AUDITING, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateAuditing"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("auditing", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "待审核文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "待审核文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING))
                 .build();
     }
@@ -87,7 +87,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByStatus(ArticleStatus.PUBLISHED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "datePublished"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("published", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "已发布文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "已发布文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_PUBLISHED))
                 .build();
     }
@@ -98,7 +98,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
         Page<Article> articles = articleService.findByStatus(ArticleStatus.DISABLED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateDisabled"));
 
         return calculateBadge(page().addComponent(tableHelper.convert("disabled", Article.class, articles))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "已禁用文章")
+                .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "已禁用文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_DISABLED))
                 .build();
     }
@@ -109,7 +109,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                 .map(article -> calculateBadge(page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
                         .addComponent(getArticlePreviewContent(article))
                         .addLink("返回", QXCMP_BACKEND_URL + "/news/article"))
-                        .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "查看文章")
+                        .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "查看文章")
                         .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, ""))
                         .build())
                 .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/article")).build());
@@ -124,7 +124,7 @@ public class AdminNewsArticlePageController extends QXCMPBackendController {
                     return calculateBadge((BackendPage) page().addComponent(new Overview(article.getTitle(), article.getAuthor()).setAlignment(Alignment.CENTER)
                             .addComponent(getArticleAuditContent(article, form))
                             .addLink("返回", QXCMP_BACKEND_URL + "/news/article/auditing"))
-                            .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "文章管理", QXCMP_BACKEND_URL + "/news/article", "审核文章")
+                            .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "审核文章")
                             .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING)
                             .addObject("selection_items_operation", ImmutableList.of("通过文章", "驳回文章")))
                             .build();

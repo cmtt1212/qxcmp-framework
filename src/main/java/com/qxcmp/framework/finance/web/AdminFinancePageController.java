@@ -30,7 +30,7 @@ public class AdminFinancePageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView financePage() {
         return page()
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "财务管理")
+                .setBreadcrumb("控制台", "", "财务管理")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
     }
@@ -50,7 +50,7 @@ public class AdminFinancePageController extends QXCMPBackendController {
 
         return page()
                 .addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "财务管理", QXCMP_BACKEND_URL + "/finance", "微信支付配置")
+                .setBreadcrumb("控制台", "", "财务管理", "finance", "微信支付配置")
                 .setVerticalMenu(getVerticalMenu("微信支付配置"))
                 .addObject("selection_items_tradeType", SUPPORT_WEIXIN_PAYMENT)
                 .build();
@@ -61,7 +61,7 @@ public class AdminFinancePageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "财务管理", QXCMP_BACKEND_URL + "/finance", "微信支付配置")
+                    .setBreadcrumb("控制台", "", "财务管理", "finance", "微信支付配置")
                     .setVerticalMenu(getVerticalMenu("微信支付配置"))
                     .addObject("selection_items_tradeType", SUPPORT_WEIXIN_PAYMENT)
                     .build();

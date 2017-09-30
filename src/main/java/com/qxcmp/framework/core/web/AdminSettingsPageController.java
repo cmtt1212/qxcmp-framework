@@ -42,7 +42,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
         return page().addComponent(new Overview("系统配置")
                 .addComponent(convertToTable(stringObjectMap -> {
                 })))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置")
+                .setBreadcrumb("控制台", "", "系统配置")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
     }
@@ -76,7 +76,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
         form.setPreventLogin(systemConfigService.getBoolean(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "网站配置")
+                .setBreadcrumb("控制台", "", "系统配置", "settings", "网站配置")
                 .setVerticalMenu(getVerticalMenu("网站配置"))
                 .addObject("selection_items_position", WATERMARK_POSITIONS)
                 .build();
@@ -87,7 +87,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "网站配置")
+                    .setBreadcrumb("控制台", "", "系统配置", "settings", "网站配置")
                     .setVerticalMenu(getVerticalMenu("网站配置"))
                     .addObject("selection_items_position", WATERMARK_POSITIONS)
                     .build();
@@ -126,7 +126,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
     @GetMapping("/dictionary")
     public ModelAndView dictionaryPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, systemDictionaryService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典")
+                .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典")
                 .setVerticalMenu(getVerticalMenu("系统字典"))
                 .build();
     }
@@ -140,7 +140,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
             form.getItems().add(new SystemDictionaryItem());
             return page()
                     .addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "系统字典编辑")
+                    .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
                     .setVerticalMenu(getVerticalMenu("系统字典"))
                     .build();
         }
@@ -149,7 +149,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
             form.getItems().remove(removeItems.intValue());
             return page()
                     .addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "系统字典编辑")
+                    .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
                     .setVerticalMenu(getVerticalMenu("系统字典"))
                     .build();
         }
@@ -171,7 +171,7 @@ public class AdminSettingsPageController extends QXCMPBackendController {
             form.setItems(systemDictionary.getItems());
             return page()
                     .addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统配置", QXCMP_BACKEND_URL + "/settings", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "系统字典编辑")
+                    .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
                     .setVerticalMenu(getVerticalMenu("系统字典"))
                     .build();
         }).orElse(overviewPage(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());

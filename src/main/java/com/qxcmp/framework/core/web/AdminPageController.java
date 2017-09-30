@@ -60,7 +60,7 @@ public class AdminPageController extends QXCMPBackendController {
                     stringObjectMap.put("启动日期", appStartUpDate);
                     stringObjectMap.put("软件版本", System.getProperty("java.version"));
                 })).addLink("返回", QXCMP_BACKEND_URL)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "关于")
+                .setBreadcrumb("控制台", "", "关于")
                 .build();
     }
 
@@ -74,7 +74,7 @@ public class AdminPageController extends QXCMPBackendController {
                         .addItem(new TextItem("蜘蛛管理").setUrl(QXCMP_BACKEND_URL + "/spider"))
                         .addItem(new TextItem("系统日志").setUrl(QXCMP_BACKEND_URL + "/audit"))
                 )))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具")
+                .setBreadcrumb("控制台", "", "系统工具")
                 .build();
     }
 }

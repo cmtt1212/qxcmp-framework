@@ -66,7 +66,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
         form.setPersonalizedSignature(user.getPersonalizedSignature());
 
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "基本资料")
+                .setBreadcrumb("控制台", "", "个人中心", null, "基本资料")
                 .build();
     }
 
@@ -75,7 +75,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "基本资料")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "基本资料")
                     .build();
         }
 
@@ -109,14 +109,14 @@ public class AdminProfilePageController extends QXCMPBackendController {
                         .addRow(new TableRow().addCell(new TableHead("邮箱绑定").setAlignment(Alignment.CENTER)).addCell(new TableData("邮箱可以直接用于登录、找回密码等")).addCell(new TableData(StringUtils.isNotBlank(user.getEmail()) ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("绑定", QXCMP_BACKEND_URL + "/profile/security/email").setBasic()).setAlignment(Alignment.CENTER)))
                         .addRow(new TableRow().addCell(new TableHead("密保问题").setAlignment(Alignment.CENTER)).addCell(new TableData("建议设置三个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全")).addCell(new TableData(hasSecurityQuestion ? new Icon("check circle").setColor(Color.GREEN) : new Icon("warning circle").setColor(Color.ORANGE)).setAlignment(Alignment.CENTER)).addCell(new TableData(new Button("设置", QXCMP_BACKEND_URL + "/profile/security/question").setBasic()).setAlignment(Alignment.CENTER)))
                 )))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置")
                 .build();
     }
 
     @GetMapping("/security/password")
     public ModelAndView securityPasswordPage(final AdminProfileSecurityPasswordForm form) {
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改登录密码")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "修改登录密码")
                 .build();
     }
 
@@ -135,7 +135,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改登录密码")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "修改登录密码")
                     .build();
         }
 
@@ -156,7 +156,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
         checkState(StringUtils.isBlank(user.getPayPassword()), "已经设置了支付密码");
 
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "设置支付密码")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "设置支付密码")
                 .build();
     }
 
@@ -171,7 +171,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "设置支付密码")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "设置支付密码")
                     .build();
         }
 
@@ -196,7 +196,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
         checkState(StringUtils.isNotBlank(user.getPayPassword()), "尚未设置支付密码");
 
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改支付密码")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "修改支付密码")
                 .build();
     }
 
@@ -215,7 +215,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "修改支付密码")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "修改支付密码")
                     .build();
         }
 
@@ -236,7 +236,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
     @GetMapping("/security/phone")
     public ModelAndView securityPhonePage(final AdminProfileSecurityPhoneForm form) {
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "手机绑定")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "手机绑定")
                 .build();
     }
 
@@ -249,7 +249,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "手机绑定")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "手机绑定")
                     .build();
         }
 
@@ -266,7 +266,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
     @GetMapping("/security/email")
     public ModelAndView securityEmailPage(final AdminProfileSecurityEmailForm form) {
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "邮箱绑定")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "邮箱绑定")
                 .build();
     }
 
@@ -279,7 +279,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "邮箱绑定")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "邮箱绑定")
                     .build();
         }
 
@@ -293,7 +293,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
             bindForm.setCaptcha("");
 
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(bindForm))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "邮箱绑定")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "邮箱绑定")
                     .build();
         } catch (Exception e) {
             return overviewPage(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
@@ -322,7 +322,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
     @GetMapping("/security/question")
     public ModelAndView securityQuestionPage(final AdminProfileSecurityQuestionForm form) {
         return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "密保问题")
+                .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "密保问题")
                 .addObject("selection_items_question1", QUESTIONS_LIST_1)
                 .addObject("selection_items_question2", QUESTIONS_LIST_2)
                 .addObject("selection_items_question3", QUESTIONS_LIST_3)
@@ -333,7 +333,7 @@ public class AdminProfilePageController extends QXCMPBackendController {
     public ModelAndView securityQuestionPage(@Valid final AdminProfileSecurityQuestionForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "个人中心", "", "安全设置", QXCMP_BACKEND_URL + "/profile/security", "密保问题")
+                    .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "密保问题")
                     .addObject("selection_items_question1", QUESTIONS_LIST_1)
                     .addObject("selection_items_question2", QUESTIONS_LIST_2)
                     .addObject("selection_items_question3", QUESTIONS_LIST_3)

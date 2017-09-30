@@ -53,7 +53,7 @@ public class AdminMessageController extends QXCMPBackendController {
                     stringStringMap.put("短信服务 - 主题名称", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF).orElse(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF_DEFAULT_VALUE));
                     stringStringMap.put("短信服务 - 短信签名ID", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE));
                 })))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务")
+                .setBreadcrumb("控制台", "", "消息服务")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
     }
@@ -69,7 +69,7 @@ public class AdminMessageController extends QXCMPBackendController {
         form.getPhones().add(currentUser().orElseThrow(null).getPhone());
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
+                .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
                 .setVerticalMenu(getVerticalMenu("短信发送服务"))
                 .build();
     }
@@ -84,7 +84,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (addPhones) {
             form.getPhones().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -92,7 +92,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removePhones)) {
             form.getPhones().remove(removePhones.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -100,7 +100,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (addParameters) {
             form.getParameters().add(new SmsMessageParameter());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -108,14 +108,14 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removeParameters)) {
             form.getParameters().remove(removeParameters.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
                     .setVerticalMenu(getVerticalMenu("短信发送服务"))
                     .build();
         }
@@ -135,7 +135,7 @@ public class AdminMessageController extends QXCMPBackendController {
     public ModelAndView emailSendPage(final AdminMessageEmailSendForm form) {
         form.getTo().add("");
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
                 .setVerticalMenu(getVerticalMenu("邮件发送服务"))
                 .build();
     }
@@ -150,7 +150,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (addTo) {
             form.getTo().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
                     .setVerticalMenu(getVerticalMenu("邮件发送服务"))
                     .build();
         }
@@ -158,7 +158,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removeTo)) {
             form.getTo().remove(removeTo.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
                     .setVerticalMenu(getVerticalMenu("邮件发送服务"))
                     .build();
         }
@@ -166,7 +166,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (addCc) {
             form.getCc().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
                     .setVerticalMenu(getVerticalMenu("邮件发送服务"))
                     .build();
         }
@@ -174,14 +174,14 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removeCc)) {
             form.getCc().remove(removeCc.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
                     .setVerticalMenu(getVerticalMenu("邮件发送服务"))
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件发送服务")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
                     .setVerticalMenu(getVerticalMenu("邮件发送服务"))
                     .build();
         }
@@ -229,7 +229,7 @@ public class AdminMessageController extends QXCMPBackendController {
         form.setBindingContent(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_BINDING_CONTENT_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件服务配置")
+                .setBreadcrumb("控制台", "", "消息服务", "message", "邮件服务配置")
                 .setVerticalMenu(getVerticalMenu("邮件服务配置"))
                 .build();
     }
@@ -239,7 +239,7 @@ public class AdminMessageController extends QXCMPBackendController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "邮件服务配置")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "邮件服务配置")
                     .setVerticalMenu(getVerticalMenu("邮件服务配置"))
                     .build();
         }
@@ -272,7 +272,7 @@ public class AdminMessageController extends QXCMPBackendController {
         form.setCaptchaTemplate(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE).orElse(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
                 .setVerticalMenu(getVerticalMenu("短信服务配置"))
                 .build();
     }
@@ -285,7 +285,7 @@ public class AdminMessageController extends QXCMPBackendController {
         if (addTemplates) {
             form.getTemplates().add(new SmsTemplate());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
                     .setVerticalMenu(getVerticalMenu("短信服务配置"))
                     .build();
         }
@@ -293,14 +293,14 @@ public class AdminMessageController extends QXCMPBackendController {
         if (Objects.nonNull(removeTemplates)) {
             form.getTemplates().remove(removeTemplates.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
                     .setVerticalMenu(getVerticalMenu("短信服务配置"))
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "消息服务", QXCMP_BACKEND_URL + "/message", "短信服务配置")
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
                     .setVerticalMenu(getVerticalMenu("短信服务配置"))
                     .build();
         }

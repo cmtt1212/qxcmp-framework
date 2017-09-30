@@ -53,7 +53,7 @@ public class AdminWeixinPageController extends QXCMPBackendController {
                     stringObjectMap.put("调试模式", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_DEBUG).orElse(""));
                     stringObjectMap.put("欢迎语", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE).orElse(""));
                 })))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台")
+                .setBreadcrumb("控制台", "", "微信公众平台")
                 .setVerticalMenu(getVerticalMenu(""))
                 .build();
     }
@@ -71,7 +71,7 @@ public class AdminWeixinPageController extends QXCMPBackendController {
 
         return page()
                 .addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "公众号配置")
+                .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号配置")
                 .setVerticalMenu(getVerticalMenu("公众号配置"))
                 .build();
     }
@@ -82,7 +82,7 @@ public class AdminWeixinPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "公众号配置")
+                    .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号配置")
                     .setVerticalMenu(getVerticalMenu("公众号配置"))
                     .build();
         }
@@ -126,7 +126,7 @@ public class AdminWeixinPageController extends QXCMPBackendController {
             }
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "公众号菜单")
+                    .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号菜单")
                     .setVerticalMenu(getVerticalMenu("公众号菜单"))
                     .build();
         } catch (Exception e) {
@@ -142,7 +142,7 @@ public class AdminWeixinPageController extends QXCMPBackendController {
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "微信公众平台", QXCMP_BACKEND_URL + "/weixin", "公众号菜单")
+                    .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号菜单")
                     .setVerticalMenu(getVerticalMenu("公众号菜单"))
                     .build();
         }

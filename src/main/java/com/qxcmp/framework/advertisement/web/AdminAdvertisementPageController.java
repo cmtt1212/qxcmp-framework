@@ -37,14 +37,14 @@ public class AdminAdvertisementPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView advertisementPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, advertisementService))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具", QXCMP_BACKEND_URL + "/tools", "广告管理")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理")
                 .build();
     }
 
     @GetMapping("/new")
     public ModelAndView advertisementNewPage(final AdminAdvertisementNewForm form) {
         return page().addComponent(convertToForm(form))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具", QXCMP_BACKEND_URL + "/tools", "广告管理", QXCMP_BACKEND_URL + "/advertisement", "新建广告")
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
                 .addObject("selection_items_type", SUPPORT_TYPES)
                 .build();
     }
@@ -53,7 +53,7 @@ public class AdminAdvertisementPageController extends QXCMPBackendController {
     public ModelAndView advertisementNewPage(@Valid final AdminAdvertisementNewForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具", QXCMP_BACKEND_URL + "/tools", "广告管理", QXCMP_BACKEND_URL + "/advertisement", "新建广告")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
                     .addObject("selection_items_type", SUPPORT_TYPES)
                     .build();
         }
@@ -80,7 +80,7 @@ public class AdminAdvertisementPageController extends QXCMPBackendController {
             form.setAdOrder(advertisement.getAdOrder());
             form.setBlack(advertisement.isBlank());
             return page().addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具", QXCMP_BACKEND_URL + "/tools", "广告管理", QXCMP_BACKEND_URL + "/advertisement", "新建广告")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
                     .addObject("selection_items_type", SUPPORT_TYPES)
                     .build();
         }).orElse(overviewPage(new Overview(new IconHeader("广告不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/advertisement")).build());
@@ -90,7 +90,7 @@ public class AdminAdvertisementPageController extends QXCMPBackendController {
     public ModelAndView advertisementEditPage(@PathVariable String id, @Valid final AdminAdvertisementEditForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
-                    .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "系统工具", QXCMP_BACKEND_URL + "/tools", "广告管理", QXCMP_BACKEND_URL + "/advertisement", "新建广告")
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
                     .addObject("selection_items_type", SUPPORT_TYPES)
                     .build();
         }

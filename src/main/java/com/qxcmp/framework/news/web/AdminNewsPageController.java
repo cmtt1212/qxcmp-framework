@@ -17,7 +17,7 @@ public class AdminNewsPageController extends QXCMPBackendController {
     @GetMapping("")
     public ModelAndView newsPage() {
         return page().addComponent(new Overview("新闻管理"))
-                .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理")
+                .setBreadcrumb("控制台", "", "新闻管理")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, "")
                 .build();
     }
