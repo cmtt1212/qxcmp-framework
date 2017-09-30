@@ -19,7 +19,12 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@EntityTable(value = "栏目管理", action = QXCMP_BACKEND_URL + "/news/channel",
+@EntityTable(value = "我的栏目", name = "user", action = QXCMP_BACKEND_URL + "/news/user/channel",
+        rowActions = {
+                @RowAction(value = "查看", action = "details"),
+                @RowAction(value = "管理", action = "edit")
+        })
+@EntityTable(value = "栏目管理", name = "admin", action = QXCMP_BACKEND_URL + "/news/channel",
         tableActions = @TableAction(value = "新建栏目", action = "new", primary = true),
         rowActions = {
                 @RowAction(value = "预览", action = "preview"),
@@ -76,7 +81,7 @@ public class Channel {
      * 栏目管理者
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @TableField(value = "管理员", collectionEntityIndex = ".username")
+    @TableField(value = "管理员", collectionEntityIndex = "username")
     private Set<User> admins = Sets.newHashSet();
 
     /**

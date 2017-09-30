@@ -37,7 +37,7 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
 
     @GetMapping("")
     public ModelAndView newsChannelPage(Pageable pageable) {
-        return page().addComponent(convertToTable(pageable, channelService))
+        return page().addComponent(convertToTable("admin", pageable, channelService))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理")
                 .setVerticalMenu(getVerticalMenu("栏目管理"))
                 .build();

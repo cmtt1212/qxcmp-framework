@@ -204,7 +204,7 @@ public class Article {
      * 文章所属的栏目
      */
     @ManyToMany
-    @TableField(value = "所属栏目", collectionEntityIndex = "name", maxCollectionCount = 3, enableUrl = true, urlPrefix = QXCMP_BACKEND_URL + "/news/user/channel/", urlEntityIndex = "id")
+    @TableField(value = "所属栏目", collectionEntityIndex = "name", maxCollectionCount = 3, enableUrl = true, urlPrefix = QXCMP_BACKEND_URL + "/news/user/channel/", urlEntityIndex = "id", urlSuffix = "details")
     private List<Channel> channels = Lists.newArrayList();
 
     /**
