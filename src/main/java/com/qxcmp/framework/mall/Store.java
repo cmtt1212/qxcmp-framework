@@ -51,4 +51,12 @@ public class Store {
     @TableField("创建日期")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateCreated;
+
+    /**
+     * 是否为外部店铺
+     * <p>
+     * 外部店铺名称将会显示在商品页面
+     */
+    @TableField(value = "是否为外部店铺", name = "store")
+    private boolean external;
 }

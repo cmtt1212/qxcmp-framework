@@ -1,10 +1,7 @@
 package com.qxcmp.framework.mall.web;
 
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.view.annotation.form.AvatarField;
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.TextInputField;
-import com.qxcmp.framework.web.view.annotation.form.TextSelectionField;
+import com.qxcmp.framework.web.view.annotation.form.*;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -23,4 +20,6 @@ public class AdminMallStoreNewForm {
     @TextSelectionField(value = "店铺所有者", required = true, itemValueIndex = "id", itemTextIndex = "username")
     private User owner;
 
+    @BooleanField(value = "外部店铺", tooltip = "外部店铺名称将会显示在商品页面")
+    private boolean external;
 }

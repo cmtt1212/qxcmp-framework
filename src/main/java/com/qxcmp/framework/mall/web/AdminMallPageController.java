@@ -8,7 +8,9 @@ import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +42,7 @@ public class AdminMallPageController extends QXCMPBackendController {
 
     @GetMapping("/store")
     public ModelAndView mallStorePage(Pageable pageable) {
-        return page().addComponent(convertToTable("store", pageable, storeService))
+        return page().addComponent(convertToTable("store", new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateCreated"), storeService))
                 .setBreadcrumb("控制台", "", "商城管理", "mall", "店铺管理")
                 .setVerticalNavigation(NAVIGATION_ADMIN_MALL, NAVIGATION_ADMIN_MALL_STORE)
                 .build();
@@ -78,6 +80,7 @@ public class AdminMallPageController extends QXCMPBackendController {
                     store.setName(form.getName());
                     store.setOwner(form.getOwner());
                     store.setDateCreated(new Date());
+                    store.setExternal(form.isExternal());
                     return store;
                 });
             } catch (Exception e) {
