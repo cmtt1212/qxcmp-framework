@@ -22,7 +22,9 @@ import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -351,9 +353,7 @@ public class TableHelper {
                 tableRow.addCell(new TableDataCheckbox(beanWrapper.getPropertyValue(table.getEntityIndex()).toString()).setAlignment(Alignment.CENTER));
             }
 
-            entityTableFields.forEach(entityTableField -> {
-                tableRow.addCell(renderTableCell(entityTableField, t));
-            });
+            entityTableFields.forEach(entityTableField -> tableRow.addCell(renderTableCell(entityTableField, t)));
 
             if (!table.getRowActions().isEmpty()) {
                 final TableData tableData = new TableData();
@@ -379,7 +379,7 @@ public class TableHelper {
                 e.printStackTrace();
             }
         } else {
-            final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(t);
+            final BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(t);
 
             Object value = null;
 

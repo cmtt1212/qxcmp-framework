@@ -2,7 +2,10 @@ package com.qxcmp.framework.mall;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
+import com.qxcmp.framework.user.User;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,6 +16,10 @@ public class StoreService extends AbstractEntityService<Store, String, StoreRepo
 
     public StoreService(StoreRepository repository) {
         super(repository);
+    }
+
+    public Page<Store> findByUser(User user, Pageable pageable) {
+        return repository.findByUser(user, pageable);
     }
 
     @Override

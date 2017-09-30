@@ -9,6 +9,7 @@ import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -22,7 +23,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @EntityTable(value = "店铺管理", name = "store", action = QXCMP_BACKEND_URL + "/mall/store",
         tableActions = @TableAction(value = "创建店铺", action = "new", primary = true),
         rowActions = {
-                @RowAction(value = "编辑", action = "edit")
+                @RowAction(value = "查看", action = "details")
         })
 @Entity
 @Table
@@ -36,13 +37,16 @@ public class Store {
     private String cover;
 
     @TableField("店铺名称")
+    @Column(unique = true)
     private String name;
 
     @ManyToOne
-    @TableField(value = "所有者", fieldSuffix = ".username")
+    @TableField(value = "所有者", name = "store", fieldSuffix = ".username")
     private User owner;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @TableField(value = "管理员", collectionEntityIndex = "username")
     private Set<User> admins = Sets.newHashSet();
+
+    @TableField("创建时间")
+    private Date dateCreated;
 }
