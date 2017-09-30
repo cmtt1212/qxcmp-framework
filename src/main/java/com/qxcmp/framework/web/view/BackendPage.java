@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view;
 
+import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.elements.breadcrumb.AbstractBreadcrumb;
 import com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb;
 import com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem;
@@ -36,6 +37,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BackendPage extends AbstractPage {
 
+    private final NavigationService navigationService;
+
     private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build());
 
     /**
@@ -53,8 +56,9 @@ public class BackendPage extends AbstractPage {
      */
     private VerticalMenu verticalMenu;
 
-    public BackendPage(HttpServletRequest request, HttpServletResponse response) {
+    public BackendPage(HttpServletRequest request, HttpServletResponse response, NavigationService navigationService) {
         super(request, response);
+        this.navigationService = navigationService;
     }
 
     @Override
@@ -93,6 +97,7 @@ public class BackendPage extends AbstractPage {
      * 增加面包屑
      *
      * @param breadcrumb 必须为单数，依次为 名字 - Url 组合， 最后一个参数为没有导航的项目
+     *
      * @return
      */
     public BackendPage setBreadcrumb(String... breadcrumb) {
@@ -152,6 +157,7 @@ public class BackendPage extends AbstractPage {
      *
      * @param activeItem 激活的菜单项名称
      * @param menu       必须为双数，依次为 名字 - Url 组合
+     *
      * @return
      */
     public BackendPage setVerticalMenu(String activeItem, String... menu) {
@@ -170,6 +176,19 @@ public class BackendPage extends AbstractPage {
         }
 
         this.verticalMenu = verticalMenu;
+
+        return this;
+    }
+
+    /**
+     * 从已经定义的导航中获取垂直菜单
+     *
+     * @param id         导航ID
+     * @param activeItem 当前激活的菜单项ID
+     *
+     * @return
+     */
+    public BackendPage setVerticalNavigation(String id, String activeItem) {
 
         return this;
     }
