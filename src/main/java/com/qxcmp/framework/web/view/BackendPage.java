@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 后端页面
@@ -120,8 +121,8 @@ public class BackendPage extends AbstractPage {
                 bc.addItem(new BreadcrumbItem(text));
             } else {
                 String url = breadcrumb[i + 1];
-                if (StringUtils.isNotBlank(url)) {
-                    bc.addItem(new BreadcrumbItem(text, url));
+                if (Objects.nonNull(url)) {
+                    bc.addItem(new BreadcrumbItem(text, QXCMP_BACKEND_URL + "/" + url));
                 } else {
                     bc.addItem(new BreadcrumbItem(text));
                 }

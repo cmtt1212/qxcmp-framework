@@ -3,10 +3,12 @@ package com.qxcmp.framework.mall;
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
+@Service
 public class StoreService extends AbstractEntityService<Store, String, StoreRepository> {
 
     public StoreService(StoreRepository repository) {
