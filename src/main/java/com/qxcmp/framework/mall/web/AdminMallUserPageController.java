@@ -5,13 +5,12 @@ import com.qxcmp.framework.mall.StoreService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb;
-import com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.elements.label.BasicLabel;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +58,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
 
         Store selectedStore = getUserSelectedStore(user);
 
-        if (Objects.isNull(selectedStore)) {
+        if (Objects.isNull(selectedStore) || !stores.contains(selectedStore)) {
             return redirect(QXCMP_BACKEND_URL + "/mall/user/store/select");
         } else {
             return page().addComponent(new Segment()
@@ -99,7 +98,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
 
         List<Store> stores = storeService.findByUser(user);
 
-        if (!stores.contains(form.getStore())) {
+        if (bindingResult.hasErrors() || !stores.contains(form.getStore())) {
             return overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
@@ -113,12 +112,6 @@ public class AdminMallUserPageController extends QXCMPBackendController {
     }
 
     private Component getUserStorePageHeader(Store selectedStore) {
-        Breadcrumb breadcrumb = new Breadcrumb("|");
-
-        breadcrumb.addItem(new BreadcrumbItem("当前店铺"));
-        breadcrumb.addItem(new BreadcrumbItem(selectedStore.getName()));
-        breadcrumb.addItem(new BreadcrumbItem("切换店铺", QXCMP_BACKEND_URL + "/mall/user/store/select"));
-
-        return breadcrumb;
+        return new BasicLabel(selectedStore.getName()).setIcon(new Icon("marker")).setUrl(QXCMP_BACKEND_URL + "/mall/user/store/select");
     }
 }
