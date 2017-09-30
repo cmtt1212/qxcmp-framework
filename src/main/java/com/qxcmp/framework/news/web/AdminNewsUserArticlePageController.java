@@ -2,10 +2,7 @@ package com.qxcmp.framework.news.web;
 
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.news.Article;
-import com.qxcmp.framework.news.ArticleService;
-import com.qxcmp.framework.news.ArticleStatus;
-import com.qxcmp.framework.news.ChannelService;
+import com.qxcmp.framework.news.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.model.RestfulResponse;
@@ -143,7 +140,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "新建文章")
                 .setVerticalMenu(getVerticalMenu(""))
-                .addObject("selection_items_channels", channelService.findAll())
+                .addObject("selection_items_channels", channelService.findByUserId(user))
                 .build();
     }
 
@@ -152,11 +149,17 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
+        List<Channel> channels = channelService.findByUserId(user);
+
+        if (form.getChannels().stream().anyMatch(channel -> !channels.contains(channel))) {
+            bindingResult.rejectValue("channels", "", "不能指定不属于自己管理的栏目");
+        }
+
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "新建文章")
                     .setVerticalMenu(getVerticalMenu(""))
-                    .addObject("selection_items_channels", channelService.findAll())
+                    .addObject("selection_items_channels", channels)
                     .build();
         }
 
@@ -207,7 +210,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                     return page().addComponent(new Segment().addComponent(convertToForm(form)))
                             .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "编辑文章")
                             .setVerticalMenu(getVerticalMenu(""))
-                            .addObject("selection_items_channels", channelService.findAll())
+                            .addObject("selection_items_channels", channelService.findByUserId(user))
                             .build();
                 }).orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
@@ -216,6 +219,12 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
     public ModelAndView userArticleEditPage(@PathVariable String id, final AdminNewsUserArticleEditForm form, BindingResult bindingResult) {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<Channel> channels = channelService.findByUserId(user);
+
+        if (form.getChannels().stream().anyMatch(channel -> !channels.contains(channel))) {
+            bindingResult.rejectValue("channels", "", "不能指定不属于自己管理的栏目");
+        }
 
         return articleService.findOne(id)
                 .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
@@ -226,7 +235,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
                         return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "编辑文章")
                                 .setVerticalMenu(getVerticalMenu(""))
-                                .addObject("selection_items_channels", channelService.findAll())
+                                .addObject("selection_items_channels", channels)
                                 .build();
                     }
 

@@ -12,6 +12,7 @@ import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.image.Avatar;
+import com.qxcmp.framework.web.view.elements.label.BasicLabel;
 import com.qxcmp.framework.web.view.elements.label.Label;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
@@ -400,8 +401,13 @@ public class TableHelper {
                     }
 
                     if (entityTableField.isEnableUrl()) {
-                        String url = entityTableField.getUrlPrefix() + itemWrapper.getPropertyValue(entityTableField.getUrlEntityIndex()) + "/" + entityTableField.getUrlSuffix();
-                        components.add(new Label(labelText).setUrl(url));
+                        String url = entityTableField.getUrlPrefix() + itemWrapper.getPropertyValue(entityTableField.getUrlEntityIndex());
+
+                        if (StringUtils.isNotBlank(entityTableField.getUrlSuffix())) {
+                            url += "/" + entityTableField.getUrlSuffix();
+                        }
+
+                        components.add(new BasicLabel(labelText).setUrl(url));
                     } else {
                         components.add(new Label(labelText));
                     }

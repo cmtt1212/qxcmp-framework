@@ -3,6 +3,7 @@ package com.qxcmp.framework.news.web;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.news.Channel;
 import com.qxcmp.framework.news.ChannelService;
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -54,6 +55,11 @@ public class AdminNewsChannelPageController extends QXCMPBackendController {
 
     @GetMapping("/new")
     public ModelAndView newsChannelNewPage(final AdminNewsChannelNewForm form) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        form.setOwner(user);
+
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理", QXCMP_BACKEND_URL + "/news", "栏目管理", QXCMP_BACKEND_URL + "/news/channel", "新建栏目")
                 .setVerticalMenu(getVerticalMenu("栏目管理"))
