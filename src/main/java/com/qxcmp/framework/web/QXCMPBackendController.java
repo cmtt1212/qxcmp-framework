@@ -31,7 +31,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_QXCMP_ADMIN_SIDEBAR;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_SIDEBAR;
 
 public abstract class QXCMPBackendController extends AbstractQXCMPController {
 
@@ -41,8 +41,9 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
 
     @Override
     protected BackendPage page() {
-        BackendPage page = applicationContext.getBean(BackendPage.class, request, response, navigationService);
-        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())).setRightMenu((RightMenu) new RightMenu().addItem(new BackendAccountMenuItem(currentUser().orElseThrow(() -> new RuntimeException("No user authenticated for backend")), navigationService.get(QXCMPNavigationConfiguration.NAVIGATION_QXCMP_ADMIN_ACCOUNT).getItems()))));
+        User user = currentUser().orElseThrow(RuntimeException::new);
+        BackendPage page = applicationContext.getBean(BackendPage.class, request, response, navigationService, user);
+        page.setTopMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())).setRightMenu((RightMenu) new RightMenu().addItem(new BackendAccountMenuItem(currentUser().orElseThrow(() -> new RuntimeException("No user authenticated for backend")), navigationService.get(QXCMPNavigationConfiguration.NAVIGATION_ADMIN_PROFILE).getItems()))));
         page.setBottomMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("关于", QXCMP_BACKEND_URL + "/about"))));
         addPageSidebarContent(page, currentUser().orElse(null));
         return page;
@@ -130,7 +131,7 @@ public abstract class QXCMPBackendController extends AbstractQXCMPController {
     }
 
     private void addPageSidebarContent(BackendPage page, User user) {
-        navigationService.get(NAVIGATION_QXCMP_ADMIN_SIDEBAR).getItems().forEach(navigation -> {
+        navigationService.get(NAVIGATION_ADMIN_SIDEBAR).getItems().forEach(navigation -> {
             if (navigation.isVisible(user)) {
                 if (navigation.getItems().isEmpty()) {
                     page.addSideContent(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()).setLink());

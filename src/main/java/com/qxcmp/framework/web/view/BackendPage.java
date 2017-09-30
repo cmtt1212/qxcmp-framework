@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view;
 
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.elements.breadcrumb.AbstractBreadcrumb;
 import com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb;
@@ -39,6 +40,8 @@ public class BackendPage extends AbstractPage {
 
     private final NavigationService navigationService;
 
+    private final User user;
+
     private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.bottom.fixed.menu .sidebar.item").setConfig(SidebarConfig.builder().dimPage(false).build());
 
     /**
@@ -56,9 +59,10 @@ public class BackendPage extends AbstractPage {
      */
     private VerticalMenu verticalMenu;
 
-    public BackendPage(HttpServletRequest request, HttpServletResponse response, NavigationService navigationService) {
+    public BackendPage(HttpServletRequest request, HttpServletResponse response, NavigationService navigationService, User user) {
         super(request, response);
         this.navigationService = navigationService;
+        this.user = user;
     }
 
     @Override
@@ -153,35 +157,9 @@ public class BackendPage extends AbstractPage {
     }
 
     /**
-     * 设置垂直菜单
-     *
-     * @param activeItem 激活的菜单项名称
-     * @param menu       必须为双数，依次为 名字 - Url 组合
-     *
-     * @return
-     */
-    public BackendPage setVerticalMenu(String activeItem, String... menu) {
-        checkArgument(menu.length % 2 == 0);
-
-        VerticalMenu verticalMenu = new VerticalMenu().setFluid();
-
-        for (int i = 0; i < menu.length; i += 2) {
-            TextItem textItem = new TextItem(menu[i], menu[i + 1]);
-
-            if (textItem.getText().equals(activeItem)) {
-                textItem.setActive();
-            }
-
-            verticalMenu.addItem(textItem);
-        }
-
-        this.verticalMenu = verticalMenu;
-
-        return this;
-    }
-
-    /**
      * 从已经定义的导航中获取垂直菜单
+     * <p>
+     * 垂直菜单不支持子菜单
      *
      * @param id         导航ID
      * @param activeItem 当前激活的菜单项ID
@@ -189,6 +167,27 @@ public class BackendPage extends AbstractPage {
      * @return
      */
     public BackendPage setVerticalNavigation(String id, String activeItem) {
+
+        VerticalMenu verticalMenu = new VerticalMenu().setFluid();
+        verticalMenu.setTabular();
+
+        navigationService.get(id).getItems().forEach(navigation -> {
+            if (navigation.isVisible(user)) {
+                if (navigation.getItems().isEmpty()) {
+                    TextItem textItem = new TextItem(navigation.getTitle(), navigation.getAnchor().getHref());
+
+                    if (StringUtils.equals(activeItem, navigation.getId())) {
+                        textItem.setActive();
+                    }
+
+                    verticalMenu.addItem(textItem);
+                }
+            }
+        });
+
+        if (!verticalMenu.getItems().isEmpty()) {
+            this.verticalMenu = verticalMenu;
+        }
 
         return this;
     }

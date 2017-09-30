@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news")
@@ -20,7 +21,7 @@ public class AdminNewsPageController extends QXCMPBackendController {
     public ModelAndView newsPage() {
         return page().addComponent(new Overview("新闻管理"))
                 .setBreadcrumb("控制台", QXCMP_BACKEND_URL, "新闻管理")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, "")
                 .build();
     }
 
