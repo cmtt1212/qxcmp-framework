@@ -34,7 +34,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall")
 @RequiredArgsConstructor
 public class MallModuleController extends QXCMPBackendController2 {
@@ -67,13 +66,8 @@ public class MallModuleController extends QXCMPBackendController2 {
             form.setSubTitle(commodity.getSubTitle());
             form.setOriginPrice(commodity.getOriginPrice());
             form.setSellPrice(commodity.getSellPrice());
-            form.setEnablePoints(commodity.isEnablePoints());
-            form.setPoints(commodity.getPoints());
-            form.setDescription(commodity.getDescription());
             form.setInventory(commodity.getInventory());
-            form.setSoldOut(commodity.isSoldOut());
             form.setAlbums(commodity.getAlbums());
-            form.setDetails(commodity.getDetails());
             return builder().setFormView(form).build();
         }).orElse(error(HttpStatus.NOT_FOUND, "商品不存在").build());
     }
@@ -216,13 +210,8 @@ public class MallModuleController extends QXCMPBackendController2 {
         commodity.setSubTitle(form.getSubTitle());
         commodity.setOriginPrice(form.getOriginPrice());
         commodity.setSellPrice(form.getSellPrice());
-        commodity.setEnablePoints(form.isEnablePoints());
-        commodity.setPoints(form.getPoints());
-        commodity.setDescription(form.getDescription());
         commodity.setInventory(form.getInventory());
-        commodity.setSoldOut(form.isSoldOut());
         commodity.setAlbums(form.getAlbums());
-        commodity.setDetails(form.getDetails());
 
         if (StringUtils.isNotBlank(form.getCoverFile().getOriginalFilename())) {
             String imageType = FilenameUtils.getExtension(form.getCoverFile().getOriginalFilename());

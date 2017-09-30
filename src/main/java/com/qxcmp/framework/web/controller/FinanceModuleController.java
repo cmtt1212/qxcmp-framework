@@ -43,7 +43,6 @@ import java.util.stream.Collectors;
  *
  * @author aaric
  */
-@Controller
 @RequiredArgsConstructor
 public class FinanceModuleController extends QXCMPFrontendController2 {
 

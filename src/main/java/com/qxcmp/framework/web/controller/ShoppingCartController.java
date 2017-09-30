@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
  *
  * @author aaric
  */
-@RequestMapping("/mall/cart")
-@Controller
 @RequiredArgsConstructor
 public class ShoppingCartController extends QXCMPFrontendController2 {
 

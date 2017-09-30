@@ -30,8 +30,6 @@ public class CommodityService extends AbstractEntityService<Commodity, Long, Com
     public <S extends Commodity> Optional<S> create(Supplier<S> supplier) {
         S entity = supplier.get();
 
-        entity.setSalesVolume(0);
-
         return super.create(() -> entity);
     }
 
