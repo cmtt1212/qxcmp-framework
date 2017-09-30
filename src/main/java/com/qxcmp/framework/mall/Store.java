@@ -24,7 +24,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @EntityTable(value = "店铺管理", name = "store", action = QXCMP_BACKEND_URL + "/mall/store",
         tableActions = @TableAction(value = "创建店铺", action = "new", primary = true),
         rowActions = {
-                @RowAction(value = "查看", action = "details")
+                @RowAction(value = "编辑", action = "edit")
         })
 @Entity
 @Table
@@ -51,6 +51,8 @@ public class Store {
     @TableField("创建日期")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateCreated;
+
+    private Date dateModified;
 
     /**
      * 是否为外部店铺
