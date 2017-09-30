@@ -62,6 +62,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
      * 该过滤结果平台的认证配置进行相关的认证操作
      *
      * @return 平台认证过滤器
+     *
      * @throws Exception
      */
     @Bean
@@ -81,6 +82,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
      * Can't access principle in error page workaround
      *
      * @param springSecurityFilterChain springSecurityFilterChain
+     *
      * @return FilterRegistrationBean
      */
     @Bean
@@ -118,6 +120,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
      * 配置平台用户获取服务
      *
      * @param auth 认证管理器构建器
+     *
      * @throws Exception 如果配置失败则平台启动失败
      */
     @Autowired
@@ -133,6 +136,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
      * 拦截所有未知请求
      *
      * @param http Spring Security Http 安全配置
+     *
      * @throws Exception 如果配置失败则平台启动失败
      */
     @Override
@@ -158,9 +162,10 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(QXCMP_BACKEND_URL + "/message/sms/send/**").hasRole(PRIVILEGE_MESSAGE_SMS_SEND)
                 .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(PRIVILEGE_MESSAGE)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/channel/**").hasRole(PRIVILEGE_NEWS_CHANNEL)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/preview", QXCMP_BACKEND_URL + "/news/article/user/**").hasRole(PRIVILEGE_NEWS_ARTICLE_CREATE)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/preview").hasAnyRole(PRIVILEGE_NEWS_ARTICLE_AUDIT, PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/auditing", QXCMP_BACKEND_URL + "/news/article/**/audit", QXCMP_BACKEND_URL + "/news/article/**/publish", QXCMP_BACKEND_URL + "/news/article/**/reject").hasRole(PRIVILEGE_NEWS_ARTICLE_AUDIT)
-                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/published", QXCMP_BACKEND_URL + "/news/article/**/disabled", QXCMP_BACKEND_URL + "/news/article/**/publish", QXCMP_BACKEND_URL + "/news/article/**/disable", QXCMP_BACKEND_URL + "/news/article/**/remove").hasRole(PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/published", QXCMP_BACKEND_URL + "/news/article/**/disabled", QXCMP_BACKEND_URL + "/news/article/**/enable", QXCMP_BACKEND_URL + "/news/article/**/disable", QXCMP_BACKEND_URL + "/news/article/**/remove").hasRole(PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)
+                .antMatchers(QXCMP_BACKEND_URL + "/news/user/**").hasRole(PRIVILEGE_NEWS)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/**").hasRole(PRIVILEGE_NEWS)
                 .antMatchers(QXCMP_BACKEND_URL + "/weixin/mp/**").hasRole(PRIVILEGE_WEIXIN_CONFIG)
                 .antMatchers(QXCMP_BACKEND_URL + "/weixin/menu/**").hasRole(PRIVILEGE_WEIXIN_MENU)

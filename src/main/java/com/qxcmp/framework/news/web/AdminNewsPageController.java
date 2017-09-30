@@ -25,7 +25,7 @@ public class AdminNewsPageController extends QXCMPBackendController {
     }
 
     static List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "我的文章", QXCMP_BACKEND_URL + "/news/article/user", "文章管理", QXCMP_BACKEND_URL + "/news/article", "栏目管理", QXCMP_BACKEND_URL + "/news/channel");
+        return ImmutableList.of(activeItem, "我的文章", QXCMP_BACKEND_URL + "/news/user/article", "我的栏目", QXCMP_BACKEND_URL + "/news/user/channel", "文章管理", QXCMP_BACKEND_URL + "/news/article", "栏目管理", QXCMP_BACKEND_URL + "/news/channel");
     }
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Form(value = "新建文章", submitText = "立即创建")
 @Data
-public class AdminNewsArticleUserNewForm {
+public class AdminNewsUserArticleNewForm {
 
     @AvatarField("文章封面")
     private String cover;

@@ -9,7 +9,7 @@ import static com.qxcmp.framework.web.view.support.utils.FormHelper.SELF_ACTION;
 
 @Form(submitText = "确认申请审核", action = SELF_ACTION)
 @Data
-public class AdminNewsArticleUserAuditForm {
+public class AdminNewsUserArticleAuditForm {
 
     @NotEmpty
     @TextInputField(value = "申请说明", required = true, autoFocus = true)
