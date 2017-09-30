@@ -1,12 +1,12 @@
 package com.qxcmp.framework.web;
 
 import com.google.common.collect.Maps;
+import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
 import com.qxcmp.framework.core.entity.EntityService;
 import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaService;
-import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.exception.CaptchaExpiredException;
 import com.qxcmp.framework.exception.CaptchaIncorrectException;
 import com.qxcmp.framework.user.User;
@@ -96,9 +96,13 @@ public abstract class AbstractQXCMPController {
         return convertToTable("", pageable, entityService);
     }
 
-    @SuppressWarnings("unchecked")
     protected EntityTable convertToTable(String tableName, Pageable pageable, EntityService entityService) {
-        return tableHelper.convert(tableName, entityService.type(), entityService.findAll(pageable));
+        return convertToTable(tableName, "", pageable, entityService);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected EntityTable convertToTable(String tableName, String action, Pageable pageable, EntityService entityService) {
+        return tableHelper.convert(tableName, action, entityService.type(), entityService.findAll(pageable));
     }
 
     protected <T> EntityTable convertToTable(Class<T> tClass, Page<T> tPage) {

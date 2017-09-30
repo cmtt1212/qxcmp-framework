@@ -90,6 +90,12 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
                 @RowAction(value = "启用", action = "enable", method = FormMethod.POST),
                 @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
         })
+@EntityTable(value = "栏目文章管理", name = "userChannel", dynamicAction = true,
+        rowActions = {
+                @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK, primary = true),
+                @RowAction(value = "禁用文章", action = "disable", method = FormMethod.POST, color = Color.RED),
+                @RowAction(value = "启用文章", action = "enable", method = FormMethod.POST, color = Color.GREEN)
+        })
 @Entity
 @Table
 @Data
@@ -204,7 +210,7 @@ public class Article {
      * 文章所属的栏目
      */
     @ManyToMany
-    @TableField(value = "所属栏目", collectionEntityIndex = "name", maxCollectionCount = 3, enableUrl = true, urlPrefix = QXCMP_BACKEND_URL + "/news/user/channel/", urlEntityIndex = "id", urlSuffix = "details")
+    @TableField(value = "所属栏目", collectionEntityIndex = "name", maxCollectionCount = 3, enableUrl = true, urlPrefix = QXCMP_BACKEND_URL + "/news/user/channel/", urlEntityIndex = "id", urlSuffix = "article")
     private List<Channel> channels = Lists.newArrayList();
 
     /**
@@ -221,4 +227,14 @@ public class Article {
     @TableField(value = "访问量", name = "published")
     @TableField(value = "访问量", name = "disabled")
     private int viewCount;
+
+    @RowActionCheck("禁用文章")
+    public boolean canPerformChannelArticleDisable() {
+        return status.equals(ArticleStatus.PUBLISHED);
+    }
+
+    @RowActionCheck("启用文章")
+    public boolean canPerformChannelArticleEnable() {
+        return status.equals(ArticleStatus.DISABLED);
+    }
 }

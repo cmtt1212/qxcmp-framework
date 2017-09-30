@@ -41,8 +41,17 @@ public @interface EntityTable {
 
     /**
      * 表单操作的默认Url
+     * <p>
+     * 如果不填写将为类名转换后的Url
      */
     String action() default "";
+
+    /**
+     * 是否为动态操作Url
+     * <p>
+     * 如果为真将会覆盖已设置的 {@link #action()}
+     */
+    boolean dynamicAction() default false;
 
     /**
      * 表格操作

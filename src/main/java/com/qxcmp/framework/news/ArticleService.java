@@ -55,6 +55,10 @@ public class ArticleService extends AbstractEntityService<Article, Long, Article
         return repository.findByUserIdAndStatus(userId, status, pageable);
     }
 
+    public Page<Article> findByChannelsAndStatuses(Set<Channel> channels, Set<ArticleStatus> statuses, Pageable pageable) {
+        return repository.findByChannelsAndStatuses(channels, statuses, pageable);
+    }
+
     @Override
     public <S extends Article> Optional<S> create(Supplier<S> supplier) {
 

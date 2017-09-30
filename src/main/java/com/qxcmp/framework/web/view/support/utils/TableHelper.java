@@ -88,11 +88,17 @@ public class TableHelper {
     }
 
     public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, Class<T> tClass, Page<T> tPage) {
+        return convert(tableName, "", tClass, tPage);
+    }
+
+    public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, String action, Class<T> tClass, Page<T> tPage) {
         checkNotNull(tableName);
 
         final com.qxcmp.framework.web.view.modules.table.EntityTable table = new com.qxcmp.framework.web.view.modules.table.EntityTable();
 
         EntityTable entityTable = Arrays.stream(tClass.getDeclaredAnnotationsByType(EntityTable.class)).filter(annotation -> StringUtils.equals(annotation.name(), tableName)).findAny().orElseThrow(() -> new IllegalStateException("No EntityTable definition"));
+
+        table.setAction(action);
 
         configEntityTable(table, entityTable, tClass);
 
@@ -109,10 +115,12 @@ public class TableHelper {
 
         table.setEntityIndex(entityTable.entityIndex());
 
-        if (StringUtils.isNotBlank(entityTable.action())) {
-            table.setAction(entityTable.action());
-        } else {
-            table.setAction(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, tClass.getSimpleName()));
+        if (StringUtils.isBlank(table.getAction())) {
+            if (StringUtils.isNotBlank(entityTable.action())) {
+                table.setAction(entityTable.action());
+            } else {
+                table.setAction(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, tClass.getSimpleName()));
+            }
         }
 
         if (!StringUtils.endsWith(table.getAction(), "/")) {

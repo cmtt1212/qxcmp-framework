@@ -24,6 +24,9 @@ interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificati
     @Query("select distinct article from Article article join article.channels channel where channel in :channels and article.status = :status")
     Page<Article> findByChannelsContainingAndStatus(@Param("channels") Set<Channel> channels, @Param("status") ArticleStatus status, Pageable pageable);
 
+    @Query("select distinct article from Article article join article.channels channel where  channel in :channels and article.status in :status")
+    Page<Article> findByChannelsAndStatuses(@Param("channels") Set<Channel> channels, @Param("status") Set<ArticleStatus> statuses, Pageable pageable);
+
     Page<Article> findByUserId(String userId, Pageable pageable);
 
     Page<Article> findByUserIdAndStatus(String userId, ArticleStatus status, Pageable pageable);
