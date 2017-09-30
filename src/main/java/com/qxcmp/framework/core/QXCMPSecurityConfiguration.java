@@ -14,6 +14,12 @@ import org.springframework.context.annotation.Configuration;
 public class QXCMPSecurityConfiguration {
 
     /*
+    * 平台内置角色
+    * */
+    public static final String ROLE_NEWS = "新闻编辑";
+    public static final String ROLE_NEWS_DESCRIPTION = "内置角色：可以访问新闻管理、我的文章、我的栏目页面";
+
+    /*
     * 基本权限
     * */
     public static final String PRIVILEGE_SYSTEM_ADMIN = "系统管理员权限";

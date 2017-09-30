@@ -27,6 +27,10 @@ public class PrivilegeService extends AbstractEntityService<Privilege, Long, Pri
 
     }
 
+    public Optional<Privilege> findByName(String name) {
+        return repository.findByName(name);
+    }
+
     public Optional<Privilege> findOne(String id) {
         try {
             return findOne(Long.parseLong(id));

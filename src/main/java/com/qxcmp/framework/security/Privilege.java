@@ -8,10 +8,7 @@ import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
@@ -41,6 +38,7 @@ public class Privilege {
      * 权限名称
      */
     @TableField("权限名称")
+    @Column(unique = true)
     private String name;
 
     /**

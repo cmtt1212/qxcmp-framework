@@ -1,5 +1,6 @@
 package com.qxcmp.framework.security;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.core.QXCMPConfigurator;
 import com.qxcmp.framework.user.User;
@@ -7,6 +8,8 @@ import com.qxcmp.framework.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 
 /**
  * 平台安全配置
@@ -29,8 +32,8 @@ public class SecurityConfigurator implements QXCMPConfigurator {
     public void config() {
 
         /*
-        * 创建超级角色
-        * */
+         * 创建超级角色
+         * */
         if (!roleService.findByName("ROOT").isPresent()) {
             roleService.create(() -> {
                 Role root = roleService.next();
@@ -41,8 +44,8 @@ public class SecurityConfigurator implements QXCMPConfigurator {
         }
 
         /*
-        * 创建超级用户
-        * */
+         * 创建超级用户
+         * */
         if (!userService.findByUsername("administrator").isPresent()) {
             userService.create(() -> {
                 User user = userService.next();
@@ -59,22 +62,36 @@ public class SecurityConfigurator implements QXCMPConfigurator {
         }
 
         /*
-        * 在平台每次启动的时候重置超级角色拥有的权限，和超级用户的角色
-        * */
+         * 在平台每次启动的时候重置超级角色拥有的权限，和超级用户的角色
+         * */
         roleService.findByName("ROOT").ifPresent(role -> {
 
             /*
-            * 重置超级角色权限
-            * */
+             * 重置超级角色权限
+             * */
             roleService.update(role.getId(), r -> r.setPrivileges(Sets.newHashSet(privilegeService.findAll())));
 
             /*
-            * 重置超级管理员角色
-            * */
+             * 重置超级管理员角色
+             * */
             userService.findByUsername("administrator").ifPresent(user ->
                     userService.update(user.getId(), u -> u.getRoles().add(role))
             );
         });
+
+        initialBuiltInRoles();
+    }
+
+    private void initialBuiltInRoles() {
+        if (!roleService.findByName(ROLE_NEWS).isPresent()) {
+            roleService.create(() -> {
+                Role role = roleService.next();
+                role.setName(ROLE_NEWS);
+                role.setDescription(ROLE_NEWS_DESCRIPTION);
+                role.setPrivileges(ImmutableSet.of(privilegeService.findByName(PRIVILEGE_NEWS).get(), privilegeService.findByName(PRIVILEGE_SYSTEM_ADMIN).get()));
+                return role;
+            });
+        }
     }
 
     @Override
