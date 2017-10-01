@@ -1,8 +1,8 @@
 package com.qxcmp.framework.mall;
 
 
+import com.google.common.collect.Sets;
 import lombok.Data;
-import org.assertj.core.util.Sets;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -58,6 +58,14 @@ public class Commodity {
      * 商品子标题
      */
     private String subTitle;
+
+    /**
+     * 商品分类
+     * <p>
+     * 如，电脑、手机等
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> catalogs = Sets.newLinkedHashSet();
 
     /**
      * 商品原始价格(分) - 用于界面显示

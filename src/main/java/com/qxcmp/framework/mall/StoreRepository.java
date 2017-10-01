@@ -29,4 +29,5 @@ interface StoreRepository extends JpaRepository<Store, String>, JpaSpecification
 
     @Query("select store from Store store left join store.admins admin where admin = :user or store.owner = :user")
     List<Store> findByUser(@Param("user") User user);
+
 }

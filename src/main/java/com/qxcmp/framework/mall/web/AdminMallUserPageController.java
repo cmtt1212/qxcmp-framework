@@ -87,7 +87,6 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                 .addComponent(convertToForm(form))))
                 .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "选择店铺")
                 .addObject("selection_items_store", stores)
-                .addObject(form)
                 .build();
     }
 
