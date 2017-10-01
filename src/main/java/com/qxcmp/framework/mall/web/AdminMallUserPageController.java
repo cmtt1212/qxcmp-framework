@@ -1,5 +1,7 @@
 package com.qxcmp.framework.mall.web;
 
+import com.qxcmp.framework.mall.Commodity;
+import com.qxcmp.framework.mall.CommodityService;
 import com.qxcmp.framework.mall.Store;
 import com.qxcmp.framework.mall.StoreService;
 import com.qxcmp.framework.user.User;
@@ -12,8 +14,11 @@ import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +32,7 @@ import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall/user/store")
@@ -39,6 +45,10 @@ public class AdminMallUserPageController extends QXCMPBackendController {
     private final String USER_CONFIG_STORE_SELECTION = "admin.mall.user.store.selection";
 
     private final StoreService storeService;
+
+    private final CommodityService commodityService;
+
+    private final TableHelper tableHelper;
 
     /**
      * 用户先进行店铺选择，然后进行相关店铺的处理
@@ -104,6 +114,27 @@ public class AdminMallUserPageController extends QXCMPBackendController {
         userConfigService.save(user.getId(), USER_CONFIG_STORE_SELECTION, form.getStore().getId());
 
         return redirect(QXCMP_BACKEND_URL + "/mall/user/store");
+    }
+
+    @GetMapping("/commodity")
+    public ModelAndView userCommodityPage(Pageable pageable) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<Store> stores = storeService.findByUser(user);
+
+        if (stores.isEmpty()) {
+            return overviewPage(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+        }
+
+        Store selectedStore = getUserSelectedStore(user);
+
+        Page<Commodity> commodities = commodityService.findByStore(selectedStore, pageable);
+
+        return page().addComponent(tableHelper.convert("userStoreCommodity", Commodity.class, commodities))
+                .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理")
+                .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                .build();
     }
 
     private Store getUserSelectedStore(User user) {

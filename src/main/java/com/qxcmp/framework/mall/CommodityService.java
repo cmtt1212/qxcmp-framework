@@ -1,6 +1,8 @@
 package com.qxcmp.framework.mall;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,6 +26,10 @@ public class CommodityService extends AbstractEntityService<Commodity, Long, Com
         } catch (NumberFormatException e) {
             return Optional.empty();
         }
+    }
+
+    public Page<Commodity> findByStore(Store store, Pageable pageable) {
+        return repository.findByStore(store, pageable);
     }
 
     @Override

@@ -2,9 +2,13 @@ package com.qxcmp.framework.mall;
 
 
 import com.google.common.collect.Sets;
+import com.qxcmp.framework.user.User;
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -12,6 +16,7 @@ import java.util.Set;
  *
  * @author aaric
  */
+@EntityTable(value = "商品管理", name = "userStoreCommodity")
 @Entity
 @Table
 @Data
@@ -27,6 +32,7 @@ public class Commodity {
     /**
      * 商品封面
      */
+    @TableField(value = "封面", image = true, order = Integer.MIN_VALUE)
     private String cover;
 
     /**
@@ -52,6 +58,7 @@ public class Commodity {
     /**
      * 商品标题
      */
+    @TableField("标题")
     private String title;
 
     /**
@@ -83,7 +90,22 @@ public class Commodity {
     private int inventory;
 
     /**
+     * 销量
+     */
+    @TableField("销量")
+    private int sales;
+
+    /**
      * 商品是否下架，如果商品下架以后，将不会出现在商品池中
      */
     private boolean disabled;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User userModified;
+
+    private Date dateCreated;
+
+    private Date dateModified;
+
+    private Date dateDisabled;
 }
