@@ -4,6 +4,7 @@ import com.qxcmp.framework.exception.ShoppingCartServiceException;
 import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.form.MallItemForm;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -50,6 +51,17 @@ public class ShoppingCartController extends QXCMPFrontendController {
         return page().addComponent(mallPageHelper.nextMobileShoppingCartComponent(items))
                 .setTitle("我的购物车")
                 .build();
+    }
+
+    @PostMapping("/item")
+    public ModelAndView modifyItem(MallItemForm form) {
+
+        shoppingCartItemService.update(form.getId(), shoppingCartItem -> {
+            shoppingCartItem.setSelected(form.isSelected());
+            shoppingCartItem.setQuantity(form.getQuantity());
+        });
+
+        return redirect("/mall/cart");
     }
 
     @PostMapping("/item/add")

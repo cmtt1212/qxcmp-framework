@@ -66,6 +66,6 @@ public class MallPageHelper {
                     .addItem(new Row().addCol(new Col().addComponent(new Overview(new IconHeader("购物车空空的", new Icon("opencart"))).addLink("去逛逛", "/mall").setAlignment(Alignment.CENTER))));
         }
 
-        return new Grid().setVerticallyPadded().addItem(new Row().addCol(new Col().addComponent(new ShoppingCart(items))));
+        return new Grid().setVerticallyPadded().addItem(new Row().addCol(new Col().addComponent(new ShoppingCart(items, selectedItems.stream().map(shoppingCartItem -> shoppingCartItem.getCommodity().getSellPrice() * shoppingCartItem.getQuantity()).reduce(0, (sum, price) -> sum + price), selectedItems.stream().map(ShoppingCartItem::getQuantity).reduce(0, (sum, quantity) -> sum + quantity)))));
     }
 }
