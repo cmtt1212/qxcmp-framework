@@ -128,5 +128,26 @@
         });
     </script>
 </div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.components.mall.Cashier"*/-->
+<th:block th:fragment="cashier(component)">
+    <form class="ui form shopping-cart-cashier" th:action="@{/mall/cashier}" method="post">
+        <input name="id" th:value="${component.commodityOrder.id}" type="hidden"/>
+        <div class="inline field">
+            <label>支付密码：</label>
+            <input name="password" type="password"/>
+        </div>
+    </form>
+    <div class="ui bottom fixed one item menu">
+        <button class="ui button item shopping-cart-cashier">立即支付</button>
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                $("button.shopping-cart-cashier").click(function () {
+                    $("form.shopping-cart-cashier").submit();
+                });
+            });
+        </script>
+    </div>
+</th:block>
 </body>
 </html>

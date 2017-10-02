@@ -1,15 +1,15 @@
 package com.qxcmp.framework.mall.web;
 
+import com.google.common.collect.Maps;
 import com.qxcmp.framework.mall.Commodity;
+import com.qxcmp.framework.mall.CommodityOrder;
 import com.qxcmp.framework.mall.Consignee;
 import com.qxcmp.framework.mall.ShoppingCartItem;
 import com.qxcmp.framework.web.view.Component;
-import com.qxcmp.framework.web.view.components.mall.CommodityActionBar;
-import com.qxcmp.framework.web.view.components.mall.CommodityPrice;
-import com.qxcmp.framework.web.view.components.mall.ShoppingCart;
-import com.qxcmp.framework.web.view.components.mall.ShoppingCartOrderActionBar;
+import com.qxcmp.framework.web.view.components.mall.*;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
+import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
@@ -22,11 +22,15 @@ import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Size;
+import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.MobileList;
 import com.qxcmp.framework.web.view.views.MobileListItem;
 import com.qxcmp.framework.web.view.views.Overview;
+import lombok.RequiredArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -36,7 +40,10 @@ import java.util.stream.Collectors;
  * @author Aaric
  */
 @org.springframework.stereotype.Component
+@RequiredArgsConstructor
 public class MallPageHelper {
+
+    private final TableHelper tableHelper;
 
     /**
      * 商品详情移动端页面组件
@@ -117,6 +124,22 @@ public class MallPageHelper {
                         .addComponent(new HorizontalDivider("收货地址"))
                         .addComponent(mobileList)
                         .addComponent(new Container().addComponent(new Button("新建收货地址", "/mall/consignee/new").setFluid()))
+                ));
+    }
+
+    public Component nextMobileCashier(CommodityOrder commodityOrder) {
+
+        Map<String, Object> dictionary = Maps.newLinkedHashMap();
+
+        dictionary.put("订单号", commodityOrder.getId());
+        dictionary.put("实付款", new DecimalFormat("￥0.00").format((double) commodityOrder.getActualPayment() / 100));
+
+        return new Grid().setVerticallyPadded().setContainer()
+                .addItem(new Row().addCol(new Col()
+                        .addComponent(new PageHeader(HeaderType.H2, "收银台").setAlignment(Alignment.CENTER).setDividing())
+                        .addComponent(tableHelper.convert(dictionary))
+                        .addComponent(new Divider())
+                        .addComponent(new Cashier(commodityOrder))
                 ));
     }
 
