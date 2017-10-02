@@ -120,7 +120,7 @@ public class MallPageHelper {
                 ));
     }
 
-    private double getTotalItemPrice(List<ShoppingCartItem> selectedItems) {
+    private int getTotalItemPrice(List<ShoppingCartItem> selectedItems) {
         return selectedItems.stream().map(shoppingCartItem -> shoppingCartItem.getCommodity().getSellPrice() * shoppingCartItem.getQuantity()).reduce(0, (sum, price) -> sum + price);
     }
 

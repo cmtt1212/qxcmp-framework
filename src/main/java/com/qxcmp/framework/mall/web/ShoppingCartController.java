@@ -4,7 +4,6 @@ import com.qxcmp.framework.exception.ShoppingCartServiceException;
 import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
-import com.qxcmp.framework.web.form.MallItemForm;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -37,7 +36,7 @@ public class ShoppingCartController extends QXCMPFrontendController {
 
     private final ConsigneeService consigneeService;
 
-    private final CommodityService commodityService;
+    private final CommodityOrderService commodityOrderService;
 
     private final MallPageHelper mallPageHelper;
 
@@ -95,5 +94,22 @@ public class ShoppingCartController extends QXCMPFrontendController {
         return page().addComponent(mallPageHelper.nextMobileShoppingCartOrder(items, consigneeService.findOne(shoppingCart.getConsigneeId()).orElse(null)))
                 .setTitle("我的购物车")
                 .build();
+    }
+
+    @PostMapping("/order")
+    public ModelAndView orderPage() throws ShoppingCartServiceException {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<ShoppingCartItem> items = shoppingCartItemService.findSelectedByUser(user.getId());
+
+        ShoppingCart shoppingCart = shoppingCartService.findByUserId(user.getId());
+
+        return commodityOrderService.order(user.getId(), items, shoppingCart).map(commodityOrder -> redirect("/mall/cashier/" + commodityOrder.getId()))
+                .orElse(page().addComponent(new Grid().setVerticallyPadded().setContainer().addItem(new Row().addCol(new Col()
+                        .addComponent(new Overview(new IconHeader("下单失败", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/cart")))))
+                        .setTitle("我的购物车")
+                        .build());
+
     }
 }

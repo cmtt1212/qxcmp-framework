@@ -56,7 +56,7 @@ public class ConsigneeController extends QXCMPFrontendController {
         User user = currentUser().orElseThrow(RuntimeException::new);
 
         shoppingCartService.update(shoppingCartService.findByUserId(user.getId()).getId(), shoppingCart -> shoppingCart.setConsigneeId(id));
-        
+
         return redirect("/mall/cart/order");
 
     }

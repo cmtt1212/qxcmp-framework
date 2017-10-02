@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.controller;
+package com.qxcmp.framework.mall.web;
 
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
@@ -8,6 +8,7 @@ import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.text.DecimalFormat;
  *
  * @author aaric
  */
+@Profile("mall")
 @RequestMapping("/mall/cashier")
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +34,6 @@ public class CashierController extends QXCMPFrontendController2 {
      * 支付商品订单
      *
      * @param id 商品订单号
-     *
      * @return
      */
     @GetMapping("/{id}")
@@ -56,7 +57,6 @@ public class CashierController extends QXCMPFrontendController2 {
      *
      * @param id
      * @param password
-     *
      * @return
      */
     @PostMapping("")

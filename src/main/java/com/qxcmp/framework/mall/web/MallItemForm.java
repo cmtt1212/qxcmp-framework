@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web.form;
+package com.qxcmp.framework.mall.web;
 
 import lombok.Data;
 

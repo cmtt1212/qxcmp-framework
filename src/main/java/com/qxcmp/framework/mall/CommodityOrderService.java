@@ -1,10 +1,10 @@
 package com.qxcmp.framework.mall;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
+import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.exception.FinanceException;
 import com.qxcmp.framework.exception.NoBalanceException;
 import com.qxcmp.framework.exception.OrderStatusException;
-import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.finance.Wallet;
 import com.qxcmp.framework.finance.WalletService;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -32,43 +32,60 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
 
     private final WalletService walletService;
 
-    private final ShoppingCartService shoppingCartService;
-
     private final ShoppingCartItemService shoppingCartItemService;
-
-    private final CommodityService commodityService;
 
     private final CommodityOrderItemService commodityOrderItemService;
 
-    public CommodityOrderService(CommodityOrderRepository repository, ApplicationContext applicationContext, WalletService walletService, ShoppingCartService shoppingCartService, ShoppingCartItemService shoppingCartItemService, CommodityService commodityService, CommodityOrderItemService commodityOrderItemService) {
+    private final ConsigneeService consigneeService;
+
+    public CommodityOrderService(CommodityOrderRepository repository, ApplicationContext applicationContext, WalletService walletService, ShoppingCartItemService shoppingCartItemService, CommodityOrderItemService commodityOrderItemService, ConsigneeService consigneeService) {
         super(repository);
         this.applicationContext = applicationContext;
         this.walletService = walletService;
-        this.shoppingCartService = shoppingCartService;
         this.shoppingCartItemService = shoppingCartItemService;
-        this.commodityService = commodityService;
         this.commodityOrderItemService = commodityOrderItemService;
+        this.consigneeService = consigneeService;
     }
 
     /**
      * 商品统一下单接口
-     * <p>
-     * 购物车项目ID必须在用户自己的购物车中，如果不在则忽略该项目
      *
-     * @param userId      用户ID
-     * @param payment     订单总金额
-     * @param address     收货地址
-     * @param cartItemIds 购物车项目ID
-     *
+     * @param userId       用户ID
+     * @param items        用户选择的购物车项目
+     * @param shoppingCart 用户购物车
      * @return 创建好的商品订单
      */
-    public Optional<CommodityOrder> order(String userId, BigDecimal payment, String address, Long... cartItemIds) {
+    public Optional<CommodityOrder> order(String userId, List<ShoppingCartItem> items, ShoppingCart shoppingCart) {
 
-        if (cartItemIds.length == 0) {
+        if (items.isEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.empty();
+        Optional<CommodityOrder> order = create(() -> {
+            CommodityOrder commodityOrder = next();
+            commodityOrder.setUserId(userId);
+            commodityOrder.setActualPayment(getTotalItemPrice(items));
+            consigneeService.findOne(shoppingCart.getConsigneeId()).ifPresent(consignee -> {
+                commodityOrder.setConsigneeName(consignee.getConsigneeName());
+                commodityOrder.setConsigneePhone(consignee.getTelephone());
+                commodityOrder.setConsigneeEmail(consignee.getEmail());
+                commodityOrder.setAddress(consignee.getAddress());
+            });
+            return commodityOrder;
+        });
+
+        order.ifPresent(commodityOrder -> items.forEach(shoppingCartItem -> commodityOrderItemService.create(() -> {
+            CommodityOrderItem commodityOrderItem = commodityOrderItemService.next();
+            commodityOrderItem.setQuantity(shoppingCartItem.getQuantity());
+            commodityOrderItem.setCommodity(shoppingCartItem.getCommodity());
+            commodityOrderItem.setActualPrice(shoppingCartItem.getCommodity().getSellPrice());
+            commodityOrderItem.setCommodityOrder(commodityOrder);
+            return commodityOrderItem;
+        })));
+
+        items.forEach(shoppingCartItem -> shoppingCartItemService.remove(shoppingCartItem.getId()));
+
+        return order;
     }
 
     /**
@@ -79,9 +96,7 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      * 订单支付成功以后会发送订单完成事件
      *
      * @param orderId 订单号
-     *
      * @return 支付后的订单
-     *
      * @throws FinanceException 如果用户余额不足，或者其他异常，抛出该异常
      */
     public Optional<CommodityOrder> pay(String orderId) throws FinanceException {
@@ -132,7 +147,6 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      *
      * @param userId   用户ID
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     public Page<CommodityOrder> findByUserId(String userId, Pageable pageable) {
@@ -146,7 +160,6 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      * @param userId   用户ID
      * @param status   订单状态
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     public Page<CommodityOrder> findByUserIdAndStatus(String userId, OrderStatusEnum status, Pageable pageable) {
@@ -171,5 +184,9 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
     @Override
     protected <S extends CommodityOrder> String getEntityId(S entity) {
         return entity.getId();
+    }
+
+    private int getTotalItemPrice(List<ShoppingCartItem> selectedItems) {
+        return selectedItems.stream().map(shoppingCartItem -> shoppingCartItem.getCommodity().getSellPrice() * shoppingCartItem.getQuantity()).reduce(0, (sum, price) -> sum + price);
     }
 }
