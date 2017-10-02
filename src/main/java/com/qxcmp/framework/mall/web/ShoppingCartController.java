@@ -1,0 +1,73 @@
+package com.qxcmp.framework.mall.web;
+
+import com.qxcmp.framework.exception.ShoppingCartServiceException;
+import com.qxcmp.framework.mall.*;
+import com.qxcmp.framework.user.User;
+import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
+import com.qxcmp.framework.web.view.elements.grid.Row;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.views.Overview;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+
+@Profile("mall")
+@Controller
+@RequestMapping("/mall/cart")
+@RequiredArgsConstructor
+public class ShoppingCartController extends QXCMPFrontendController {
+
+    private final ShoppingCartService shoppingCartService;
+
+    private final ShoppingCartItemService shoppingCartItemService;
+
+    private final ConsigneeService consigneeService;
+
+    private final CommodityService commodityService;
+
+    private final MallPageHelper mallPageHelper;
+
+    @GetMapping("")
+    private ModelAndView cartPage() {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<ShoppingCartItem> items = shoppingCartItemService.findByUser(user.getId());
+
+        return page().addComponent(mallPageHelper.nextMobileShoppingCartComponent(items))
+                .setTitle("我的购物车")
+                .build();
+    }
+
+    @PostMapping("/item/add")
+    public ModelAndView addItem(@RequestParam long id) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        try {
+            shoppingCartItemService.addCommodity(user.getId(), id);
+            return page().addComponent(new Grid().setVerticallyPadded().setContainer().addItem(new Row().addCol(new Col()
+                    .addComponent(new Overview("加入购物车成功").addLink("返回", String.format("/mall/item/%d.html", id)).addLink("我的购物车", "/mall/cart").setAlignment(Alignment.CENTER)))))
+                    .setTitle("我的购物车")
+                    .build();
+        } catch (ShoppingCartServiceException e) {
+            return page().addComponent(new Grid().setVerticallyPadded().setContainer().addItem(new Row().addCol(new Col()
+                    .addComponent(new Overview(new IconHeader("加入购物车失败", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")))))
+                    .setTitle("我的购物车")
+                    .build();
+        }
+    }
+}

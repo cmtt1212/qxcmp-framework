@@ -2,20 +2,33 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.mall.CommodityPrice"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.components.mall.CommodityPrice"*/-->
 <span th:fragment="price(component)" class="price">
     <span>￥</span>
     <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.commodity.sellPrice) / 100)}"></span>
 </span>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.mall.CommodityActionBar"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.components.mall.CommodityActionBar"*/-->
 <div th:fragment="action-bar(component)" class="ui bottom fixed two item menu">
     <div class="item">
-        <div class="ui primary button">我的购物车</div>
+        <div class="ui primary basic button">我的购物车</div>
     </div>
     <div class="item">
-        <div class="ui secondary button">加入购物车</div>
+        <form th:action="@{/mall/cart/item/add}" class="add-shopping-cart" method="post">
+            <input id="id" name="id" th:value="${component.commodity.id}" type="hidden"/>
+            <button class="ui secondary button">加入购物车</button>
+        </form>
     </div>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var form = $("form.add-shopping-cart");
+            var button = $(form).find("button");
+
+            $(form).submit(function () {
+                $(button).addClass("disabled loading");
+            });
+        });
+    </script>
 </div>
 
 </body>
