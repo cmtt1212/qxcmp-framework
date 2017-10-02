@@ -31,8 +31,6 @@ import java.util.Optional;
  *
  * @author aaric
  */
-@RequestMapping("/mall/item")
-@Controller
 @RequiredArgsConstructor
 public class CommodityController extends QXCMPFrontendController2 {
 
