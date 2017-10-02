@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.components.mall.ShoppingCart"*/-->
+<th:block th:fragment="shopping-cart(component)">
+    <div class="ui horizontal divider">我的购物车</div>
+    <div class="ui segments shopping-cart-items">
+        <div th:each="item : ${component.items}" class="ui segment item">
+            <div class="ui tiny bordered image">
+                <a th:href="@{|/mall/item/${item.commodity.id}.html|}">
+                    <img th:src="@{${item.commodity.cover}}"/>
+                </a>
+            </div>
+            <div class="content">
+                <div class="info">
+                    <a class="header" th:utext="${item.commodity.title}"></a>
+                </div>
+                <div class="action">
+                    <div class="price">
+                        <span>￥</span>
+                        <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(item.commodity.sellPrice) / 100)}"></span>
+                    </div>
+                    <div class="spanner" data-th-id="${item.id}">
+                        <i class="minus fitted icon"></i>
+                        <input th:id="|quantity-${item.id}|" data-th-item-id="${item.id}" th:value="${item.quantity}" type="number" max="200"/>
+                        <i class="plus fitted icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui bottom fixed two item menu">
+        <div class="ui button item">合计：￥8888.00</div>
+        <div class="ui button item">去结算</div>
+    </div>
+</th:block>
+
+</body>
+</html>

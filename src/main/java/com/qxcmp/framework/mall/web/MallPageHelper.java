@@ -5,6 +5,7 @@ import com.qxcmp.framework.mall.ShoppingCartItem;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.components.mall.CommodityActionBar;
 import com.qxcmp.framework.web.view.components.mall.CommodityPrice;
+import com.qxcmp.framework.web.view.components.mall.ShoppingCart;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -65,6 +66,6 @@ public class MallPageHelper {
                     .addItem(new Row().addCol(new Col().addComponent(new Overview(new IconHeader("购物车空空的", new Icon("opencart"))).addLink("去逛逛", "/mall").setAlignment(Alignment.CENTER))));
         }
 
-        return null;
+        return new Grid().setVerticallyPadded().addItem(new Row().addCol(new Col().addComponent(new ShoppingCart(items))));
     }
 }
