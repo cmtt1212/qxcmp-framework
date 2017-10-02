@@ -50,12 +50,13 @@
     </div>
     <div class="ui bottom fixed two item menu">
         <div class="ui button item">
+            合计：
             <div class="price">
                 <span>￥</span>
                 <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.totalPrice) / 100)}"></span>
             </div>
         </div>
-        <div class="ui button item" th:utext="|去结算(${component.selectCount})|"></div>
+        <a class="ui button item" th:href="@{/mall/cart/order}" th:utext="|去结算(${component.selectCount})|"></a>
     </div>
 
     <script th:inline="javascript">
@@ -108,5 +109,24 @@
     </script>
 </th:block>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.components.mall.ShoppingCartOrderActionBar"*/-->
+<div th:fragment="action-bar(component)" class="ui bottom fixed two item menu">
+    <div class="ui button item">
+        实付款：
+        <div class="price">
+            <span>￥</span>
+            <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.totalPrice) / 100)}"></span>
+        </div>
+    </div>
+    <button class="ui button item shopping-cart-order">立即下单</button>
+    <form class="shopping-cart-order" th:action="@{/mall/cart/order}" method="post" style="display: none;"></form>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $("button.shopping-cart-order").click(function () {
+                $("form.shopping-cart-order").submit();
+            });
+        });
+    </script>
+</div>
 </body>
 </html>

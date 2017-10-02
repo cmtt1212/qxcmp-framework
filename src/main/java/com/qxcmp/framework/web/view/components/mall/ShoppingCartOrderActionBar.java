@@ -1,26 +1,17 @@
 package com.qxcmp.framework.web.view.components.mall;
 
-import com.qxcmp.framework.mall.ShoppingCartItem;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class ShoppingCart extends AbstractComponent {
-
-    private List<ShoppingCartItem> items;
+public class ShoppingCartOrderActionBar extends AbstractComponent {
 
     private double totalPrice;
 
-    private int selectCount;
-
-    public ShoppingCart(List<ShoppingCartItem> items, double totalPrice, int selectCount) {
-        this.items = items;
+    public ShoppingCartOrderActionBar(double totalPrice) {
         this.totalPrice = totalPrice;
-        this.selectCount = selectCount;
     }
 
     @Override
@@ -30,6 +21,6 @@ public class ShoppingCart extends AbstractComponent {
 
     @Override
     public String getFragmentName() {
-        return "shopping-cart";
+        return "action-bar";
     }
 }

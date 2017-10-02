@@ -82,4 +82,18 @@ public class ShoppingCartController extends QXCMPFrontendController {
                     .build();
         }
     }
+
+    @GetMapping("/order")
+    public ModelAndView order() throws ShoppingCartServiceException {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<ShoppingCartItem> items = shoppingCartItemService.findByUser(user.getId());
+
+        ShoppingCart shoppingCart = shoppingCartService.findByUserId(user.getId());
+
+        return page().addComponent(mallPageHelper.nextMobileShoppingCartOrder(items, consigneeService.findOne(shoppingCart.getConsigneeId()).orElse(null)))
+                .setTitle("我的购物车")
+                .build();
+    }
 }

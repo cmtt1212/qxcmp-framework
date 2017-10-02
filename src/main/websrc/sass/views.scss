@@ -1,0 +1,25 @@
+/* Mobile list */
+.qxcmp.mobile.list {
+
+  border-top: 1px solid rgba(34, 36, 38, .15);
+  border-left: 1px solid rgba(34, 36, 38, .15);
+  border-right: 1px solid rgba(34, 36, 38, .15);
+  margin-bottom: 1em;
+
+  .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid rgba(34, 36, 38, .15);
+    padding: 1em;
+    color: #666;
+
+    .content {
+      flex: 1;
+    }
+
+    .action {
+      min-width: 18px;
+    }
+  }
+}
