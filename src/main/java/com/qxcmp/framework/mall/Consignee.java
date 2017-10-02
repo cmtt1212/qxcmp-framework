@@ -1,11 +1,11 @@
 package com.qxcmp.framework.mall;
 
+import com.google.common.collect.Sets;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * 收货人实体
@@ -64,4 +64,10 @@ public class Consignee {
      * 修改日期
      */
     private Date dateModified;
+
+    /**
+     * 标签
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> labels = Sets.newLinkedHashSet();
 }

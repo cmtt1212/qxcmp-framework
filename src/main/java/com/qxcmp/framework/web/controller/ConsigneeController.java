@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.controller;
 
 import com.qxcmp.framework.mall.Consignee;
 import com.qxcmp.framework.mall.ConsigneeService;
+import com.qxcmp.framework.mall.ShoppingCartService;
 import com.qxcmp.framework.view.list.ListView;
 import com.qxcmp.framework.view.list.ListViewItem;
 import com.qxcmp.framework.web.QXCMPFrontendController2;
@@ -24,8 +25,6 @@ import java.util.stream.Collectors;
  *
  * @author aaric
  */
-@RequestMapping("/mall/consignee")
-@Controller
 @RequiredArgsConstructor
 public class ConsigneeController extends QXCMPFrontendController2 {
 

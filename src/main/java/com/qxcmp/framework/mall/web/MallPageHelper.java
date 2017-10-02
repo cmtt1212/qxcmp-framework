@@ -8,6 +8,7 @@ import com.qxcmp.framework.web.view.components.mall.CommodityActionBar;
 import com.qxcmp.framework.web.view.components.mall.CommodityPrice;
 import com.qxcmp.framework.web.view.components.mall.ShoppingCart;
 import com.qxcmp.framework.web.view.components.mall.ShoppingCartOrderActionBar;
+import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -103,6 +104,20 @@ public class MallPageHelper {
                         .addComponent(new MobileList().addItem(new MobileListItem(contentHeader, "/mall/consignee")))
                         .addComponent(new MobileList().addItem(new MobileListItem(images, "/mall/cart/order/details", String.format("共%d件", getTotalItemCount(selectedItems)))))))
                 .addItem(new Row().addCol(new Col().addComponent(new ShoppingCartOrderActionBar(getTotalItemPrice(selectedItems)))));
+    }
+
+    public Component nextMobileConsignee(List<Consignee> consignees) {
+        MobileList mobileList = new MobileList();
+
+        consignees.forEach(consignee -> mobileList.addItem(new MobileListItem(new ContentHeader(String.format("%s %s", consignee.getConsigneeName(), consignee.getTelephone()), Size.SMALL).setSubTitle(consignee.getAddress()), "/mall/consignee/select?id=" + consignee.getId())))
+        ;
+
+        return new Grid().setVerticallyPadded()
+                .addItem(new Row().addCol(new Col()
+                        .addComponent(new HorizontalDivider("收货地址"))
+                        .addComponent(mobileList)
+                        .addComponent(new Container().addComponent(new Button("新建收货地址", "/mall/consignee/new").setFluid()))
+                ));
     }
 
     private double getTotalItemPrice(List<ShoppingCartItem> selectedItems) {
