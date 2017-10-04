@@ -24,6 +24,6 @@ public class FinancePageHelper {
             weixinActionUrl = "/api/wxmp-cgi/pay/mp";
         }
 
-        return new DepositComponent();
+        return new DepositComponent(supportWeixin, supportAlipay, weixinActionUrl);
     }
 }

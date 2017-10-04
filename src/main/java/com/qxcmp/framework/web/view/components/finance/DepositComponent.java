@@ -8,6 +8,18 @@ import lombok.Setter;
 @Setter
 public class DepositComponent extends AbstractComponent {
 
+    private boolean supportWeixin;
+
+    private boolean supportAlipay;
+
+    private String weixinActionUrl;
+
+    public DepositComponent(boolean supportWeixin, boolean supportAlipay, String weixinActionUrl) {
+        this.supportWeixin = supportWeixin;
+        this.supportAlipay = supportAlipay;
+        this.weixinActionUrl = weixinActionUrl;
+    }
+
     @Override
     public String getFragmentFile() {
         return "qxcmp/components/finance/deposit";
