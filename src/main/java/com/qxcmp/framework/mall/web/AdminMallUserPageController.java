@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -202,6 +203,70 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                 throw new ActionException(e.getMessage(), e);
             }
         }, (context, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity").addLink("继续添加商品", QXCMP_BACKEND_URL + "/mall/user/store/commodity/new"));
+    }
+
+    @GetMapping("/commodity/{id}/edit")
+    public ModelAndView userCommodityEditPage(@PathVariable String id, final AdminMallUserStoreCommodityEditForm form) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<Store> stores = storeService.findByUser(user);
+
+        Store selectedStore = getUserSelectedStore(user);
+
+        return commodityService.findOne(id)
+                .filter(commodity -> stores.contains(commodity.getStore()))
+                .map(commodity -> {
+                    form.setCover(commodity.getCover());
+                    form.setAlbums(commodity.getAlbums());
+                    form.setDetails(commodity.getDetails());
+                    form.setTitle(commodity.getTitle());
+                    form.setSubTitle(commodity.getSubTitle());
+                    form.setOriginPrice(commodity.getOriginPrice());
+                    form.setSellPrice(commodity.getSellPrice());
+                    form.setInventory(commodity.getInventory());
+                    form.setDisabled(commodity.isDisabled());
+
+                    return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                            .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                            .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                            .build();
+                }).orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
+    }
+
+    @PostMapping("/commodity/{id}/edit")
+    public ModelAndView userCommodityEditPage(@PathVariable String id, @Valid final AdminMallUserStoreCommodityEditForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        List<Store> stores = storeService.findByUser(user);
+
+        Store selectedStore = getUserSelectedStore(user);
+
+        return commodityService.findOne(id)
+                .filter(commodity -> stores.contains(commodity.getStore()))
+                .map(commodity -> submitForm(form, context -> {
+                    try {
+                        commodityService.update(commodity.getId(), c -> {
+                            commodity.setCover(form.getCover());
+                            commodity.setAlbums(form.getAlbums());
+                            commodity.setDetails(form.getDetails());
+                            commodity.setTitle(form.getTitle());
+                            commodity.setSubTitle(form.getSubTitle());
+                            commodity.setOriginPrice(form.getOriginPrice());
+                            commodity.setSellPrice(form.getSellPrice());
+                            commodity.setInventory(form.getInventory());
+                            commodity.setDisabled(form.isDisabled());
+
+                            commodity.setStore(selectedStore);
+                            commodity.setUserModified(user);
+                            commodity.setDateModified(new Date());
+                        });
+                    } catch (Exception e) {
+                        throw new ActionException(e.getMessage(), e);
+                    }
+                }, (context, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")))
+                .orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
     }
 
     private Store getUserSelectedStore(User user) {
