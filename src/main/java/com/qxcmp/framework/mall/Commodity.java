@@ -3,10 +3,12 @@ package com.qxcmp.framework.mall;
 
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.view.annotation.table.EntityTable;
-import com.qxcmp.framework.web.view.annotation.table.RowAction;
-import com.qxcmp.framework.web.view.annotation.table.TableAction;
-import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.annotation.table.*;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.modules.table.TableData;
+import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +25,9 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @EntityTable(value = "商品管理", name = "userStoreCommodity", action = QXCMP_BACKEND_URL + "/mall/user/store/commodity",
         tableActions = @TableAction(value = "添加商品", action = "new", primary = true),
         rowActions = {
-                @RowAction(value = "编辑", action = "edit")
+                @RowAction(value = "编辑", action = "edit", color = Color.BLACK),
+                @RowAction(value = "下架", action = "disable", method = FormMethod.POST, color = Color.RED),
+                @RowAction(value = "上架", action = "enable", method = FormMethod.POST, color = Color.GREEN)
         })
 @Entity
 @Table
@@ -106,6 +110,7 @@ public class Commodity {
     /**
      * 商品是否下架，如果商品下架以后，将不会出现在商品池中
      */
+    @TableField("是否上架")
     private boolean disabled;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -116,4 +121,27 @@ public class Commodity {
     private Date dateModified;
 
     private Date dateDisabled;
+
+    @RowActionCheck("下架")
+    public boolean canPerformDisable() {
+        return !disabled;
+    }
+
+    @RowActionCheck("上架")
+    public boolean canPerformEnable() {
+        return disabled;
+    }
+
+    @TableFieldRender("disabled")
+    public TableData renderStatusField() {
+        final TableData tableData = new TableData();
+        if (disabled) {
+            tableData.addComponent(new Icon("warning circle").setColor(Color.RED));
+        } else {
+            tableData.addComponent(new Icon("check circle").setColor(Color.GREEN));
+        }
+
+        tableData.setAlignment(Alignment.CENTER);
+        return tableData;
+    }
 }

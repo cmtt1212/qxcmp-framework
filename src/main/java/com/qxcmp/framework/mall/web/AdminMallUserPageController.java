@@ -7,6 +7,7 @@ import com.qxcmp.framework.mall.Store;
 import com.qxcmp.framework.mall.StoreService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -20,6 +21,7 @@ import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -267,6 +269,44 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                     }
                 }, (context, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")))
                 .orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
+    }
+
+    @PostMapping("/commodity/{id}/disable")
+    public ResponseEntity<RestfulResponse> userCommodityDisable(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("下架商品", context -> {
+
+            User user = currentUser().orElseThrow(RuntimeException::new);
+
+            List<Store> stores = storeService.findByUser(user);
+
+            try {
+                commodityService.findOne(id)
+                        .filter(commodity -> stores.contains(commodity.getStore()))
+                        .ifPresent(commodity -> commodityService.update(commodity.getId(), c -> c.setDisabled(true)));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+    }
+
+    @PostMapping("/commodity/{id}/enable")
+    public ResponseEntity<RestfulResponse> userCommodityEnable(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("上架商品", context -> {
+
+            User user = currentUser().orElseThrow(RuntimeException::new);
+
+            List<Store> stores = storeService.findByUser(user);
+
+            try {
+                commodityService.findOne(id)
+                        .filter(commodity -> stores.contains(commodity.getStore()))
+                        .ifPresent(commodity -> commodityService.update(commodity.getId(), c -> c.setDisabled(false)));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     private Store getUserSelectedStore(User user) {
