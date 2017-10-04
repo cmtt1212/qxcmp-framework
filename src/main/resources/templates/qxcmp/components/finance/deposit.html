@@ -6,6 +6,7 @@
 <th:block th:fragment="default(component)">
     <div class="ui horizontal divider">充值中心</div>
     <form name="deposit" class="ui form" method="post" th:action="${component.weixinActionUrl}">
+        <input type="hidden" name="callback" th:value="${#request.getParameter('callback')}"/>
         <div class="qxcmp field">
             <label><i class="lock green icon"></i>充值金额</label>
             <input name="fee" placeholder="请输入充值金额" type="number" min="0" th:required="${true}"/>

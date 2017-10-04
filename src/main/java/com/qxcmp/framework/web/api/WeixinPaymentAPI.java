@@ -11,7 +11,9 @@ import com.qxcmp.framework.finance.DepositOrder;
 import com.qxcmp.framework.finance.DepositOrderService;
 import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController2;
+import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.view.elements.container.TextContainer;
+import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping("/api/wxmp-cgi/pay")
 @RequiredArgsConstructor
-public class WeixinPaymentAPI extends QXCMPFrontendController2 {
+public class WeixinPaymentAPI extends QXCMPFrontendController {
 
     private final WxPayService wxPayService;
 
@@ -69,19 +71,25 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
     @PostMapping("/mp")
     public ModelAndView weixinMpPayment(@RequestParam int fee,
                                         @RequestParam(defaultValue = "CNY") String feeType,
-                                        @RequestParam(defaultValue = "/finance/deposit") String successCallback,
-                                        @RequestParam(defaultValue = "/finance/deposit") String failedCallback) throws OrderStatusException, WxPayException {
-        User user = currentUser();
-        DepositOrder depositOrder = createDepositOrder(fee * 100, feeType, user.getId());
+                                        @RequestParam(required = false) String callback) throws OrderStatusException, WxPayException {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        DepositOrder depositOrder = createDepositOrder(fee * 100, feeType, user.getId(), user);
+
         Map<String, String> wxPayInfo = doWeixinPayment("JSAPI", user, depositOrder);
-        return builder().setTitle("支付中心")
-                .setResult("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")
-                .addFragment("qxcmp/weixin-mp", "weixin-pay-script")
-                .addObject("successCallback", successCallback)
-                .addObject("failedCallback", failedCallback)
-                .addObject(depositOrder)
+
+        return page().addComponent(new TextContainer().addComponent(new Overview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")))
+                .setTitle("充值中心")
                 .addObject("wxPayInfo", wxPayInfo)
                 .build();
+//                .setResult("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")
+//                .addFragment("qxcmp/weixin-mp", "weixin-pay-script")
+//                .addObject("successCallback", successCallback)
+//                .addObject("failedCallback", failedCallback)
+//                .addObject(depositOrder)
+//                .addObject("wxPayInfo", wxPayInfo)
+//                .build();
     }
 
     /**
@@ -140,11 +148,11 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
         return ResponseEntity.ok("ERROR");
     }
 
-    private DepositOrder createDepositOrder(int fee, String feeType, String userId) throws OrderStatusException {
+    private DepositOrder createDepositOrder(int fee, String feeType, String userId, User user) throws OrderStatusException {
         return depositOrderService.create(() -> {
             DepositOrder order = depositOrderService.next();
             order.setUserId(userId);
-            order.setUserId(currentUser().getId());
+            order.setUserId(user.getId());
             order.setFee(fee);
             order.setFeeType(feeType);
             return order;
@@ -167,7 +175,7 @@ public class WeixinPaymentAPI extends QXCMPFrontendController2 {
         requestBuilder.outTradeNo(depositOrder.getId());
         requestBuilder.feeType(depositOrder.getFeeType());
         requestBuilder.totalFee(depositOrder.getFee());
-        requestBuilder.spbillCreateIp(getRequestIPAddress());
+        requestBuilder.spbillCreateIp(getRequestAddress());
         requestBuilder.timeStart(new SimpleDateFormat("yyyyMMddHHmmss").format(depositOrder.getTimeStart()));
         requestBuilder.timeExpire(new SimpleDateFormat("yyyyMMddHHmmss").format(depositOrder.getTimeEnd()));
         requestBuilder.openid(user.getOpenID());
