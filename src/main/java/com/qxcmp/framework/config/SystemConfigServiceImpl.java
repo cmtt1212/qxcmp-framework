@@ -65,7 +65,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Override
     public List<String> getList(String name) {
-        return Arrays.stream(getString(name).orElse("").split(SEPARATOR)).map(String::trim).collect(Collectors.toList());
+        return Arrays.stream(getString(name).orElse("").split(SEPARATOR)).filter(StringUtils::isNotBlank).map(String::trim).collect(Collectors.toList());
     }
 
     @Override

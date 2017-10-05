@@ -38,6 +38,7 @@ import java.util.Objects;
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY;
+import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MALL_COMMODITY_CATALOG;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall/user/store")
@@ -158,6 +159,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
         return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
                 .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
                 .build();
     }
 
@@ -178,6 +180,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
             return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
                     .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
                     .build();
         }
 
@@ -190,6 +193,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                     commodity.setDetails(form.getDetails());
                     commodity.setTitle(form.getTitle());
                     commodity.setSubTitle(form.getSubTitle());
+                    commodity.setCatalogs(form.getCatalogs());
                     commodity.setOriginPrice(form.getOriginPrice());
                     commodity.setSellPrice(form.getSellPrice());
                     commodity.setInventory(form.getInventory());
@@ -224,6 +228,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                     form.setDetails(commodity.getDetails());
                     form.setTitle(commodity.getTitle());
                     form.setSubTitle(commodity.getSubTitle());
+                    form.setCatalogs(commodity.getCatalogs());
                     form.setOriginPrice(commodity.getOriginPrice());
                     form.setSellPrice(commodity.getSellPrice());
                     form.setInventory(commodity.getInventory());
@@ -232,6 +237,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                     return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
                             .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
                             .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                            .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
                             .build();
                 }).orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
     }
@@ -255,6 +261,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                             commodity.setDetails(form.getDetails());
                             commodity.setTitle(form.getTitle());
                             commodity.setSubTitle(form.getSubTitle());
+                            commodity.setCatalogs(form.getCatalogs());
                             commodity.setOriginPrice(form.getOriginPrice());
                             commodity.setSellPrice(form.getSellPrice());
                             commodity.setInventory(form.getInventory());

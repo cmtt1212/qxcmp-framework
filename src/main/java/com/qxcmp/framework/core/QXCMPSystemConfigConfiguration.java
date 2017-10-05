@@ -172,4 +172,9 @@ public class QXCMPSystemConfigConfiguration {
      * 文章相关配置
      * */
     public static String SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG = "";
+
+    /*
+     * 商城相关配置
+     * */
+    public static String SYSTEM_CONFIG_MALL_COMMODITY_CATALOG = "";
 }

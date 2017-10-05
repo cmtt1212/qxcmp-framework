@@ -15,18 +15,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_STORE;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
+import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MALL_COMMODITY_CATALOG;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall")
@@ -136,5 +134,51 @@ public class AdminMallPageController extends QXCMPBackendController {
                 }
             }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/store"));
         }).orElse(overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
+    }
+
+    @GetMapping("/settings")
+    public ModelAndView mallSettingsPage(final AdminMallSettingsForm form) {
+
+        form.setCatalogs(systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG));
+
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", "", "商城管理", "mall", "商城设置")
+                .setVerticalNavigation(NAVIGATION_ADMIN_MALL, NAVIGATION_ADMIN_MALL_SETTINGS)
+                .build();
+    }
+
+    @PostMapping("/settings")
+    public ModelAndView mallSettingsPage(@Valid final AdminMallSettingsForm form, BindingResult bindingResult,
+                                         @RequestParam(value = "add_catalogs", required = false) boolean addCatalogs,
+                                         @RequestParam(value = "remove_catalogs", required = false) Integer removeCatalogs) {
+        if (addCatalogs) {
+            form.getCatalogs().add("");
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "商城设置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL, NAVIGATION_ADMIN_MALL_SETTINGS)
+                    .build();
+        }
+
+        if (Objects.nonNull(removeCatalogs)) {
+            form.getCatalogs().remove(removeCatalogs.intValue());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "商城设置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL, NAVIGATION_ADMIN_MALL_SETTINGS)
+                    .build();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "商城设置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL, NAVIGATION_ADMIN_MALL_SETTINGS)
+                    .build();
+        }
+        return submitForm(form, context -> {
+            try {
+                systemConfigService.update(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG, form.getCatalogs());
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall"));
     }
 }

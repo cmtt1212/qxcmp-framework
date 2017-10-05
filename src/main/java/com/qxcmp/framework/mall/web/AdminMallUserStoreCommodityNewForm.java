@@ -25,6 +25,9 @@ public class AdminMallUserStoreCommodityNewForm {
     @TextInputField("子标题")
     private String subTitle;
 
+    @TextSelectionField("商品类别")
+    private Set<String> catalogs = Sets.newLinkedHashSet();
+
     @NumberField(value = "商品原价", tooltip = "单位：分")
     private int originPrice;
 
