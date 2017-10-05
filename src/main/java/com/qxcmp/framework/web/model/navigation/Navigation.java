@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.model.navigation;
 
-import com.qxcmp.framework.view.component.AnchorTarget;
+
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 
 public class Navigation extends AbstractNavigation {
     public Navigation(String id, String title) {

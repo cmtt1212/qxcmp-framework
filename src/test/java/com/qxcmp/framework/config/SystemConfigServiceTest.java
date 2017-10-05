@@ -39,7 +39,7 @@ public class SystemConfigServiceTest {
 
         List<String> updateDataList = ImmutableList.of("update1", " update2", " update3", "update4 ");
 
-        systemConfigService.update("testConfig1", updateDataList);
+        systemConfigService.create("testConfig1", "update1\nupdate2\nupdate3\nupdate4");
         systemConfigService.update("testConfig", updateDataList);
 
         assertEquals(false, systemConfigService.getList("testConfig1").isEmpty());

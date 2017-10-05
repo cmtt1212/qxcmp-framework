@@ -2,7 +2,6 @@ package com.qxcmp.framework.web.api;
 
 import com.qxcmp.framework.core.QXCMPConfiguration;
 import com.qxcmp.framework.web.QXCMPFrontendController;
-import com.qxcmp.framework.web.QXCMPFrontendController2;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;

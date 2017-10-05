@@ -1,8 +1,8 @@
 package com.qxcmp.framework.web.view.elements.label;
 
-import com.qxcmp.framework.view.component.AnchorTarget;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;

@@ -1,6 +1,5 @@
 package com.qxcmp.framework.core.web;
 
-import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.web.view.annotation.form.EmailField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;

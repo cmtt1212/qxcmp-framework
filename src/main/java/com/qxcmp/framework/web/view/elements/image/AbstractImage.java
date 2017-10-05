@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web.view.elements.image;
 
-import com.qxcmp.framework.view.component.AnchorTarget;
 import com.qxcmp.framework.web.view.AbstractComponent;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.image;
 
-import com.qxcmp.framework.view.component.AnchorTarget;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Floated;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.VerticalAlignment;

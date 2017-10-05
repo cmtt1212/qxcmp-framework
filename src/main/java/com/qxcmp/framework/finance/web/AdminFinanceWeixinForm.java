@@ -1,13 +1,11 @@
 package com.qxcmp.framework.finance.web;
 
-import com.qxcmp.framework.view.annotation.FormView;
 import com.qxcmp.framework.web.view.annotation.form.BooleanField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import com.qxcmp.framework.web.view.annotation.form.TextSelectionField;
 import lombok.Data;
 
-@FormView(caption = "微信支付设置")
 @Form("微信支付配置")
 @Data
 public class AdminFinanceWeixinForm {

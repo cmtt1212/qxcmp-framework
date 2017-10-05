@@ -1,7 +1,5 @@
 package com.qxcmp.framework.security.web;
 
-import com.qxcmp.framework.view.annotation.FormViewField;
-import com.qxcmp.framework.view.form.InputFiledType;
 import com.qxcmp.framework.web.view.annotation.form.BooleanField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.NumberField;
@@ -49,7 +47,6 @@ public class AdminSecurityAuthenticationForm {
     @NumberField(value = "过期时间", section = "账户密码配置", min = 1, tooltip = "时间为天，多少天以后不修改密码会使密码过期")
     private int expireCredentialDuration;
 
-    @FormViewField(type = InputFiledType.SWITCH, label = "是否开启唯一密码功能，即密码不能有重复")
     @BooleanField(value = "唯一密码", section = "账户密码配置", tooltip = "开启以后修改的密码不能和以前重复", style = BooleanFieldStyle.TOGGLE)
     private boolean uniqueCredential;
 }

@@ -3,10 +3,10 @@ package com.qxcmp.framework.web.model.navigation;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.view.component.AnchorTarget;
 import com.qxcmp.framework.web.view.elements.html.Anchor;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -99,7 +99,6 @@ public abstract class AbstractNavigation {
      * 若该导航有子菜单，同样需要判断子菜单是否可见
      *
      * @param user 用户
-     *
      * @return 是否可见
      */
     public boolean isVisible(User user) {

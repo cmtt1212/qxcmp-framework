@@ -1,24 +1,16 @@
 package com.qxcmp.framework.finance.web;
 
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
-import com.qxcmp.framework.finance.DepositOrder;
-import com.qxcmp.framework.finance.DepositOrderService;
-import com.qxcmp.framework.view.dictionary.DictionaryView;
-import com.qxcmp.framework.view.support.PaginationHelper;
 import com.qxcmp.framework.web.QXCMPFrontendController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 
 @Profile("finance")
 @Controller
@@ -26,11 +18,9 @@ import java.text.SimpleDateFormat;
 @RequiredArgsConstructor
 public class FinancePageController extends QXCMPFrontendController {
 
-    private final DepositOrderService depositOrderService;
 
     private final SystemConfigService systemConfigService;
 
-    private final PaginationHelper paginationHelper;
 
     private final FinancePageHelper financePageHelper;
 
@@ -95,13 +85,13 @@ public class FinancePageController extends QXCMPFrontendController {
 //                .setResultNavigation("返回充值记录", "/finance/deposit/order")
 //                .build();
 //    }
-
-    private DictionaryView extractDepositOrderToDictionaryView(DepositOrder depositOrder) {
-        return DictionaryView.builder()
-                .dictionary("订单号", depositOrder.getId())
-                .dictionary("充值金额", new DecimalFormat("￥0.00").format((double) depositOrder.getFee() / 100))
-                .dictionary("充值时间", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(depositOrder.getTimeStart()))
-                .dictionary("备注", depositOrder.getDescription())
-                .build();
-    }
+//
+//    private DictionaryView extractDepositOrderToDictionaryView(DepositOrder depositOrder) {
+//        return DictionaryView.builder()
+//                .dictionary("订单号", depositOrder.getId())
+//                .dictionary("充值金额", new DecimalFormat("￥0.00").format((double) depositOrder.getFee() / 100))
+//                .dictionary("充值时间", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(depositOrder.getTimeStart()))
+//                .dictionary("备注", depositOrder.getDescription())
+//                .build();
+//    }
 }
