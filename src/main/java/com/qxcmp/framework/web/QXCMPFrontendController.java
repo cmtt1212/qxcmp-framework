@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web;
 
-import com.qxcmp.framework.web.view.FrontendPage;
+import com.qxcmp.framework.web.page.FrontendPage;
 
 /**
  * 页面路由器基类

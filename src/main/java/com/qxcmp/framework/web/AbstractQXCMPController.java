@@ -11,7 +11,7 @@ import com.qxcmp.framework.exception.CaptchaExpiredException;
 import com.qxcmp.framework.exception.CaptchaIncorrectException;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.web.view.AbstractPage;
+import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;

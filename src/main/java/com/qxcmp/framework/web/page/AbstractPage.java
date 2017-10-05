@@ -1,6 +1,7 @@
-package com.qxcmp.framework.web.view;
+package com.qxcmp.framework.web.page;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.html.JavaScript;
 import com.qxcmp.framework.web.view.html.Stylesheet;
 import org.springframework.web.servlet.ModelAndView;

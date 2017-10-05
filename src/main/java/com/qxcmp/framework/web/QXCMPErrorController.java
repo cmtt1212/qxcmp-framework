@@ -1,8 +1,7 @@
 package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.web.BasicErrorController;
-import com.qxcmp.framework.web.view.FrontendPage;
+import com.qxcmp.framework.web.page.FrontendPage;
 import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;

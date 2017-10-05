@@ -7,7 +7,7 @@ import com.qxcmp.framework.core.QXCMPNavigationConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
-import com.qxcmp.framework.web.view.BackendPage;
+import com.qxcmp.framework.web.page.BackendPage;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;

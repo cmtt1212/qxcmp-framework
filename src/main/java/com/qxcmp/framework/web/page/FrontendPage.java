@@ -1,5 +1,6 @@
-package com.qxcmp.framework.web.view;
+package com.qxcmp.framework.web.page;
 
+import com.qxcmp.framework.web.view.Component;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

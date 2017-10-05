@@ -5,7 +5,7 @@ import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPFrontendController;
 import com.qxcmp.framework.web.auth.AuthenticationFailureHandler;
-import com.qxcmp.framework.web.view.AbstractPage;
+import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.Divider;

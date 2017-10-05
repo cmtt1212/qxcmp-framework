@@ -1,7 +1,8 @@
-package com.qxcmp.framework.web.view;
+package com.qxcmp.framework.web.page;
 
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
+import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.breadcrumb.AbstractBreadcrumb;
 import com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb;
 import com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem;
