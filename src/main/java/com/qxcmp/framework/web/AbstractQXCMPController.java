@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,6 +63,8 @@ public abstract class AbstractQXCMPController {
     private TableHelper tableHelper;
 
     private CaptchaService captchaService;
+
+    private QXCMPDeviceResolver deviceResolver;
 
     protected abstract AbstractPage page();
 
@@ -129,7 +132,7 @@ public abstract class AbstractQXCMPController {
      * @param captcha       用户输入的验证码
      * @param bindingResult 错误绑定
      */
-    public void verifyCaptcha(String captcha, BindingResult bindingResult) {
+    protected void verifyCaptcha(String captcha, BindingResult bindingResult) {
         if (Objects.isNull(request.getSession().getAttribute(CaptchaService.CAPTCHA_SESSION_ATTR))) {
             bindingResult.rejectValue("captcha", "Captcha.null");
         } else {
@@ -149,7 +152,7 @@ public abstract class AbstractQXCMPController {
      *
      * @return 请求IP地址
      */
-    public String getRequestAddress() {
+    protected String getRequestAddress() {
         String ip = request.getHeader("X-Forwarded-For");
         if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
@@ -166,6 +169,16 @@ public abstract class AbstractQXCMPController {
         }
         return request.getRemoteAddr();
     }
+
+    /**
+     * 获取当前设备的类型
+     *
+     * @return 获取当前设备的类型
+     */
+    protected Device getDevice() {
+        return deviceResolver.resolve(request);
+    }
+
 
     @Autowired
     public void setRequest(HttpServletRequest request) {
@@ -215,5 +228,10 @@ public abstract class AbstractQXCMPController {
     @Autowired
     public void setCaptchaService(CaptchaService captchaService) {
         this.captchaService = captchaService;
+    }
+
+    @Autowired
+    public void setDeviceResolver(QXCMPDeviceResolver deviceResolver) {
+        this.deviceResolver = deviceResolver;
     }
 }
