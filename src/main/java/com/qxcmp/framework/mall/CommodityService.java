@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +31,14 @@ public class CommodityService extends AbstractEntityService<Commodity, Long, Com
 
     public Page<Commodity> findByStore(Store store, Pageable pageable) {
         return repository.findByStore(store, pageable);
+    }
+
+    public Page<Commodity> findByCatalog(String catalog, Pageable pageable) {
+        return repository.findByCatalog(catalog, pageable);
+    }
+
+    public Page<Commodity> findByCatalogs(Set<String> catalogs, Pageable pageable) {
+        return repository.findByCatalogs(catalogs, pageable);
     }
 
     @Override

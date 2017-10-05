@@ -13,6 +13,7 @@ import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -86,6 +87,7 @@ public class Commodity {
      * 如，电脑、手机等
      */
     @ElementCollection(fetch = FetchType.EAGER)
+    @TableField(value = "商品类别", maxCollectionCount = 3)
     private Set<String> catalogs = Sets.newLinkedHashSet();
 
     /**
@@ -96,6 +98,7 @@ public class Commodity {
     /**
      * 商品结算价格(分) - 用于结算订单
      */
+    @TableField("售价")
     private int sellPrice;
 
     /**
@@ -150,6 +153,17 @@ public class Commodity {
         }
 
         tableData.setAlignment(Alignment.CENTER);
+        return tableData;
+    }
+
+    @TableFieldRender("sellPrice")
+    public TableData renderSellPrice() {
+        return renderPriceCell(sellPrice);
+    }
+
+    private TableData renderPriceCell(int price) {
+        TableData tableData = new TableData(new DecimalFormat("￥0.00").format((double) price / 100));
+        tableData.setAlignment(Alignment.RIGHT);
         return tableData;
     }
 }
