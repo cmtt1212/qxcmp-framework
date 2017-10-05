@@ -1,5 +1,7 @@
 package com.qxcmp.framework.web.view.annotation.table;
 
+import com.qxcmp.framework.web.view.support.Alignment;
+
 import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
@@ -67,5 +69,10 @@ public @interface TableField {
      * 超链接后缀
      */
     String urlSuffix() default "";
+
+    /**
+     * 单元格对齐
+     */
+    Alignment alignment() default Alignment.CENTER;
 
 }

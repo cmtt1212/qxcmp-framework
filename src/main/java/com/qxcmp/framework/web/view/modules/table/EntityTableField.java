@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.view.modules.table;
 
+import com.qxcmp.framework.web.view.support.Alignment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,4 +36,6 @@ public class EntityTableField {
     private String urlEntityIndex;
 
     private String urlSuffix;
+
+    private Alignment alignment;
 }

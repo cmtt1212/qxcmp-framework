@@ -246,6 +246,7 @@ public class TableHelper {
                 }
 
                 entityTableField.setUrlSuffix(tableField.urlSuffix());
+                entityTableField.setAlignment(tableField.alignment());
 
                 Arrays.stream(tClass.getDeclaredMethods())
                         .filter(method -> method.getReturnType().equals(TableData.class))
@@ -328,12 +329,14 @@ public class TableHelper {
         entityTableFields.forEach(entityTableField -> {
             final TableHead tableHead = new TableHead();
             tableHead.setContent(entityTableField.getTitle());
+            tableHead.setAlignment(entityTableField.getAlignment());
             tableRow.addCell(tableHead);
         });
 
         if (!table.getRowActions().isEmpty()) {
             final TableHead tableHead = new TableHead();
             tableHead.setContent("操作");
+            tableHead.setAlignment(Alignment.CENTER);
             tableRow.addCell(tableHead);
         }
 
@@ -441,8 +444,9 @@ public class TableHelper {
                     tableData.setContent(StringUtils.isNotBlank(textValue) ? textValue : "");
                 }
             }
-
         }
+
+        tableData.setAlignment(entityTableField.getAlignment());
 
         return tableData;
     }
