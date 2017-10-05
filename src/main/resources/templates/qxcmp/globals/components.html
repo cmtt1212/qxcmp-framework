@@ -9,6 +9,10 @@
 <th:block th:each="component : ${page.components}">
     <div th:replace="~{:: component(${component})}"></div>
 </th:block>
+
+<th:block th:each="script : ${javascriptBody}">
+    <script th:replace="~{__${script.fragmentFile}__ :: __${script.fragmentName}__}"></script>
+</th:block>
 </body>
 
 <th:block th:fragment="component(component)">

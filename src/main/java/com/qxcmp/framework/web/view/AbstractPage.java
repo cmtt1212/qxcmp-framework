@@ -1,6 +1,8 @@
 package com.qxcmp.framework.web.view;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.web.view.html.JavaScript;
+import com.qxcmp.framework.web.view.html.Stylesheet;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,9 @@ import java.util.List;
 public abstract class AbstractPage {
 
     private static final String DEFAULT_PAGE_VIEW = "qxcmp";
+    private static final String HTML_STYLESHEET = "stylesheet";
+    private static final String HTML_JAVASCRIPT = "javascript";
+    private static final String HTML_JAVASCRIPT_BODY = "javascriptBody";
 
     private ModelAndView modelAndView = new ModelAndView(DEFAULT_PAGE_VIEW);
 
@@ -19,6 +24,12 @@ public abstract class AbstractPage {
     private HttpServletResponse response;
 
     private List<Component> components = Lists.newArrayList();
+
+    private List<Stylesheet> stylesheets = Lists.newArrayList();
+
+    private List<JavaScript> javaScripts = Lists.newArrayList();
+
+    private List<JavaScript> bodyJavaScripts = Lists.newArrayList();
 
     public AbstractPage(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
@@ -55,8 +66,29 @@ public abstract class AbstractPage {
         return this;
     }
 
+    public AbstractPage addStylesheet(Stylesheet stylesheet) {
+        stylesheets.add(stylesheet);
+        return this;
+    }
+
+    public AbstractPage addJavascript(JavaScript javaScript) {
+        return addJavascript(javaScript, false);
+    }
+
+    public AbstractPage addJavascript(JavaScript javaScript, boolean addToBody) {
+        if (addToBody) {
+            bodyJavaScripts.add(javaScript);
+        } else {
+            javaScripts.add(javaScript);
+        }
+        return this;
+    }
+
     public ModelAndView build() {
         modelAndView.addObject("page", this);
+        modelAndView.addObject(HTML_STYLESHEET, stylesheets);
+        modelAndView.addObject(HTML_JAVASCRIPT, javaScripts);
+        modelAndView.addObject(HTML_JAVASCRIPT_BODY, bodyJavaScripts);
         return modelAndView;
     }
 

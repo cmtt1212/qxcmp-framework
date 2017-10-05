@@ -19,5 +19,13 @@
     <link rel="stylesheet" th:href="@{/assets/scripts/qxcmp.css}"/>
 
     <script th:src="@{/assets/scripts/qxcmp.js}"></script>
+
+    <th:block th:each="style : ${stylesheet}">
+        <style th:replace="~{__${style.fragmentFile}__ :: __${style.fragmentName}__}"></style>
+    </th:block>
+
+    <th:block th:each="script : ${javascript}">
+        <script th:replace="~{__${script.fragmentFile}__ :: __${script.fragmentName}__}"></script>
+    </th:block>
 </head>
 </html>
