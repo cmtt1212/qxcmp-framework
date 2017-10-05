@@ -16,24 +16,25 @@ import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.modules.form.support.KeyValueEntity;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT;
@@ -135,7 +136,7 @@ public class AdminMallUserPageController extends QXCMPBackendController {
 
         Store selectedStore = getUserSelectedStore(user);
 
-        Page<Commodity> commodities = commodityService.findByStore(selectedStore, pageable);
+        Page<Commodity> commodities = commodityService.findByStore(selectedStore, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
         return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(tableHelper.convert("userStoreCommodity", Commodity.class, commodities)))
                 .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理")
@@ -164,7 +165,9 @@ public class AdminMallUserPageController extends QXCMPBackendController {
     }
 
     @PostMapping("/commodity/new")
-    public ModelAndView userCommodityNewPage(@Valid final AdminMallUserStoreCommodityNewForm form, BindingResult bindingResult) {
+    public ModelAndView userCommodityNewPage(@Valid final AdminMallUserStoreCommodityNewForm form, BindingResult bindingResult,
+                                             @RequestParam(value = "add_customProperties", required = false) boolean addCustomProperties,
+                                             @RequestParam(value = "remove_customProperties", required = false) Integer removeCustomProperties) {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
@@ -175,6 +178,24 @@ public class AdminMallUserPageController extends QXCMPBackendController {
         }
 
         Store selectedStore = getUserSelectedStore(user);
+
+        if (addCustomProperties) {
+            form.getCustomProperties().add(new KeyValueEntity());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeCustomProperties)) {
+            form.getCustomProperties().remove(removeCustomProperties.intValue());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
@@ -198,6 +219,9 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                     commodity.setSellPrice(form.getSellPrice());
                     commodity.setInventory(form.getInventory());
                     commodity.setDisabled(form.isDisabled());
+
+                    commodity.getCustomProperties().clear();
+                    form.getCustomProperties().forEach(keyValueEntity -> commodity.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
 
                     commodity.setStore(selectedStore);
                     commodity.setUserModified(user);
@@ -233,6 +257,12 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                     form.setSellPrice(commodity.getSellPrice());
                     form.setInventory(commodity.getInventory());
                     form.setDisabled(commodity.isDisabled());
+                    form.setCustomProperties(commodity.getCustomProperties().entrySet().stream().map(stringStringEntry -> {
+                        KeyValueEntity keyValueEntity = new KeyValueEntity();
+                        keyValueEntity.setKey(stringStringEntry.getKey());
+                        keyValueEntity.setValue(stringStringEntry.getValue());
+                        return keyValueEntity;
+                    }).collect(Collectors.toList()));
 
                     return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
                             .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
@@ -243,13 +273,33 @@ public class AdminMallUserPageController extends QXCMPBackendController {
     }
 
     @PostMapping("/commodity/{id}/edit")
-    public ModelAndView userCommodityEditPage(@PathVariable String id, @Valid final AdminMallUserStoreCommodityEditForm form, BindingResult bindingResult) {
+    public ModelAndView userCommodityEditPage(@PathVariable String id, @Valid final AdminMallUserStoreCommodityEditForm form, BindingResult bindingResult,
+                                              @RequestParam(value = "add_customProperties", required = false) boolean addCustomProperties,
+                                              @RequestParam(value = "remove_customProperties", required = false) Integer removeCustomProperties) {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
 
         List<Store> stores = storeService.findByUser(user);
 
         Store selectedStore = getUserSelectedStore(user);
+
+        if (addCustomProperties) {
+            form.getCustomProperties().add(new KeyValueEntity());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeCustomProperties)) {
+            form.getCustomProperties().remove(removeCustomProperties.intValue());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
 
         return commodityService.findOne(id)
                 .filter(commodity -> stores.contains(commodity.getStore()))
@@ -266,6 +316,8 @@ public class AdminMallUserPageController extends QXCMPBackendController {
                             commodity.setSellPrice(form.getSellPrice());
                             commodity.setInventory(form.getInventory());
                             commodity.setDisabled(form.isDisabled());
+                            commodity.getCustomProperties().clear();
+                            form.getCustomProperties().forEach(keyValueEntity -> commodity.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
 
                             commodity.setStore(selectedStore);
                             commodity.setUserModified(user);

@@ -1,42 +1,48 @@
 package com.qxcmp.framework.mall.web;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.framework.web.view.modules.form.support.KeyValueEntity;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 @Form(value = "添加商品", submitText = "确认添加")
 @Data
 public class AdminMallUserStoreCommodityNewForm {
 
-    @AvatarField("商品封面")
+    @AvatarField(value = "商品封面", section = "商品信息")
     private String cover;
 
-    @AlbumField(value = "商品相册", maxCount = 8)
+    @AlbumField(value = "商品相册", maxCount = 8, section = "商品信息")
     private Set<String> albums = Sets.newLinkedHashSet();
 
-    @AlbumField(value = "商品详情", maxCount = 20)
+    @AlbumField(value = "商品详情", maxCount = 20, section = "商品信息")
     private Set<String> details = Sets.newLinkedHashSet();
 
-    @TextInputField(value = "标题", required = true, autoFocus = true)
+    @TextInputField(value = "标题", section = "商品信息", required = true, autoFocus = true)
     private String title;
 
-    @TextInputField("子标题")
+    @TextInputField(value = "子标题", section = "商品信息")
     private String subTitle;
 
-    @TextSelectionField("商品类别")
-    private Set<String> catalogs = Sets.newLinkedHashSet();
-
-    @NumberField(value = "商品原价", tooltip = "单位：分")
+    @NumberField(value = "商品原价", section = "商品价格", tooltip = "单位：分")
     private int originPrice;
 
-    @NumberField(value = "商品售价", tooltip = "单位：分")
+    @NumberField(value = "商品售价", section = "商品价格", tooltip = "单位：分")
     private int sellPrice;
 
-    @NumberField(value = "商品库存", tooltip = "库存为零以后商品将不能销售")
+    @TextSelectionField(value = "商品类别", section = "商品属性")
+    private Set<String> catalogs = Sets.newLinkedHashSet();
+
+    @NumberField(value = "商品库存", section = "商品属性", tooltip = "库存为零以后商品将不能销售")
     private int inventory;
 
-    @BooleanField("是否下架")
+    @BooleanField(value = "是否下架", section = "商品属性")
     private boolean disabled;
+
+    @DynamicField(value = "自定义属性", section = "额外属性", itemHeaders = {"属性名称", "属性值"}, itemFields = {"key", "value"})
+    private List<KeyValueEntity> customProperties = Lists.newArrayList();
 }

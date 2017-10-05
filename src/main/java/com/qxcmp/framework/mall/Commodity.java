@@ -1,6 +1,7 @@
 package com.qxcmp.framework.mall;
 
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.annotation.table.*;
@@ -13,6 +14,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -121,6 +123,12 @@ public class Commodity {
     private Date dateModified;
 
     private Date dateDisabled;
+
+    /**
+     * 商品自定义属性
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Map<String, String> customProperties = Maps.newLinkedHashMap();
 
     @RowActionCheck("下架")
     public boolean canPerformDisable() {
