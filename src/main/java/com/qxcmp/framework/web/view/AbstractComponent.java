@@ -13,11 +13,24 @@ import java.util.Map;
  */
 public abstract class AbstractComponent implements Component {
 
+    private String customClass;
+
     private Map<String, Object> context = Maps.newLinkedHashMap();
 
     public AbstractComponent addContext(String key, Object object) {
         context.put(key, object);
         return this;
+    }
+
+    @Override
+    public Component setCustomClass(String customClass) {
+        this.customClass = customClass;
+        return this;
+    }
+
+    @Override
+    public String getCustomClass() {
+        return customClass;
     }
 
     @Override
