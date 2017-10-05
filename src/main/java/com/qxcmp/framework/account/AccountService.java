@@ -1,13 +1,13 @@
 package com.qxcmp.framework.account;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPConfigurator;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.message.EmailService;
-import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -142,5 +142,10 @@ public class AccountService implements QXCMPConfigurator {
     @Override
     public void config() {
         loadConfig();
+    }
+
+    @Override
+    public int order() {
+        return Integer.MAX_VALUE - 2;
     }
 }

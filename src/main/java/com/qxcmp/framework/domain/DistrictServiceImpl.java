@@ -29,7 +29,7 @@ public class DistrictServiceImpl implements DistrictService, QXCMPConfigurator {
     }
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         try {
             Resource areaFile = new ClassPathResource("/district/District.csv");
 
@@ -52,6 +52,11 @@ public class DistrictServiceImpl implements DistrictService, QXCMPConfigurator {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE + 4;
     }
 
     private void process(String id, String name) {

@@ -42,7 +42,7 @@ public class CalendarServiceImpl implements CalendarService, QXCMPConfigurator {
     }
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         try {
             Resource calendarCSVFile = new ClassPathResource("/calendar/Calendar.csv");
             CSVFormat.EXCEL.parse(new InputStreamReader(calendarCSVFile.getInputStream())).forEach(record -> {
@@ -72,5 +72,10 @@ public class CalendarServiceImpl implements CalendarService, QXCMPConfigurator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE + 3;
     }
 }

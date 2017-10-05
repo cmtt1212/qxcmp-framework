@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
+
 /**
  * 平台后端侧边导航栏加载
  *
@@ -20,11 +22,11 @@ public class NavigationLoader implements QXCMPConfigurator {
 
     @Override
     public int order() {
-        return 3;
+        return Integer.MIN_VALUE + 5;
     }
 
     @Override
     public void config() {
-        applicationContext.getBeansOfType(NavigationConfigurator.class).forEach((s, moduleSidebarConfig) -> moduleSidebarConfig.configureNavigation(navigationService));
+        applicationContext.getBeansOfType(NavigationConfigurator.class).values().stream().sorted(Comparator.comparingInt(NavigationConfigurator::order)).forEach(navigationConfigurator -> navigationConfigurator.configureNavigation(navigationService));
     }
 }

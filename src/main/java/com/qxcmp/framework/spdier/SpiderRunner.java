@@ -58,8 +58,8 @@ public class SpiderRunner implements QXCMPConfigurator {
     private void startGroup(String group) {
 
         /*
-        * 执行一个组的任务
-        * */
+         * 执行一个组的任务
+         * */
         FutureTask<String> groupTask = new FutureTask<>(() -> {
 
             List<SpiderDefinition> spiderDefinitionList = spiderContextHolder.getSpiderDefinitions().get(group).stream().filter(spiderDefinition -> !spiderDefinition.isDisabled()).sorted(Comparator.comparing(SpiderDefinition::getOrder)).collect(Collectors.toList());
@@ -81,8 +81,8 @@ public class SpiderRunner implements QXCMPConfigurator {
 
         try {
             /*
-            * 当一个组的任务执行完以后，重新执行该组的任务
-            * */
+             * 当一个组的任务执行完以后，重新执行该组的任务
+             * */
             String groupName = groupTask.get();
             startGroup(groupName);
         } catch (InterruptedException | ExecutionException e) {
@@ -138,8 +138,13 @@ public class SpiderRunner implements QXCMPConfigurator {
     }
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         loadSpiderDefinition();
         start();
+    }
+
+    @Override
+    public int order() {
+        return Integer.MAX_VALUE - 1;
     }
 }

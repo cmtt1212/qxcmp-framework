@@ -14,4 +14,8 @@ public interface NavigationConfigurator {
      * @param navigationService 导航栏服务
      */
     void configureNavigation(NavigationService navigationService);
+
+    default int order() {
+        return 0;
+    }
 }

@@ -95,4 +95,9 @@ public class SystemDictionaryLoader implements QXCMPConfigurator {
             systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG, "true");
         }
     }
+
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE + 2;
+    }
 }

@@ -35,7 +35,7 @@ public class SystemConfigLoader implements QXCMPConfigurator {
     private final SystemConfigService systemConfigService;
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         applicationContext.getBeansWithAnnotation(SystemConfigAutowired.class).forEach((s, o) -> loadFromClass(o));
     }
 
