@@ -30,6 +30,11 @@ public abstract class AbstractPage {
         return this;
     }
 
+    public AbstractPage setViewName(String viewName) {
+        modelAndView.setViewName(viewName);
+        return this;
+    }
+
     public AbstractPage addComponent(Component component) {
         components.add(component);
         return this;

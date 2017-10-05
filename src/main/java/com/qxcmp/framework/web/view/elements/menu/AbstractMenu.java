@@ -3,10 +3,7 @@ package com.qxcmp.framework.web.view.elements.menu;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.elements.menu.item.MenuItem;
-import com.qxcmp.framework.web.view.support.Attached;
-import com.qxcmp.framework.web.view.support.Fixed;
-import com.qxcmp.framework.web.view.support.ItemCount;
-import com.qxcmp.framework.web.view.support.Size;
+import com.qxcmp.framework.web.view.support.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -72,6 +69,11 @@ public abstract class AbstractMenu extends AbstractComponent {
      * 附着方式
      */
     private Attached attached = Attached.NONE;
+
+    /**
+     * 颜色
+     */
+    private Color color = Color.NONE;
 
     /**
      * 菜单大小
@@ -151,7 +153,7 @@ public abstract class AbstractMenu extends AbstractComponent {
             stringBuilder.append(" borderless");
         }
 
-        return stringBuilder.append(itemCount).append(size).append(attached).append(fixed).toString();
+        return stringBuilder.append(itemCount).append(color).append(size).append(attached).append(fixed).toString();
     }
 
     @Override
@@ -206,6 +208,11 @@ public abstract class AbstractMenu extends AbstractComponent {
 
     public AbstractMenu setAttached(Attached attached) {
         this.attached = attached;
+        return this;
+    }
+
+    public AbstractMenu setColor(Color color) {
+        this.color = color;
         return this;
     }
 
