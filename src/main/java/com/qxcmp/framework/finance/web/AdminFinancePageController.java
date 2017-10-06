@@ -17,6 +17,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_FINANCE;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/finance")
@@ -31,7 +33,7 @@ public class AdminFinancePageController extends AbstractQXCMPController {
     public ModelAndView financePage() {
         return page()
                 .setBreadcrumb("控制台", "", "财务管理")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_FINANCE, "")
                 .build();
     }
 
@@ -51,7 +53,7 @@ public class AdminFinancePageController extends AbstractQXCMPController {
         return page()
                 .addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "财务管理", "finance", "微信支付配置")
-                .setVerticalMenu(getVerticalMenu("微信支付配置"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_FINANCE, NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS)
                 .addObject("selection_items_tradeType", SUPPORT_WEIXIN_PAYMENT)
                 .build();
     }
@@ -62,7 +64,7 @@ public class AdminFinancePageController extends AbstractQXCMPController {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "财务管理", "finance", "微信支付配置")
-                    .setVerticalMenu(getVerticalMenu("微信支付配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_FINANCE, NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS)
                     .addObject("selection_items_tradeType", SUPPORT_WEIXIN_PAYMENT)
                     .build();
         }
@@ -87,9 +89,5 @@ public class AdminFinancePageController extends AbstractQXCMPController {
             wxPayConfig.setNotifyUrl(form.getNotifyUrl());
             wxPayConfig.setKeyPath(form.getKeyPath());
         }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/finance/weixin"));
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "微信支付配置", QXCMP_BACKEND_URL + "/finance/weixin");
     }
 }

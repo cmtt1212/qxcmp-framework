@@ -46,12 +46,20 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_PROFILE_SECURITY = NAVIGATION_ADMIN_PROFILE + "-SECURITY";
 
     /*
-     * 系统配置导航栏
+     * 系统设置导航栏
      * */
     public static final String NAVIGATION_ADMIN_SETTINGS = "ADMIN-SETTINGS";
     public static final String NAVIGATION_ADMIN_SETTINGS_SITE = NAVIGATION_ADMIN_SETTINGS + "-SITE";
     public static final String NAVIGATION_ADMIN_SETTINGS_DICTIONARY = NAVIGATION_ADMIN_SETTINGS + "-DICTIONARY";
     public static final String NAVIGATION_ADMIN_SETTINGS_SECURITY = NAVIGATION_ADMIN_SETTINGS + "-SECURITY";
+
+    /*
+     * 安全配置导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_SECURITY = "ADMIN-SECURITY";
+    public static final String NAVIGATION_ADMIN_SECURITY_ROLE = NAVIGATION_ADMIN_SECURITY + "-ROLE";
+    public static final String NAVIGATION_ADMIN_SECURITY_PRIVILEGE = NAVIGATION_ADMIN_SECURITY + "-PRIVILEGE";
+    public static final String NAVIGATION_ADMIN_SECURITY_AUTHENTICATION = NAVIGATION_ADMIN_SECURITY + "-AUTHENTICATION";
 
     /*
      * 新闻管理导航栏
@@ -98,6 +106,20 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY = NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT + "-COMMODITY";
     public static final String NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_STORE = NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT + "-STORE";
 
+    /*
+     * 财务管理导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_FINANCE = "ADMIN-FINANCE";
+    public static final String NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS = NAVIGATION_ADMIN_FINANCE + "-WEIXIN-SETTINGS";
+
+    /*
+     * 消息服务导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_MESSAGE = "ADMIN-MESSAGE";
+    public static final String NAVIGATION_ADMIN_MESSAGE_SMS_SEND = NAVIGATION_ADMIN_MESSAGE + "-SMS-SEND";
+    public static final String NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND = NAVIGATION_ADMIN_MESSAGE + "-EMAIL-SEND";
+    public static final String NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS = NAVIGATION_ADMIN_MESSAGE + "-EMAIL-SETTINGS";
+    public static final String NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS = NAVIGATION_ADMIN_MESSAGE + "-SMS-SETTINGS";
 
     @Override
     public void configureNavigation(NavigationService navigationService) {
@@ -156,6 +178,23 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_SITE, "网站配置", QXCMP_BACKEND_URL + "/settings/site").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_DICTIONARY, "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_SECURITY, "安全配置", QXCMP_BACKEND_URL + "/security").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SECURITY)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_SECURITY, "安全配置导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_SECURITY_ROLE, "角色管理", QXCMP_BACKEND_URL + "/security/role").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SECURITY)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SECURITY_PRIVILEGE, "权限管理", QXCMP_BACKEND_URL + "/security/privilege").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SECURITY)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SECURITY_AUTHENTICATION, "认证配置", QXCMP_BACKEND_URL + "/security/authentication").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SECURITY)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_FINANCE, "财务管理导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS, "微信支付配置", QXCMP_BACKEND_URL + "/finance/weixin").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_FINANCE_WEIXIN)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_MESSAGE, "消息服务导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_SMS_SEND, "短信发送服务", QXCMP_BACKEND_URL + "/message/sms/send").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_SMS_SEND)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND, "邮件发送服务", QXCMP_BACKEND_URL + "/message/email/send").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_EMAIL_SEND)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS, "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_SMS_CONFIG)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS, "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/settings").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_EMAIL_CONFIG)))
         );
     }
 

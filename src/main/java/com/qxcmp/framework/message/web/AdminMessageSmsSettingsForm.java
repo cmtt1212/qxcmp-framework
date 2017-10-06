@@ -10,7 +10,7 @@ import java.util.List;
 
 @Form("短信服务配置")
 @Data
-public class AdminMessageSmsConfigForm {
+public class AdminMessageSmsSettingsForm {
 
     @TextInputField(value = "AccessKey", section = "基本配置", tooltip = "配置中的所有信息需要从阿里云短信服务控制台中获取")
     private String accessKey;

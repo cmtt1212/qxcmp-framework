@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Form("邮件服务配置")
 @Data
-public class AdminMessageEmailConfigForm {
+public class AdminMessageEmailSettingsForm {
 
     @TextInputField(value = "主机名", placeholder = "如smtp.sina.com", section = "基本配置")
     private String host;

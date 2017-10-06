@@ -1,6 +1,5 @@
 package com.qxcmp.framework.message.web;
 
-import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
@@ -19,10 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
 /**
@@ -54,7 +53,7 @@ public class AdminMessageController extends AbstractQXCMPController {
                     stringStringMap.put("短信服务 - 短信签名ID", systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE));
                 })))
                 .setBreadcrumb("控制台", "", "消息服务")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, "")
                 .build();
     }
 
@@ -70,7 +69,7 @@ public class AdminMessageController extends AbstractQXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
-                .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SEND)
                 .build();
     }
 
@@ -85,7 +84,7 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getPhones().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
-                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SEND)
                     .build();
         }
 
@@ -93,7 +92,7 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getPhones().remove(removePhones.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
-                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SEND)
                     .build();
         }
 
@@ -101,7 +100,7 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getParameters().add(new SmsMessageParameter());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
-                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SEND)
                     .build();
         }
 
@@ -109,14 +108,14 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getParameters().remove(removeParameters.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
-                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SEND)
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信发送服务")
-                    .setVerticalMenu(getVerticalMenu("短信发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SEND)
                     .build();
         }
 
@@ -136,7 +135,7 @@ public class AdminMessageController extends AbstractQXCMPController {
         form.getTo().add("");
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
-                .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND)
                 .build();
     }
 
@@ -151,7 +150,7 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getTo().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
-                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND)
                     .build();
         }
 
@@ -159,7 +158,7 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getTo().remove(removeTo.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
-                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND)
                     .build();
         }
 
@@ -167,7 +166,7 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getCc().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
-                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND)
                     .build();
         }
 
@@ -175,14 +174,14 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getCc().remove(removeCc.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
-                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND)
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "邮件发送服务")
-                    .setVerticalMenu(getVerticalMenu("邮件发送服务"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND)
                     .build();
         }
 
@@ -214,8 +213,8 @@ public class AdminMessageController extends AbstractQXCMPController {
         });
     }
 
-    @GetMapping("/email/config")
-    public ModelAndView emailConfigPage(final AdminMessageEmailConfigForm form) {
+    @GetMapping("/email/settings")
+    public ModelAndView emailSettingsPage(final AdminMessageEmailSettingsForm form) {
 
         form.setHost(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME).orElse(SYSTEM_CONFIG_MESSAGE_EMAIL_HOSTNAME_DEFAULT_VALUE));
         form.setPort(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT).orElse(String.valueOf(SYSTEM_CONFIG_MESSAGE_EMAIL_PORT_DEFAULT_VALUE)));
@@ -230,17 +229,17 @@ public class AdminMessageController extends AbstractQXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "消息服务", "message", "邮件服务配置")
-                .setVerticalMenu(getVerticalMenu("邮件服务配置"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS)
                 .build();
     }
 
-    @PostMapping("/email/config")
-    public ModelAndView emailConfigPage(@Valid final AdminMessageEmailConfigForm form, BindingResult bindingResult) {
+    @PostMapping("/email/settings")
+    public ModelAndView emailSettingsPage(@Valid final AdminMessageEmailSettingsForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "邮件服务配置")
-                    .setVerticalMenu(getVerticalMenu("邮件服务配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS)
                     .build();
         }
 
@@ -261,8 +260,8 @@ public class AdminMessageController extends AbstractQXCMPController {
     }
 
 
-    @GetMapping("/sms/config")
-    public ModelAndView smsConfigPage(final AdminMessageSmsConfigForm form) {
+    @GetMapping("/sms/settings")
+    public ModelAndView smsSettingsPage(final AdminMessageSmsSettingsForm form) {
 
         form.setAccessKey(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_KEY_DEFAULT_VALUE));
         form.setAccessSecret(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET).orElse(SYSTEM_CONFIG_MESSAGE_SMS_ACCESS_SECRET_DEFAULT_VALUE));
@@ -273,20 +272,20 @@ public class AdminMessageController extends AbstractQXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
-                .setVerticalMenu(getVerticalMenu("短信服务配置"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS)
                 .build();
     }
 
-    @PostMapping("/sms/config")
-    public ModelAndView smsConfigPage(@Valid final AdminMessageSmsConfigForm form, BindingResult bindingResult,
-                                      @RequestParam(value = "add_templates", required = false) boolean addTemplates,
-                                      @RequestParam(value = "remove_templates", required = false) Integer removeTemplates) {
+    @PostMapping("/sms/settings")
+    public ModelAndView smsSettingsPage(@Valid final AdminMessageSmsSettingsForm form, BindingResult bindingResult,
+                                        @RequestParam(value = "add_templates", required = false) boolean addTemplates,
+                                        @RequestParam(value = "remove_templates", required = false) Integer removeTemplates) {
 
         if (addTemplates) {
             form.getTemplates().add(new SmsTemplate());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
-                    .setVerticalMenu(getVerticalMenu("短信服务配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS)
                     .build();
         }
 
@@ -294,14 +293,14 @@ public class AdminMessageController extends AbstractQXCMPController {
             form.getTemplates().remove(removeTemplates.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
-                    .setVerticalMenu(getVerticalMenu("短信服务配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS)
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
-                    .setVerticalMenu(getVerticalMenu("短信服务配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS)
                     .build();
         }
 
@@ -315,9 +314,5 @@ public class AdminMessageController extends AbstractQXCMPController {
 
             smsService.config();
         });
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "短信发送服务", QXCMP_BACKEND_URL + "/message/sms/send", "邮件发送服务", QXCMP_BACKEND_URL + "/message/email/send", "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/config", "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/config");
     }
 }

@@ -1,6 +1,5 @@
 package com.qxcmp.framework.security.web;
 
-import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.Role;
@@ -23,6 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
 @Controller
@@ -52,7 +52,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
                     stringStringMap.put("是否启用唯一密码", systemConfigService.getBoolean(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE).orElse(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE_DEFAULT_VALUE));
                 })))
                 .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, "")
                 .build();
     }
 
@@ -60,7 +60,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
     public ModelAndView rolePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, roleService))
                 .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "角色管理")
-                .setVerticalMenu(getVerticalMenu("角色管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                 .build();
     }
 
@@ -68,7 +68,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
     public ModelAndView roleNew(final AdminSecurityRoleNewForm form) {
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "角色管理", "security/role", "新建角色")
-                .setVerticalMenu(getVerticalMenu("角色管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                 .addObject("selection_items_privileges", privilegeService.findAll())
                 .build();
     }
@@ -78,7 +78,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "角色管理", "security/role", "新建角色")
-                    .setVerticalMenu(getVerticalMenu("角色管理"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
         }
@@ -107,7 +107,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
 
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "角色管理", "security/role", "编辑角色")
-                    .setVerticalMenu(getVerticalMenu("角色管理"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
         }).orElse(overviewPage(new Overview(new IconHeader("角色不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/security/role")).build());
@@ -119,7 +119,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "角色管理", "security/role", "编辑角色")
-                    .setVerticalMenu(getVerticalMenu("角色管理"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
         }
@@ -167,7 +167,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
     public ModelAndView privilegePage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, privilegeService))
                 .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "权限管理")
-                .setVerticalMenu(getVerticalMenu("权限管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_PRIVILEGE)
                 .build();
     }
 
@@ -211,7 +211,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "认证配置")
-                .setVerticalMenu(getVerticalMenu("认证配置"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_PRIVILEGE)
                 .build();
     }
 
@@ -221,7 +221,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "认证配置")
-                    .setVerticalMenu(getVerticalMenu("认证配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_PRIVILEGE)
                     .build();
         }
 
@@ -241,9 +241,5 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
                 throw new ActionException(e.getMessage(), e);
             }
         });
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "角色管理", QXCMP_BACKEND_URL + "/security/role", "权限管理", QXCMP_BACKEND_URL + "/security/privilege", "认证配置", QXCMP_BACKEND_URL + "/security/authentication");
     }
 }
