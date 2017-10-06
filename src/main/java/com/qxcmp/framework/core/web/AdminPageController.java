@@ -2,7 +2,7 @@ package com.qxcmp.framework.core.web;
 
 import com.jcabi.manifests.Manifests;
 import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
@@ -28,7 +28,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL)
-public class AdminPageController extends QXCMPBackendController {
+public class AdminPageController extends AbstractQXCMPController {
 
     @GetMapping("")
     public ModelAndView homePage() {

@@ -5,7 +5,7 @@ import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.config.SystemDictionaryItem;
 import com.qxcmp.framework.config.SystemDictionaryItemService;
 import com.qxcmp.framework.config.SystemDictionaryService;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
@@ -27,7 +27,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/settings")
 @RequiredArgsConstructor
-public class AdminSettingsPageController extends QXCMPBackendController {
+public class AdminSettingsPageController extends AbstractQXCMPController {
 
     private static final List<String> WATERMARK_POSITIONS = ImmutableList.of("左上", "中上", "右上", "左中", "居中", "右中", "左下", "中下", "右下");
 

@@ -7,7 +7,7 @@ import com.qxcmp.framework.spdier.SpiderContextHolder;
 import com.qxcmp.framework.spdier.SpiderDefinition;
 import com.qxcmp.framework.spdier.SpiderRuntime;
 import com.qxcmp.framework.spdier.log.SpiderLogService;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
@@ -26,7 +26,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/spider")
 @RequiredArgsConstructor
-public class AdminSpiderPageController extends QXCMPBackendController {
+public class AdminSpiderPageController extends AbstractQXCMPController {
 
     private final SpiderContextHolder spiderContextHolder;
 

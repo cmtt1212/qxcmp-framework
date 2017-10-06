@@ -6,7 +6,7 @@ import com.qxcmp.framework.account.username.AccountSecurityQuestion;
 import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -43,7 +43,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/profile")
 @RequiredArgsConstructor
-public class AdminProfilePageController extends QXCMPBackendController {
+public class AdminProfilePageController extends AbstractQXCMPController {
 
     private static final String EMAIL_BINDING_SESSION_ATTR = "EMAIL_BINDING_CAPTCHA";
     private static final String EMAIL_BINDING_CONTENT_SESSION_ATTR = "EMAIL_BINDING_CONTENT";

@@ -1,7 +1,7 @@
 package com.qxcmp.framework.user.web;
 
 import com.qxcmp.framework.security.RoleService;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
@@ -35,7 +35,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/user")
 @RequiredArgsConstructor
-public class AdminUserPageController extends QXCMPBackendController {
+public class AdminUserPageController extends AbstractQXCMPController {
 
     private final RoleService roleService;
 

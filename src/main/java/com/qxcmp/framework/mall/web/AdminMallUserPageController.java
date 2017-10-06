@@ -6,7 +6,7 @@ import com.qxcmp.framework.mall.CommodityService;
 import com.qxcmp.framework.mall.Store;
 import com.qxcmp.framework.mall.StoreService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
@@ -44,7 +44,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall/user/store")
 @RequiredArgsConstructor
-public class AdminMallUserPageController extends QXCMPBackendController {
+public class AdminMallUserPageController extends AbstractQXCMPController {
 
     /**
      * 用户所选店铺偏好

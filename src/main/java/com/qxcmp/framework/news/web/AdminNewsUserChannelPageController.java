@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.news.*;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
@@ -45,7 +45,7 @@ import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_A
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/user/channel")
 @RequiredArgsConstructor
-public class AdminNewsUserChannelPageController extends QXCMPBackendController {
+public class AdminNewsUserChannelPageController extends AbstractQXCMPController {
 
     private final ChannelService channelService;
 
