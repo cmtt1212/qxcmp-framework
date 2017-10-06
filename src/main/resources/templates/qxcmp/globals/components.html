@@ -3,7 +3,6 @@
 */-->
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.AbstractComponent"*/-->
 <!--/*@thymesVar id="page" type="com.qxcmp.framework.web.page.AbstractPage"*/-->
 <body th:fragment="body(page)">
 <th:block th:each="component : ${page.components}">
@@ -11,10 +10,11 @@
 </th:block>
 
 <th:block th:each="script : ${page.bodyJavaScripts}">
-    <script th:replace="~{__${script.fragmentFile}__ :: __${script.fragmentName}__}"></script>
+    <script th:src="@{${script.url}}"></script>
 </th:block>
 </body>
 
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.AbstractComponent"*/-->
 <th:block th:fragment="component(component)">
     <div th:replace="~{__${component.fragmentFile}__ :: __${component.fragmentName}__(${component})}"></div>
 </th:block>

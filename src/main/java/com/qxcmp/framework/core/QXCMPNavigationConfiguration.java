@@ -234,20 +234,6 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_MENU, "公众号菜单", QXCMP_BACKEND_URL + "/weixin/menu").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_MENU)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_SETTINGS, "公众号配置", QXCMP_BACKEND_URL + "/weixin/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_SETTINGS)))
         );
-
-        navigationService.add(new Navigation(NAVIGATION_GLOBAL_MOBILE_TOP, "测试移动端顶部导航栏")
-                .addItem(new Navigation("message", "", "/message").setIcon(new Icon("comments")).setOrder(10))
-        );
-
-        navigationService.add(new Navigation(NAVIGATION_GLOBAL_MOBILE_BOTTOM, "测试移动端底部导航栏")
-                .addItem(new Navigation("home", "首页", QXCMP_BACKEND_URL).setIcon(new Icon("home")).setOrder(10))
-                .addItem(new Navigation("admin", "我的", QXCMP_BACKEND_URL + "/profile/info").setIcon(new Icon("home")).setOrder(20))
-                .addItem(new Navigation("about", "关于", QXCMP_BACKEND_URL + "/about").setIcon(new Icon("home")).setOrder(30))
-        );
-
-        navigationService.add(new Navigation(NAVIGATION_GLOBAL_MOBILE_SIDEBAR, "测试移动端导航栏")
-                .addItem(new Navigation("wallet", "我的购物车", "/mall/cart").setIcon(new Icon("in cart")).setOrder(10))
-        );
     }
 
     @Override
