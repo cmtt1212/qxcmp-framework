@@ -15,6 +15,10 @@ $sidebar-bottom-menu-mobile-height: 70.6px;
 
   .item {
     color: #666;
+
+    &:hover {
+      color: #999 !important;
+    }
   }
 }
 
