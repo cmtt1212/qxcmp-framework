@@ -3,7 +3,7 @@ package com.qxcmp.framework.news.web;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.news.*;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.page.BackendPage;
@@ -44,7 +44,7 @@ import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/user/article")
 @RequiredArgsConstructor
-public class AdminNewsUserArticlePageController extends AbstractQXCMPController {
+public class QXCMPController extends QXCMPController {
 
     private final ArticleService articleService;
 

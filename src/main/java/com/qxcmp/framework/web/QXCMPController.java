@@ -60,7 +60,7 @@ import java.util.function.Consumer;
  *
  * @author Aaric
  */
-public abstract class AbstractQXCMPController {
+public abstract class QXCMPController {
 
     protected HttpServletRequest request;
     protected HttpServletResponse response;

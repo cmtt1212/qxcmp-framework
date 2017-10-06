@@ -3,7 +3,7 @@ package com.qxcmp.framework.account;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.auth.AuthenticationFailureHandler;
 import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.view.elements.button.Button;
@@ -50,7 +50,7 @@ import static com.qxcmp.framework.web.auth.AuthenticationFailureHandler.AUTHENTI
  */
 @Controller
 @RequiredArgsConstructor
-public class AccountPageController extends AbstractQXCMPController {
+public class AccountPageController extends QXCMPController {
 
     protected final AccountService accountService;
 

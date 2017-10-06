@@ -1,7 +1,7 @@
 package com.qxcmp.framework.finance.web;
 
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/finance")
 @RequiredArgsConstructor
-public class FinancePageController extends AbstractQXCMPController {
+public class FinancePageController extends QXCMPController {
 
 
     private final SystemConfigService systemConfigService;

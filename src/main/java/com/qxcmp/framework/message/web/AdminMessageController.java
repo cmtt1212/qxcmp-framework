@@ -3,7 +3,7 @@ package com.qxcmp.framework.message.web;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/message")
 @RequiredArgsConstructor
-public class AdminMessageController extends AbstractQXCMPController {
+public class AdminMessageController extends QXCMPController {
 
     private final EmailService emailService;
 

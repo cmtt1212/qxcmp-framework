@@ -6,7 +6,7 @@ import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.redeem.RedeemKey;
 import com.qxcmp.framework.redeem.RedeemKeyService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -31,7 +31,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/redeem")
 @RequiredArgsConstructor
-public class AdminRedeemPageController extends AbstractQXCMPController {
+public class AdminRedeemPageController extends QXCMPController {
 
     private final RedeemKeyService redeemKeyService;
 

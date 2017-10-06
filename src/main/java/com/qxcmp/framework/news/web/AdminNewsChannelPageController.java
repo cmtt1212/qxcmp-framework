@@ -4,7 +4,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.news.Channel;
 import com.qxcmp.framework.news.ChannelService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.HtmlText;
@@ -32,7 +32,7 @@ import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_A
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/channel")
 @RequiredArgsConstructor
-public class AdminNewsChannelPageController extends AbstractQXCMPController {
+public class AdminNewsChannelPageController extends QXCMPController {
 
     private final ChannelService channelService;
 
