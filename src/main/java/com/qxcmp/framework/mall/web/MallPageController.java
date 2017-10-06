@@ -31,6 +31,7 @@ public class MallPageController extends AbstractQXCMPController {
 
         return commodityService.findOne(id).map(commodity -> page().addComponent(device.isMobile() ? mallPageHelper.nextMobileCommodityDetails(commodity) : mallPageHelper.nextMobileCommodityDetails(commodity))
                 .setTitle(String.format("%s_%s", commodity.getTitle(), siteService.getTitle()))
+                .hideMobileBottomMenu()
                 .build()).orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build());
     }
 }

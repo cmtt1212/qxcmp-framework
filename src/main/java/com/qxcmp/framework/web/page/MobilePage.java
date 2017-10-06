@@ -39,6 +39,7 @@ public class MobilePage extends BaseFrontendPage {
     private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.top.fixed.menu .user.icon");
 
     private String activeBottomItem;
+    private boolean hideBottomMenu;
 
     private UserService userService;
     private NavigationService navigationService;
@@ -73,6 +74,12 @@ public class MobilePage extends BaseFrontendPage {
     }
 
     @Override
+    public AbstractPage hideMobileBottomMenu() {
+        hideBottomMenu = true;
+        return this;
+    }
+
+    @Override
     public ModelAndView build() {
 
         buildSidebarMenu();
@@ -86,7 +93,9 @@ public class MobilePage extends BaseFrontendPage {
 
         buildSidebarTopFixedMenu(user);
 
-        buildSidebarBottomFixedMenu(user);
+        if (!hideBottomMenu) {
+            buildSidebarBottomFixedMenu(user);
+        }
 
         buildSidebarContent(user);
 

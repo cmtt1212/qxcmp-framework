@@ -184,6 +184,17 @@ public abstract class AbstractPage {
         return this;
     }
 
+    /**
+     * 隐藏移动端底部导航栏
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @return 页面
+     */
+    public AbstractPage hideMobileBottomMenu() {
+        return this;
+    }
+
     public ModelAndView build() {
         modelAndView.addObject(HTML_PAGE, this);
         return modelAndView;

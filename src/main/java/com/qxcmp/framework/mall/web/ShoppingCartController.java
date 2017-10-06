@@ -49,6 +49,7 @@ public class ShoppingCartController extends AbstractQXCMPController {
 
         return page().addComponent(mallPageHelper.nextMobileShoppingCartComponent(items))
                 .setTitle("我的购物车")
+                .hideMobileBottomMenu()
                 .build();
     }
 
@@ -93,6 +94,7 @@ public class ShoppingCartController extends AbstractQXCMPController {
 
         return page().addComponent(mallPageHelper.nextMobileShoppingCartOrder(items, consigneeService.findOne(shoppingCart.getConsigneeId()).orElse(null)))
                 .setTitle("我的购物车")
+                .hideMobileBottomMenu()
                 .build();
     }
 
