@@ -4,6 +4,7 @@ import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.web.filter.QXCMPFilter;
 import com.qxcmp.framework.weixin.WeixinMpMessageHandler;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -11,6 +12,7 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -126,5 +128,13 @@ public class QXCMPConfiguration {
         wxPayConfig.setKeyPath(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_KEY_PATH).orElse(""));
         wxPayConfig.setTradeType("JSAPI");
         return wxPayConfig;
+    }
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        QXCMPFilter qxcmpFilter = new QXCMPFilter();
+        filterRegistrationBean.setFilter(qxcmpFilter);
+        return filterRegistrationBean;
     }
 }
