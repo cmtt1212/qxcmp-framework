@@ -1,8 +1,5 @@
 package com.qxcmp.framework.web.view.elements.icon;
 
-import com.qxcmp.framework.web.view.support.Color;
-import com.qxcmp.framework.web.view.support.Size;
-
 /**
  * 圆形图标
  *

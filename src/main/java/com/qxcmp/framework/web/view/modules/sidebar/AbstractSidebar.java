@@ -5,7 +5,6 @@ import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
 import com.qxcmp.framework.web.view.support.Direction;
-import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.support.Width;
 import lombok.Getter;
 import lombok.Setter;

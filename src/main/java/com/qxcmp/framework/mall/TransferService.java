@@ -22,6 +22,7 @@ public interface TransferService {
      * @param fee  转账金额
      *
      * @return 转账交易记录
+     *
      * @throws FinanceException 如果转账失败，抛出财务类异常
      */
     Optional<TransferRecord> transfer(String from, String to, int fee) throws FinanceException;
@@ -35,6 +36,7 @@ public interface TransferService {
      * @param feeType 货币类型
      *
      * @return 转账交易记录
+     *
      * @throws FinanceException 如果转账失败，抛出财务类异常
      */
     Optional<TransferRecord> transfer(String from, String to, int fee, String feeType) throws FinanceException;

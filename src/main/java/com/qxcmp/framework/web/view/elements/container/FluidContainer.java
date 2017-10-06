@@ -1,9 +1,5 @@
 package com.qxcmp.framework.web.view.elements.container;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 /**
  * 流容器
  * <p>

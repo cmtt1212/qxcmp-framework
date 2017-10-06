@@ -3,8 +3,6 @@ package com.qxcmp.framework.web.view.modules.form.field;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * 头像上传表单
  *

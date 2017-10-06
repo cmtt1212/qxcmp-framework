@@ -3,7 +3,6 @@ package com.qxcmp.framework.account.phone;
 import com.qxcmp.framework.core.validation.Phone;
 import com.qxcmp.framework.core.validation.Username;
 import com.qxcmp.framework.web.view.annotation.form.*;
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 import javax.validation.constraints.Size;

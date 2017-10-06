@@ -1,7 +1,6 @@
 package com.qxcmp.framework.web.view.annotation.table;
 
 
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Color;
 

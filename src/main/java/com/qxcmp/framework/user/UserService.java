@@ -1,9 +1,9 @@
 package com.qxcmp.framework.user;
 
-import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.core.support.ImageGenerator;
+import com.qxcmp.framework.domain.ImageService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -10,12 +10,7 @@ import java.util.UUID;
 /**
  * 主键生成工具
  * <p>
- * 生成算法如下
- * <ol>
- * <li>获取随机UUID</li>
- * <li>对生成的UUID进行SHA哈希</li>
- * <li>返回哈希后的字符串Base64编码</li>
- * </ol>
+ * 生成算法如下 <ol> <li>获取随机UUID</li> <li>对生成的UUID进行SHA哈希</li> <li>返回哈希后的字符串Base64编码</li> </ol>
  *
  * @author aaric
  */

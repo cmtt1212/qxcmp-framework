@@ -1,7 +1,5 @@
 package com.qxcmp.framework.config;
 
-import org.springframework.stereotype.Service;
-
 /**
  * 网站相关服务
  *

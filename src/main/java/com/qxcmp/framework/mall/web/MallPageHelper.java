@@ -49,6 +49,7 @@ public class MallPageHelper {
      * 商品详情移动端页面组件
      *
      * @param commodity
+     *
      * @return
      */
     public Component nextMobileCommodityDetails(Commodity commodity) {

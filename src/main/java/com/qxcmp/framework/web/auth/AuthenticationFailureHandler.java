@@ -102,8 +102,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     /**
      * 计算是否生成验证码
      * <p>
-     * 如果认证失败次数超过 {@link QXCMPSystemConfigConfiguration#SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD}
-     * 以后则生成验证码
+     * 如果认证失败次数超过 {@link QXCMPSystemConfigConfiguration#SYSTEM_CONFIG_AUTHENTICATION_CAPTCHA_THRESHOLD} 以后则生成验证码
      *
      * @param request 认证请求
      */

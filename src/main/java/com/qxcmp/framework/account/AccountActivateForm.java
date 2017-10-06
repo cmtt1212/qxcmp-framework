@@ -3,7 +3,6 @@ package com.qxcmp.framework.account;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 /**

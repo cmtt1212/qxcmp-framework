@@ -12,12 +12,12 @@ public class AbstractImageController extends AbstractQXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {
-        return page().addComponent( new Avatar(siteService.getLogo())).build();
+        return page().addComponent(new Avatar(siteService.getLogo())).build();
     }
 
     @GetMapping("/2")
     public ModelAndView testPage2() {
-        return page().addComponent( new Image(siteService.getLogo())).build();
+        return page().addComponent(new Image(siteService.getLogo())).build();
     }
 
     @GetMapping("/3")

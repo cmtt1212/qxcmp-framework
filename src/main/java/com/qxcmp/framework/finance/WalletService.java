@@ -1,8 +1,8 @@
 package com.qxcmp.framework.finance;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
-import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.core.support.IDGenerator;
+import com.qxcmp.framework.user.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

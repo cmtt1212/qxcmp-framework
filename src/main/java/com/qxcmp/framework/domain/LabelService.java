@@ -49,8 +49,8 @@ public class LabelService extends AbstractEntityService<Label, Long, LabelReposi
                 s.setDateModified(new Date());
 
                 /*
-                * 如果标签重命名失败则返回空
-                * */
+                 * 如果标签重命名失败则返回空
+                 * */
                 try {
                     return repository.save(s);
                 } catch (DataIntegrityViolationException e) {

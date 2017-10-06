@@ -5,8 +5,7 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * 网络端口验证
- * Created by y27chen on 3/22/2017.
+ * 网络端口验证 Created by y27chen on 3/22/2017.
  */
 @Documented
 @Target({ElementType.METHOD, ElementType.FIELD})
