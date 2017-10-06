@@ -17,7 +17,6 @@ import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author aaric
  */
-@Profile("mall")
 @RequestMapping("/mall/cashier")
 @Controller
 @RequiredArgsConstructor

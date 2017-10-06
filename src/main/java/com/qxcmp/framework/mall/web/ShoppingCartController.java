@@ -12,7 +12,6 @@ import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,6 @@ import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
-@Profile("mall")
 @Controller
 @RequestMapping("/mall/cart")
 @RequiredArgsConstructor

@@ -6,7 +6,6 @@ import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
-@Profile("mall")
 @Controller
 @RequestMapping("/mall")
 @RequiredArgsConstructor
