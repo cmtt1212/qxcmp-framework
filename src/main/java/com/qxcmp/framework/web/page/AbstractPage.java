@@ -169,6 +169,21 @@ public abstract class AbstractPage {
         throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
+    /**
+     * 设置移动端底部激活菜单项
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param id 导航ID
+     *
+     * @return 页面
+     *
+     * @see MobilePage
+     */
+    public AbstractPage setMobileBottomMenuActiveItem(String id) {
+        return this;
+    }
+
     public ModelAndView build() {
         modelAndView.addObject(HTML_PAGE, this);
         return modelAndView;

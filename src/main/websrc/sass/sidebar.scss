@@ -1,10 +1,27 @@
 $sidebar-width: 200px;
 $sidebar-top-menu-height: 48px;
+$sidebar-top-menu-mobile-height: 54px;
 $sidebar-top-menu-logo-size: 32px;
 $sidebar-bottom-menu-height: 40px;
+$sidebar-bottom-menu-mobile-height: 70.6px;
 
 .ui.sidebar + .pusher {
   overflow-y: auto;
+}
+
+.ui.sidebar.mobile {
+
+  background: white;
+
+  .item {
+    color: #666;
+  }
+
+  + .pusher {
+    .ui.bottom.fixed.menu {
+      position: absolute;
+    }
+  }
 }
 
 .ui.top-fixed-menu.sidebar {
@@ -16,11 +33,27 @@ $sidebar-bottom-menu-height: 40px;
   }
 }
 
+.ui.top-fixed-menu.mobile.sidebar {
+  padding-top: $sidebar-top-menu-mobile-height;
+
+  + .pusher {
+    padding-top: $sidebar-top-menu-mobile-height;
+  }
+}
+
 .ui.bottom-fixed-menu.sidebar {
   padding-bottom: $sidebar-bottom-menu-height;
 
   + .pusher {
     padding-bottom: $sidebar-bottom-menu-height;;
+  }
+}
+
+.ui.bottom-fixed-menu.mobile.sidebar {
+  padding-bottom: $sidebar-bottom-menu-mobile-height;
+
+  + .pusher {
+    padding-bottom: $sidebar-bottom-menu-mobile-height;;
   }
 }
 

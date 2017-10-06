@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.views.ProfileHeader"*/-->
+<th:block th:fragment="default(component)">
+    <div class="ui profile header">
+        <div class="ui circular image">
+            <img th:src="@{${component.user.portrait}}"/>
+        </div>
+        <div class="content">
+            <div class="header" th:utext="${component.user.getDisplayName()}"></div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

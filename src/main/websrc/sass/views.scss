@@ -23,3 +23,27 @@
     }
   }
 }
+
+/* Profile header */
+.ui.profile.header {
+  text-align: center;
+  padding: 1em;
+
+  .ui.image {
+    display: block;
+    margin: auto;
+
+    img {
+      margin: 0;
+    }
+  }
+
+  .content {
+    padding: 0;
+    margin-top: 0.3em;
+
+    .header {
+      font-size: 1rem;
+    }
+  }
+}
