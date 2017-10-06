@@ -74,19 +74,7 @@ public class AdminProfilePageController extends QXCMPController {
                     .build();
         }
 
-        return submitForm(form, context -> {
-            try {
-                User user = currentUser().orElseThrow(RuntimeException::new);
-                userService.update(user.getId(), u -> {
-                    u.setPortrait(form.getPortrait());
-                    u.setName(form.getName());
-                    u.setNickname(form.getNickname());
-                    u.setPersonalizedSignature(form.getPersonalizedSignature());
-                }).ifPresent(u -> refreshUser());
-            } catch (Exception e) {
-                throw new ActionException(e.getMessage(), e);
-            }
-        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/info"));
+        return submitForm(form, context -> profilePageHelper.executeProfileInfoSubmit(form).ifPresent(user -> refreshUser()), (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/profile/info"));
     }
 
     @GetMapping("/security")
