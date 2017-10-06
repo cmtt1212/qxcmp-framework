@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class TabletPage extends AbstractFrontendPage {
+public class TabletPage extends BaseFrontendPage {
     public TabletPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }

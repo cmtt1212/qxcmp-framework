@@ -45,11 +45,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_PROFILE;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_SIDEBAR;
 
-/**
- * 后端页面
- *
- * @author Aaric
- */
 @org.springframework.stereotype.Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BackendPage extends AbstractPage {

@@ -19,7 +19,7 @@ import java.util.Collection;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MobilePage extends AbstractFrontendPage {
+public class MobilePage extends BaseFrontendPage {
 
     private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.top.fixed.menu .user.icon");
 
@@ -41,13 +41,13 @@ public class MobilePage extends AbstractFrontendPage {
     }
 
     @Override
-    public MobilePage addComponent(com.qxcmp.framework.web.view.Component component) {
+    public AbstractPage addComponent(com.qxcmp.framework.web.view.Component component) {
         sidebar.addContent(component);
         return this;
     }
 
     @Override
-    public MobilePage addComponents(Collection<? extends com.qxcmp.framework.web.view.Component> components) {
+    public AbstractPage addComponents(Collection<? extends com.qxcmp.framework.web.view.Component> components) {
         sidebar.addContents(components);
         return this;
     }

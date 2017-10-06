@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class NormalPage extends AbstractFrontendPage {
+public class NormalPage extends BaseFrontendPage {
     public NormalPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }

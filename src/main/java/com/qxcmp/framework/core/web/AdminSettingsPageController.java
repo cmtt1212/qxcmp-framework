@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
 @Controller
@@ -39,11 +40,11 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
 
     @GetMapping("")
     public ModelAndView settingsPage() {
-        return page().addComponent(new Overview("系统配置")
+        return page().addComponent(new Overview("系统设置")
                 .addComponent(convertToTable(stringObjectMap -> {
                 })))
-                .setBreadcrumb("控制台", "", "系统配置")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setBreadcrumb("控制台", "", "系统设置")
+                .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, "")
                 .build();
     }
 
@@ -76,8 +77,8 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
         form.setPreventLogin(systemConfigService.getBoolean(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE));
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
-                .setBreadcrumb("控制台", "", "系统配置", "settings", "网站配置")
-                .setVerticalMenu(getVerticalMenu("网站配置"))
+                .setBreadcrumb("控制台", "", "系统设置", "settings", "网站配置")
+                .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_SITE)
                 .addObject("selection_items_position", WATERMARK_POSITIONS)
                 .build();
     }
@@ -87,8 +88,8 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
-                    .setBreadcrumb("控制台", "", "系统配置", "settings", "网站配置")
-                    .setVerticalMenu(getVerticalMenu("网站配置"))
+                    .setBreadcrumb("控制台", "", "系统设置", "settings", "网站配置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_SITE)
                     .addObject("selection_items_position", WATERMARK_POSITIONS)
                     .build();
         }
@@ -126,8 +127,8 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
     @GetMapping("/dictionary")
     public ModelAndView dictionaryPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, systemDictionaryService))
-                .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典")
-                .setVerticalMenu(getVerticalMenu("系统字典"))
+                .setBreadcrumb("控制台", "", "系统设置", "settings", "系统字典")
+                .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_DICTIONARY)
                 .build();
     }
 
@@ -140,8 +141,8 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
             form.getItems().add(new SystemDictionaryItem());
             return page()
                     .addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
-                    .setVerticalMenu(getVerticalMenu("系统字典"))
+                    .setBreadcrumb("控制台", "", "系统设置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_DICTIONARY)
                     .build();
         }
 
@@ -149,8 +150,8 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
             form.getItems().remove(removeItems.intValue());
             return page()
                     .addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
-                    .setVerticalMenu(getVerticalMenu("系统字典"))
+                    .setBreadcrumb("控制台", "", "系统设置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_DICTIONARY)
                     .build();
         }
 
@@ -171,13 +172,9 @@ public class AdminSettingsPageController extends AbstractQXCMPController {
             form.setItems(systemDictionary.getItems());
             return page()
                     .addComponent(convertToForm(form))
-                    .setBreadcrumb("控制台", "", "系统配置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
-                    .setVerticalMenu(getVerticalMenu("系统字典"))
+                    .setBreadcrumb("控制台", "", "系统设置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_DICTIONARY)
                     .build();
         }).orElse(overviewPage(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "网站配置", QXCMP_BACKEND_URL + "/settings/site", "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary", "安全配置", QXCMP_BACKEND_URL + "/security");
     }
 }

@@ -46,6 +46,14 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_PROFILE_SECURITY = NAVIGATION_ADMIN_PROFILE + "-SECURITY";
 
     /*
+     * 系统配置导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_SETTINGS = "ADMIN-SETTINGS";
+    public static final String NAVIGATION_ADMIN_SETTINGS_SITE = NAVIGATION_ADMIN_SETTINGS + "-SITE";
+    public static final String NAVIGATION_ADMIN_SETTINGS_DICTIONARY = NAVIGATION_ADMIN_SETTINGS + "-DICTIONARY";
+    public static final String NAVIGATION_ADMIN_SETTINGS_SECURITY = NAVIGATION_ADMIN_SETTINGS + "-SECURITY";
+
+    /*
      * 新闻管理导航栏
      * */
     public static final String NAVIGATION_ADMIN_NEWS = "ADMIN-NEWS";
@@ -142,6 +150,12 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_ORDER, "订单管理", QXCMP_BACKEND_URL + "/mall/user/store/order").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MALL)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY, "商品管理", QXCMP_BACKEND_URL + "/mall/user/store/commodity").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MALL)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_STORE, "店铺设置", QXCMP_BACKEND_URL + "/mall/user/store/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MALL)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_SETTINGS, "系统配置导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_SITE, "网站配置", QXCMP_BACKEND_URL + "/settings/site").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_DICTIONARY, "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_SECURITY, "安全配置", QXCMP_BACKEND_URL + "/security").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SECURITY)))
         );
     }
 
