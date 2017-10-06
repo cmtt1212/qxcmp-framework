@@ -1,7 +1,6 @@
 package com.qxcmp.framework.web.support;
 
-import com.qxcmp.framework.web.page.AbstractPage;
-import com.qxcmp.framework.web.page.BackendPage;
+import com.qxcmp.framework.web.page.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -11,8 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_ACCOUNT_URL;
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPConfiguration.*;
 
 /**
  * 平台页面解析器
@@ -44,20 +42,18 @@ public class QXCMPPageResolver {
 
         if (StringUtils.startsWith(requestURI, QXCMP_BACKEND_URL)) {
             return applicationContext.getBean(BackendPage.class, request, response);
-        } else if (StringUtils.startsWith(requestURI, QXCMP_ACCOUNT_URL)) {
-
+        } else if (StringUtils.startsWith(requestURI, QXCMP_ACCOUNT_URL) || StringUtils.startsWith(requestURI, QXCMP_LOGIN_URL) || StringUtils.startsWith(requestURI, QXCMP_LOGOUT_URL)) {
+            return applicationContext.getBean(NormalPage.class, request, response);
         } else {
             Device device = deviceResolver.resolve(request);
 
             if (device.isMobile()) {
-
+                return applicationContext.getBean(MobilePage.class, request, response);
             } else if (device.isTablet()) {
-
+                return applicationContext.getBean(TabletPage.class, request, response);
             } else {
-
+                return applicationContext.getBean(NormalPage.class, request, response);
             }
-
         }
-        return null;
     }
 }

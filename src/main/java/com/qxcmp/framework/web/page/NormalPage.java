@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class ComputerPage extends AbstractFrontendPage {
-    public ComputerPage(HttpServletRequest request, HttpServletResponse response) {
+public class NormalPage extends AbstractFrontendPage {
+    public NormalPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 }

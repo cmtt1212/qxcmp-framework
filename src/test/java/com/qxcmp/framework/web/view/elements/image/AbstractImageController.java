@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.image;
 
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test/elements/image")
-public class AbstractImageController extends QXCMPFrontendController {
+public class AbstractImageController extends AbstractQXCMPController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {

@@ -5,7 +5,7 @@ import com.qxcmp.framework.exception.NoBalanceException;
 import com.qxcmp.framework.mall.CommodityOrder;
 import com.qxcmp.framework.mall.CommodityOrderService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -32,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/mall/cashier")
 @Controller
 @RequiredArgsConstructor
-public class CashierController extends QXCMPFrontendController {
+public class CashierController extends AbstractQXCMPController {
 
     private final CommodityOrderService commodityOrderService;
 

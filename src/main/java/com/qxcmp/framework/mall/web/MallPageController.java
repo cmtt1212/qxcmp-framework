@@ -1,7 +1,7 @@
 package com.qxcmp.framework.mall.web;
 
 import com.qxcmp.framework.mall.CommodityService;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -20,7 +20,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping("/mall")
 @RequiredArgsConstructor
-public class MallPageController extends QXCMPFrontendController {
+public class MallPageController extends AbstractQXCMPController {
 
     private final CommodityService commodityService;
 

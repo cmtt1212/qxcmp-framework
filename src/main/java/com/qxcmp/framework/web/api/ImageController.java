@@ -3,7 +3,7 @@ package com.qxcmp.framework.web.api;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.core.validation.ImageValidator;
 import com.qxcmp.framework.domain.ImageService;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.io.FilenameUtils;
@@ -28,7 +28,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/api/image/")
 @RequiredArgsConstructor
-public class ImageController extends QXCMPFrontendController {
+public class ImageController extends AbstractQXCMPController {
 
     private final ImageService imageService;
 

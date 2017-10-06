@@ -30,7 +30,6 @@ public class MobilePage extends AbstractFrontendPage {
     /**
      * 为侧边导航栏增加内容
      * <p>
-     * 由 {@link com.qxcmp.framework.web.QXCMPFrontendController} 负责组装
      *
      * @param component
      *

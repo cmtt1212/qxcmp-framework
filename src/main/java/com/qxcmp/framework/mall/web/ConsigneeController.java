@@ -6,7 +6,7 @@ import com.qxcmp.framework.mall.Consignee;
 import com.qxcmp.framework.mall.ConsigneeService;
 import com.qxcmp.framework.mall.ShoppingCartService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPFrontendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -27,7 +27,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/mall/consignee")
 @RequiredArgsConstructor
-public class ConsigneeController extends QXCMPFrontendController {
+public class ConsigneeController extends AbstractQXCMPController {
 
     private final ConsigneeService consigneeService;
 

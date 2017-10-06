@@ -39,20 +39,11 @@ import java.util.Properties;
 @RequiredArgsConstructor
 public class QXCMPConfiguration {
 
-    /**
-     * 平台名称
-     */
     public static final String QXCMP = "清醒内容管理平台";
-
-    /**
-     * 平台后端根Url
-     */
     public static final String QXCMP_BACKEND_URL = "/admin";
-
-    /**
-     * 平台账户页面根Url
-     */
     public static final String QXCMP_ACCOUNT_URL = "/account";
+    public static final String QXCMP_LOGIN_URL = "/login";
+    public static final String QXCMP_LOGOUT_URL = "/logout";
 
     private final WeixinMpMessageHandler defaultMessageHandler;
 

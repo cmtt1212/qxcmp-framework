@@ -30,6 +30,7 @@ import javax.servlet.Filter;
 import java.util.EnumSet;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_LOGIN_URL;
 import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 
 
@@ -181,7 +182,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .ignoringAntMatchers("/api/**")
-                .and().formLogin().loginPage("/login").permitAll()
+                .and().formLogin().loginPage(QXCMP_LOGIN_URL).permitAll()
                 .and().logout()
                 .and().sessionManagement()
                 .maximumSessions(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE))
