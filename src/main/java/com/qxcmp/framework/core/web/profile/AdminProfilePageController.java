@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.core.web.profile;
 
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.account.AccountService;
@@ -56,16 +56,11 @@ public class AdminProfilePageController extends QXCMPController {
 
     private final AccountService accountService;
 
+    private final ProfilePageHelper profilePageHelper;
+
     @GetMapping("/info")
     public ModelAndView infoPage(final AdminProfileInfoForm form) {
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
-        form.setPortrait(user.getPortrait());
-        form.setName(user.getName());
-        form.setNickname(user.getNickname());
-        form.setPersonalizedSignature(user.getPersonalizedSignature());
-
-        return page().addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
+        return page().addComponent(new TextContainer().addComponent(profilePageHelper.nextProfileInfoComponent(form)))
                 .setBreadcrumb("控制台", "", "个人中心", null, "基本资料")
                 .build();
     }

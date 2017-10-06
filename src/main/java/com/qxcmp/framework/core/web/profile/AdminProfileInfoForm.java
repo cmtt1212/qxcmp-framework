@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.core.web.profile;
 
 import com.qxcmp.framework.web.view.annotation.form.AvatarField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
