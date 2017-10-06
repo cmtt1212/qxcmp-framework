@@ -89,9 +89,9 @@ public class AccountUsernameController extends AccountPageController {
                 return user;
             });
 
-            return overviewPage(new Overview("注册成功", "你已经成功注册账号，现在可以登录了").addLink("立即登录", "/login")).build();
+            return page(new Overview("注册成功", "你已经成功注册账号，现在可以登录了").addLink("立即登录", "/login")).build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("注册失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
+            return page(new Overview(new IconHeader("注册失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
 
@@ -168,9 +168,9 @@ public class AccountUsernameController extends AccountPageController {
                 Code code = codeService.nextPasswordCode(securityQuestion.getUserId());
                 return redirect("/account/reset/" + code.getId());
             } else {
-                return overviewPage(new Overview("找回密码", "密保问题错误").addLink("重新找回密码", "/account/username/reset")).build();
+                return page(new Overview("找回密码", "密保问题错误").addLink("重新找回密码", "/account/username/reset")).build();
             }
-        }).orElse(overviewPage(new Overview(new IconHeader("找回密码", new Icon("warning circle")).setSubTitle("无法找到用户信息")).addLink("返回登录", "/login")).build());
+        }).orElse(page(new Overview(new IconHeader("找回密码", new Icon("warning circle")).setSubTitle("无法找到用户信息")).addLink("返回登录", "/login")).build());
     }
 
     private boolean validateQuestion(AccountUsernameResetQuestionForm form, AccountSecurityQuestion securityQuestion) {

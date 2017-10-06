@@ -104,7 +104,7 @@ public class AdminMallPageController extends QXCMPController {
                     .addObject("selection_items_owner", userService.findAll())
                     .addObject("selection_items_admins", userService.findAll())
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
+        }).orElse(page(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
     }
 
     @PostMapping("/store/{id}/edit")
@@ -133,7 +133,7 @@ public class AdminMallPageController extends QXCMPController {
                     throw new ActionException(e.getMessage(), e);
                 }
             }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/store"));
-        }).orElse(overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
+        }).orElse(page(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
     }
 
     @GetMapping("/settings")

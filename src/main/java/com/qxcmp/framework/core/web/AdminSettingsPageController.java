@@ -162,7 +162,7 @@ public class AdminSettingsPageController extends QXCMPController {
                 systemDictionaryItem.setParent(systemDictionary);
                 systemDictionaryItemService.create(() -> systemDictionaryItem);
             });
-        })).orElse(overviewPage(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
+        })).orElse(page(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
     }
 
     @GetMapping("/dictionary/{name}/edit")
@@ -175,6 +175,6 @@ public class AdminSettingsPageController extends QXCMPController {
                     .setBreadcrumb("控制台", "", "系统设置", "settings", "系统字典", "settings/dictionary", "系统字典编辑")
                     .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_DICTIONARY)
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
+        }).orElse(page(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
     }
 }

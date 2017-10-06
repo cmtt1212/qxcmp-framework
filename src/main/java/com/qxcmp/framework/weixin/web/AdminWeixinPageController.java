@@ -129,7 +129,7 @@ public class AdminWeixinPageController extends QXCMPController {
                     .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MENU)
                     .build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
+            return page(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
                     .addComponent(new P(e.getMessage()))
                     .addLink("返回", QXCMP_BACKEND_URL + "/weixin")).build();
         }

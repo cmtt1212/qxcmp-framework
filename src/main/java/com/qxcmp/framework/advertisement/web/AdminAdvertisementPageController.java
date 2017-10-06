@@ -83,7 +83,7 @@ public class AdminAdvertisementPageController extends QXCMPController {
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
                     .addObject("selection_items_type", SUPPORT_TYPES)
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("广告不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/advertisement")).build());
+        }).orElse(page(new Overview(new IconHeader("广告不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/advertisement")).build());
     }
 
     @PostMapping("/{id}/edit")

@@ -110,7 +110,7 @@ public class AdminSecurityPageController extends QXCMPController {
                     .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("角色不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/security/role")).build());
+        }).orElse(page(new Overview(new IconHeader("角色不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/security/role")).build());
     }
 
     @PostMapping("/role/{id}/edit")

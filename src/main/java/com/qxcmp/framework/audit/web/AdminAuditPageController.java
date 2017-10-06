@@ -57,6 +57,6 @@ public class AdminAuditPageController extends QXCMPController {
                         .addLink("返回", QXCMP_BACKEND_URL + "/audit")
                 ))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "系统日志", "audit", "日志详情")
-                .build()).orElse(overviewPage(new Overview(new IconHeader("日志不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/audit")).build());
+                .build()).orElse(page(new Overview(new IconHeader("日志不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/audit")).build());
     }
 }

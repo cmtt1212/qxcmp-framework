@@ -296,7 +296,7 @@ public class AdminProfilePageController extends QXCMPController {
                     .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "邮箱绑定")
                     .build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
+            return page(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
         }
     }
 
@@ -304,7 +304,7 @@ public class AdminProfilePageController extends QXCMPController {
     public ModelAndView securityEmailBindPage(@Valid final AdminProfileSecurityEmailBindForm form, BindingResult bindingResult) {
 
         if (Objects.isNull(request.getSession().getAttribute(EMAIL_BINDING_SESSION_ATTR)) || !StringUtils.equals(form.getCaptcha(), (String) request.getSession().getAttribute(EMAIL_BINDING_SESSION_ATTR)) || bindingResult.hasErrors()) {
-            return overviewPage(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P("绑定验证不正确或者已过期")).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
+            return page(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P("绑定验证不正确或者已过期")).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
         }
 
         return submitForm(form, context -> {

@@ -214,7 +214,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
                             .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT)
                             .addObject("selection_items_channels", channelService.findByUserId(user)), user)
                             .build();
-                }).orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
+                }).orElse(page(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
 
     @PostMapping("/{id}/edit")
@@ -267,7 +267,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
                             overview.addLink("返回", QXCMP_BACKEND_URL + "/news/user/article/rejected");
                         }
                     });
-                }).orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
+                }).orElse(page(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
 
     @GetMapping("/{id}/preview")
@@ -285,7 +285,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
                         .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "预览文章")
                         .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                         .build())
-                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
+                .orElse(page(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
 
     @PostMapping("/{id}/remove")
@@ -324,7 +324,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
                         .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "申请审核")
                         .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                         .build())
-                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
+                .orElse(page(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
 
     @PostMapping("/{id}/audit")
@@ -350,7 +350,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
                                 .addLink("草稿箱", QXCMP_BACKEND_URL + "/news/user/article/draft")
                                 .addLink("未通过文章", QXCMP_BACKEND_URL + "/news/user/article/rejected")
                 ))
-                .orElse(overviewPage(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
+                .orElse(page(new Overview(new IconHeader("文章不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/news/user/article")).build());
     }
 
     @PostMapping("/{id}/repeal")

@@ -115,7 +115,7 @@ public class AccountPageController extends QXCMPController {
     public ModelAndView reset(@PathVariable String id, final AccountResetForm form) {
 
         if (codeService.isInvalidCode(id)) {
-            return overviewPage(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
+            return page(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
         }
 
         return buildPage(segment -> segment
@@ -131,7 +131,7 @@ public class AccountPageController extends QXCMPController {
         Code code = codeService.findOne(id).orElse(null);
 
         if (codeService.isInvalidCode(id)) {
-            return overviewPage(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
+            return page(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
         }
 
         if (!StringUtils.equals(form.getPassword(), form.getPasswordConfirm())) {
@@ -151,7 +151,7 @@ public class AccountPageController extends QXCMPController {
             codeService.remove(code);
         });
 
-        return overviewPage(new Overview("密码重置成功", "请使用新的密码登录").addLink("现在去登录", "/login")).build();
+        return page(new Overview("密码重置成功", "请使用新的密码登录").addLink("现在去登录", "/login")).build();
     }
 
     @GetMapping("/account/activate")
@@ -199,7 +199,7 @@ public class AccountPageController extends QXCMPController {
                     .addComponent(new Button("立即登录", "/login").setBasic())
             ).build();
         } catch (Exception e) {
-            return overviewPage(new Overview("发送激活邮件失败").addComponent(new P(e.getMessage())).addLink("重新发送", "/account/activate").addLink("返回登录", "/login")).build();
+            return page(new Overview("发送激活邮件失败").addComponent(new P(e.getMessage())).addLink("重新发送", "/account/activate").addLink("返回登录", "/login")).build();
         }
     }
 
@@ -209,7 +209,7 @@ public class AccountPageController extends QXCMPController {
             Code code = codeService.findOne(id).orElseThrow(Exception::new);
 
             if (codeService.isInvalidCode(id) || !code.getType().equals(Code.Type.ACTIVATE)) {
-                return overviewPage(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
+                return page(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
             }
 
             userService.update(code.getUserId(), user -> {
@@ -217,9 +217,9 @@ public class AccountPageController extends QXCMPController {
                 codeService.remove(code);
             });
 
-            return overviewPage(new Overview("账户激活成功", "现在可以登录您的账户了").addLink("现在去登录", "/login")).build();
+            return page(new Overview("账户激活成功", "现在可以登录您的账户了").addLink("现在去登录", "/login")).build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
+            return page(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
         }
     }
 
@@ -230,11 +230,11 @@ public class AccountPageController extends QXCMPController {
     }
 
     protected AbstractPage logonClosedPage() {
-        return overviewPage(new Overview(new IconHeader("注册功能已经关闭", new Icon("warning circle")).setSubTitle("请在注册功能开放时进行注册")).addLink("返回登录", "/login"));
+        return page(new Overview(new IconHeader("注册功能已经关闭", new Icon("warning circle")).setSubTitle("请在注册功能开放时进行注册")).addLink("返回登录", "/login"));
     }
 
     protected AbstractPage resetClosedPage() {
-        return overviewPage(new Overview(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系")).addLink("返回登录", "/login"));
+        return page(new Overview(new IconHeader("密码找回功能已经关闭", new Icon("warning circle")).setSubTitle("请与平台管理员联系")).addLink("返回登录", "/login"));
     }
 
     private ErrorMessage getLoginErrorMessage() {

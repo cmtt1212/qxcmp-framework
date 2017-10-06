@@ -89,7 +89,7 @@ public abstract class QXCMPController {
     }
 
     /**
-     * 获取一个概览视图页面
+     * 根据请求获取一个页面并设置概览视图
      *
      * @param overview 概览组件
      *
@@ -97,7 +97,7 @@ public abstract class QXCMPController {
      *
      * @see Overview
      */
-    protected AbstractPage overviewPage(Overview overview) {
+    protected AbstractPage page(Overview overview) {
         return page().addComponent(new Grid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().addItem(new Col().addComponent(overview)));
     }
 
@@ -265,8 +265,8 @@ public abstract class QXCMPController {
                         overview.addLink("返回", request.getRequestURL().toString());
                     }
 
-                    return overviewPage(overview).build();
-                }).orElse(overviewPage(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
+                    return page(overview).build();
+                }).orElse(page(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
     }
 
     /**
