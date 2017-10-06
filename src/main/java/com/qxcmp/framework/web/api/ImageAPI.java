@@ -28,7 +28,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/api/image/")
 @RequiredArgsConstructor
-public class ImageController extends AbstractQXCMPController {
+public class ImageAPI extends AbstractQXCMPController {
 
     private final ImageService imageService;
 

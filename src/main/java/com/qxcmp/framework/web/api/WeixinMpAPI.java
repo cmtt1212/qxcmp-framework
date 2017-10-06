@@ -32,7 +32,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping("/api/wxmp-cgi")
 @AllArgsConstructor
-public class WechatMpCGI extends AbstractQXCMPController {
+public class WeixinMpAPI extends AbstractQXCMPController {
 
     private WxMpService wxMpService;
 

@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.api;
 
 import com.qxcmp.framework.domain.District;
 import com.qxcmp.framework.domain.DistrictService;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/district/")
 @RequiredArgsConstructor
-public class DistrictController {
+public class DistrictAPI extends AbstractQXCMPController {
 
     private final DistrictService districtService;
 
