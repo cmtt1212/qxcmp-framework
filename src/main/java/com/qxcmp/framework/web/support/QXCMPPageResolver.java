@@ -37,12 +37,13 @@ public class QXCMPPageResolver {
      * @return 解析后的页面
      */
     public AbstractPage resolve(HttpServletRequest request, HttpServletResponse response) {
+        return resolveByPath(request.getRequestURI(), request, response);
+    }
 
-        String requestURI = request.getRequestURI();
-
-        if (StringUtils.startsWith(requestURI, QXCMP_BACKEND_URL)) {
+    public AbstractPage resolveByPath(String path, HttpServletRequest request, HttpServletResponse response) {
+        if (StringUtils.startsWith(path, QXCMP_BACKEND_URL)) {
             return applicationContext.getBean(BackendPage.class, request, response);
-        } else if (StringUtils.startsWith(requestURI, QXCMP_ACCOUNT_URL) || StringUtils.startsWith(requestURI, QXCMP_LOGIN_URL) || StringUtils.startsWith(requestURI, QXCMP_LOGOUT_URL)) {
+        } else if (StringUtils.startsWith(path, QXCMP_ACCOUNT_URL) || StringUtils.startsWith(path, QXCMP_LOGIN_URL) || StringUtils.startsWith(path, QXCMP_LOGOUT_URL)) {
             return applicationContext.getBean(NormalPage.class, request, response);
         } else {
             Device device = deviceResolver.resolve(request);

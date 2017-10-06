@@ -1,51 +1,54 @@
 package com.qxcmp.framework.web;
 
-import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.web.page.MobilePage;
-import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
 import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.html.P;
-import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.ColumnCount;
-import com.qxcmp.framework.web.view.views.Overview;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * 平台后端错误页面路由
+ * 平台错误页面路由抽象类
  * <p>
- * 用户处理平台后端遇到的所有错误消息，并生成错误消息页面
+ * 需要实现自己的错误页面路由，以添加自己的页面内容
  *
  * @author aaric
  */
 @Controller
-public class QXCMPErrorController extends BasicErrorController {
-    @Override
-    protected ModelAndView getErrorPage(HttpServletRequest request, Map<String, Object> errors) {
+@RequestMapping("/error")
+public class QXCMPErrorController extends AbstractQXCMPController implements ErrorController {
+
+    private ErrorAttributes errorAttributes;
+
+    @RequestMapping("")
+    public ModelAndView handleError(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> errors = errorAttributes.getErrorAttributes(new ServletRequestAttributes(request), true);
 
         HttpStatus status = HttpStatus.valueOf(Integer.parseInt(errors.get("status").toString()));
-        String text = parseStatusCode(status);
         String path = errors.get("path").toString();
         String message = errors.get("message").toString();
 
-        if (path.startsWith(QXCMPConfiguration.QXCMP_BACKEND_URL)) {
-            return page().addComponent(getDefaultErrorPageContent(status, text, message)).build();
-        } else {
-            return new MobilePage(request, response).addComponent(getDefaultErrorPageContent(status, text, message)).build();
-
-        }
+        return pageResolver.resolveByPath(path, request, response).addComponent(new Grid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().addItem(new Col().addComponent(viewHelper.nextWarningOverview(status.toString(), parseStatusCode(status)).addComponent(new P(message))))).build();
     }
 
-    private AbstractGrid getDefaultErrorPageContent(HttpStatus status, String text, String message) {
-        return new VerticallyDividedGrid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().setColumnCount(ColumnCount.ONE)
-                .addItem(new Col().addComponent(new Overview(new IconHeader(status.toString(), new Icon("warning circle")).setSubTitle(text)).addComponent(new P(message))));
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
+
+    @Autowired
+    public void setErrorAttributes(ErrorAttributes errorAttributes) {
+        this.errorAttributes = errorAttributes;
     }
 
     private String parseStatusCode(HttpStatus status) {

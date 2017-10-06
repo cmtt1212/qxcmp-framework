@@ -70,12 +70,12 @@ public abstract class AbstractQXCMPController {
     protected UserConfigService userConfigService;
     protected SystemConfigService systemConfigService;
     protected ViewHelper viewHelper;
+    protected QXCMPPageResolver pageResolver;
 
     private FormHelper formHelper;
     private TableHelper tableHelper;
     private CaptchaService captchaService;
     private ActionExecutor actionExecutor;
-    private QXCMPPageResolver pageResolver;
 
     /**
      * 根据请求获取一个页面
