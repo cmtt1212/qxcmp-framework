@@ -92,7 +92,7 @@ public class QXCMPSecurityConfiguration {
      * */
     public static final String PRIVILEGE_WEIXIN = "微信公众号管理权限";
     public static final String PRIVILEGE_WEIXIN_DESCRIPTION = "可以查看微信公众号管理入口页面";
-    public static final String PRIVILEGE_WEIXIN_CONFIG = "微信公众号配置管理权限";
+    public static final String PRIVILEGE_WEIXIN_SETTINGS = "微信公众号配置管理权限";
     public static final String PRIVILEGE_WEIXIN_CONFIG_DESCRIPTION = "可以修改微信公众号配置";
     public static final String PRIVILEGE_WEIXIN_MENU = "微信公众号菜单管理权限";
     public static final String PRIVILEGE_WEIXIN_MENU_DESCRIPTION = "可以修改微信公众号菜单";

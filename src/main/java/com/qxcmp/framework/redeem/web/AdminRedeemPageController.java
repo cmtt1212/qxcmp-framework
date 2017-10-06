@@ -1,6 +1,5 @@
 package com.qxcmp.framework.redeem.web;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
 @Controller
@@ -39,7 +39,7 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
     public ModelAndView redeemPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, redeemKeyService))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理")
-                .setVerticalMenu(getVerticalMenu("兑换码管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_MANAGEMENT)
                 .build();
     }
 
@@ -59,6 +59,7 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
                             stringObjectMap.put("过期时间", redeemKey.getDateExpired());
                         })).addLink("返回", QXCMP_BACKEND_URL + "/redeem")))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码详情")
+                .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_MANAGEMENT)
                 .build()).orElse(overviewPage(new Overview(new IconHeader("兑换码不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/redeem")).build());
     }
 
@@ -70,7 +71,7 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "生成兑换码")
-                .setVerticalMenu(getVerticalMenu("兑换码管理"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_MANAGEMENT)
                 .addObject("selection_items_type", systemConfigService.getList(SYSTEM_CONFIG_REDEEM_TYPE_LIST))
                 .build();
     }
@@ -82,7 +83,7 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "生成兑换码")
-                    .setVerticalMenu(getVerticalMenu("兑换码管理"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_MANAGEMENT)
                     .addObject("selection_items_type", systemConfigService.getList(SYSTEM_CONFIG_REDEEM_TYPE_LIST))
                     .build();
         }
@@ -130,7 +131,7 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
-                .setVerticalMenu(getVerticalMenu("兑换码配置"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_SETTINGS)
                 .build();
     }
 
@@ -143,7 +144,7 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
             form.getType().add("");
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
-                    .setVerticalMenu(getVerticalMenu("兑换码配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_SETTINGS)
                     .build();
         }
 
@@ -151,14 +152,14 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
             form.getType().remove(removeType.intValue());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
-                    .setVerticalMenu(getVerticalMenu("兑换码配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_SETTINGS)
                     .build();
         }
 
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "兑换码管理", "redeem", "兑换码配置")
-                    .setVerticalMenu(getVerticalMenu("兑换码配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_REDEEM, NAVIGATION_ADMIN_REDEEM_SETTINGS)
                     .build();
         }
 
@@ -171,9 +172,5 @@ public class AdminRedeemPageController extends AbstractQXCMPController {
                 throw new ActionException(e.getMessage(), e);
             }
         });
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "兑换码管理", QXCMP_BACKEND_URL + "/redeem", "兑换码配置", QXCMP_BACKEND_URL + "/redeem/settings");
     }
 }

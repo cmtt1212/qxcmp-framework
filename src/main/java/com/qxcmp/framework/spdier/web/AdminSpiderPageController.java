@@ -1,6 +1,5 @@
 package com.qxcmp.framework.spdier.web;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.spdier.SpiderContextHolder;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/spider")
@@ -36,7 +36,7 @@ public class AdminSpiderPageController extends AbstractQXCMPController {
     public ModelAndView spiderPage() {
         return page().addComponent(convertToTable(SpiderDefinition.class, new PageImpl<>(Lists.newArrayList(spiderContextHolder.getSpiderDefinitions().values()), new PageRequest(0, 100), spiderContextHolder.getSpiderDefinitions().values().size())))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "蜘蛛管理")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SPIDER, "")
                 .build();
     }
 
@@ -82,7 +82,7 @@ public class AdminSpiderPageController extends AbstractQXCMPController {
     public ModelAndView spiderStatusPage() {
         return page().addComponent(convertToTable(SpiderRuntime.class, new PageImpl<>(Lists.newArrayList(spiderContextHolder.getSpiderRuntimeInfo()), new PageRequest(0, 100), spiderContextHolder.getSpiderRuntimeInfo().size())))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "蜘蛛管理", "spider", "运行状态")
-                .setVerticalMenu(getVerticalMenu("运行状态"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SPIDER, NAVIGATION_ADMIN_SPIDER_STATUS)
                 .build();
     }
 
@@ -110,11 +110,7 @@ public class AdminSpiderPageController extends AbstractQXCMPController {
     public ModelAndView spiderLogPage(Pageable pageable) {
         return page().addComponent(convertToTable(pageable, spiderLogService))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "蜘蛛管理", "spider", "蜘蛛日志")
-                .setVerticalMenu(getVerticalMenu("蜘蛛日志"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_SPIDER, NAVIGATION_ADMIN_SPIDER_LOG)
                 .build();
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "运行状态", QXCMP_BACKEND_URL + "/spider/status", "蜘蛛日志", QXCMP_BACKEND_URL + "/spider/log");
     }
 }

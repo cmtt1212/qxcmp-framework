@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Form("公众号配置")
 @Data
-public class AdminWeixinMpForm {
+public class AdminWeixinSettingsForm {
 
     @BooleanField("调试模式")
     private boolean debug;

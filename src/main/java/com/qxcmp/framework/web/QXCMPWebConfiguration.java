@@ -167,7 +167,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/published", QXCMP_BACKEND_URL + "/news/article/**/disabled", QXCMP_BACKEND_URL + "/news/article/**/enable", QXCMP_BACKEND_URL + "/news/article/**/disable", QXCMP_BACKEND_URL + "/news/article/**/remove").hasRole(PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/user/**").hasRole(PRIVILEGE_NEWS)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/**").hasRole(PRIVILEGE_NEWS)
-                .antMatchers(QXCMP_BACKEND_URL + "/weixin/mp/**").hasRole(PRIVILEGE_WEIXIN_CONFIG)
+                .antMatchers(QXCMP_BACKEND_URL + "/weixin/settings/**").hasRole(PRIVILEGE_WEIXIN_SETTINGS)
                 .antMatchers(QXCMP_BACKEND_URL + "/weixin/menu/**").hasRole(PRIVILEGE_WEIXIN_MENU)
                 .antMatchers(QXCMP_BACKEND_URL + "/weixin/material/**").hasRole(PRIVILEGE_WEIXIN_MATERIAL)
                 .antMatchers(QXCMP_BACKEND_URL + "/weixin/**").hasRole(PRIVILEGE_WEIXIN)

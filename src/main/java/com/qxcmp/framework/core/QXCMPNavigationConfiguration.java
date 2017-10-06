@@ -121,6 +121,28 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS = NAVIGATION_ADMIN_MESSAGE + "-EMAIL-SETTINGS";
     public static final String NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS = NAVIGATION_ADMIN_MESSAGE + "-SMS-SETTINGS";
 
+    /*
+     * 兑换码管理导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_REDEEM = "ADMIN-REDEEM";
+    public static final String NAVIGATION_ADMIN_REDEEM_MANAGEMENT = NAVIGATION_ADMIN_REDEEM + "-MANAGEMENT";
+    public static final String NAVIGATION_ADMIN_REDEEM_SETTINGS = NAVIGATION_ADMIN_REDEEM + "-SETTINGS";
+
+    /*
+     * 蜘蛛管理导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_SPIDER = "ADMIN-SPIDER";
+    public static final String NAVIGATION_ADMIN_SPIDER_STATUS = NAVIGATION_ADMIN_SPIDER + "-STATUS";
+    public static final String NAVIGATION_ADMIN_SPIDER_LOG = NAVIGATION_ADMIN_SPIDER + "-LOG";
+
+    /*
+     * 微信公众平台导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_WEIXIN = "ADMIN-WEIXIN";
+    public static final String NAVIGATION_ADMIN_WEIXIN_MATERIAL = NAVIGATION_ADMIN_WEIXIN + "-MATERIAL";
+    public static final String NAVIGATION_ADMIN_WEIXIN_MENU = NAVIGATION_ADMIN_SPIDER + "-MENU";
+    public static final String NAVIGATION_ADMIN_WEIXIN_SETTINGS = NAVIGATION_ADMIN_SPIDER + "-SETTINGS";
+
     @Override
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "侧边导航栏")
@@ -195,6 +217,22 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND, "邮件发送服务", QXCMP_BACKEND_URL + "/message/email/send").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_EMAIL_SEND)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS, "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_SMS_CONFIG)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS, "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/settings").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_EMAIL_CONFIG)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_REDEEM, "兑换码管理导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_REDEEM_MANAGEMENT, "兑换码管理", QXCMP_BACKEND_URL + "/redeem").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_REDEEM)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_REDEEM_SETTINGS, "兑换码配置", QXCMP_BACKEND_URL + "/redeem/settings").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_REDEEM)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_SPIDER, "蜘蛛管理导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_SPIDER_STATUS, "运行状态", QXCMP_BACKEND_URL + "/spider/status").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SPIDER)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SPIDER_LOG, "抓取日志", QXCMP_BACKEND_URL + "/spider/log").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SPIDER)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_WEIXIN, "微信公众号导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_MATERIAL, "素材管理", QXCMP_BACKEND_URL + "/weixin/material").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_MATERIAL)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_MENU, "公众号菜单", QXCMP_BACKEND_URL + "/weixin/menu").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_MENU)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_SETTINGS, "公众号配置", QXCMP_BACKEND_URL + "/weixin/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_SETTINGS)))
         );
     }
 

@@ -1,6 +1,5 @@
 package com.qxcmp.framework.weixin.web;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
@@ -25,10 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
 @Controller
@@ -54,12 +53,12 @@ public class AdminWeixinPageController extends AbstractQXCMPController {
                     stringObjectMap.put("欢迎语", systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE).orElse(""));
                 })))
                 .setBreadcrumb("控制台", "", "微信公众平台")
-                .setVerticalMenu(getVerticalMenu(""))
+                .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, "")
                 .build();
     }
 
-    @GetMapping("/mp")
-    public ModelAndView weixinMpPage(final AdminWeixinMpForm form) {
+    @GetMapping("/settings")
+    public ModelAndView weixinMpPage(final AdminWeixinSettingsForm form) {
 
         form.setDebug(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG).orElse(false));
         form.setAppId(systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID).orElse(""));
@@ -72,18 +71,18 @@ public class AdminWeixinPageController extends AbstractQXCMPController {
         return page()
                 .addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号配置")
-                .setVerticalMenu(getVerticalMenu("公众号配置"))
+                .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_SETTINGS)
                 .build();
     }
 
-    @PostMapping("/mp")
-    public ModelAndView weixinMpPage(@Valid final AdminWeixinMpForm form, BindingResult bindingResult) {
+    @PostMapping("/settings")
+    public ModelAndView weixinMpPage(@Valid final AdminWeixinSettingsForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号配置")
-                    .setVerticalMenu(getVerticalMenu("公众号配置"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_SETTINGS)
                     .build();
         }
 
@@ -127,7 +126,7 @@ public class AdminWeixinPageController extends AbstractQXCMPController {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号菜单")
-                    .setVerticalMenu(getVerticalMenu("公众号菜单"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MENU)
                     .build();
         } catch (Exception e) {
             return overviewPage(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
@@ -143,7 +142,7 @@ public class AdminWeixinPageController extends AbstractQXCMPController {
             return page()
                     .addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "公众号菜单")
-                    .setVerticalMenu(getVerticalMenu("公众号菜单"))
+                    .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MENU)
                     .build();
         }
 
@@ -154,9 +153,5 @@ public class AdminWeixinPageController extends AbstractQXCMPController {
                 throw new ActionException(e.getMessage(), e);
             }
         });
-    }
-
-    private List<String> getVerticalMenu(String activeItem) {
-        return ImmutableList.of(activeItem, "素材管理", QXCMP_BACKEND_URL + "/weixin/material", "公众号菜单", QXCMP_BACKEND_URL + "/weixin/menu", "公众号配置", QXCMP_BACKEND_URL + "/weixin/mp");
     }
 }
