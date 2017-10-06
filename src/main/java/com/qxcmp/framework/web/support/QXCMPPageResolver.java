@@ -1,6 +1,5 @@
 package com.qxcmp.framework.web.support;
 
-import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.page.BackendPage;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,6 @@ public class QXCMPPageResolver {
 
     private final QXCMPDeviceResolver deviceResolver;
 
-    private final UserService userService;
-
     /**
      * 把请求解析为一个页面
      *
@@ -46,7 +43,7 @@ public class QXCMPPageResolver {
         String requestURI = request.getRequestURI();
 
         if (StringUtils.startsWith(requestURI, QXCMP_BACKEND_URL)) {
-            return applicationContext.getBean(BackendPage.class, request, response, userService.currentUser());
+            return applicationContext.getBean(BackendPage.class, request, response);
         } else if (StringUtils.startsWith(requestURI, QXCMP_ACCOUNT_URL)) {
 
         } else {

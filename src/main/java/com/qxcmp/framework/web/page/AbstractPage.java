@@ -2,8 +2,10 @@ package com.qxcmp.framework.web.page;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
 import com.qxcmp.framework.web.view.html.JavaScript;
 import com.qxcmp.framework.web.view.html.Stylesheet;
+import com.qxcmp.framework.web.view.support.Color;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,20 +87,77 @@ public abstract class AbstractPage {
         return this;
     }
 
+    /**
+     * 设置页面面包屑
+     * <p>
+     * 仅支持后端页面
+     * <p>
+     * 格式：["控制台","","用户管理","user","编辑用户"]
+     *
+     * @param breadcrumb 面包屑参数
+     *
+     * @return 页面
+     */
     public AbstractPage setBreadcrumb(String... breadcrumb) {
-        return this;
+        throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
+    @Deprecated
     public AbstractPage setVerticalMenu(List<String> menus) {
         return this;
     }
 
-    public AbstractPage setVerticalNavigation(String id, String activeItem) {
-        return this;
+    /**
+     * 设置垂直菜单导航
+     * <p>
+     * 仅支持后端页面
+     *
+     * @param id       导航ID
+     * @param activeId 当前激活的导航ID
+     *
+     * @return 页面
+     */
+    public AbstractPage setVerticalNavigation(String id, String activeId) {
+        throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
+    /**
+     * @param id   子导航ID
+     * @param text 徽章文本
+     *
+     * @return 页面
+     *
+     * @see #setVerticalNavigationBadge(String, AbstractLabel)
+     */
     public AbstractPage setVerticalNavigationBadge(String id, String text) {
-        return this;
+        throw new UnsupportedOperationException(getClass().getSimpleName());
+    }
+
+    /**
+     * @param id    子导航ID
+     * @param text  徽章文本
+     * @param color 徽章颜色
+     *
+     * @return 页面
+     *
+     * @see #setVerticalNavigationBadge(String, AbstractLabel)
+     */
+    public AbstractPage setVerticalNavigationBadge(String id, String text, Color color) {
+        throw new UnsupportedOperationException(getClass().getSimpleName());
+    }
+
+    /**
+     * 设置垂直菜单导航徽章
+     * <p>
+     * 仅支持后端页面
+     *
+     * @param id    子导航ID
+     * @param label 徽章
+     *
+     * @return 页面
+     */
+    public AbstractPage setVerticalNavigationBadge(String id, AbstractLabel label) {
+        throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
     public ModelAndView build() {
