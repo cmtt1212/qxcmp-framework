@@ -43,7 +43,7 @@ public class Overview extends AbstractComponent {
     /**
      * 内容对齐方式
      */
-    private Alignment alignment = Alignment.NONE;
+    private Alignment alignment = Alignment.CENTER;
 
     public Overview addLink(AbstractButton button) {
         links.add(button);

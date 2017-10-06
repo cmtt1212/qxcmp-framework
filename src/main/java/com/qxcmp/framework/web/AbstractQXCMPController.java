@@ -19,7 +19,7 @@ import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.support.QXCMPPageResolver;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -29,9 +29,9 @@ import com.qxcmp.framework.web.view.modules.table.EntityTable;
 import com.qxcmp.framework.web.view.modules.table.Table;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
-import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
+import com.qxcmp.framework.web.view.support.utils.ViewHelper;
 import com.qxcmp.framework.web.view.views.Overview;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,48 +63,51 @@ import java.util.function.Consumer;
 public abstract class AbstractQXCMPController {
 
     protected HttpServletRequest request;
-
     protected HttpServletResponse response;
-
     protected ApplicationContext applicationContext;
-
     protected SiteService siteService;
-
     protected UserService userService;
-
     protected UserConfigService userConfigService;
-
     protected SystemConfigService systemConfigService;
+    protected ViewHelper viewHelper;
 
     private FormHelper formHelper;
-
     private TableHelper tableHelper;
-
     private CaptchaService captchaService;
-
     private ActionExecutor actionExecutor;
-
     private QXCMPPageResolver pageResolver;
 
+    /**
+     * 根据请求获取一个页面
+     *
+     * @return 由页面解析器解析出来的页面
+     *
+     * @see QXCMPPageResolver
+     */
     protected AbstractPage page() {
         return pageResolver.resolve(request, response);
     }
 
+    /**
+     * 获取一个概览视图页面
+     *
+     * @param overview 概览组件
+     *
+     * @return 概览视图页面
+     *
+     * @see Overview
+     */
     protected AbstractPage overviewPage(Overview overview) {
-        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(overview)));
+        return page().addComponent(new Grid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().addItem(new Col().addComponent(overview)));
     }
 
-    protected Optional<User> currentUser() {
-        return Optional.ofNullable(userService.currentUser());
-    }
-
-    protected void refreshUser() {
-        currentUser().ifPresent(currentUser -> userService.update(currentUser.getId(), user -> {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }));
-    }
-
+    /**
+     * 获取一个重定向页面
+     *
+     * @param url 重定向链接
+     *
+     * @return 重定向页面
+     */
     protected ModelAndView redirect(String url) {
         return new ModelAndView("redirect:" + url);
     }
@@ -146,6 +149,25 @@ public abstract class AbstractQXCMPController {
         Map<String, Object> dictionary = Maps.newLinkedHashMap();
         consumer.accept(dictionary);
         return convertToTable(dictionary);
+    }
+
+    /**
+     * 获取当前请求对应的认证用户
+     *
+     * @return 当前认证用户
+     */
+    protected Optional<User> currentUser() {
+        return Optional.ofNullable(userService.currentUser());
+    }
+
+    /**
+     * 刷新当前用户实体
+     */
+    protected void refreshUser() {
+        currentUser().ifPresent(currentUser -> userService.update(currentUser.getId(), user -> {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }));
     }
 
     /**
@@ -192,23 +214,11 @@ public abstract class AbstractQXCMPController {
         return request.getRemoteAddr();
     }
 
-
     protected ModelAndView submitForm(Object form, Action action) {
         return submitForm(form, action, (stringObjectMap, overview) -> {
         });
     }
 
-    /**
-     * 提交一个表单并执行相应操作
-     * <p>
-     * 该操作会被记录到审计日志中
-     *
-     * @param form       要提交的表单
-     * @param action     要执行的操作
-     * @param biConsumer 返回的结果页面
-     *
-     * @return 提交后的页面
-     */
     protected ModelAndView submitForm(Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
         return submitForm("", form, action, biConsumer);
     }
@@ -259,6 +269,14 @@ public abstract class AbstractQXCMPController {
                 }).orElse(overviewPage(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
     }
 
+    /**
+     * 执行一个操作并记录到审计日志中
+     *
+     * @param title  操作名称
+     * @param action 要执行的操作
+     *
+     * @return 操作结果实体
+     */
     protected RestfulResponse audit(String title, Action action) {
         return actionExecutor.execute(title, request.getRequestURL().toString(), getRequestContent(request), currentUser().orElse(null), action).map(auditLog -> {
 
@@ -273,7 +291,6 @@ public abstract class AbstractQXCMPController {
 
         }).orElse(new RestfulResponse(HttpStatus.BAD_GATEWAY.value(), "", "Can't save audit log"));
     }
-
 
     private String getRequestContent(HttpServletRequest request) {
         if (request.getMethod().equalsIgnoreCase("get")) {
@@ -323,6 +340,11 @@ public abstract class AbstractQXCMPController {
     @Autowired
     public void setSystemConfigService(SystemConfigService systemConfigService) {
         this.systemConfigService = systemConfigService;
+    }
+
+    @Autowired
+    public void setViewHelper(ViewHelper viewHelper) {
+        this.viewHelper = viewHelper;
     }
 
     @Autowired
