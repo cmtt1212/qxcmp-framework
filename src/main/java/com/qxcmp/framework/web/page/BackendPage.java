@@ -35,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -104,29 +103,6 @@ public class BackendPage extends AbstractPage {
         }
 
         this.breadcrumb = bc;
-        return this;
-    }
-
-    @Override
-    public AbstractPage setVerticalMenu(List<String> menus) {
-        checkArgument(!menus.isEmpty());
-        String activeItem = menus.get(0);
-
-        VerticalMenu verticalMenu = new VerticalMenu().setFluid();
-        verticalMenu.setTabular();
-
-        for (int i = 1; i < menus.size(); i += 2) {
-            TextItem textItem = new TextItem(menus.get(i), menus.get(i + 1));
-
-            if (textItem.getText().equals(activeItem)) {
-                textItem.setActive();
-            }
-
-            verticalMenu.addItem(textItem);
-        }
-
-        this.verticalMenu = verticalMenu;
-
         return this;
     }
 

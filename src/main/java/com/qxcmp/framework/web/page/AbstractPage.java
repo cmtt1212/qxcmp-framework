@@ -116,11 +116,6 @@ public abstract class AbstractPage {
         throw new UnsupportedOperationException(getClass().getSimpleName());
     }
 
-    @Deprecated
-    public AbstractPage setVerticalMenu(List<String> menus) {
-        return this;
-    }
-
     /**
      * 设置垂直菜单导航
      * <p>
