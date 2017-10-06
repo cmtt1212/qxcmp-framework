@@ -37,8 +37,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_PROFILE;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_SIDEBAR;
@@ -63,6 +65,13 @@ public class BackendPage extends AbstractPage {
 
     public BackendPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
+    }
+
+    @Override
+    public AbstractPage addComponent(Supplier<Component> supplier) {
+        Component component = checkNotNull(supplier.get(), "Component is null");
+        mainContent.addComponent(component);
+        return this;
     }
 
     @Override

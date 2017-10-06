@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
-import com.qxcmp.framework.web.QXCMPBackendController;
+import com.qxcmp.framework.web.AbstractQXCMPController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -34,7 +34,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/weixin")
 @RequiredArgsConstructor
-public class AdminWeixinPageController extends QXCMPBackendController {
+public class AdminWeixinPageController extends AbstractQXCMPController {
 
     private final WxMpService wxMpService;
 

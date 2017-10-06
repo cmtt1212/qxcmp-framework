@@ -3,6 +3,7 @@
 */-->
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!--/*@thymesVar id="page" type="com.qxcmp.framework.web.page.AbstractPage"*/-->
 <head>
     <!--/* 元数据 */-->
     <meta charset=" UTF-8"/>
@@ -12,7 +13,7 @@
     <meta name="keywords" th:content="${@siteServiceImpl.getKeywords()} ?: _"/>
     <meta name="description" th:content="${@siteServiceImpl.getDescription()} ?: _"/>
 
-    <title th:text="${title} ?: ${@siteServiceImpl.getTitle()}"></title>
+    <title th:text="${page.title} ?: ${@siteServiceImpl.getTitle()}"></title>
 
     <link rel="icon" type="image/png" sizes="32x32" th:href="@{${@siteServiceImpl.getFavicon()}}"/>
 
@@ -20,11 +21,11 @@
 
     <script th:src="@{/assets/scripts/qxcmp.js}"></script>
 
-    <th:block th:each="style : ${stylesheet}">
+    <th:block th:each="style : ${page.stylesheets}">
         <style th:replace="~{__${style.fragmentFile}__ :: __${style.fragmentName}__}"></style>
     </th:block>
 
-    <th:block th:each="script : ${javascript}">
+    <th:block th:each="script : ${page.javaScripts}">
         <script th:replace="~{__${script.fragmentFile}__ :: __${script.fragmentName}__}"></script>
     </th:block>
 </head>

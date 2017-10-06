@@ -6,32 +6,40 @@ import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
 import com.qxcmp.framework.web.view.html.JavaScript;
 import com.qxcmp.framework.web.view.html.Stylesheet;
 import com.qxcmp.framework.web.view.support.Color;
+import lombok.Getter;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractPage {
 
     private static final String DEFAULT_PAGE_VIEW = "qxcmp";
-    private static final String HTML_STYLESHEET = "stylesheet";
-    private static final String HTML_JAVASCRIPT = "javascript";
-    private static final String HTML_JAVASCRIPT_BODY = "javascriptBody";
+    private static final String HTML_PAGE = "page";
 
     private ModelAndView modelAndView = new ModelAndView(DEFAULT_PAGE_VIEW);
 
     private HttpServletRequest request;
-
     private HttpServletResponse response;
 
+    @Getter
+    private String title;
+
+    @Getter
     private List<Component> components = Lists.newArrayList();
 
+    @Getter
     private List<Stylesheet> stylesheets = Lists.newArrayList();
 
+    @Getter
     private List<JavaScript> javaScripts = Lists.newArrayList();
 
+    @Getter
     private List<JavaScript> bodyJavaScripts = Lists.newArrayList();
 
     public AbstractPage(HttpServletRequest request, HttpServletResponse response) {
@@ -40,22 +48,12 @@ public abstract class AbstractPage {
     }
 
     public AbstractPage setTitle(String title) {
-        modelAndView.addObject("title", title);
+        this.title = title;
         return this;
     }
 
     public AbstractPage setViewName(String viewName) {
         modelAndView.setViewName(viewName);
-        return this;
-    }
-
-    public AbstractPage addComponent(Component component) {
-        components.add(component);
-        return this;
-    }
-
-    public AbstractPage addComponents(Collection<? extends Component> components) {
-        this.components.addAll(components);
         return this;
     }
 
@@ -66,6 +64,22 @@ public abstract class AbstractPage {
 
     public AbstractPage addObject(String key, Object object) {
         modelAndView.addObject(key, object);
+        return this;
+    }
+
+    public AbstractPage addComponent(Supplier<Component> supplier) {
+        Component component = checkNotNull(supplier.get(), "Component is null");
+        components.add(component);
+        return this;
+    }
+
+    public AbstractPage addComponent(Component component) {
+        components.add(component);
+        return this;
+    }
+
+    public AbstractPage addComponents(Collection<? extends Component> components) {
+        this.components.addAll(components);
         return this;
     }
 
@@ -161,15 +175,8 @@ public abstract class AbstractPage {
     }
 
     public ModelAndView build() {
-        modelAndView.addObject("page", this);
-        modelAndView.addObject(HTML_STYLESHEET, stylesheets);
-        modelAndView.addObject(HTML_JAVASCRIPT, javaScripts);
-        modelAndView.addObject(HTML_JAVASCRIPT_BODY, bodyJavaScripts);
+        modelAndView.addObject(HTML_PAGE, this);
         return modelAndView;
-    }
-
-    public List<Component> getComponents() {
-        return components;
     }
 
     public HttpServletRequest getRequest() {
