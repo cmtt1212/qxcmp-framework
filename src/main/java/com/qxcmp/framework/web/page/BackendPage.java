@@ -1,5 +1,7 @@
 package com.qxcmp.framework.web.page;
 
+import com.qxcmp.framework.config.SiteService;
+import com.qxcmp.framework.core.QXCMPNavigationConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.Component;
@@ -12,15 +14,20 @@ import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
 import com.qxcmp.framework.web.view.elements.label.Label;
-import com.qxcmp.framework.web.view.elements.menu.AbstractMenu;
+import com.qxcmp.framework.web.view.elements.menu.Menu;
+import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalMenu;
-import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
+import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
+import com.qxcmp.framework.web.view.elements.menu.item.*;
+import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
 import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.SidebarConfig;
 import com.qxcmp.framework.web.view.support.Color;
+import com.qxcmp.framework.web.view.support.Fixed;
 import com.qxcmp.framework.web.view.support.Wide;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,6 +40,7 @@ import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_SIDEBAR;
 
 /**
  * 后端页面
@@ -42,8 +50,6 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @org.springframework.stereotype.Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BackendPage extends AbstractPage {
-
-    private final NavigationService navigationService;
 
     private final User user;
 
@@ -64,9 +70,11 @@ public class BackendPage extends AbstractPage {
      */
     private VerticalMenu verticalMenu;
 
-    public BackendPage(HttpServletRequest request, HttpServletResponse response, NavigationService navigationService, User user) {
+    private SiteService siteService;
+    private NavigationService navigationService;
+
+    public BackendPage(HttpServletRequest request, HttpServletResponse response, User user) {
         super(request, response);
-        this.navigationService = navigationService;
         this.user = user;
     }
 
@@ -82,26 +90,6 @@ public class BackendPage extends AbstractPage {
         return this;
     }
 
-    public BackendPage setTopMenu(AbstractMenu menu) {
-        sidebar.setTopFixedMenu(menu);
-        return this;
-    }
-
-    public BackendPage setBottomMenu(AbstractMenu menu) {
-        sidebar.setBottomFixedMenu(menu);
-        return this;
-    }
-
-    public BackendPage addSideContent(Component content) {
-        sidebar.addSideContent(content);
-        return this;
-    }
-
-    public BackendPage setBreadcrumb(AbstractBreadcrumb breadcrumb) {
-        this.breadcrumb = breadcrumb;
-        return this;
-    }
-
     /**
      * 增加面包屑
      *
@@ -109,6 +97,7 @@ public class BackendPage extends AbstractPage {
      *
      * @return
      */
+    @Override
     public BackendPage setBreadcrumb(String... breadcrumb) {
         checkArgument(breadcrumb.length % 2 == 1);
 
@@ -234,6 +223,35 @@ public class BackendPage extends AbstractPage {
 
     @Override
     public ModelAndView build() {
+
+        sidebar.setTopFixedMenu(new Menu().setInverted().setFixed(Fixed.TOP).addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle())).setRightMenu((RightMenu) new RightMenu().addItem(new BackendAccountMenuItem(user, navigationService.get(QXCMPNavigationConfiguration.NAVIGATION_ADMIN_PROFILE).getItems()))));
+        sidebar.setBottomFixedMenu(new Menu().setInverted().setFixed(Fixed.BOTTOM).addItem(new SidebarIconItem()).setRightMenu((RightMenu) new RightMenu().addItem(new TextItem("关于", QXCMP_BACKEND_URL + "/about"))));
+
+        navigationService.get(NAVIGATION_ADMIN_SIDEBAR).getItems().forEach(navigation -> {
+            if (navigation.isVisible(user)) {
+                if (navigation.getItems().isEmpty()) {
+                    sidebar.addSideContent(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()).setLink());
+                } else {
+                    if (navigation.getItems().stream().anyMatch(n -> n.isVisible(user))) {
+
+                        VerticalSubMenu verticalMenu = new VerticalSubMenu();
+
+                        navigation.getItems().forEach(item -> {
+                            if (item.isVisible(user)) {
+                                verticalMenu.addItem(new TextItem(item.getTitle(), item.getAnchor().getHref()));
+                            }
+                        });
+
+                        AccordionItem accordionItem = new AccordionItem();
+                        accordionItem.setTitle(navigation.getTitle());
+                        accordionItem.setContent(verticalMenu);
+
+                        sidebar.addSideContent(new AccordionMenuItem(accordionItem).setLink());
+                    }
+                }
+            }
+        });
+
         final AbstractGrid grid = new VerticallyDividedGrid().setContainer().setVerticallyPadded();
         final Row row = new Row();
 
@@ -252,5 +270,15 @@ public class BackendPage extends AbstractPage {
 
         super.addComponent(sidebar.addContent(grid));
         return super.build();
+    }
+
+    @Autowired
+    public void setSiteService(SiteService siteService) {
+        this.siteService = siteService;
+    }
+
+    @Autowired
+    public void setNavigationService(NavigationService navigationService) {
+        this.navigationService = navigationService;
     }
 }

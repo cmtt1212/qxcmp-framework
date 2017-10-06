@@ -18,6 +18,13 @@ import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 public class QXCMPNavigationConfiguration implements NavigationConfigurator {
 
     /*
+     * 移动端导航栏扩展
+     * */
+    public static final String NAVIGATION_GLOBAL_MOBILE_TOP = "GLOBAL-MOBILE-TOP";
+    public static final String NAVIGATION_GLOBAL_MOBILE_BOTTOM = "GLOBAL-MOBILE-BOTTOM";
+    public static final String NAVIGATION_GLOBAL_MOBILE_SIDEBAR = "GLOBAL-MOBILE-SIDEBAR";
+
+    /*
      * 侧边导航栏
      * */
     public static final String NAVIGATION_ADMIN_SIDEBAR = "ADMIN-SIDEBAR";

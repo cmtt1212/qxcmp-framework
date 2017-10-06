@@ -85,6 +85,22 @@ public abstract class AbstractPage {
         return this;
     }
 
+    public AbstractPage setBreadcrumb(String... breadcrumb) {
+        return this;
+    }
+
+    public AbstractPage setVerticalMenu(List<String> menus) {
+        return this;
+    }
+
+    public AbstractPage setVerticalNavigation(String id, String activeItem) {
+        return this;
+    }
+
+    public AbstractPage setVerticalNavigationBadge(String id, String text) {
+        return this;
+    }
+
     public ModelAndView build() {
         modelAndView.addObject("page", this);
         modelAndView.addObject(HTML_STYLESHEET, stylesheets);

@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web;
 
-import com.qxcmp.framework.web.page.FrontendPage;
+import com.qxcmp.framework.web.page.AbstractFrontendPage;
+import com.qxcmp.framework.web.page.MobilePage;
 
 /**
  * 页面路由器基类
@@ -10,7 +11,7 @@ import com.qxcmp.framework.web.page.FrontendPage;
 public abstract class QXCMPFrontendController extends AbstractQXCMPController {
 
     @Override
-    protected FrontendPage page() {
-        return applicationContext.getBean(FrontendPage.class, request, response);
+    protected AbstractFrontendPage page() {
+        return applicationContext.getBean(MobilePage.class, request, response);
     }
 }

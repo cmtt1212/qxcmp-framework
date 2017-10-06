@@ -1,4 +1,4 @@
-package com.qxcmp.framework.web;
+package com.qxcmp.framework.web.support;
 
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceResolver;

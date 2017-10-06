@@ -5,6 +5,7 @@ import com.qxcmp.framework.news.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPBackendController;
 import com.qxcmp.framework.web.model.RestfulResponse;
+import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.page.BackendPage;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
@@ -511,7 +512,7 @@ public class AdminNewsUserArticlePageController extends QXCMPBackendController {
     }
 
 
-    private BackendPage calculateBadge(BackendPage backendPage, User user) {
+    private AbstractPage calculateBadge(AbstractPage backendPage, User user) {
 
         final int MAX_COUNT = 100;
 

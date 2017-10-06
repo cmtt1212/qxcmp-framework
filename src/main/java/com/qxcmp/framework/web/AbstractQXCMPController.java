@@ -1,6 +1,9 @@
 package com.qxcmp.framework.web;
 
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.qxcmp.framework.audit.Action;
+import com.qxcmp.framework.audit.ActionExecutor;
 import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.config.UserConfigService;
@@ -11,14 +14,21 @@ import com.qxcmp.framework.exception.CaptchaExpiredException;
 import com.qxcmp.framework.exception.CaptchaIncorrectException;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.page.AbstractPage;
+import com.qxcmp.framework.web.support.QXCMPPageResolver;
+import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.html.P;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import com.qxcmp.framework.web.view.modules.table.EntityTable;
 import com.qxcmp.framework.web.view.modules.table.Table;
 import com.qxcmp.framework.web.view.support.Alignment;
+import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.ColumnCount;
 import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
@@ -28,7 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mobile.device.Device;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,8 +50,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * 平台页面路由基类
+ * <p>
+ * 负责解析页面类型并提供视图渲染和表单提交等一些基本支持
+ *
+ * @author Aaric
+ */
 public abstract class AbstractQXCMPController {
 
     protected HttpServletRequest request;
@@ -64,9 +82,13 @@ public abstract class AbstractQXCMPController {
 
     private CaptchaService captchaService;
 
-    private QXCMPDeviceResolver deviceResolver;
+    private ActionExecutor actionExecutor;
 
-    protected abstract AbstractPage page();
+    private QXCMPPageResolver pageResolver;
+
+    protected AbstractPage page() {
+        return pageResolver.resolve(request, response);
+    }
 
     protected AbstractPage overviewPage(Overview overview) {
         return page().addComponent(new VerticallyDividedGrid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().setColumnCount(ColumnCount.ONE).addItem(new Col().addComponent(overview)));
@@ -170,15 +192,103 @@ public abstract class AbstractQXCMPController {
         return request.getRemoteAddr();
     }
 
-    /**
-     * 获取当前设备的类型
-     *
-     * @return 获取当前设备的类型
-     */
-    protected Device getDevice() {
-        return deviceResolver.resolve(request);
+
+    protected ModelAndView submitForm(Object form, Action action) {
+        return submitForm(form, action, (stringObjectMap, overview) -> {
+        });
     }
 
+    /**
+     * 提交一个表单并执行相应操作
+     * <p>
+     * 该操作会被记录到审计日志中
+     *
+     * @param form       要提交的表单
+     * @param action     要执行的操作
+     * @param biConsumer 返回的结果页面
+     *
+     * @return 提交后的页面
+     */
+    protected ModelAndView submitForm(Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
+        return submitForm("", form, action, biConsumer);
+    }
+
+    /**
+     * 提交一个表单并执行相应操作
+     * <p>
+     * 该操作会被记录到审计日志中
+     *
+     * @param title      操作名称
+     * @param form       要提交的表单
+     * @param action     要执行的操作
+     * @param biConsumer 返回的结果页面
+     *
+     * @return 提交后的页面
+     */
+    protected ModelAndView submitForm(String title, Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
+        Form annotation = form.getClass().getAnnotation(Form.class);
+
+        if (Objects.nonNull(annotation) && StringUtils.isNotBlank(annotation.value())) {
+            title = annotation.value();
+        }
+
+        if (StringUtils.isBlank(title)) {
+            title = request.getRequestURL().toString();
+        }
+
+        return actionExecutor.execute(title, request.getRequestURL().toString(), getRequestContent(request), currentUser().orElse(null), action)
+                .map(auditLog -> {
+                    Overview overview = null;
+                    switch (auditLog.getStatus()) {
+                        case SUCCESS:
+                            overview = new Overview(new IconHeader(auditLog.getTitle(), new Icon("info circle")).setSubTitle("操作成功"));
+                            break;
+                        case FAILURE:
+                            overview = new Overview(new IconHeader(auditLog.getTitle(), new Icon("warning circle").setColor(Color.RED)).setSubTitle("操作失败")).addComponent(new P(auditLog.getComments()));
+                            break;
+                    }
+
+
+                    biConsumer.accept(auditLog.getActionContext(), overview);
+
+                    if (overview.getLinks().isEmpty()) {
+                        overview.addLink("返回", request.getRequestURL().toString());
+                    }
+
+                    return overviewPage(overview).build();
+                }).orElse(overviewPage(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
+    }
+
+    protected RestfulResponse audit(String title, Action action) {
+        return actionExecutor.execute(title, request.getRequestURL().toString(), getRequestContent(request), currentUser().orElse(null), action).map(auditLog -> {
+
+            switch (auditLog.getStatus()) {
+                case SUCCESS:
+                    return new RestfulResponse(HttpStatus.OK.value(), "", auditLog.getTitle(), auditLog.getComments());
+                case FAILURE:
+                    return new RestfulResponse(HttpStatus.BAD_GATEWAY.value(), "", auditLog.getTitle(), auditLog.getComments());
+            }
+
+            return new RestfulResponse(HttpStatus.NOT_ACCEPTABLE.value(), "", auditLog.getTitle(), auditLog.getComments());
+
+        }).orElse(new RestfulResponse(HttpStatus.BAD_GATEWAY.value(), "", "Can't save audit log"));
+    }
+
+
+    private String getRequestContent(HttpServletRequest request) {
+        if (request.getMethod().equalsIgnoreCase("get")) {
+            return request.getQueryString();
+        } else if (request.getMethod().equalsIgnoreCase("post")) {
+            return new Gson().toJson(request.getParameterMap());
+        } else {
+            return "Unknown request method: " + request.toString();
+        }
+    }
+
+    @Autowired
+    public void setActionExecutor(ActionExecutor actionExecutor) {
+        this.actionExecutor = actionExecutor;
+    }
 
     @Autowired
     public void setRequest(HttpServletRequest request) {
@@ -231,7 +341,7 @@ public abstract class AbstractQXCMPController {
     }
 
     @Autowired
-    public void setDeviceResolver(QXCMPDeviceResolver deviceResolver) {
-        this.deviceResolver = deviceResolver;
+    public void setPageResolver(QXCMPPageResolver pageResolver) {
+        this.pageResolver = pageResolver;
     }
 }

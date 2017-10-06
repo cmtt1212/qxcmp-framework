@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.core.QXCMPConfiguration;
-import com.qxcmp.framework.web.page.FrontendPage;
+import com.qxcmp.framework.web.page.MobilePage;
 import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
@@ -38,7 +38,8 @@ public class QXCMPErrorController extends BasicErrorController {
         if (path.startsWith(QXCMPConfiguration.QXCMP_BACKEND_URL)) {
             return page().addComponent(getDefaultErrorPageContent(status, text, message)).build();
         } else {
-            return new FrontendPage(request, response).addComponent(getDefaultErrorPageContent(status, text, message)).build();
+            return new MobilePage(request, response).addComponent(getDefaultErrorPageContent(status, text, message)).build();
+
         }
     }
 

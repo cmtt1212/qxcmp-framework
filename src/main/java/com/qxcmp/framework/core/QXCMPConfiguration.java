@@ -49,6 +49,11 @@ public class QXCMPConfiguration {
      */
     public static final String QXCMP_BACKEND_URL = "/admin";
 
+    /**
+     * 平台账户页面根Url
+     */
+    public static final String QXCMP_ACCOUNT_URL = "/account";
+
     private final WeixinMpMessageHandler defaultMessageHandler;
 
     private final SystemConfigService systemConfigService;
