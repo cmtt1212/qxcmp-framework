@@ -108,13 +108,17 @@ public class MobilePage extends BaseFrontendPage {
         menu.addItem(new IconItem(new CircularIcon("user")));
         RightMenu rightMenu = new RightMenu();
 
-        navigationService.get(NAVIGATION_GLOBAL_MOBILE_TOP).getItems().stream().filter(navigation -> navigation.isVisible(user)).forEach(navigation -> {
-            if (Objects.isNull(navigation.getIcon())) {
-                rightMenu.addItem(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()));
-            } else {
-                rightMenu.addItem(new IconItem(navigation.getIcon(), navigation.getAnchor()));
-            }
-        });
+        try {
+            navigationService.get(NAVIGATION_GLOBAL_MOBILE_TOP).getItems().stream().filter(navigation -> navigation.isVisible(user)).forEach(navigation -> {
+                if (Objects.isNull(navigation.getIcon())) {
+                    rightMenu.addItem(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()));
+                } else {
+                    rightMenu.addItem(new IconItem(navigation.getIcon(), navigation.getAnchor()));
+                }
+            });
+        } catch (Exception ignored) {
+
+        }
 
         if (!rightMenu.getItems().isEmpty()) {
             menu.setRightMenu(rightMenu);
@@ -127,19 +131,24 @@ public class MobilePage extends BaseFrontendPage {
         final AbstractMenu menu = new LabeledIconMenu();
         menu.setInverted().setFixed(Fixed.BOTTOM);
 
-        navigationService.get(NAVIGATION_GLOBAL_MOBILE_BOTTOM).getItems().stream().filter(navigation -> navigation.isVisible(user)).forEach(navigation -> {
-            LabeledIconItem item = new LabeledIconItem(navigation.getTitle(), navigation.getIcon(), navigation.getAnchor());
+        try {
+            navigationService.get(NAVIGATION_GLOBAL_MOBILE_BOTTOM).getItems().stream().filter(navigation -> navigation.isVisible(user)).forEach(navigation -> {
+                LabeledIconItem item = new LabeledIconItem(navigation.getTitle(), navigation.getIcon(), navigation.getAnchor());
 
-            if (StringUtils.equals(activeBottomItem, navigation.getId())) {
-                item.setActive(true);
-            }
+                if (StringUtils.equals(activeBottomItem, navigation.getId())) {
+                    item.setActive(true);
+                }
 
-            menu.addItem(item);
-        });
+                menu.addItem(item);
+            });
+        } catch (Exception ignored) {
 
-        menu.setItemCount(ItemCount.values()[menu.getItems().size()]);
+        }
 
-        sidebar.setBottomFixedMenu(menu);
+        if (!menu.getItems().isEmpty()) {
+            menu.setItemCount(ItemCount.values()[menu.getItems().size()]);
+            sidebar.setBottomFixedMenu(menu);
+        }
     }
 
     private void buildSidebarContent(User user) {
@@ -147,13 +156,17 @@ public class MobilePage extends BaseFrontendPage {
             sidebar.addSideContent(new ProfileHeader(user));
         }
 
-        navigationService.get(NAVIGATION_GLOBAL_MOBILE_SIDEBAR).getItems().stream().filter(navigation -> navigation.isVisible(user)).forEach(navigation -> {
-            if (Objects.isNull(navigation.getIcon())) {
-                sidebar.addSideContent(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()));
-            } else {
-                sidebar.addSideContent(new LabeledIconItem(navigation.getTitle(), navigation.getIcon(), navigation.getAnchor()));
-            }
-        });
+        try {
+            navigationService.get(NAVIGATION_GLOBAL_MOBILE_SIDEBAR).getItems().stream().filter(navigation -> navigation.isVisible(user)).forEach(navigation -> {
+                if (Objects.isNull(navigation.getIcon())) {
+                    sidebar.addSideContent(new TextItem(navigation.getTitle(), navigation.getAnchor().getHref()));
+                } else {
+                    sidebar.addSideContent(new LabeledIconItem(navigation.getTitle(), navigation.getIcon(), navigation.getAnchor()));
+                }
+            });
+        } catch (Exception ignored) {
+
+        }
     }
 
     @Autowired

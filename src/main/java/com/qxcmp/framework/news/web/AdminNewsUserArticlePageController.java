@@ -44,7 +44,7 @@ import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/user/article")
 @RequiredArgsConstructor
-public class QXCMPController extends QXCMPController {
+public class AdminNewsUserArticlePageController extends QXCMPController {
 
     private final ArticleService articleService;
 
