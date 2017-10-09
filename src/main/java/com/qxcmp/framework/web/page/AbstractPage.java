@@ -3,8 +3,6 @@ package com.qxcmp.framework.web.page;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
-import com.qxcmp.framework.web.view.html.JavaScript;
-import com.qxcmp.framework.web.view.html.Stylesheet;
 import com.qxcmp.framework.web.view.support.Color;
 import lombok.Getter;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,13 +32,13 @@ public abstract class AbstractPage {
     private List<Component> components = Lists.newArrayList();
 
     @Getter
-    private List<Stylesheet> stylesheets = Lists.newArrayList();
+    private List<String> stylesheets = Lists.newArrayList();
 
     @Getter
-    private List<JavaScript> javaScripts = Lists.newArrayList();
+    private List<String> javaScripts = Lists.newArrayList();
 
     @Getter
-    private List<JavaScript> bodyJavaScripts = Lists.newArrayList();
+    private List<String> bodyJavaScripts = Lists.newArrayList();
 
     public AbstractPage(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
@@ -83,16 +81,16 @@ public abstract class AbstractPage {
         return this;
     }
 
-    public AbstractPage addStylesheet(Stylesheet stylesheet) {
+    public AbstractPage addStylesheet(String stylesheet) {
         stylesheets.add(stylesheet);
         return this;
     }
 
-    public AbstractPage addJavascript(JavaScript javaScript) {
+    public AbstractPage addJavascript(String javaScript) {
         return addJavascript(javaScript, false);
     }
 
-    public AbstractPage addJavascript(JavaScript javaScript, boolean addToBody) {
+    public AbstractPage addJavascript(String javaScript, boolean addToBody) {
         if (addToBody) {
             bodyJavaScripts.add(javaScript);
         } else {

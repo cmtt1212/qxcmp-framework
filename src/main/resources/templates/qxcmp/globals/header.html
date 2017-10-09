@@ -22,11 +22,11 @@
     <script th:src="@{/assets/scripts/qxcmp.js}"></script>
 
     <th:block th:each="style : ${page.stylesheets}">
-        <link rel="stylesheet" th:href="@{${style.url}}"/>
+        <link rel="stylesheet" th:href="@{${style}}"/>
     </th:block>
 
     <th:block th:each="script : ${page.javaScripts}">
-        <script th:src="@{${script.url}}"></script>
+        <script th:src="@{${script}}"></script>
     </th:block>
 </head>
 </html>
