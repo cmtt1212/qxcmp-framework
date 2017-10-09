@@ -37,11 +37,13 @@
                 <div class="action">
                     <div class="price">
                         <span>￥</span>
-                        <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(item.commodity.sellPrice) / 100)}"></span>
+                        <span class="sell-price"
+                              th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(item.commodity.sellPrice) / 100)}"></span>
                     </div>
                     <div class="spanner" data-th-id="${item.id}">
                         <i class="minus fitted icon" th:classappend="${item.quantity eq 1 ? 'disabled' : ''}"></i>
-                        <input class="quantity" th:id="|quantity-${item.id}|" data-th-item-id="${item.id}" th:value="${item.quantity}" type="number" min="1" max="200"/>
+                        <input class="quantity" th:id="|quantity-${item.id}|" data-th-item-id="${item.id}"
+                               th:value="${item.quantity}" type="number" min="1" max="200"/>
                         <i class="plus fitted icon" th:classappend="${item.quantity eq 200 ? 'disabled' : ''}"></i>
                     </div>
                 </div>
@@ -53,7 +55,8 @@
             合计：
             <div class="price">
                 <span>￥</span>
-                <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.totalPrice) / 100)}"></span>
+                <span class="sell-price"
+                      th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.totalPrice) / 100)}"></span>
             </div>
         </div>
         <a class="ui button item" th:href="@{/mall/cart/order}" th:utext="|去结算(${component.selectCount})|"></a>
@@ -115,7 +118,8 @@
         实付款：
         <div class="price">
             <span>￥</span>
-            <span class="sell-price" th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.totalPrice) / 100)}"></span>
+            <span class="sell-price"
+                  th:utext="${new java.text.DecimalFormat('0.00').format(new java.lang.Double(component.totalPrice) / 100)}"></span>
         </div>
     </div>
     <button class="ui button item shopping-cart-order">立即下单</button>
@@ -137,6 +141,7 @@
             <label>支付密码：</label>
             <input name="password" type="password"/>
         </div>
+        <button class="ui basic fluid button">立即支付</button>
     </form>
     <div class="ui bottom fixed one item menu">
         <button class="ui button item shopping-cart-cashier">立即支付</button>
