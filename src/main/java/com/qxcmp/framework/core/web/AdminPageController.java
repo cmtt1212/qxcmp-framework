@@ -73,6 +73,7 @@ public class AdminPageController extends AbstractQXCMPController {
                         .addItem(new TextItem("广告管理").setUrl(QXCMP_BACKEND_URL + "/advertisement"))
                         .addItem(new TextItem("蜘蛛管理").setUrl(QXCMP_BACKEND_URL + "/spider"))
                         .addItem(new TextItem("系统日志").setUrl(QXCMP_BACKEND_URL + "/audit"))
+                        .addItem(new TextItem("站内信").setUrl(QXCMP_BACKEND_URL + "/inbox"))
                 )))
                 .setBreadcrumb("控制台", "", "系统工具")
                 .build();

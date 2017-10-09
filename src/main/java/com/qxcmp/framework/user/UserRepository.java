@@ -1,5 +1,6 @@
 package com.qxcmp.framework.user;
 
+import com.qxcmp.framework.security.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,6 @@ interface UserRepository extends JpaRepository<User, String>, JpaSpecificationEx
     List<User> findByAuthority(@Param("privilege") String privilege);
 
     @Query("select user from User user inner join user.roles role where role = :role")
-    List<User> findByRole(@Param("role") String role);
+    List<User> findByRole(@Param("role") Role role);
 
 }
