@@ -39,6 +39,7 @@ public class MobilePage extends BaseFrontendPage {
     private AbstractSidebar sidebar = new AccordionMenuSidebar().setAttachEventsSelector(".ui.top.fixed.menu .user.icon");
 
     private String activeBottomItem;
+    private String topMenuTitle;
     private boolean hideBottomMenu;
 
     private UserService userService;
@@ -70,6 +71,12 @@ public class MobilePage extends BaseFrontendPage {
     @Override
     public AbstractPage setMobileBottomMenuActiveItem(String id) {
         this.activeBottomItem = id;
+        return this;
+    }
+
+    @Override
+    public AbstractPage setMobileTopMenuTitle(String title) {
+        this.topMenuTitle = title;
         return this;
     }
 
@@ -106,6 +113,11 @@ public class MobilePage extends BaseFrontendPage {
         final AbstractMenu menu = new Menu();
         menu.setInverted().setFixed(Fixed.TOP);
         menu.addItem(new IconItem(new CircularIcon("user")));
+
+        if (StringUtils.isNotBlank(topMenuTitle)) {
+            menu.addItem(new TextItem(topMenuTitle));
+        }
+
         RightMenu rightMenu = new RightMenu();
 
         try {
