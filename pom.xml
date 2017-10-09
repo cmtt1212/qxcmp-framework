@@ -22,10 +22,6 @@
         <url>git@github.com:AaricChen/qxcmp-framework.git</url>
     </scm>
 
-    <properties>
-        <commons-lang3.version>3.5</commons-lang3.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
