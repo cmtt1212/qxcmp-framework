@@ -620,6 +620,7 @@
                 var nextValue = current + step;
                 if (nextValue <= max) {
                     $(input).val(nextValue);
+                    $(input).change();
                 }
             });
 
@@ -628,6 +629,7 @@
                 var nextValue = current - step;
                 if (nextValue >= min) {
                     $(input).val(nextValue);
+                    $(input).change();
                 }
             });
 
