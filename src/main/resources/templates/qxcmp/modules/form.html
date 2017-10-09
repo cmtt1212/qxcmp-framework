@@ -246,7 +246,7 @@
             <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
                    th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
                    th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
-            <button class="ui basic secondary captcha button" type="button">获取短信验证码</button>
+            <button class="ui basic secondary captcha button" type="button">获取验证码</button>
         </div>
     </div>
     <script th:replace="~{:: field-common-script(${component})}"></script>
