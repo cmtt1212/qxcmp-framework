@@ -42,5 +42,5 @@ public class Wallet {
     /**
      * 平台点数，可以当做平台虚拟货币使用
      */
-    private long points;
+    private int points;
 }
