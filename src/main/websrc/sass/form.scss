@@ -52,6 +52,15 @@ $number-field-width: 122.1px;
       vertical-align: middle;
     }
   }
+
+  .qxcmp.readonly.field {
+    input {
+      border: none;
+      pointer-events: none;
+      color: rgba(34, 36, 38, .65);
+      padding-right: 0 !important;
+    }
+  }
 }
 
 /* Text input field */

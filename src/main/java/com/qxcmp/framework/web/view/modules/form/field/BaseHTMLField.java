@@ -32,6 +32,17 @@ public abstract class BaseHTMLField extends AbstractFormField {
      */
     private String placeholder;
 
+    @Override
+    public String getClassContent() {
+        final StringBuilder stringBuilder = new StringBuilder(super.getClassContent());
+
+        if (isReadOnly()) {
+            stringBuilder.append(" readonly");
+        }
+
+        return stringBuilder.toString();
+    }
+
     public BaseHTMLField setDisableAutoComplete() {
         setDisableAutoComplete(true);
         return this;
