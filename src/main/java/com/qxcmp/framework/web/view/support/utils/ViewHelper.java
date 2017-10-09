@@ -40,6 +40,10 @@ public class ViewHelper {
         return nextOverview(new Icon("info circle"), title, subTitle);
     }
 
+    public Overview nextSuccessOverview(String title, String subTitle) {
+        return nextOverview(new Icon("check circle").setColor(Color.GREEN), title, subTitle);
+    }
+
     public Overview nextWarningOverview(String title, String subTitle) {
         return nextOverview(new Icon("warning circle").setColor(Color.ORANGE), title, subTitle);
     }
