@@ -19,7 +19,7 @@
 <!--/*@thymesVar id="segments" type="com.qxcmp.framework.web.view.elements.segment.Segments"*/-->
 <div th:fragment="segments(component)" th:class="${component.getClassName()}">
     <th:block th:each="segment : ${component.items}">
-        <div th:replace="~{:: default(${segment})}"></div>
+        <div th:replace="~{qxcmp/globals/components :: component(${segment})}"></div>
     </th:block>
 </div>
 </body>
