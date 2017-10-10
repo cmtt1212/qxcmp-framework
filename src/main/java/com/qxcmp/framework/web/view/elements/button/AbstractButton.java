@@ -239,4 +239,9 @@ public abstract class AbstractButton extends AbstractComponent {
         this.basic = true;
         return this;
     }
+
+    public AbstractButton setAttached(Attached attached) {
+        this.attached = attached;
+        return this;
+    }
 }
