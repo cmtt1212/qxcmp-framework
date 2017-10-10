@@ -42,6 +42,7 @@ public class MobilePage extends BaseFrontendPage {
     private String topMenuTitle;
     private String topMenuTitleUrl;
     private boolean hideBottomMenu;
+    private ProfileHeader profileHeader;
 
     private UserService userService;
     private NavigationService navigationService;
@@ -91,6 +92,12 @@ public class MobilePage extends BaseFrontendPage {
     @Override
     public AbstractPage hideMobileBottomMenu() {
         hideBottomMenu = true;
+        return this;
+    }
+
+    @Override
+    public AbstractPage setProfileHeader(ProfileHeader profileHeader) {
+        this.profileHeader = profileHeader;
         return this;
     }
 
@@ -176,8 +183,8 @@ public class MobilePage extends BaseFrontendPage {
     }
 
     private void buildSidebarContent(User user) {
-        if (Objects.nonNull(user)) {
-            sidebar.addSideContent(new ProfileHeader(user));
+        if (Objects.isNull(profileHeader) && Objects.nonNull(user)) {
+            sidebar.addSideContent(new ProfileHeader(user.getPortrait(), "/profile").setContent(user.getDisplayName()));
         }
 
         try {

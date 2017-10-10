@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
 import com.qxcmp.framework.web.view.support.Color;
+import com.qxcmp.framework.web.view.views.ProfileHeader;
 import lombok.Getter;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -217,6 +218,19 @@ public abstract class AbstractPage {
      * @return 页面
      */
     public AbstractPage hideMobileBottomMenu() {
+        return this;
+    }
+
+    /**
+     * 覆盖默认的账户组件
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param profileHeader 新的账户组件
+     *
+     * @return 页面
+     */
+    public AbstractPage setProfileHeader(ProfileHeader profileHeader) {
         return this;
     }
 
