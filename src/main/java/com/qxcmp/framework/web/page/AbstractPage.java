@@ -181,6 +181,20 @@ public abstract class AbstractPage {
     }
 
     /**
+     * 设置移动端顶部导航菜单标题
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param title 标题
+     * @param url   超链接
+     *
+     * @return 页面
+     */
+    public AbstractPage setMobileTopMenuTitle(String title, String url) {
+        return this;
+    }
+
+    /**
      * 设置移动端底部激活菜单项
      * <p>
      * 仅支持移动端页面

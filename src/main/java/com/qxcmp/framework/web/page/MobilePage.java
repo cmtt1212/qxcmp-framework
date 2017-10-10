@@ -40,6 +40,7 @@ public class MobilePage extends BaseFrontendPage {
 
     private String activeBottomItem;
     private String topMenuTitle;
+    private String topMenuTitleUrl;
     private boolean hideBottomMenu;
 
     private UserService userService;
@@ -81,6 +82,13 @@ public class MobilePage extends BaseFrontendPage {
     }
 
     @Override
+    public AbstractPage setMobileTopMenuTitle(String title, String url) {
+        this.topMenuTitle = title;
+        this.topMenuTitleUrl = url;
+        return this;
+    }
+
+    @Override
     public AbstractPage hideMobileBottomMenu() {
         hideBottomMenu = true;
         return this;
@@ -115,7 +123,11 @@ public class MobilePage extends BaseFrontendPage {
         menu.addItem(new IconItem(new CircularIcon("user")));
 
         if (StringUtils.isNotBlank(topMenuTitle)) {
-            menu.addItem(new TextItem(topMenuTitle));
+            if (StringUtils.isNotBlank(topMenuTitleUrl)) {
+                menu.addItem(new TextItem(topMenuTitle, topMenuTitleUrl));
+            } else {
+                menu.addItem(new TextItem(topMenuTitle));
+            }
         }
 
         RightMenu rightMenu = new RightMenu();
