@@ -721,5 +721,38 @@
         });
     </script>
 </div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.DateTimeField"*/-->
+<div th:fragment="field-date-time(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="component">
+        <div class="ui calendar">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <input th:field="*{__${component.name}__}" type="text" th:placeholder="${component.placeholder}"
+                       th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
+                       th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+            </div>
+        </div>
+    </div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            $(/*[[|#${component.id}|]]*/ "").find(".ui.calendar").calendar({
+                type: /*[[${component.type.toString()}]]*/ "",
+                text: {
+                    days: ['日', '一', '二', '三', '四', '五', '六'],
+                    months: ['一月份', '二月份', '三月份', '四月份', '五月份', '六月份', '七月份', '八月份', '九月份', '十月份', '十一月份', '十二月份'],
+                    monthsShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    today: '今天',
+                    now: '现在',
+                    am: '上午',
+                    pm: '下午'
+                }
+            });
+        });
+    </script>
+</div>
 </body>
 </html>
