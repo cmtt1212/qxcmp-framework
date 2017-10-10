@@ -42,6 +42,14 @@
     <span th:replace="~{:: element-body(${component})}"></span>
 </span>
 
+<b th:fragment="bold-element(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</b>
+
+<i th:fragment="italic-element(component)" th:class="${component.className}">
+    <span th:replace="~{:: element-body(${component})}"></span>
+</i>
+
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.BaseHtmlElement"*/-->
 <th:block th:fragment="element-body(component)">
     <th:block th:if="${#lists.isEmpty(component.inlineElements)}" th:utext="${component.text}"/>
