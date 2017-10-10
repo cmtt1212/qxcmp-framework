@@ -51,7 +51,6 @@ public class AdminProfilePageController extends QXCMPController {
     public ModelAndView infoPage(final AdminProfileInfoForm form) {
         User user = userService.currentUser();
         form.setPortrait(user.getPortrait());
-        form.setName(user.getName());
         form.setNickname(user.getNickname());
         form.setPersonalizedSignature(user.getPersonalizedSignature());
 
@@ -74,7 +73,6 @@ public class AdminProfilePageController extends QXCMPController {
                 User user = userService.currentUser();
                 userService.update(user.getId(), u -> {
                     u.setPortrait(form.getPortrait());
-                    u.setName(form.getName());
                     u.setNickname(form.getNickname());
                     u.setPersonalizedSignature(form.getPersonalizedSignature());
                 }).ifPresent(u -> refreshUser());

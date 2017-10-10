@@ -183,7 +183,10 @@ public class MobilePage extends BaseFrontendPage {
     }
 
     private void buildSidebarContent(User user) {
-        if (Objects.isNull(profileHeader) && Objects.nonNull(user)) {
+
+        if (Objects.nonNull(profileHeader)) {
+            sidebar.addSideContent(profileHeader);
+        } else if (Objects.nonNull(user)) {
             sidebar.addSideContent(new ProfileHeader(user.getPortrait(), "/profile").setContent(user.getDisplayName()));
         }
 

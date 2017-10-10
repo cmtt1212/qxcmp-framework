@@ -12,9 +12,6 @@ public class AdminProfileInfoForm {
     @AvatarField("你的头像")
     private String portrait;
 
-    @TextInputField("真实姓名")
-    private String name;
-
     @TextInputField("昵称")
     private String nickname;
 

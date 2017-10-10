@@ -43,16 +43,22 @@
 }
 
 /* Profile header */
-.ui.profile.header {
+.ui.profile-header {
   display: block;
   text-align: center;
   padding: 1em;
+  font-size: 1em;
+  color: #666;
 
   .ui.image {
     display: block;
     margin: auto;
+    width: 64px;
+    height: 64px;
 
     img {
+      width: 64px;
+      height: 64px;
       margin: 0;
     }
   }
