@@ -12,6 +12,7 @@ import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.modules.form.AbstractForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDateTime;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -455,6 +456,18 @@ public class FormHelper {
         dateTimeField.setReadOnly(annotation.readOnly());
         dateTimeField.setPlaceholder(annotation.placeholder());
         dateTimeField.setType(annotation.type());
+        dateTimeField.setShowToday(annotation.showToday());
+        dateTimeField.setShowAmPm(annotation.showAmPm());
+        dateTimeField.setDisableYear(annotation.disableYear());
+        dateTimeField.setDisableMonth(annotation.disableMonth());
+        dateTimeField.setDisableMinute(annotation.disableMinute());
+
+        if (annotation.enableDateRange()) {
+            LocalDateTime minDate = LocalDateTime.now().plusDays(annotation.dateRangeBaseOffset());
+            LocalDateTime maxDate = minDate.plusDays(annotation.dateRangeLength() > 0 ? annotation.dateRangeLength() - 1 : 0);
+            dateTimeField.setMinDate(minDate.toDate());
+            dateTimeField.setMaxDate(maxDate.toDate());
+        }
 
         form.addItem(dateTimeField, annotation.section());
     }
