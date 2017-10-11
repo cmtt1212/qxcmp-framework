@@ -730,9 +730,7 @@
             <div class="ui input left icon">
                 <i th:if="${component.type.toString() eq 'time'}" class="time icon"></i>
                 <i th:unless="${component.type.toString() eq 'time'}" class="calendar icon"></i>
-                <input th:field="*{__${component.name}__}" type="text" th:placeholder="${component.placeholder}"
-                       th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
-                       th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
+                <input th:field="*{__${component.name}__}" type="text" th:placeholder="${component.placeholder}"/>
             </div>
         </div>
     </div>
@@ -740,9 +738,11 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
+            var calendar = $(id).find(".ui.calendar");
             var minDateTime = /*[[${component.minDate ne null ? component.minDate.getTime() : null}]]*/ null;
             var maxDateTime = /*[[${component.maxDate ne null ? component.maxDate.getTime() : null}]]*/ null;
-            $(/*[[|#${component.id}|]]*/ "").find(".ui.calendar").calendar({
+
+            calendar.calendar({
                 type: /*[[${component.type.toString()}]]*/ "",
                 today: /*[[${component.showToday}]]*/ "",
                 ampm: /*[[${component.showAmPm}]]*/ "",
@@ -763,6 +763,15 @@
                     now: '现在',
                     am: '上午',
                     pm: '下午'
+                },
+                formatter: {
+                    date: function (date, settings) {
+                        if (!date) return '';
+                        var day = date.getDate();
+                        var month = date.getMonth() + 1;
+                        var year = date.getFullYear();
+                        return year + '-' + month + '-' + day;
+                    }
                 }
             });
         });
