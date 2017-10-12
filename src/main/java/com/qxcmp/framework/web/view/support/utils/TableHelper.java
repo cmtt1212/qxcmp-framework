@@ -364,7 +364,7 @@ public class TableHelper {
 
             if (!table.getRowActions().isEmpty()) {
                 final TableData tableData = new TableData();
-
+                tableData.setAlignment(Alignment.CENTER);
                 renderTableActionCell(table, tableData, table.getRowActions(), tClass, t);
                 tableRow.addCell(tableData);
             }
