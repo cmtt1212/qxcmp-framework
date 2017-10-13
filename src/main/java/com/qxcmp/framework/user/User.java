@@ -8,7 +8,9 @@ import com.qxcmp.framework.domain.Label;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.RowAction;
+import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +33,10 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@EntityTable(value = "用户管理", action = QXCMP_BACKEND_URL + "/user",
+@EntityTable(value = "全部用户", name = "all", action = QXCMP_BACKEND_URL + "/user/all",
+        rowActions = {@RowAction(value = "查看", action = "details", primary = true)})
+@EntityTable(value = "微信用户", name = "weixin", action = QXCMP_BACKEND_URL + "/user/weixin",
+        tableActions = @TableAction(value = "开始同步", action = "sync", method = FormMethod.POST, primary = true),
         rowActions = {@RowAction(value = "查看", action = "details", primary = true)})
 @Entity
 @Table
@@ -156,7 +161,6 @@ public class User implements UserDetails {
     /**
      * 用户昵称
      */
-    @TableField("昵称")
     private String nickname;
 
     /**

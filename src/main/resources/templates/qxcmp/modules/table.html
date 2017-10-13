@@ -118,6 +118,7 @@
             var table = $(id).find("table");
             var headCheckbox = $(table).find("thead .ui.head.checkbox");
             var dataCheckbox = $(table).find("tbody .ui.data.checkbox");
+            var tableActionButton = $(table).find("thead tr .table-action.action.button");
             var batchActionButton = $(table).find("thead tr .batch.action.button");
             var rowActionButton = $(table).find("tbody tr td .action.button");
 
@@ -126,6 +127,31 @@
             });
 
             $(rowActionButton).click(function () {
+                var button = $(this);
+                var action = $(button).attr("data-action");
+
+                if (action) {
+                    $(button).addClass("loading");
+
+                    $.ajax(action, {
+                        type: "POST",
+                        data: {
+                            "_csrf": csrf
+                        },
+                        success: function () {
+                            $(button).removeClass("loading");
+                            $(loadDimmer).dimmer("show");
+                            window.location.reload();
+                        },
+                        error: function () {
+                            $(button).removeClass("loading");
+                            $(button).addClass("error");
+                        }
+                    });
+                }
+            });
+
+            $(tableActionButton).click(function () {
                 var button = $(this);
                 var action = $(button).attr("data-action");
 

@@ -43,7 +43,7 @@ public class EntityTableActionButton extends Button {
 
     @Override
     public String getClassSuffix() {
-        return "action " + super.getClassSuffix();
+        return "table-action action " + super.getClassSuffix();
     }
 
     public EntityTableActionButton setMethod(FormMethod method) {

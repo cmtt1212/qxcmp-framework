@@ -5,6 +5,8 @@ import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.core.support.ImageGenerator;
 import com.qxcmp.framework.domain.ImageService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -135,6 +137,10 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
 
     public Optional<User> findByOpenID(String openId) {
         return StringUtils.isEmpty(openId) ? Optional.empty() : repository.findByOpenID(openId);
+    }
+
+    public Page<User> findWeixinUser(Pageable pageable) {
+        return repository.findWeixinUser(pageable);
     }
 
     /**

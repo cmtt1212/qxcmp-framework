@@ -143,6 +143,13 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_WEIXIN_MENU = NAVIGATION_ADMIN_SPIDER + "-MENU";
     public static final String NAVIGATION_ADMIN_WEIXIN_SETTINGS = NAVIGATION_ADMIN_SPIDER + "-SETTINGS";
 
+    /*
+     * 用户管理导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_USER = "ADMIN-USER";
+    public static final String NAVIGATION_ADMIN_USER_ALL = NAVIGATION_ADMIN_USER + "-ALL";
+    public static final String NAVIGATION_ADMIN_USER_WEIXIN = NAVIGATION_ADMIN_USER + "-WEIXIN";
+
     @Override
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "侧边导航栏")
@@ -233,6 +240,11 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_MATERIAL, "素材管理", QXCMP_BACKEND_URL + "/weixin/material").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_MATERIAL)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_MENU, "公众号菜单", QXCMP_BACKEND_URL + "/weixin/menu").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_MENU)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_SETTINGS, "公众号配置", QXCMP_BACKEND_URL + "/weixin/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_SETTINGS)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_USER, "用户理导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_USER_ALL, "全部用户", QXCMP_BACKEND_URL + "/user/all").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_USER_WEIXIN, "微信用户", QXCMP_BACKEND_URL + "/user/weixin").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
         );
     }
 
