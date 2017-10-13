@@ -13,6 +13,7 @@ import com.qxcmp.framework.web.view.elements.message.SuccessMessage;
 import com.qxcmp.framework.web.view.elements.message.WarningMessage;
 import com.qxcmp.framework.web.view.modules.form.field.AbstractFormField;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
+import com.qxcmp.framework.web.view.support.ButtonType;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -324,12 +325,13 @@ public abstract class AbstractForm extends AbstractComponent {
     }
 
     public AbstractForm setSubmitButton(String submitText, String submitIcon) {
-        this.submitButton = new AnimatedButton().setVisibleText(submitText).setHiddenIcon(new Icon(submitIcon)).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary();
+        this.submitButton = new AnimatedButton().setVisibleText(submitText).setHiddenIcon(new Icon(submitIcon)).setAnimatedType(AnimatedButton.AnimatedType.FADE).setSecondary().setType(ButtonType.SUBMIT);
         return this;
     }
 
     public AbstractForm setSubmitButton(AbstractButton button) {
         this.submitButton = button;
+        this.submitButton.setType(ButtonType.SUBMIT);
         return this;
     }
 }

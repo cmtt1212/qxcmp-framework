@@ -6,7 +6,7 @@
 */-->
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.Button"*/-->
 <th:block th:fragment="default(component)">
-    <button th:if="${component.anchor eq null}"
+    <button th:if="${component.anchor eq null}" th:type="${component.type.toString()}"
             th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}"
             th:utext="${component.text}"></button>
 
@@ -18,7 +18,7 @@
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.AnimatedButton"*/-->
 <th:block th:fragment="animated(component)">
-    <button th:if="${component.anchor eq null}"
+    <button th:if="${component.anchor eq null}" th:type="${component.type.toString()}"
             th:class="${component.getClassName()}" th:tabindex="${component.tabIndex}">
         <div th:replace="~{:: animated-content(${component})}"></div>
     </button>
@@ -46,7 +46,7 @@
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.IconButton"*/-->
 <th:block th:fragment="icon(component)">
-    <button th:if="${component.anchor eq null}" th:class="${component.getClassName()}"
+    <button th:if="${component.anchor eq null}" th:class="${component.getClassName()}" th:type="${component.type.toString()}"
             th:tabindex="${component.tabIndex}">
         <i th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></i>
     </button>
@@ -82,7 +82,7 @@
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.button.LabeledIconButton"*/-->
 <th:block th:fragment="label-icon(component)">
-    <button th:if="${component.anchor eq null}" th:class="${component.getClassName()}"
+    <button th:if="${component.anchor eq null}" th:class="${component.getClassName()}" th:type="${component.type.toString()}"
             th:tabindex="${component.tabIndex}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
         <span th:utext="${component.text}"></span>
