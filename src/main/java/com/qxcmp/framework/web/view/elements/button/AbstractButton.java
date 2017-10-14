@@ -41,6 +41,11 @@ public abstract class AbstractButton extends AbstractComponent {
     private boolean loading;
 
     /**
+     * 按钮类型
+     */
+    private ButtonType type = ButtonType.NONE;
+
+    /**
      * 按钮颜色
      */
     private Color color = Color.NONE;
@@ -190,6 +195,11 @@ public abstract class AbstractButton extends AbstractComponent {
         return this;
     }
 
+    public AbstractButton setType(ButtonType type) {
+        this.type = type;
+        return this;
+    }
+
     public AbstractButton setColor(Color color) {
         this.color = color;
         return this;
@@ -237,6 +247,11 @@ public abstract class AbstractButton extends AbstractComponent {
 
     public AbstractButton setBasic() {
         this.basic = true;
+        return this;
+    }
+
+    public AbstractButton setAttached(Attached attached) {
+        this.attached = attached;
         return this;
     }
 }

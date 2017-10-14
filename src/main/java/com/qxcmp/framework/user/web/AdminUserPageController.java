@@ -1,25 +1,35 @@
 package com.qxcmp.framework.user.web;
 
 import com.qxcmp.framework.security.RoleService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.user.User;
+import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
+import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.modules.table.dictionary.CollectionValueCell;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.views.Overview;
+import com.qxcmp.framework.weixin.WeixinService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,19 +41,66 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/user")
 @RequiredArgsConstructor
-public class AdminUserPageController extends AbstractQXCMPController {
+public class AdminUserPageController extends QXCMPController {
 
     private final RoleService roleService;
 
+    private final WeixinService weixinService;
+
     @GetMapping("")
-    public ModelAndView userPage(Pageable pageable) {
-        return page().addComponent(convertToTable(pageable, userService))
+    public ModelAndView userPage() {
+        return page().addComponent(new PageHeader(HeaderType.H2, "用户管理"))
                 .setBreadcrumb("控制台", "", "用户管理")
+                .setVerticalNavigation(NAVIGATION_ADMIN_USER, "")
                 .build();
+    }
+
+    @GetMapping("/all")
+    public ModelAndView userAllPage(Pageable pageable) {
+        return page().addComponent(convertToTable("all", pageable, userService))
+                .setBreadcrumb("控制台", "", "用户管理", "user", "全部用户")
+                .setVerticalNavigation(NAVIGATION_ADMIN_USER, NAVIGATION_ADMIN_USER_ALL)
+                .build();
+    }
+
+    @GetMapping("/all/{id}/details")
+    public ModelAndView userAllDetailsPage(@PathVariable String id) {
+        return redirect(QXCMP_BACKEND_URL + "/user/" + id + "/details");
+    }
+
+    @GetMapping("/weixin")
+    public ModelAndView userWeixinPage(Pageable pageable) {
+        Page<User> users = userService.findWeixinUser(pageable);
+
+        Grid grid = new Grid();
+        Col col = new Col(Wide.SIXTEEN);
+
+        if (weixinService.isWeixinUserSync()) {
+            col.addComponent(new InfoMessage("微信用户正在同步中，请稍后刷新查看").setCloseable());
+        }
+
+        col.addComponent(convertToTable("weixin", User.class, users));
+
+        return page().addComponent(grid.addItem(new Row().addCol(col)))
+                .setBreadcrumb("控制台", "", "用户管理", "user", "微信用户")
+                .setVerticalNavigation(NAVIGATION_ADMIN_USER, NAVIGATION_ADMIN_USER_WEIXIN)
+                .build();
+    }
+
+    @GetMapping("/weixin/{id}/details")
+    public ModelAndView userWeixinDetailsPage(@PathVariable String id) {
+        return redirect(QXCMP_BACKEND_URL + "/user/" + id + "/details");
+    }
+
+    @PostMapping("/weixin/sync")
+    public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
+        weixinService.doSync();
+        return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
     }
 
     @GetMapping("/{id}/details")
@@ -90,7 +147,7 @@ public class AdminUserPageController extends AbstractQXCMPController {
                 )
                 .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情")
                 .build()
-        ).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
+        ).orElse(page(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
     }
 
     @GetMapping("/{id}/role")
@@ -103,7 +160,7 @@ public class AdminUserPageController extends AbstractQXCMPController {
                     .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情", "user/" + id + "/details", "编辑用户角色")
                     .addObject("selection_items_roles", roleService.findAll())
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
+        }).orElse(page(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
     }
 
     @PostMapping("/{id}/role")
@@ -134,7 +191,7 @@ public class AdminUserPageController extends AbstractQXCMPController {
                     .addComponent(new TextContainer().addComponent(new Segment().addComponent(convertToForm(form))))
                     .setBreadcrumb("控制台", "", "用户管理", "user", "用户详情", "user/" + id + "/details", "编辑用户状态")
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
+        }).orElse(page(new Overview(new IconHeader("用户不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/user")).build());
     }
 
     @PostMapping("/{id}/status")

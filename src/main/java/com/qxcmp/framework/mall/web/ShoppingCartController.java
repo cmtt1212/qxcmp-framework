@@ -3,7 +3,7 @@ package com.qxcmp.framework.mall.web;
 import com.qxcmp.framework.exception.ShoppingCartServiceException;
 import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -12,7 +12,6 @@ import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +23,10 @@ import java.util.List;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
-@Profile("mall")
 @Controller
 @RequestMapping("/mall/cart")
 @RequiredArgsConstructor
-public class ShoppingCartController extends AbstractQXCMPController {
+public class ShoppingCartController extends QXCMPController {
 
     private final ShoppingCartService shoppingCartService;
 
@@ -49,6 +47,7 @@ public class ShoppingCartController extends AbstractQXCMPController {
 
         return page().addComponent(mallPageHelper.nextMobileShoppingCartComponent(items))
                 .setTitle("我的购物车")
+                .hideMobileBottomMenu()
                 .build();
     }
 
@@ -93,6 +92,7 @@ public class ShoppingCartController extends AbstractQXCMPController {
 
         return page().addComponent(mallPageHelper.nextMobileShoppingCartOrder(items, consigneeService.findOne(shoppingCart.getConsigneeId()).orElse(null)))
                 .setTitle("我的购物车")
+                .hideMobileBottomMenu()
                 .build();
     }
 

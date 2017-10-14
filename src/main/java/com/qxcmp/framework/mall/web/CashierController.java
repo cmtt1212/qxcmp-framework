@@ -5,7 +5,7 @@ import com.qxcmp.framework.exception.NoBalanceException;
 import com.qxcmp.framework.mall.CommodityOrder;
 import com.qxcmp.framework.mall.CommodityOrderService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -17,7 +17,6 @@ import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +27,10 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author aaric
  */
-@Profile("mall")
 @RequestMapping("/mall/cashier")
 @Controller
 @RequiredArgsConstructor
-public class CashierController extends AbstractQXCMPController {
+public class CashierController extends QXCMPController {
 
     private final CommodityOrderService commodityOrderService;
 

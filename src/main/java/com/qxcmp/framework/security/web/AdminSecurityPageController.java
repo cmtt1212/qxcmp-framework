@@ -4,7 +4,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -28,7 +28,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/security")
 @RequiredArgsConstructor
-public class AdminSecurityPageController extends AbstractQXCMPController {
+public class AdminSecurityPageController extends QXCMPController {
 
     private final PrivilegeService privilegeService;
 
@@ -110,7 +110,7 @@ public class AdminSecurityPageController extends AbstractQXCMPController {
                     .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_ROLE)
                     .addObject("selection_items_privileges", privilegeService.findAll())
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("角色不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/security/role")).build());
+        }).orElse(page(new Overview(new IconHeader("角色不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/security/role")).build());
     }
 
     @PostMapping("/role/{id}/edit")

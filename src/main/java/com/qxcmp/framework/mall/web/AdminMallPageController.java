@@ -3,7 +3,7 @@ package com.qxcmp.framework.mall.web;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.mall.Store;
 import com.qxcmp.framework.mall.StoreService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -29,7 +29,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall")
 @RequiredArgsConstructor
-public class AdminMallPageController extends AbstractQXCMPController {
+public class AdminMallPageController extends QXCMPController {
 
     private final StoreService storeService;
 
@@ -104,7 +104,7 @@ public class AdminMallPageController extends AbstractQXCMPController {
                     .addObject("selection_items_owner", userService.findAll())
                     .addObject("selection_items_admins", userService.findAll())
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
+        }).orElse(page(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
     }
 
     @PostMapping("/store/{id}/edit")
@@ -133,7 +133,7 @@ public class AdminMallPageController extends AbstractQXCMPController {
                     throw new ActionException(e.getMessage(), e);
                 }
             }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/store"));
-        }).orElse(overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
+        }).orElse(page(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/store")).build());
     }
 
     @GetMapping("/settings")

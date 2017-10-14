@@ -6,7 +6,6 @@ import com.qxcmp.framework.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialCountResult;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
@@ -42,6 +41,8 @@ public class WeixinService {
     private final WxMpService wxMpService;
 
     private final WechatMpNewsArticleService wechatMpNewsArticleService;
+
+    private boolean weixinUserSync;
 
     /**
      * 公众号图文消息缓存
@@ -121,8 +122,8 @@ public class WeixinService {
     @Async
     public void doSync() {
         try {
-
             log.info("Start Wechat user sync");
+            weixinUserSync = true;
 
             List<String> openIds = Lists.newArrayList();
 
@@ -143,8 +144,10 @@ public class WeixinService {
             });
 
             log.info("Finish Wechat user sync");
-        } catch (WxErrorException e) {
+            weixinUserSync = false;
+        } catch (Exception e) {
             log.error("Wechat user sync failed：{}", e.getMessage());
+            weixinUserSync = false;
         }
     }
 
@@ -187,6 +190,10 @@ public class WeixinService {
 
     public List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> getVoices() {
         return voices;
+    }
+
+    public boolean isWeixinUserSync() {
+        return weixinUserSync;
     }
 
     private void setUserWechatInfo(User user, WxMpUser wxMpUser) {

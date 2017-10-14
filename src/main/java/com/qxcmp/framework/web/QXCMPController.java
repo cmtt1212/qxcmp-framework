@@ -29,7 +29,6 @@ import com.qxcmp.framework.web.view.modules.table.EntityTable;
 import com.qxcmp.framework.web.view.modules.table.Table;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
-import com.qxcmp.framework.web.view.support.utils.FormHelper;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.support.utils.ViewHelper;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -60,7 +59,7 @@ import java.util.function.Consumer;
  *
  * @author Aaric
  */
-public abstract class AbstractQXCMPController {
+public abstract class QXCMPController {
 
     protected HttpServletRequest request;
     protected HttpServletResponse response;
@@ -72,7 +71,6 @@ public abstract class AbstractQXCMPController {
     protected ViewHelper viewHelper;
     protected QXCMPPageResolver pageResolver;
 
-    private FormHelper formHelper;
     private TableHelper tableHelper;
     private CaptchaService captchaService;
     private ActionExecutor actionExecutor;
@@ -81,7 +79,6 @@ public abstract class AbstractQXCMPController {
      * 根据请求获取一个页面
      *
      * @return 由页面解析器解析出来的页面
-     *
      * @see QXCMPPageResolver
      */
     protected AbstractPage page() {
@@ -89,15 +86,13 @@ public abstract class AbstractQXCMPController {
     }
 
     /**
-     * 获取一个概览视图页面
+     * 根据请求获取一个页面并设置概览视图
      *
      * @param overview 概览组件
-     *
      * @return 概览视图页面
-     *
      * @see Overview
      */
-    protected AbstractPage overviewPage(Overview overview) {
+    protected AbstractPage page(Overview overview) {
         return page().addComponent(new Grid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().addItem(new Col().addComponent(overview)));
     }
 
@@ -105,7 +100,6 @@ public abstract class AbstractQXCMPController {
      * 获取一个重定向页面
      *
      * @param url 重定向链接
-     *
      * @return 重定向页面
      */
     protected ModelAndView redirect(String url) {
@@ -113,11 +107,11 @@ public abstract class AbstractQXCMPController {
     }
 
     protected AbstractForm convertToForm(Object object) {
-        return formHelper.convert(object);
+        return viewHelper.nextForm(object);
     }
 
     protected ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
-        return formHelper.convertToErrorMessage(bindingResult, object);
+        return viewHelper.nextFormErrorMessage(bindingResult, object);
     }
 
     protected EntityTable convertToTable(Pageable pageable, EntityService entityService) {
@@ -232,7 +226,6 @@ public abstract class AbstractQXCMPController {
      * @param form       要提交的表单
      * @param action     要执行的操作
      * @param biConsumer 返回的结果页面
-     *
      * @return 提交后的页面
      */
     protected ModelAndView submitForm(String title, Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
@@ -265,8 +258,8 @@ public abstract class AbstractQXCMPController {
                         overview.addLink("返回", request.getRequestURL().toString());
                     }
 
-                    return overviewPage(overview).build();
-                }).orElse(overviewPage(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
+                    return page(overview).build();
+                }).orElse(page(new Overview(new IconHeader("保存操作结果失败", new Icon("warning circle"))).addLink("返回", request.getRequestURL().toString())).build());
     }
 
     /**
@@ -274,7 +267,6 @@ public abstract class AbstractQXCMPController {
      *
      * @param title  操作名称
      * @param action 要执行的操作
-     *
      * @return 操作结果实体
      */
     protected RestfulResponse audit(String title, Action action) {
@@ -345,11 +337,6 @@ public abstract class AbstractQXCMPController {
     @Autowired
     public void setViewHelper(ViewHelper viewHelper) {
         this.viewHelper = viewHelper;
-    }
-
-    @Autowired
-    public void setFormHelper(FormHelper formHelper) {
-        this.formHelper = formHelper;
     }
 
     @Autowired

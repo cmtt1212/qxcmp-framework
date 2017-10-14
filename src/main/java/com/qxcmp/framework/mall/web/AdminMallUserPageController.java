@@ -6,7 +6,7 @@ import com.qxcmp.framework.mall.CommodityService;
 import com.qxcmp.framework.mall.Store;
 import com.qxcmp.framework.mall.StoreService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
@@ -44,7 +44,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall/user/store")
 @RequiredArgsConstructor
-public class AdminMallUserPageController extends AbstractQXCMPController {
+public class AdminMallUserPageController extends QXCMPController {
 
     /**
      * 用户所选店铺偏好
@@ -70,7 +70,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
         List<Store> stores = storeService.findByUser(user);
 
         if (stores.isEmpty()) {
-            return overviewPage(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+            return page(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
         Store selectedStore = getUserSelectedStore(user);
@@ -94,7 +94,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
         List<Store> stores = storeService.findByUser(user);
 
         if (stores.isEmpty()) {
-            return overviewPage(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+            return page(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
         form.setStore(stores.get(0));
@@ -115,7 +115,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
         List<Store> stores = storeService.findByUser(user);
 
         if (bindingResult.hasErrors() || !stores.contains(form.getStore())) {
-            return overviewPage(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+            return page(new Overview(new IconHeader("店铺不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
         userConfigService.save(user.getId(), USER_CONFIG_STORE_SELECTION, form.getStore().getId());
@@ -131,7 +131,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
         List<Store> stores = storeService.findByUser(user);
 
         if (stores.isEmpty()) {
-            return overviewPage(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+            return page(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
         Store selectedStore = getUserSelectedStore(user);
@@ -152,7 +152,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
         List<Store> stores = storeService.findByUser(user);
 
         if (stores.isEmpty()) {
-            return overviewPage(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+            return page(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
         Store selectedStore = getUserSelectedStore(user);
@@ -174,7 +174,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
         List<Store> stores = storeService.findByUser(user);
 
         if (stores.isEmpty()) {
-            return overviewPage(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
+            return page(new Overview(new IconHeader("你还没有管理任何店铺", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build();
         }
 
         Store selectedStore = getUserSelectedStore(user);
@@ -269,7 +269,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
                             .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
                             .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
                             .build();
-                }).orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
+                }).orElse(page(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
     }
 
     @PostMapping("/commodity/{id}/edit")
@@ -327,7 +327,7 @@ public class AdminMallUserPageController extends AbstractQXCMPController {
                         throw new ActionException(e.getMessage(), e);
                     }
                 }, (context, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")))
-                .orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
+                .orElse(page(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
     }
 
     @PostMapping("/commodity/{id}/disable")

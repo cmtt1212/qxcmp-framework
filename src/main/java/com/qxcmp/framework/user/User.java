@@ -6,9 +6,11 @@ import com.qxcmp.framework.core.validation.Phone;
 import com.qxcmp.framework.core.validation.Username;
 import com.qxcmp.framework.domain.Label;
 import com.qxcmp.framework.security.Role;
-import com.qxcmp.framework.web.view.annotation.table.EntityTable;
-import com.qxcmp.framework.web.view.annotation.table.RowAction;
-import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.annotation.table.*;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.modules.table.TableData;
+import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +33,10 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  *
  * @author aaric
  */
-@EntityTable(value = "用户管理", action = QXCMP_BACKEND_URL + "/user",
+@EntityTable(value = "全部用户", name = "all", action = QXCMP_BACKEND_URL + "/user/all",
+        rowActions = {@RowAction(value = "查看", action = "details", primary = true)})
+@EntityTable(value = "微信用户", name = "weixin", action = QXCMP_BACKEND_URL + "/user/weixin",
+        tableActions = @TableAction(value = "开始同步", action = "sync", method = FormMethod.POST, primary = true),
         rowActions = {@RowAction(value = "查看", action = "details", primary = true)})
 @Entity
 @Table
@@ -156,7 +161,7 @@ public class User implements UserDetails {
     /**
      * 用户昵称
      */
-    @TableField("昵称")
+    @TableField(value = "昵称", name = "weixin")
     private String nickname;
 
     /**
@@ -168,31 +173,37 @@ public class User implements UserDetails {
     /**
      * 用户是否订阅平台所属的公众号
      */
+    @TableField(value = "是否订阅", name = "weixin")
     private boolean subscribe;
 
     /**
      * 用户性别
      */
+    @TableField(value = "性别", name = "weixin")
     private String sex;
 
     /**
      * 用户所使用语言
      */
+    @TableField(value = "语言", name = "weixin")
     private String language;
 
     /**
      * 用户所在城市
      */
+    @TableField(value = "城市", name = "weixin")
     private String city;
 
     /**
      * 用户所在省份
      */
+    @TableField(value = "省份", name = "weixin")
     private String province;
 
     /**
      * 用户所在国家
      */
+    @TableField(value = "国家", name = "weixin")
     private String country;
 
     /**
@@ -267,5 +278,16 @@ public class User implements UserDetails {
         }
 
         return username;
+    }
+
+    @TableFieldRender("subscribe")
+    public TableData renderSubscribeField() {
+        final TableData tableData = new TableData();
+        if (subscribe) {
+            tableData.addComponent(new Icon("check circle").setColor(Color.GREEN));
+        } else {
+            tableData.addComponent(new Icon("warning circle").setColor(Color.RED));
+        }
+        return tableData;
     }
 }

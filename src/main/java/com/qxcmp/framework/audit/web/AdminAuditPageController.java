@@ -2,7 +2,7 @@ package com.qxcmp.framework.audit.web;
 
 import com.qxcmp.framework.audit.AuditLog;
 import com.qxcmp.framework.audit.AuditLogService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -29,7 +29,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/audit")
 @RequiredArgsConstructor
-public class AdminAuditPageController extends AbstractQXCMPController {
+public class AdminAuditPageController extends QXCMPController {
 
     private final AuditLogService auditLogService;
 
@@ -57,6 +57,6 @@ public class AdminAuditPageController extends AbstractQXCMPController {
                         .addLink("返回", QXCMP_BACKEND_URL + "/audit")
                 ))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "系统日志", "audit", "日志详情")
-                .build()).orElse(overviewPage(new Overview(new IconHeader("日志不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/audit")).build());
+                .build()).orElse(page(new Overview(new IconHeader("日志不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/audit")).build());
     }
 }

@@ -1,6 +1,7 @@
 package com.qxcmp.framework.message.web;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.message.SmsTemplate;
 import com.qxcmp.framework.web.view.annotation.form.DynamicField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
@@ -30,6 +31,6 @@ public class AdminMessageSmsSettingsForm {
     @TextInputField(value = "验证码模板", section = "业务配置", tooltip = "选择阿里云短信服务中的模板CODE")
     private String captchaTemplate;
 
-    @DynamicField(value = "其他模板", section = "业务配置", itemHeaders = {"业务名称", "模板Code"}, itemFields = {"name", "code"})
+    @DynamicField(value = "其他模板", section = "业务配置", itemHeaders = {"模板主键", "业务名称", "模板Code"}, itemFields = {"id", "title", "template"})
     private List<SmsTemplate> templates = Lists.newArrayList();
 }

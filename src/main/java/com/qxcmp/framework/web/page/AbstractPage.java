@@ -3,9 +3,8 @@ package com.qxcmp.framework.web.page;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.label.AbstractLabel;
-import com.qxcmp.framework.web.view.html.JavaScript;
-import com.qxcmp.framework.web.view.html.Stylesheet;
 import com.qxcmp.framework.web.view.support.Color;
+import com.qxcmp.framework.web.view.views.ProfileHeader;
 import lombok.Getter;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,13 +33,13 @@ public abstract class AbstractPage {
     private List<Component> components = Lists.newArrayList();
 
     @Getter
-    private List<Stylesheet> stylesheets = Lists.newArrayList();
+    private List<String> stylesheets = Lists.newArrayList();
 
     @Getter
-    private List<JavaScript> javaScripts = Lists.newArrayList();
+    private List<String> javaScripts = Lists.newArrayList();
 
     @Getter
-    private List<JavaScript> bodyJavaScripts = Lists.newArrayList();
+    private List<String> bodyJavaScripts = Lists.newArrayList();
 
     public AbstractPage(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
@@ -83,16 +82,16 @@ public abstract class AbstractPage {
         return this;
     }
 
-    public AbstractPage addStylesheet(Stylesheet stylesheet) {
+    public AbstractPage addStylesheet(String stylesheet) {
         stylesheets.add(stylesheet);
         return this;
     }
 
-    public AbstractPage addJavascript(JavaScript javaScript) {
+    public AbstractPage addJavascript(String javaScript) {
         return addJavascript(javaScript, false);
     }
 
-    public AbstractPage addJavascript(JavaScript javaScript, boolean addToBody) {
+    public AbstractPage addJavascript(String javaScript, boolean addToBody) {
         if (addToBody) {
             bodyJavaScripts.add(javaScript);
         } else {
@@ -167,6 +166,72 @@ public abstract class AbstractPage {
      */
     public AbstractPage setVerticalNavigationBadge(String id, AbstractLabel label) {
         throw new UnsupportedOperationException(getClass().getSimpleName());
+    }
+
+    /**
+     * 设置移动端顶部导航菜单标题
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param title 标题
+     *
+     * @return 页面
+     */
+    public AbstractPage setMobileTopMenuTitle(String title) {
+        return this;
+    }
+
+    /**
+     * 设置移动端顶部导航菜单标题
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param title 标题
+     * @param url   超链接
+     *
+     * @return 页面
+     */
+    public AbstractPage setMobileTopMenuTitle(String title, String url) {
+        return this;
+    }
+
+    /**
+     * 设置移动端底部激活菜单项
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param id 导航ID
+     *
+     * @return 页面
+     *
+     * @see MobilePage
+     */
+    public AbstractPage setMobileBottomMenuActiveItem(String id) {
+        return this;
+    }
+
+    /**
+     * 隐藏移动端底部导航栏
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @return 页面
+     */
+    public AbstractPage hideMobileBottomMenu() {
+        return this;
+    }
+
+    /**
+     * 覆盖默认的账户组件
+     * <p>
+     * 仅支持移动端页面
+     *
+     * @param profileHeader 新的账户组件
+     *
+     * @return 页面
+     */
+    public AbstractPage setProfileHeader(ProfileHeader profileHeader) {
+        return this;
     }
 
     public ModelAndView build() {

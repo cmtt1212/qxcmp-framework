@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 public class AdminWeixinMenuForm {
 
-    @TextAreaField(value = "菜单内容", autoFocus = true, rows = 50)
+    @TextAreaField(value = "菜单内容", autoFocus = true, rows = 50, maxLength = 5000)
     private String content;
 }

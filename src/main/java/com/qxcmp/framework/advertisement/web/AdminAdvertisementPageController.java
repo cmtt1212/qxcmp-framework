@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.advertisement.Advertisement;
 import com.qxcmp.framework.advertisement.AdvertisementService;
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -28,7 +28,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/advertisement")
 @RequiredArgsConstructor
-public class AdminAdvertisementPageController extends AbstractQXCMPController {
+public class AdminAdvertisementPageController extends QXCMPController {
 
     public static final List<String> SUPPORT_TYPES = ImmutableList.of("横幅", "弹框", "摩天楼");
 
@@ -83,7 +83,7 @@ public class AdminAdvertisementPageController extends AbstractQXCMPController {
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
                     .addObject("selection_items_type", SUPPORT_TYPES)
                     .build();
-        }).orElse(overviewPage(new Overview(new IconHeader("广告不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/advertisement")).build());
+        }).orElse(page(new Overview(new IconHeader("广告不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/advertisement")).build());
     }
 
     @PostMapping("/{id}/edit")

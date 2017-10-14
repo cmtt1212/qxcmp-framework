@@ -2,6 +2,7 @@ package com.qxcmp.framework.web.view.views;
 
 import com.qxcmp.framework.web.view.AbstractComponent;
 import com.qxcmp.framework.web.view.Component;
+import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,9 +27,14 @@ public class MobileListItem extends AbstractComponent {
     private String url;
 
     /**
-     * 图片你- 可选
+     * 图片 - 可选
      */
     private Image image;
+
+    /**
+     * 图标 - 可选
+     */
+    private Icon icon;
 
     /**
      * 自定义内容
@@ -68,13 +74,23 @@ public class MobileListItem extends AbstractComponent {
         return "item";
     }
 
+    @Override
+    public String getClassSuffix() {
+        return "item";
+    }
+
     public MobileListItem setImage(Image image) {
         this.image = image;
         return this;
     }
 
-    @Override
-    public String getClassSuffix() {
-        return "item";
+    public MobileListItem setIcon(Icon icon) {
+        this.icon = icon;
+        return this;
+    }
+
+    public MobileListItem setIcon(String icon) {
+        this.icon = new Icon(icon);
+        return this;
     }
 }

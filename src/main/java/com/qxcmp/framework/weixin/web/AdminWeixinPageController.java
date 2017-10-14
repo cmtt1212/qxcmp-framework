@@ -3,7 +3,7 @@ package com.qxcmp.framework.weixin.web;
 import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -33,7 +33,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/weixin")
 @RequiredArgsConstructor
-public class AdminWeixinPageController extends AbstractQXCMPController {
+public class AdminWeixinPageController extends QXCMPController {
 
     private final WxMpService wxMpService;
 
@@ -129,7 +129,7 @@ public class AdminWeixinPageController extends AbstractQXCMPController {
                     .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MENU)
                     .build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
+            return page(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
                     .addComponent(new P(e.getMessage()))
                     .addLink("返回", QXCMP_BACKEND_URL + "/weixin")).build();
         }

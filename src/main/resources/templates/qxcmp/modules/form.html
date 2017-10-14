@@ -246,7 +246,7 @@
             <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
                    th:autocomplete="not ${component.disableAutoComplete}" th:required="${component.required}"
                    th:autofocus="${component.autoFocus}" th:readonly="${component.readOnly}"/>
-            <button class="ui basic secondary captcha button" type="button">获取短信验证码</button>
+            <button class="ui basic secondary captcha button" type="button">获取验证码</button>
         </div>
     </div>
     <script th:replace="~{:: field-common-script(${component})}"></script>
@@ -620,6 +620,7 @@
                 var nextValue = current + step;
                 if (nextValue <= max) {
                     $(input).val(nextValue);
+                    $(input).change();
                 }
             });
 
@@ -628,6 +629,7 @@
                 var nextValue = current - step;
                 if (nextValue >= min) {
                     $(input).val(nextValue);
+                    $(input).change();
                 }
             });
 
@@ -716,6 +718,62 @@
         $(document).ready(function () {
             var id = /*[[|#${component.id}|]]*/ "";
             $(/*[[|#${component.id}|]]*/ "").quill();
+        });
+    </script>
+</div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.DateTimeField"*/-->
+<div th:fragment="field-date-time(component)" th:id="${component.id}" th:class="${component.getClassName()}">
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="component">
+        <div class="ui calendar">
+            <div class="ui input left icon">
+                <i th:if="${component.type.toString() eq 'time'}" class="time icon"></i>
+                <i th:unless="${component.type.toString() eq 'time'}" class="calendar icon"></i>
+                <input th:field="*{__${component.name}__}" type="text" th:placeholder="${component.placeholder}"/>
+            </div>
+        </div>
+    </div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "";
+            var calendar = $(id).find(".ui.calendar");
+            var minDateTime = /*[[${component.minDate ne null ? component.minDate.getTime() : null}]]*/ null;
+            var maxDateTime = /*[[${component.maxDate ne null ? component.maxDate.getTime() : null}]]*/ null;
+
+            calendar.calendar({
+                type: /*[[${component.type.toString()}]]*/ "",
+                today: /*[[${component.showToday}]]*/ "",
+                ampm: /*[[${component.showAmPm}]]*/ "",
+                disableYear: /*[[${component.disableYear}]]*/ "",
+                disableMonth: /*[[${component.disableMonth}]]*/ "",
+                disableMinute: /*[[${component.disableMinute}]]*/ "",
+                minDate: minDateTime ? new Date(minDateTime) : null,
+                maxDate: maxDateTime ? new Date(maxDateTime) : null,
+                popupOptions: {
+                    position: "bottom right",
+                    lastResort: 'bottom right'
+                },
+                text: {
+                    days: ['日', '一', '二', '三', '四', '五', '六'],
+                    months: ['一月份', '二月份', '三月份', '四月份', '五月份', '六月份', '七月份', '八月份', '九月份', '十月份', '十一月份', '十二月份'],
+                    monthsShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    today: '今天',
+                    now: '现在',
+                    am: '上午',
+                    pm: '下午'
+                },
+                formatter: {
+                    date: function (date, settings) {
+                        if (!date) return '';
+                        var day = date.getDate();
+                        var month = date.getMonth() + 1;
+                        var year = date.getFullYear();
+                        return year + '-' + month + '-' + day;
+                    }
+                }
+            });
         });
     </script>
 </div>

@@ -88,9 +88,9 @@ public class AccountEmailController extends AccountPageController {
                 return user;
             }).ifPresent(accountService::sendActivateEmail);
 
-            return overviewPage(new Overview("注册成功", "激活邮件已经发送到您的邮件，请前往激活。如果您未收到激活邮件，请检查是否被黑名单过滤，或者再次重新发送激活邮件").addLink("立即登录", "/login")).build();
+            return page(new Overview("注册成功", "激活邮件已经发送到您的邮件，请前往激活。如果您未收到激活邮件，请检查是否被黑名单过滤，或者再次重新发送激活邮件").addLink("立即登录", "/login")).build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("注册失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
+            return page(new Overview(new IconHeader("注册失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
 
@@ -131,9 +131,9 @@ public class AccountEmailController extends AccountPageController {
 
         try {
             accountService.sendResetEmail(userOptional.get());
-            return overviewPage(new Overview("密码重置邮件发送成功", "请前往您的邮箱点击重置链接重置密码").addLink("返回登录", "/login")).build();
+            return page(new Overview("密码重置邮件发送成功", "请前往您的邮箱点击重置链接重置密码").addLink("返回登录", "/login")).build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("密码重置邮件发送失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
+            return page(new Overview(new IconHeader("密码重置邮件发送失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回登录", "/login")).build();
         }
     }
 }

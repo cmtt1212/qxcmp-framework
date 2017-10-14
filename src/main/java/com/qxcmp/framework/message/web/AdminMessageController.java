@@ -3,11 +3,13 @@ package com.qxcmp.framework.message.web;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.message.SmsService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.message.SmsTemplateService;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,11 +34,13 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/message")
 @RequiredArgsConstructor
-public class AdminMessageController extends AbstractQXCMPController {
+public class AdminMessageController extends QXCMPController {
 
     private final EmailService emailService;
 
     private final SmsService smsService;
+
+    private final SmsTemplateService smsTemplateService;
 
     @GetMapping("")
     public ModelAndView messagePage() {
@@ -269,6 +273,7 @@ public class AdminMessageController extends AbstractQXCMPController {
         form.setTopicRef(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF).orElse(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF_DEFAULT_VALUE));
         form.setSign(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_SIGN).orElse(SYSTEM_CONFIG_MESSAGE_SMS_SIGN_DEFAULT_VALUE));
         form.setCaptchaTemplate(systemConfigService.getString(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE).orElse(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE_DEFAULT_VALUE));
+        form.setTemplates(smsTemplateService.findAll());
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
@@ -282,7 +287,7 @@ public class AdminMessageController extends AbstractQXCMPController {
                                         @RequestParam(value = "remove_templates", required = false) Integer removeTemplates) {
 
         if (addTemplates) {
-            form.getTemplates().add(new SmsTemplate());
+            form.getTemplates().add(smsTemplateService.next());
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
                     .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS)
@@ -290,7 +295,11 @@ public class AdminMessageController extends AbstractQXCMPController {
         }
 
         if (Objects.nonNull(removeTemplates)) {
-            form.getTemplates().remove(removeTemplates.intValue());
+            try {
+                smsTemplateService.remove(form.getTemplates().remove(removeTemplates.intValue()));
+            } catch (Exception ignored) {
+
+            }
             return page().addComponent(new Segment().addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "短信服务配置")
                     .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS)
@@ -311,6 +320,10 @@ public class AdminMessageController extends AbstractQXCMPController {
             systemConfigService.update(SYSTEM_CONFIG_MESSAGE_SMS_TOPIC_REF, form.getTopicRef());
             systemConfigService.update(SYSTEM_CONFIG_MESSAGE_SMS_SIGN, form.getSign());
             systemConfigService.update(SYSTEM_CONFIG_MESSAGE_SMS_CAPTCHA_TEMPLATE_CODE, form.getCaptchaTemplate());
+
+            form.getTemplates().stream()
+                    .filter(smsTemplate -> StringUtils.isNotBlank(smsTemplate.getId()) && StringUtils.isNotBlank(smsTemplate.getTitle()) && StringUtils.isNotBlank(smsTemplate.getTemplate()))
+                    .forEach(smsTemplateService::save);
 
             smsService.config();
         });

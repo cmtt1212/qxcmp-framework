@@ -1,12 +1,11 @@
 package com.qxcmp.framework.mall.web;
 
 import com.qxcmp.framework.mall.CommodityService;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
-@Profile("mall")
 @Controller
 @RequestMapping("/mall")
 @RequiredArgsConstructor
-public class MallPageController extends AbstractQXCMPController {
+public class MallPageController extends QXCMPController {
 
     private final CommodityService commodityService;
 
@@ -31,6 +29,7 @@ public class MallPageController extends AbstractQXCMPController {
 
         return commodityService.findOne(id).map(commodity -> page().addComponent(device.isMobile() ? mallPageHelper.nextMobileCommodityDetails(commodity) : mallPageHelper.nextMobileCommodityDetails(commodity))
                 .setTitle(String.format("%s_%s", commodity.getTitle(), siteService.getTitle()))
-                .build()).orElse(overviewPage(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build());
+                .hideMobileBottomMenu()
+                .build()).orElse(page(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall")).build());
     }
 }

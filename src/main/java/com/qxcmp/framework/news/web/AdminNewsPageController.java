@@ -1,6 +1,6 @@
 package com.qxcmp.framework.news.web;
 
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.views.Overview;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_A
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news")
-public class AdminNewsPageController extends AbstractQXCMPController {
+public class AdminNewsPageController extends QXCMPController {
 
     @GetMapping("")
     public ModelAndView newsPage() {

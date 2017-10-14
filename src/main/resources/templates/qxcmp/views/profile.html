@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.views.ProfileHeader"*/-->
+<th:block th:fragment="default(component)">
+    <a th:unless="${#strings.isEmpty(component.url)}" class="ui profile-header" th:href="@{${component.url}}">
+        <div class="ui circular image">
+            <img th:src="@{${component.portrait}}"/>
+        </div>
+        <div class="content">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+        </div>
+    </a>
+    <div th:if="${#strings.isEmpty(component.url)}" class="ui profile header">
+        <div class="ui circular image">
+            <img th:src="@{${component.portrait}}"/>
+        </div>
+        <div class="content">
+            <div th:replace="~{qxcmp/globals/components :: component(${component.content})}"></div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

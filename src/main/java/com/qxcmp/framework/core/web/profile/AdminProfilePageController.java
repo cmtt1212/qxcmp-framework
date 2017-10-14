@@ -1,12 +1,11 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.core.web.profile;
 
-import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.account.username.AccountSecurityQuestion;
 import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.AbstractQXCMPController;
+import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -33,35 +32,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.web.profile.ProfilePageHelper.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/profile")
 @RequiredArgsConstructor
-public class AdminProfilePageController extends AbstractQXCMPController {
-
-    private static final String EMAIL_BINDING_SESSION_ATTR = "EMAIL_BINDING_CAPTCHA";
-    private static final String EMAIL_BINDING_CONTENT_SESSION_ATTR = "EMAIL_BINDING_CONTENT";
-
-    private static final List<String> QUESTIONS_LIST_1 = ImmutableList.of("您高中三年级班主任的名字", "您小学六年级班主任的名字", "您大学时的学号", "您大学本科时的上/下铺叫什么名字", "您大学的导师叫什么名字");
-    private static final List<String> QUESTIONS_LIST_2 = ImmutableList.of("您父母称呼您的昵称", "您出生的医院名称", "您最好的朋友叫什么名字", "您母亲的姓名是", "您配偶的生日是");
-    private static final List<String> QUESTIONS_LIST_3 = ImmutableList.of("您第一个宠物的名字", "您的第一任男朋友/女朋友姓名", "您第一家任职的公司名字");
+public class AdminProfilePageController extends QXCMPController {
 
     private final AccountSecurityQuestionService securityQuestionService;
-
     private final AccountService accountService;
 
     @GetMapping("/info")
     public ModelAndView infoPage(final AdminProfileInfoForm form) {
-        User user = currentUser().orElseThrow(RuntimeException::new);
-
+        User user = userService.currentUser();
         form.setPortrait(user.getPortrait());
-        form.setName(user.getName());
         form.setNickname(user.getNickname());
         form.setPersonalizedSignature(user.getPersonalizedSignature());
 
@@ -81,10 +70,9 @@ public class AdminProfilePageController extends AbstractQXCMPController {
 
         return submitForm(form, context -> {
             try {
-                User user = currentUser().orElseThrow(RuntimeException::new);
+                User user = userService.currentUser();
                 userService.update(user.getId(), u -> {
                     u.setPortrait(form.getPortrait());
-                    u.setName(form.getName());
                     u.setNickname(form.getNickname());
                     u.setPersonalizedSignature(form.getPersonalizedSignature());
                 }).ifPresent(u -> refreshUser());
@@ -96,7 +84,7 @@ public class AdminProfilePageController extends AbstractQXCMPController {
 
     @GetMapping("/security")
     public ModelAndView securityPage() {
-        User user = currentUser().orElseThrow(RuntimeException::new);
+        User user = userService.currentUser();
 
         boolean hasSecurityQuestion = securityQuestionService.findByUserId(user.getId()).map(accountSecurityQuestion -> StringUtils.isNotBlank(accountSecurityQuestion.getQuestion1()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion2()) && StringUtils.isNotBlank(accountSecurityQuestion.getQuestion3())).orElse(false);
 
@@ -296,7 +284,7 @@ public class AdminProfilePageController extends AbstractQXCMPController {
                     .setBreadcrumb("控制台", "", "个人中心", null, "安全设置", "profile/security", "邮箱绑定")
                     .build();
         } catch (Exception e) {
-            return overviewPage(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
+            return page(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P(e.getMessage())).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
         }
     }
 
@@ -304,7 +292,7 @@ public class AdminProfilePageController extends AbstractQXCMPController {
     public ModelAndView securityEmailBindPage(@Valid final AdminProfileSecurityEmailBindForm form, BindingResult bindingResult) {
 
         if (Objects.isNull(request.getSession().getAttribute(EMAIL_BINDING_SESSION_ATTR)) || !StringUtils.equals(form.getCaptcha(), (String) request.getSession().getAttribute(EMAIL_BINDING_SESSION_ATTR)) || bindingResult.hasErrors()) {
-            return overviewPage(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P("绑定验证不正确或者已过期")).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
+            return page(new Overview(new IconHeader("邮箱绑定失败", new Icon("warning circle"))).addComponent(new P("绑定验证不正确或者已过期")).addLink("返回安全设置", QXCMP_BACKEND_URL + "/profile/security")).build();
         }
 
         return submitForm(form, context -> {
