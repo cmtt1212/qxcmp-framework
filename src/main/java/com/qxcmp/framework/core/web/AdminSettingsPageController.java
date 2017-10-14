@@ -6,6 +6,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.config.SystemDictionaryItem;
 import com.qxcmp.framework.config.SystemDictionaryItemService;
 import com.qxcmp.framework.config.SystemDictionaryService;
+import com.qxcmp.framework.domain.Region;
 import com.qxcmp.framework.domain.RegionLevel;
 import com.qxcmp.framework.domain.RegionService;
 import com.qxcmp.framework.web.QXCMPController;
@@ -194,6 +195,76 @@ public class AdminSettingsPageController extends QXCMPController {
                 .setBreadcrumb("控制台", "", "系统设置", "settings", "地区管理")
                 .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_REGION)
                 .build();
+    }
+
+    @GetMapping("/region/{id}/new")
+    public ModelAndView regionNewPage(@PathVariable String id, final AdminSettingsRegionNewForm form) {
+        return regionService.findOne(id)
+                .filter(region -> region.getLevel().equals(RegionLevel.CITY))
+                .map(region -> {
+
+                    form.setParent(String.format("%s - %s", region.getName(), region.getCode()));
+
+                    List<Region> inferiors = regionService.findInferiors(region);
+
+                    if (!inferiors.isEmpty()) {
+                        Region infer = inferiors.get(inferiors.size() - 1);
+                        try {
+                            form.setCode(String.valueOf(Integer.parseInt(infer.getCode()) + 1));
+                        } catch (Exception ignored) {
+
+                        }
+                    }
+
+                    return page()
+                            .addComponent(convertToForm(form))
+                            .addComponent(convertToTable(stringObjectMap -> inferiors.forEach(r -> {
+                                stringObjectMap.put(r.getName(), r.getCode());
+                            })))
+                            .setBreadcrumb("控制台", "", "系统设置", "settings", "地区管理", "settings/region", "添加地区")
+                            .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_REGION)
+                            .build();
+                })
+                .orElse(page(viewHelper.nextWarningOverview("地区不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/settings/region")).build());
+    }
+
+    @PostMapping("/region/{id}/new")
+    public ModelAndView regionNewPage(@PathVariable String id, @Valid final AdminSettingsRegionNewForm form, BindingResult bindingResult) {
+        return regionService.findOne(id)
+                .filter(region -> region.getLevel().equals(RegionLevel.CITY))
+                .map(region -> {
+
+                    if (regionService.findOne(form.getCode()).isPresent()) {
+                        bindingResult.rejectValue("code", "", "地区代码已经存在");
+                    }
+
+                    if (bindingResult.hasErrors()) {
+                        return page()
+                                .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+                                .addComponent(convertToTable(stringObjectMap -> regionService.findInferiors(region).forEach(r -> {
+                                    stringObjectMap.put(r.getName(), r.getCode());
+                                })))
+                                .setBreadcrumb("控制台", "", "系统设置", "settings", "地区管理", "settings/region", "添加地区")
+                                .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_REGION)
+                                .build();
+                    }
+
+                    return submitForm(form, context -> {
+                        try {
+                            Region r = regionService.next();
+
+                            r.setCode(form.getCode());
+                            r.setName(form.getName());
+                            r.setParent(id);
+                            r.setLevel(RegionLevel.COUNTY);
+
+                            regionService.create(() -> r);
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/settings/region").addLink("继续添加", ""));
+                })
+                .orElse(page(viewHelper.nextWarningOverview("地区不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/settings/region")).build());
     }
 
     @PostMapping("/region/{code}/disable")
