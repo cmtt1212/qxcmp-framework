@@ -28,4 +28,7 @@ interface RegionRepository extends JpaRepository<Region, String>, JpaSpecificati
      */
     @Query("select region from Region region where region.disable = false and region.parent = :parent")
     List<Region> findInferiors(@Param("parent") String parent);
+
+    @Query("select region from Region region where region.parent = :parent")
+    List<Region> findAllInferiors(@Param("parent") String parent);
 }

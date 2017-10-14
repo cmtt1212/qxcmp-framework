@@ -22,12 +22,20 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
         return repository.findByLevel(level);
     }
 
-    List<Region> findInferiors(Region region) {
+    public List<Region> findInferiors(Region region) {
         return repository.findInferiors(region.getCode());
     }
 
-    List<Region> findInferiors(String parent) {
+    public List<Region> findInferiors(String parent) {
         return repository.findInferiors(parent);
+    }
+
+    public List<Region> findAllInferiors(Region region) {
+        return repository.findAllInferiors(region.getCode());
+    }
+
+    public List<Region> findAllInferiors(String parent) {
+        return repository.findAllInferiors(parent);
     }
 
     @Override
