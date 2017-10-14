@@ -14,7 +14,6 @@ interface OfferRepository extends JpaRepository<Offer, String>, JpaSpecification
      *
      * @param userId   用户ID
      * @param pageable 分页信息
-     *
      * @return 用户领取券的信息
      */
     Page<Offer> findByUserIdOrderByDateReceivedDesc(String userId, Pageable pageable);

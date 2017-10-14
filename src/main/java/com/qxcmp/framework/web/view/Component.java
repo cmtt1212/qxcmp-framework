@@ -22,7 +22,6 @@ public interface Component {
      * 为组件增加自定义 class 属性
      *
      * @param customClass 自定义class属性
-     *
      * @return 组件本身
      */
     Component setCustomClass(String customClass);

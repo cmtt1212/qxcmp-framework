@@ -21,7 +21,6 @@ public interface Action {
      * 执行该操作
      *
      * @param context 操作上下文，用于保存操作中用到的信息，也用于结果页面来获取
-     *
      * @throws ActionException 当操作当中的某些步骤失败的时候应该抛出该异常，抛出异常的操作会被标记为操作失败
      */
     void execute(Map<String, Object> context) throws ActionException;

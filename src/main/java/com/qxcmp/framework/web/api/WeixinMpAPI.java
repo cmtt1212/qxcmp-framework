@@ -47,7 +47,6 @@ public class WeixinMpAPI extends QXCMPController {
      *
      * @param request  微信服务器发来的请求
      * @param response 返回给微信服务器的响应
-     *
      * @throws IOException 抛出{@link IOException}
      */
     @RequestMapping("")
@@ -109,7 +108,6 @@ public class WeixinMpAPI extends QXCMPController {
      * 用于获取当前Url的JS Config配置
      *
      * @param url 页面Url
-     *
      * @return JS Config 配置
      */
     @GetMapping("/jsapi")

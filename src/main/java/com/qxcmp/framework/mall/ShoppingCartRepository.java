@@ -13,7 +13,6 @@ interface ShoppingCartRepository extends JpaRepository<ShoppingCart, String>, Jp
      * 根据用于ID获取购物车
      *
      * @param userId 用户ID
-     *
      * @return 用户ID对应的购物车
      */
     Optional<ShoppingCart> findByUserId(String userId);

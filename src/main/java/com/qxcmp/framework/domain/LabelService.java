@@ -67,7 +67,6 @@ public class LabelService extends AbstractEntityService<Label, Long, LabelReposi
      *
      * @param type 标签类型
      * @param name 标签名称
-     *
      * @return 创建后的标签，如果标签存在则返回 {@link Optional#empty()}
      */
     public Optional<Label> create(String type, String name) {

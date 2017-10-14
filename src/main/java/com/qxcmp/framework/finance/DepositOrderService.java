@@ -47,7 +47,6 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
      *
      * @param supplier 提单提供者
      * @param <S>      订单类型
-     *
      * @return 保存后的充值订单
      */
     @Override
@@ -65,7 +64,6 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
      * 处理一个订单，为用户钱包增加相应金额
      *
      * @param orderID 订单号
-     *
      * @throws FinanceException 如果订单不存在，或者状态不正确，抛出该异常
      */
     public void process(String orderID) throws FinanceException {
@@ -97,7 +95,6 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
      * 提供事务支持，如果出现异常则回滚
      *
      * @param depositOrder 充值订单
-     *
      * @throws FinanceException 如果抛出该异常则回滚事务
      */
     private void handle(DepositOrder depositOrder) throws FinanceException {

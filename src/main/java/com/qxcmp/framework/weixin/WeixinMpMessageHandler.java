@@ -52,7 +52,6 @@ public class WeixinMpMessageHandler implements WxMpMessageHandler {
      * @param wxMpService       微信服务
      * @param sessionManager    会话管理
      * @param wxMpXmlOutMessage 要返回的消息
-     *
      * @return 平台微信消息事件
      */
     private BaseWeixinMessageEvent convertMessageToEvent(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {

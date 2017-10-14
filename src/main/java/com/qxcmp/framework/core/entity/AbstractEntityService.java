@@ -186,7 +186,6 @@ public abstract class AbstractEntityService<T, ID extends Serializable, R extend
      *
      * @param entity 实体对象
      * @param <S>    实体对象类型或者子类型
-     *
      * @return 实体对象的主键
      */
     protected abstract <S extends T> ID getEntityId(S entity);

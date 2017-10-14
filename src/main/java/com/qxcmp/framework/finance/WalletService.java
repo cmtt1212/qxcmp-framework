@@ -28,7 +28,6 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
      * 根据用户ID获取钱包 如果用户存在但是钱包不存在，则返回新创建的钱包
      *
      * @param userId 用户ID
-     *
      * @return 属于用于的钱包，如果用于不存在则返回empty
      */
     public Optional<Wallet> getByUserId(String userId) {

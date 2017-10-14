@@ -65,7 +65,6 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      *
      * @param user       用户
      * @param privileges 要判定的权限
-     *
      * @return 如果用户拥有任意一个权限将返回真
      */
     public boolean hasRole(User user, String... privileges) {
@@ -84,7 +83,6 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      * 查找具有指定权限的用户
      *
      * @param privilege 拥有的权限
-     *
      * @return 指定权限的用户
      */
     public List<User> findByAuthority(String privilege) {
@@ -95,7 +93,6 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      * 查找具有指定角色的用户
      *
      * @param role 拥有的角色
-     *
      * @return 指定角色的用户
      */
     public List<User> findByRole(String role) {

@@ -12,7 +12,6 @@ interface LabelRepository extends JpaRepository<Label, Long>, JpaSpecificationEx
     /**
      * @param type
      * @param name
-     *
      * @return
      */
     Optional<Label> findByTypeAndName(String type, String name);

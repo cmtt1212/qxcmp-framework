@@ -16,7 +16,6 @@ import static com.google.common.base.Preconditions.checkState;
  * 负责对页面处理器解析后的领域实体对象进行进一步处理，比如入库等等
  *
  * @param <T>
- *
  * @author aaric
  * @see SpiderPageProcessor
  */
@@ -80,7 +79,6 @@ public abstract class SpiderPipeline<T> implements Pipeline {
      * 检查领域对象是否有效
      *
      * @param target 领域对象
-     *
      * @return 如果领域对象无效，则抛出{@link IllegalStateException}
      */
     protected abstract boolean isValidTarget(T target);
@@ -91,7 +89,6 @@ public abstract class SpiderPipeline<T> implements Pipeline {
      * 该方法用来判断抓取到的领域对象是否为新的对象
      *
      * @param target 领域对象
-     *
      * @return 如果没有原始领域对象返回 {@link Optional#empty()}
      */
     protected abstract Optional<T> getOriginTarget(T target);
@@ -101,7 +98,6 @@ public abstract class SpiderPipeline<T> implements Pipeline {
      *
      * @param target 新的领域对象
      * @param origin 原始领域对象
-     *
      * @return 领域对象是否有变化
      */
     protected abstract boolean isTargetChanged(T target, T origin);

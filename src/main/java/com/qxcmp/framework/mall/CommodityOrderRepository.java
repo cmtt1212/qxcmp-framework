@@ -14,7 +14,6 @@ interface CommodityOrderRepository extends JpaRepository<CommodityOrder, String>
      *
      * @param userId   用户ID
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     Page<CommodityOrder> findByUserId(String userId, Pageable pageable);
@@ -25,7 +24,6 @@ interface CommodityOrderRepository extends JpaRepository<CommodityOrder, String>
      * @param userId   用户ID
      * @param status   订单状态
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     Page<CommodityOrder> findByUserIdAndStatus(String userId, OrderStatusEnum status, Pageable pageable);

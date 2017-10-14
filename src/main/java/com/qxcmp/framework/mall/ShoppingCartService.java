@@ -37,9 +37,7 @@ public class ShoppingCartService extends AbstractEntityService<ShoppingCart, Str
      * 如果用户存在但是购物车不存在，则返回新创建的购物车
      *
      * @param userId 用户ID
-     *
      * @return 用户购物车
-     *
      * @throws ShoppingCartServiceException 如果购物车创建失败，抛出该异常
      */
     public ShoppingCart findByUserId(String userId) throws ShoppingCartServiceException {

@@ -21,7 +21,6 @@ public interface EmailService {
      * 底层邮件构建接口
      *
      * @param consumer 对邮件参数进行详细配置
-     *
      * @throws MailException 如果邮件失败则抛出该异常
      */
     void send(ThrowingConsumer<MimeMessageHelper, MessagingException> consumer) throws MailException;
