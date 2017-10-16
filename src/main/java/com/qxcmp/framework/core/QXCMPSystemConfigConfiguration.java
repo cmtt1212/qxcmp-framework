@@ -123,6 +123,11 @@ public class QXCMPSystemConfigConfiguration {
     public static String SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG = "";
 
     /*
+     * 系统地区相关配置
+     * */
+    public static String SYSTEM_CONFIG_REGION_INITIAL_FLAG = "";
+
+    /*
      * 系统水印相关配置
      * */
     public static String SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE = "";
