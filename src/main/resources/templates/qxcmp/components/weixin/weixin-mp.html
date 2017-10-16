@@ -59,13 +59,15 @@
                     setInterval(function () {
                         $.get("/api/wxmp-cgi/pay/query", {outTradeNo: [[${component.depositOrder.id}]]}, function (response) {
                             if (response === "SUCCESS") {
-                                window.location = [[${successCallback}]];
+                                document.title = "充值成功，正在跳转";
+                                window.location = [[${callback}]];
                             }
                         });
                     }, 2000);
                 },
                 error: function (response) {
-                    window.location = [[${failedCallback}]];
+                    document.title = "充值失败，正在跳转";
+                    window.location = [[${callback}]];
                 }
             });
         });

@@ -12,7 +12,7 @@ import com.qxcmp.framework.finance.DepositOrderService;
 import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.components.WeixinPayScript;
+import com.qxcmp.framework.web.view.components.weixin.WeixinPayScript;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -90,14 +90,8 @@ public class WeixinPaymentAPI extends QXCMPController {
                         .addComponent(new Overview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")))))
                 .addComponent(new WeixinPayScript(wxPayInfo, depositOrder))
                 .setTitle("充值中心")
+                .addObject("callback", callback)
                 .build();
-//                .setResult("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")
-//                .addFragment("qxcmp/weixin-mp", "weixin-pay-script")
-//                .addObject("successCallback", successCallback)
-//                .addObject("failedCallback", failedCallback)
-//                .addObject(depositOrder)
-//                .addObject("wxPayInfo", wxPayInfo)
-//                .build();
     }
 
     /**
