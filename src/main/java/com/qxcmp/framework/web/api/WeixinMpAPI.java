@@ -58,6 +58,8 @@ public class WeixinMpAPI extends QXCMPController {
         String signature = request.getParameter("signature");
         String nonce = request.getParameter("nonce");
         String timestamp = request.getParameter("timestamp");
+        String echostr = request.getParameter("echostr");
+
 
         if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
             // 消息签名不正确，说明不是公众平台发过来的消息
@@ -65,11 +67,9 @@ public class WeixinMpAPI extends QXCMPController {
             return;
         }
 
-        String echostr = request.getParameter("echostr");
-
         if (StringUtils.isNotBlank(echostr)) {
             // 说明是一个仅仅用来验证的请求，回显echostr
-            response.getWriter().println(echostr);
+            response.getWriter().print(echostr);
             return;
         }
 

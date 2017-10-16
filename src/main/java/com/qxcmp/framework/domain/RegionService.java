@@ -1,6 +1,8 @@
 package com.qxcmp.framework.domain;
 
+import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QXCMPConfigurator;
+import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.lang3.StringUtils;
@@ -14,8 +16,11 @@ import java.util.List;
 @Service
 public class RegionService extends AbstractEntityService<Region, String, RegionRepository> implements QXCMPConfigurator {
 
-    public RegionService(RegionRepository repository) {
+    private final SystemConfigService systemConfigService;
+
+    public RegionService(RegionRepository repository, SystemConfigService systemConfigService) {
         super(repository);
+        this.systemConfigService = systemConfigService;
     }
 
     public List<Region> findByLevel(RegionLevel level) {
@@ -45,6 +50,18 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
 
     @Override
     public void config() throws Exception {
+        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG).orElse(false)) {
+            reload();
+            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG, "true");
+        }
+    }
+
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE + 4;
+    }
+
+    public void reload() {
         try {
             Resource areaFile = new ClassPathResource("/district/District.csv");
 
@@ -90,10 +107,5 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public int order() {
-        return Integer.MIN_VALUE + 4;
     }
 }
