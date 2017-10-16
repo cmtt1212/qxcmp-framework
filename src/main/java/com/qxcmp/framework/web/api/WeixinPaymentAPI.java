@@ -12,8 +12,7 @@ import com.qxcmp.framework.finance.DepositOrderService;
 import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.elements.container.TextContainer;
-import com.qxcmp.framework.web.view.views.Overview;
+import com.qxcmp.framework.web.view.components.weixin.WeixinPayScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,17 +78,11 @@ public class WeixinPaymentAPI extends QXCMPController {
 
         Map<String, String> wxPayInfo = doWeixinPayment("JSAPI", user, depositOrder);
 
-        return page().addComponent(new TextContainer().addComponent(new Overview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")))
+        return page(viewHelper.nextInfoOverview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败"))
+                .addComponent(new WeixinPayScript(wxPayInfo, depositOrder))
                 .setTitle("充值中心")
-                .addObject("wxPayInfo", wxPayInfo)
+                .addObject("callback", callback)
                 .build();
-//                .setResult("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")
-//                .addFragment("qxcmp/weixin-mp", "weixin-pay-script")
-//                .addObject("successCallback", successCallback)
-//                .addObject("failedCallback", failedCallback)
-//                .addObject(depositOrder)
-//                .addObject("wxPayInfo", wxPayInfo)
-//                .build();
     }
 
     /**
