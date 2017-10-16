@@ -12,7 +12,7 @@ public class WalletRecordService extends AbstractEntityService<WalletRecord, Lon
     }
 
     public Page<WalletRecord> findByUserIdAndType(String userId, String type, Pageable pageable) {
-        return repository.findByUserIdAndType(userId, type, pageable);
+        return repository.findByUserIdAndTypeOrderByDate(userId, type, pageable);
     }
 
     @Override

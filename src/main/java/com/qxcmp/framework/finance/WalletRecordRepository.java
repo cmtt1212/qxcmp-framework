@@ -18,5 +18,5 @@ interface WalletRecordRepository extends JpaRepository<WalletRecord, Long>, JpaS
      *
      * @return 查询结果
      */
-    Page<WalletRecord> findByUserIdAndType(String userId, String type, Pageable pageable);
+    Page<WalletRecord> findByUserIdAndTypeOrderByDate(String userId, String type, Pageable pageable);
 }
