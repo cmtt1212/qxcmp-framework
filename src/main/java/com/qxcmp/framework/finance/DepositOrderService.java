@@ -47,6 +47,7 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
      *
      * @param supplier 提单提供者
      * @param <S>      订单类型
+     *
      * @return 保存后的充值订单
      */
     @Override
@@ -64,6 +65,7 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
      * 处理一个订单，为用户钱包增加相应金额
      *
      * @param orderID 订单号
+     *
      * @throws FinanceException 如果订单不存在，或者状态不正确，抛出该异常
      */
     public void process(String orderID) throws FinanceException {
@@ -82,29 +84,11 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
         }
 
         try {
-            handle(depositOrder);
+            walletService.changeBalance(depositOrder.getUserId(), depositOrder.getFee(), "钱包充值");
             update(depositOrder.getId(), order -> order.setStatus(OrderStatusEnum.FINISHED)).ifPresent(order -> applicationContext.publishEvent(new DepositEvent(order)));
         } catch (Exception e) {
             update(depositOrder.getId(), order -> order.setStatus(OrderStatusEnum.EXCEPTION));
         }
-    }
-
-    /**
-     * 为用户钱包增加金额
-     * <p>
-     * 提供事务支持，如果出现异常则回滚
-     *
-     * @param depositOrder 充值订单
-     * @throws FinanceException 如果抛出该异常则回滚事务
-     */
-    private void handle(DepositOrder depositOrder) throws FinanceException {
-        Optional<Wallet> walletOptional = walletService.getByUserId(depositOrder.getUserId());
-
-        if (!walletOptional.isPresent()) {
-            throw new OrderStatusException("订单用户不存在");
-        }
-
-        walletService.update(walletOptional.get().getId(), wallet -> wallet.setBalance(wallet.getBalance() + depositOrder.getFee()));
     }
 
     @Override
