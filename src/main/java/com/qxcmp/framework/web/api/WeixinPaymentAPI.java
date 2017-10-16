@@ -12,7 +12,11 @@ import com.qxcmp.framework.finance.DepositOrderService;
 import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
-import com.qxcmp.framework.web.view.elements.container.TextContainer;
+import com.qxcmp.framework.web.view.components.WeixinPayScript;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
+import com.qxcmp.framework.web.view.elements.grid.Row;
+import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -51,6 +55,7 @@ public class WeixinPaymentAPI extends QXCMPController {
      *
      * @param fee     充值金额
      * @param feeType 货币类型
+     *
      * @return 带微信支付二维码的充值中心页面
      */
     @PostMapping("/native")
@@ -66,6 +71,7 @@ public class WeixinPaymentAPI extends QXCMPController {
      *
      * @param fee     充值金额
      * @param feeType 货币类型
+     *
      * @return 微信公众号支付页面
      */
     @PostMapping("/mp")
@@ -79,9 +85,11 @@ public class WeixinPaymentAPI extends QXCMPController {
 
         Map<String, String> wxPayInfo = doWeixinPayment("JSAPI", user, depositOrder);
 
-        return page().addComponent(new TextContainer().addComponent(new Overview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")))
+        return page().addComponent(new Grid().setVerticallyPadded().setContainer()
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN)
+                        .addComponent(new Overview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")))))
+                .addComponent(new WeixinPayScript(wxPayInfo, depositOrder))
                 .setTitle("充值中心")
-                .addObject("wxPayInfo", wxPayInfo)
                 .build();
 //                .setResult("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")
 //                .addFragment("qxcmp/weixin-mp", "weixin-pay-script")
@@ -98,6 +106,7 @@ public class WeixinPaymentAPI extends QXCMPController {
      * 此接口用户自动处理订单
      *
      * @param xmlData 支付结果数据
+     *
      * @return 回复"SUCCESS"表示平台处理订单成功，否则微信服务器将继续发送该通知
      */
     @PostMapping("/notify")
@@ -120,7 +129,9 @@ public class WeixinPaymentAPI extends QXCMPController {
      *
      * @param transactionId 订单号
      * @param outTradeNo    订单号
+     *
      * @return "SUCCESS", "ERROR"
+     *
      * @throws WxPayException WxPayException
      */
     @GetMapping("/query")
@@ -165,6 +176,7 @@ public class WeixinPaymentAPI extends QXCMPController {
      * @param tradeType    支付类型 NATIVE|JSAPI
      * @param user         用户标识
      * @param depositOrder 平台充值订单
+     *
      * @return 预支付结果
      */
     private Map<String, String> doWeixinPayment(String tradeType, User user, DepositOrder depositOrder) throws WxPayException {
