@@ -33,7 +33,6 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
      * 根据用户ID获取钱包 如果用户存在但是钱包不存在，则返回新创建的钱包
      *
      * @param userId 用户ID
-     *
      * @return 属于用于的钱包，如果用于不存在则返回empty
      */
     public Optional<Wallet> getByUserId(String userId) {
@@ -60,7 +59,6 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
      * @param amount   改变数量，整数为增加，负数为减小
      * @param comments 备注信息
      * @param url      查看消费详情的url
-     *
      * @return 修改后的钱包
      */
     public Optional<Wallet> changeBalance(String userId, int amount, String comments, String url) throws NoBalanceException {
@@ -70,16 +68,18 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
             throw new NoBalanceException("Not enough balance");
         }
 
-        walletRecordService.create(() -> {
-            WalletRecord walletRecord = walletRecordService.next();
-            walletRecord.setUserId(userId);
-            walletRecord.setType(WalletRecordType.BALANCE.name());
-            walletRecord.setAmount(amount);
-            walletRecord.setDate(new Date());
-            walletRecord.setComments(comments);
-            walletRecord.setUrl(url);
-            return walletRecord;
-        });
+        if (amount != 0) {
+            walletRecordService.create(() -> {
+                WalletRecord walletRecord = walletRecordService.next();
+                walletRecord.setUserId(userId);
+                walletRecord.setType(WalletRecordType.BALANCE.name());
+                walletRecord.setAmount(amount);
+                walletRecord.setDate(new Date());
+                walletRecord.setComments(comments);
+                walletRecord.setUrl(url);
+                return walletRecord;
+            });
+        }
 
         return update(wallet.getId(), w -> w.setBalance(w.getBalance() + amount));
     }
@@ -91,7 +91,6 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
      * @param amount   改变数量，整数为增加，负数为减小
      * @param comments 备注信息
      * @param url      查看消费详情的url
-     *
      * @return 修改后的钱包
      */
     public Optional<Wallet> changePoints(String userId, int amount, String comments, String url) throws NoBalanceException {
@@ -101,16 +100,18 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
             throw new NoBalanceException("Not enough points");
         }
 
-        walletRecordService.create(() -> {
-            WalletRecord walletRecord = walletRecordService.next();
-            walletRecord.setUserId(userId);
-            walletRecord.setType(WalletRecordType.POINT.name());
-            walletRecord.setAmount(amount);
-            walletRecord.setDate(new Date());
-            walletRecord.setComments(comments);
-            walletRecord.setUrl(url);
-            return walletRecord;
-        });
+        if (amount != 0) {
+            walletRecordService.create(() -> {
+                WalletRecord walletRecord = walletRecordService.next();
+                walletRecord.setUserId(userId);
+                walletRecord.setType(WalletRecordType.POINT.name());
+                walletRecord.setAmount(amount);
+                walletRecord.setDate(new Date());
+                walletRecord.setComments(comments);
+                walletRecord.setUrl(url);
+                return walletRecord;
+            });
+        }
 
         return update(wallet.getId(), w -> w.setPoints(w.getPoints() + amount));
     }
