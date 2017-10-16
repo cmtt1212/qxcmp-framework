@@ -31,4 +31,9 @@ public class WalletRecord {
     private Date date;
 
     private String comments;
+
+    /**
+     * 查看消费详情对应的Url
+     */
+    private String url;
 }

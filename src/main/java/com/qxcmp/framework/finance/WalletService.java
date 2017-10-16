@@ -59,10 +59,11 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
      * @param userId   用户主键
      * @param amount   改变数量，整数为增加，负数为减小
      * @param comments 备注信息
+     * @param url      查看消费详情的url
      *
      * @return 修改后的钱包
      */
-    public Optional<Wallet> changeBalance(String userId, int amount, String comments) throws NoBalanceException {
+    public Optional<Wallet> changeBalance(String userId, int amount, String comments, String url) throws NoBalanceException {
         Wallet wallet = getByUserId(userId).orElseThrow(() -> new RuntimeException("Can't get user wallet"));
 
         if (amount < 0 && wallet.getBalance() < Math.abs(amount)) {
@@ -76,6 +77,7 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
             walletRecord.setAmount(amount);
             walletRecord.setDate(new Date());
             walletRecord.setComments(comments);
+            walletRecord.setUrl(url);
             return walletRecord;
         });
 
@@ -88,10 +90,11 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
      * @param userId   用户主键
      * @param amount   改变数量，整数为增加，负数为减小
      * @param comments 备注信息
+     * @param url      查看消费详情的url
      *
      * @return 修改后的钱包
      */
-    public Optional<Wallet> changePoints(String userId, int amount, String comments) throws NoBalanceException {
+    public Optional<Wallet> changePoints(String userId, int amount, String comments, String url) throws NoBalanceException {
         Wallet wallet = getByUserId(userId).orElseThrow(() -> new RuntimeException("Can't get user wallet"));
 
         if (amount < 0 && wallet.getPoints() < Math.abs(amount)) {
@@ -105,6 +108,7 @@ public class WalletService extends AbstractEntityService<Wallet, String, WalletR
             walletRecord.setAmount(amount);
             walletRecord.setDate(new Date());
             walletRecord.setComments(comments);
+            walletRecord.setUrl(url);
             return walletRecord;
         });
 

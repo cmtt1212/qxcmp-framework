@@ -84,7 +84,7 @@ public class DepositOrderService extends AbstractEntityService<DepositOrder, Str
         }
 
         try {
-            walletService.changeBalance(depositOrder.getUserId(), depositOrder.getFee(), "钱包充值");
+            walletService.changeBalance(depositOrder.getUserId(), depositOrder.getFee(), "钱包充值", "");
             update(depositOrder.getId(), order -> order.setStatus(OrderStatusEnum.FINISHED)).ifPresent(order -> applicationContext.publishEvent(new DepositEvent(order)));
         } catch (Exception e) {
             update(depositOrder.getId(), order -> order.setStatus(OrderStatusEnum.EXCEPTION));
