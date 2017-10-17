@@ -5,12 +5,12 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class WeixinMpConfig extends AbstractComponent {
+public class WeixinMpConfigScript extends AbstractComponent {
 
     @Getter
     private List<String> apiList;
 
-    public WeixinMpConfig(List<String> apiList) {
+    public WeixinMpConfigScript(List<String> apiList) {
         this.apiList = apiList;
     }
 

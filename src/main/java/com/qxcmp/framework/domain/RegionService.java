@@ -50,14 +50,18 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
 
     @Override
     public void config() throws Exception {
-
         if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG).orElse(false)) {
             reload();
             systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG, "true");
         }
     }
 
-    private void reload() {
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE + 4;
+    }
+
+    public void reload() {
         try {
             Resource areaFile = new ClassPathResource("/district/District.csv");
 
@@ -103,10 +107,5 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public int order() {
-        return Integer.MIN_VALUE + 4;
     }
 }

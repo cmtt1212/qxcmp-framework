@@ -13,11 +13,6 @@ import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.components.weixin.WeixinPayScript;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.Grid;
-import com.qxcmp.framework.web.view.elements.grid.Row;
-import com.qxcmp.framework.web.view.support.Wide;
-import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL;
+
 
 /**
  * 微信支付API
@@ -85,9 +81,7 @@ public class WeixinPaymentAPI extends QXCMPController {
 
         Map<String, String> wxPayInfo = doWeixinPayment("JSAPI", user, depositOrder);
 
-        return page().addComponent(new Grid().setVerticallyPadded().setContainer()
-                .addItem(new Row().addCol(new Col(Wide.SIXTEEN)
-                        .addComponent(new Overview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败")))))
+        return page(viewHelper.nextInfoOverview("正在支付", "支付完成后请耐心等待页面自动跳转，否则充值可能会失败"))
                 .addComponent(new WeixinPayScript(wxPayInfo, depositOrder))
                 .setTitle("充值中心")
                 .addObject("callback", callback)
