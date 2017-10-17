@@ -66,6 +66,11 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
             Resource areaFile = new ClassPathResource("/district/District.csv");
 
             CSVFormat.EXCEL.parse(new InputStreamReader(areaFile.getInputStream())).forEach(record -> {
+
+                if (record.getRecordNumber() == 1) {
+                    return;
+                }
+
                 try {
                     String id = record.get(0);
                     String name = record.get(1);
