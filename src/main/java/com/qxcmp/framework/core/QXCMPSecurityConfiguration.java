@@ -48,9 +48,9 @@ public class QXCMPSecurityConfiguration {
      * */
     public static final String PRIVILEGE_USER = "用户管理权限";
     public static final String PRIVILEGE_USER_DESCRIPTION = "可以查看用户管理入口页面";
-    public static final String PRIVILEGE_USER_ROLE = "用户管理权限";
+    public static final String PRIVILEGE_USER_ROLE = "用户角色管理权限";
     public static final String PRIVILEGE_USER_ROLE_DESCRIPTION = "可以修改用户角色";
-    public static final String PRIVILEGE_USER_STATUS = "用户管理权限";
+    public static final String PRIVILEGE_USER_STATUS = "用户状态管理权限";
     public static final String PRIVILEGE_USER_STATUS_DESCRIPTION = "可以修改用户状态";
 
     /*
