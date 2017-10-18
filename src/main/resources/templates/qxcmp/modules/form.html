@@ -816,7 +816,7 @@
                     fileSizeText = parseFloat((fileSize / 1024)).toFixed(2) + "GB";
                 }
 
-                return $('<div class="item"><i class="file black icon"></i><div class="content"><div class="header">' + file.name + '</div><div class="description">' + fileSizeText + '</div></div><div class="action"><i class="remove grey icon"></i></div></div></div>')
+                return $('<div class="item"><div class="info"><i class="file black icon"></i><div class="content"><div class="header">' + file.name + '</div><div class="description">' + fileSizeText + '</div></div><div class="action"><i class="remove grey icon"></i></div></div><div class="ui bottom attached black progress"><div class="bar"></div></div></div></div>')
             }
 
             function calculateValue() {
@@ -853,14 +853,20 @@
                     }
 
                     var item = createItem(file);
+                    var icon = $(item).find(".black.icon");
+                    var progress = $(item).find(".ui.progress");
                     $(item).find(".remove.icon").click(function () {
                         $(item).remove();
                         calculateValue();
                     });
                     $(list).append(item);
+                    $(progress).progress();
 
                     var formData = new FormData();
                     formData.append("file", file);
+
+                    icon.removeClass("file");
+                    icon.addClass("circle notched loading");
 
                     $.ajax("/api/file/upload", {
                         xhr: function () {
@@ -871,7 +877,14 @@
                                     if (e.lengthComputable) {
                                         var percentComplete = e.loaded / e.total;
                                         percentComplete = parseInt(percentComplete * 100);
-                                        //$(progressDimmer).find(".ui.text.loader").text(percentComplete + "%");
+                                        $(progress).progress("set percent", percentComplete)
+
+                                        if (percentComplete >= 100) {
+                                            $(progress).removeClass("black");
+                                            $(progress).addClass("success");
+                                            icon.addClass("file");
+                                            icon.removeClass("circle notched loading");
+                                        }
                                     }
                                 }, false);
                             }

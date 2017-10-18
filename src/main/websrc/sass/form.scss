@@ -273,13 +273,22 @@ $number-field-width: 122.1px;
       .item {
         display: flex;
         align-items: center;
+        flex-direction: column;
 
-        .remove.icon {
-          display: none;
+        .info {
+          display: flex;
+          width: 100%;
+          .remove.icon {
+            display: none;
+          }
+
+          .content {
+            flex: 1;
+          }
         }
 
-        .content {
-          flex: 1;
+        .ui.progress {
+          width: 100%;
         }
 
         &:hover {
