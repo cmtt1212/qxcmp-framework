@@ -14,6 +14,13 @@ import org.springframework.context.annotation.Configuration;
 public class QXCMPSystemConfigConfiguration {
 
     /*
+     * 系统核心相关配置
+     * */
+    public static String SYSTEM_CONFIG_FILE_UPLOAD_TEMP_FILE_RESERVE_DURATION = "";
+    /* 上传临时文件保留时间（分）, 默认为1天 */
+    public static int SYSTEM_CONFIG_FILE_UPLOAD_TEMP_FILE_RESERVE_DURATION_DEFAULT_VALE = 3600 * 24;
+
+    /*
      * 账户注册相关配置
      * */
     public static String SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME = "";
@@ -182,4 +189,5 @@ public class QXCMPSystemConfigConfiguration {
      * 商城相关配置
      * */
     public static String SYSTEM_CONFIG_MALL_COMMODITY_CATALOG = "";
+
 }
