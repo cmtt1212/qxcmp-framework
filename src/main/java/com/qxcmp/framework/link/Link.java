@@ -63,6 +63,7 @@ public class Link {
     /**
      * 超链接
      */
+    @TableField("链接目标")
     private String href;
 
     /**
@@ -73,5 +74,6 @@ public class Link {
     /**
      * 优先级
      */
+    @TableField("优先级")
     private int sort;
 }
