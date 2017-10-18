@@ -15,15 +15,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_LINK;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_LINK_ALL;
+import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_LINK_TYPE;
 
 @Controller
@@ -51,7 +52,7 @@ public class AdminLinkPageController extends QXCMPController {
             form.setType(types.get(0));
         }
 
-        form.setType(SUPPORT_TARGET.get(0));
+        form.setTarget(SUPPORT_TARGET.get(0));
 
         return page().addComponent(convertToForm(form))
                 .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "添加链接")
@@ -95,4 +96,51 @@ public class AdminLinkPageController extends QXCMPController {
             }
         }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/link").addLink("继续添加链接", ""));
     }
+
+    @GetMapping("/settings")
+    public ModelAndView linkSettingPage(final AdminLinkSettingsForm form) {
+        form.setType(systemConfigService.getList(SYSTEM_CONFIG_LINK_TYPE));
+        return page().addComponent(convertToForm(form))
+                .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "链接设置")
+                .setVerticalNavigation(NAVIGATION_ADMIN_LINK, NAVIGATION_ADMIN_LINK_SETTINGS)
+                .build();
+    }
+
+    @PostMapping("/settings")
+    public ModelAndView linkSettingPage(@Valid final AdminLinkSettingsForm form, BindingResult bindingResult,
+                                        @RequestParam(value = "add_type", required = false) boolean addType,
+                                        @RequestParam(value = "remove_type", required = false) Integer removeType) {
+
+        if (addType) {
+            form.getType().add("");
+            return page().addComponent(convertToForm(form))
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "链接设置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_LINK, NAVIGATION_ADMIN_LINK_SETTINGS)
+                    .build();
+        }
+
+        if (Objects.nonNull(removeType)) {
+            form.getType().remove(removeType.intValue());
+            return page().addComponent(convertToForm(form))
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "链接设置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_LINK, NAVIGATION_ADMIN_LINK_SETTINGS)
+                    .build();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "链接设置")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_LINK, NAVIGATION_ADMIN_LINK_SETTINGS)
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                systemConfigService.update(SYSTEM_CONFIG_LINK_TYPE, form.getType());
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+    }
+
 }
