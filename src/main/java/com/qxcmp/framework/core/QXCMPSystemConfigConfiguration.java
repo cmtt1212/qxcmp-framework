@@ -190,4 +190,9 @@ public class QXCMPSystemConfigConfiguration {
      * */
     public static String SYSTEM_CONFIG_MALL_COMMODITY_CATALOG = "";
 
+    /*
+     * 链接管理配置
+     * */
+    public static String SYSTEM_CONFIG_LINK_TYPE = "";
+    public static String SYSTEM_CONFIG_LINK_TYPE_DEFAULT_VALUE = "友情链接\n热门标签";
 }

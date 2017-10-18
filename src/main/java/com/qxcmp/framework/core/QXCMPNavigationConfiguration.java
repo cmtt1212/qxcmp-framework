@@ -151,6 +151,13 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_USER_ALL = NAVIGATION_ADMIN_USER + "-ALL";
     public static final String NAVIGATION_ADMIN_USER_WEIXIN = NAVIGATION_ADMIN_USER + "-WEIXIN";
 
+    /*
+     * 链接管理导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_LINK = "ADMIN-LINK";
+    public static final String NAVIGATION_ADMIN_LINK_ALL = NAVIGATION_ADMIN_LINK + "-ALL";
+    public static final String NAVIGATION_ADMIN_LINK_SETTINGS = NAVIGATION_ADMIN_LINK + "-SETTINGS";
+
     @Override
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "侧边导航栏")
@@ -244,9 +251,14 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_SETTINGS, "公众号配置", QXCMP_BACKEND_URL + "/weixin/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_SETTINGS)))
         );
 
-        navigationService.add(new Navigation(NAVIGATION_ADMIN_USER, "用户理导航栏")
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_USER, "用户管理导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_USER_ALL, "全部用户", QXCMP_BACKEND_URL + "/user/all").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_USER_WEIXIN, "微信用户", QXCMP_BACKEND_URL + "/user/weixin").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_LINK, "链接管理导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_LINK_ALL, "链接管理", QXCMP_BACKEND_URL + "/link").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_LINK_SETTINGS, "链接设置", QXCMP_BACKEND_URL + "/link/settings").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
         );
     }
 
