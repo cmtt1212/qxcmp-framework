@@ -5,17 +5,17 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.link.Link;
 import com.qxcmp.framework.link.LinkService;
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -83,11 +83,12 @@ public class AdminLinkPageController extends QXCMPController {
                 link.setDateModified(new Date());
                 link.setHref(form.getHref());
                 link.setType(form.getType());
+                link.setSort(form.getSort());
 
                 if (form.getTarget().equals(SUPPORT_TARGET.get(0))) {
-                    form.setTarget(AnchorTarget.NONE.toString());
+                    link.setTarget(AnchorTarget.NONE.toString());
                 } else {
-                    form.setTarget(AnchorTarget.BLANK.toString());
+                    link.setTarget(AnchorTarget.BLANK.toString());
                 }
 
                 linkService.create(() -> link);
@@ -95,6 +96,78 @@ public class AdminLinkPageController extends QXCMPController {
                 throw new ActionException(e.getMessage(), e);
             }
         }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/link").addLink("继续添加链接", ""));
+    }
+
+    @GetMapping("/{id}/edit")
+    public ModelAndView linkEditPage(@PathVariable String id, final AdminLinkEditForm form) {
+        return linkService.findOne(id).map(link -> {
+
+            form.setTitle(link.getTitle());
+            form.setType(link.getType());
+            form.setHref(link.getHref());
+
+            if (StringUtils.isBlank(link.getTarget())) {
+                form.setTarget(SUPPORT_TARGET.get(0));
+            } else {
+                form.setTarget(SUPPORT_TARGET.get(1));
+            }
+
+            form.setSort(link.getSort());
+
+            return page().addComponent(convertToForm(form))
+                    .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "编辑链接")
+                    .addObject("selection_items_type", systemConfigService.getList(SYSTEM_CONFIG_LINK_TYPE))
+                    .addObject("selection_items_target", SUPPORT_TARGET)
+                    .setVerticalNavigation(NAVIGATION_ADMIN_LINK, NAVIGATION_ADMIN_LINK_ALL)
+                    .build();
+        }).orElse(page(viewHelper.nextWarningOverview("链接不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/link")).build());
+    }
+
+    @PostMapping("/{id}/edit")
+    public ModelAndView linkEditPage(@PathVariable String id, @Valid final AdminLinkEditForm form, BindingResult bindingResult) {
+        return linkService.findOne(id).map(link -> {
+
+            if (bindingResult.hasErrors()) {
+                return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+                        .setBreadcrumb("控制台", "", "系统工具", "tools", "链接管理", "new", "编辑链接")
+                        .addObject("selection_items_type", systemConfigService.getList(SYSTEM_CONFIG_LINK_TYPE))
+                        .addObject("selection_items_target", SUPPORT_TARGET)
+                        .setVerticalNavigation(NAVIGATION_ADMIN_LINK, NAVIGATION_ADMIN_LINK_ALL)
+                        .build();
+            }
+
+            return submitForm(form, context -> {
+                try {
+                    linkService.update(link.getId(), target -> {
+                        target.setTitle(form.getTitle());
+                        target.setDateModified(new Date());
+                        target.setHref(form.getHref());
+                        target.setType(form.getType());
+                        target.setSort(form.getSort());
+
+                        if (form.getTarget().equals(SUPPORT_TARGET.get(0))) {
+                            target.setTarget(AnchorTarget.NONE.toString());
+                        } else {
+                            target.setTarget(AnchorTarget.BLANK.toString());
+                        }
+                    });
+                } catch (Exception e) {
+                    throw new ActionException(e.getMessage(), e);
+                }
+            }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/link"));
+        }).orElse(page(viewHelper.nextWarningOverview("链接不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/link")).build());
+    }
+
+    @PostMapping("/{id}/remove")
+    public ResponseEntity<RestfulResponse> linkRemove(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("删除链接", context -> {
+            try {
+                linkService.remove(Long.parseLong(id));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     @GetMapping("/settings")
