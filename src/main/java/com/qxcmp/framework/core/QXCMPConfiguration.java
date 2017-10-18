@@ -46,6 +46,7 @@ public class QXCMPConfiguration {
     public static final String QXCMP_ACCOUNT_URL = "/account";
     public static final String QXCMP_LOGIN_URL = "/login";
     public static final String QXCMP_LOGOUT_URL = "/logout";
+    public static final String QXCMP_FILE_UPLOAD_TEMP_FOLDER = "/tmp/";
 
     private final WeixinMpMessageHandler defaultMessageHandler;
 

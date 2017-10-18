@@ -263,3 +263,31 @@ $number-field-width: 122.1px;
     }
   }
 }
+
+/* File upload field */
+.ui.form .qxcmp-file-upload {
+  .component {
+    .ui.list {
+      margin-top: 0;
+
+      .item {
+        display: flex;
+        align-items: center;
+
+        .remove.icon {
+          display: none;
+        }
+
+        .content {
+          flex: 1;
+        }
+
+        &:hover {
+          .remove.icon {
+            display: inherit;
+          }
+        }
+      }
+    }
+  }
+}

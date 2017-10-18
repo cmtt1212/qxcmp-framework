@@ -45,6 +45,7 @@ public class FormHelper {
      *
      * @param bindingResult 错误对象
      * @param object        表单对象
+     *
      * @return 错误消息组件
      */
     public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
@@ -104,6 +105,7 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
+     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {
@@ -197,6 +199,8 @@ public class FormHelper {
                     addHtmlField(form, field, (HtmlField) annotation);
                 } else if (annotation instanceof DateTimeField) {
                     addDateTimeField(form, field, (DateTimeField) annotation);
+                } else if (annotation instanceof FileUploadField) {
+                    addFileUploadField(form, field, (FileUploadField) annotation);
                 }
             }
         }
@@ -468,5 +472,19 @@ public class FormHelper {
         }
 
         form.addItem(dateTimeField, annotation.section());
+    }
+
+    private void addFileUploadField(AbstractForm form, Field field, FileUploadField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.FileUploadField fileUploadField = new com.qxcmp.framework.web.view.modules.form.field.FileUploadField();
+
+        fileUploadField.setName(field.getName());
+        fileUploadField.setLabel(annotation.value());
+        fileUploadField.setTooltip(annotation.tooltip());
+        fileUploadField.setRequired(annotation.required());
+        fileUploadField.setMaxSize(annotation.maxSize());
+        fileUploadField.setMaxCount(annotation.maxCount());
+        fileUploadField.setText(annotation.text());
+
+        form.addItem(fileUploadField, annotation.section());
     }
 }
