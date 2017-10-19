@@ -1,21 +1,21 @@
 package com.qxcmp.framework.mall.web;
 
+import com.google.common.collect.Maps;
 import com.qxcmp.framework.mall.Commodity;
 import com.qxcmp.framework.mall.CommodityService;
 import com.qxcmp.framework.mall.CommodityVersion;
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.button.AbstractButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.elements.grid.AbstractGrid;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.Grid;
-import com.qxcmp.framework.web.view.elements.grid.Row;
+import com.qxcmp.framework.web.view.elements.divider.Divider;
+import com.qxcmp.framework.web.view.elements.grid.*;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
+import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -66,7 +66,11 @@ public class MallPageController extends QXCMPController {
                         return page(viewHelper.nextWarningOverview("暂无关联商品", "").addLink("返回", String.format("/mall/item/%d.html", commodity.getId()))).build();
                     }
 
+                    Map<String, String> currentVersions = Maps.newHashMap();
+                    commodity.getVersions().forEach(commodityVersion -> currentVersions.put(commodityVersion.getName(), commodityVersion.getValue()));
+
                     AbstractGrid grid = new Grid().setVerticallyPadded().setContainer();
+                    grid.setCustomClass("qxcmp-commodity-select");
                     grid.addItem(new Row().addCol(new Col(Wide.SIXTEEN)
                             .addComponent(new PageHeader(HeaderType.H2,
                                     new DecimalFormat("￥0.00").format((double) commodity.getSellPrice() / 100))
@@ -79,11 +83,14 @@ public class MallPageController extends QXCMPController {
 
                     Map<String, List<String>> versions = commodityVersionList.stream().collect(Collectors.groupingBy(CommodityVersion::getName, Collectors.mapping(CommodityVersion::getValue, Collectors.toList())));
 
+
                     versions.forEach((name, values) -> {
                         Col col = new Col(Wide.SIXTEEN);
 
                         values.forEach(s -> {
-                            AbstractButton button = new Button(s).setBasic().setSize(Size.MINI);
+                            AbstractButton button = new Button(s, getButtonUrl(currentVersions, name, values, commodityList)).setBasic().setSize(Size.MINI);
+
+                            button.setCustomClass("qxcmp-commodity-version");
 
                             if (commodity.getVersions().stream().anyMatch(commodityVersion ->
                                     StringUtils.equals(commodityVersion.getName(), name) && StringUtils.equals(commodityVersion.getValue(), s))) {
@@ -99,10 +106,30 @@ public class MallPageController extends QXCMPController {
                     });
 
 
+                    Col col = (Col) new Col(Wide.SIXTEEN).setAlignment(Alignment.CENTER);
+
+                    col.addComponent(new Divider());
+                    col.addComponent(new Button("返回", String.format("/mall/item/%d.html", commodity.getId())).setBasic());
+
+                    grid.addItem(new Row().addCol(col));
+
                     return page().addComponent(grid)
                             .hideMobileBottomMenu()
                             .build();
 
                 }).orElse(page(viewHelper.nextWarningOverview("商品不存在", "").addLink("返回", "/mall")).build());
+    }
+
+    /**
+     * 计算按钮对应的商品链接
+     *
+     * @param currentVersions 当前的商品版本信息
+     * @param name            分类名称
+     * @param values          分类值
+     * @param commodityList   候选商品
+     * @return 商品Url
+     */
+    private String getButtonUrl(Map<String, String> currentVersions, String name, List<String> values, List<Commodity> commodityList) {
+        return null;
     }
 }
