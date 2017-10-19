@@ -1,5 +1,8 @@
 package com.qxcmp.framework.mall.web;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
@@ -28,9 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -297,6 +298,8 @@ public class AdminMallUserPageController extends QXCMPController {
 
     @PostMapping("/commodity/{id}/edit")
     public ModelAndView userCommodityEditPage(@PathVariable String id, @Valid final AdminMallUserStoreCommodityEditForm form, BindingResult bindingResult,
+                                              @RequestParam(value = "add_versions", required = false) boolean addVersions,
+                                              @RequestParam(value = "remove_versions", required = false) Integer removeVersions,
                                               @RequestParam(value = "add_customProperties", required = false) boolean addCustomProperties,
                                               @RequestParam(value = "remove_customProperties", required = false) Integer removeCustomProperties) {
 
@@ -317,6 +320,24 @@ public class AdminMallUserPageController extends QXCMPController {
 
         if (Objects.nonNull(removeCustomProperties)) {
             form.getCustomProperties().remove(removeCustomProperties.intValue());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (addVersions) {
+            form.getVersions().add(commodityVersionService.next());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeVersions)) {
+            form.getVersions().remove(removeVersions.intValue());
             return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
                     .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
@@ -367,26 +388,50 @@ public class AdminMallUserPageController extends QXCMPController {
 
             List<Store> stores = storeService.findByUser(user);
 
+            Store selectedStore = getUserSelectedStore(user);
+
             try {
                 commodityService.findOne(id)
                         .filter(commodity -> stores.contains(commodity.getStore()))
                         .ifPresent(commodity -> {
                             Commodity next = commodityService.next();
                             next.setCover(commodity.getCover());
-                            next.setAlbums(commodity.getAlbums());
-                            next.setDetails(commodity.getDetails());
                             next.setTitle("【复制】" + commodity.getTitle());
                             next.setSubTitle(commodity.getSubTitle());
-                            next.setCatalogs(commodity.getCatalogs());
                             next.setOriginPrice(commodity.getOriginPrice());
                             next.setSellPrice(commodity.getSellPrice());
                             next.setInventory(commodity.getInventory());
-                            next.setDisabled(commodity.isDisabled());
-                            next.setCustomProperties(commodity.getCustomProperties());
+                            next.setDisabled(true);
                             next.setParentId(commodity.getParentId());
-                            next.setVersions(commodity.getVersions());
+                            next.setStore(selectedStore);
+                            next.setUserModified(user);
                             next.setDateCreated(new Date());
                             next.setDateModified(new Date());
+
+                            Set<String> albums = Sets.newLinkedHashSet();
+                            albums.addAll(commodity.getAlbums());
+                            next.setAlbums(albums);
+
+                            Set<String> details = Sets.newLinkedHashSet();
+                            details.addAll(commodity.getAlbums());
+                            next.setDetails(details);
+
+                            Set<String> catalogs = Sets.newLinkedHashSet();
+                            catalogs.addAll(commodity.getCatalogs());
+                            next.setCatalogs(catalogs);
+
+                            Map<String, String> properties = Maps.newLinkedHashMap();
+                            properties.putAll(commodity.getCustomProperties());
+                            next.setCustomProperties(properties);
+
+                            List<CommodityVersion> versions = Lists.newArrayList();
+                            commodity.getVersions().forEach(commodityVersion -> {
+                                CommodityVersion version = commodityVersionService.next();
+                                version.setName(commodityVersion.getName());
+                                version.setValue(commodityVersion.getValue());
+                                versions.add(version);
+                            });
+                            next.setVersions(versions);
                             commodityService.create(() -> next);
                         });
             } catch (Exception e) {
