@@ -88,15 +88,21 @@ public class MallPageController extends QXCMPController {
                         Col col = new Col(Wide.SIXTEEN);
 
                         values.forEach(s -> {
-                            AbstractButton button = new Button(s, getButtonUrl(currentVersions, name, values, commodityList)).setBasic().setSize(Size.MINI);
+                            String buttonUrl = getButtonUrl(currentVersions, name, s, commodityList);
+
+                            AbstractButton button = new Button(s, buttonUrl).setBasic().setSize(Size.MINI);
 
                             button.setCustomClass("qxcmp-commodity-version");
 
-                            if (commodity.getVersions().stream().anyMatch(commodityVersion ->
-                                    StringUtils.equals(commodityVersion.getName(), name) && StringUtils.equals(commodityVersion.getValue(), s))) {
-                                button.setPrimary();
+                            if (StringUtils.isNotBlank(buttonUrl)) {
+                                if (commodity.getVersions().stream().anyMatch(commodityVersion ->
+                                        StringUtils.equals(commodityVersion.getName(), name) && StringUtils.equals(commodityVersion.getValue(), s))) {
+                                    button.setPrimary();
+                                } else {
+                                    button.setSecondary();
+                                }
                             } else {
-                                button.setSecondary();
+                                button.setDisabled();
                             }
 
                             col.addComponent(button);
@@ -125,11 +131,25 @@ public class MallPageController extends QXCMPController {
      *
      * @param currentVersions 当前的商品版本信息
      * @param name            分类名称
-     * @param values          分类值
+     * @param value           分类值
      * @param commodityList   候选商品
      * @return 商品Url
      */
-    private String getButtonUrl(Map<String, String> currentVersions, String name, List<String> values, List<Commodity> commodityList) {
-        return null;
+    private String getButtonUrl(Map<String, String> currentVersions, String name, String value, List<Commodity> commodityList) {
+        return commodityList.stream().filter(commodity -> {
+            List<CommodityVersion> versions = commodity.getVersions();
+            Map<String, String> targetVersions = Maps.newLinkedHashMap();
+
+            currentVersions.forEach((n, v) -> {
+                if (StringUtils.equals(n, name)) {
+                    targetVersions.put(name, value);
+                } else {
+                    targetVersions.put(n, v);
+                }
+            });
+
+            return versions.stream().allMatch(commodityVersion -> StringUtils.equals(targetVersions.get(commodityVersion.getName()), commodityVersion.getValue()));
+
+        }).map(commodity -> String.format("/mall/item/version-select?id=" + commodity.getId())).findAny().orElse("");
     }
 }
