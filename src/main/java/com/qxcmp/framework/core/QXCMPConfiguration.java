@@ -13,6 +13,7 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -46,10 +47,13 @@ public class QXCMPConfiguration {
     public static final String QXCMP_ACCOUNT_URL = "/account";
     public static final String QXCMP_LOGIN_URL = "/login";
     public static final String QXCMP_LOGOUT_URL = "/logout";
+    public static final String QXCMP_FILE_UPLOAD_TEMP_FOLDER = "/tmp/";
 
     private final WeixinMpMessageHandler defaultMessageHandler;
 
     private final SystemConfigService systemConfigService;
+
+    private final ApplicationContext applicationContext;
 
     @Bean
     public TaskExecutor taskExecutor() {
@@ -133,7 +137,7 @@ public class QXCMPConfiguration {
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        QXCMPFilter qxcmpFilter = new QXCMPFilter();
+        QXCMPFilter qxcmpFilter = new QXCMPFilter(applicationContext);
         filterRegistrationBean.setFilter(qxcmpFilter);
         return filterRegistrationBean;
     }

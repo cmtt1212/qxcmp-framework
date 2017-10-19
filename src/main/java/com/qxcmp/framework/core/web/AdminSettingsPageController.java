@@ -2,16 +2,25 @@ package com.qxcmp.framework.core.web;
 
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.account.AccountService;
+import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.config.SystemDictionaryItem;
 import com.qxcmp.framework.config.SystemDictionaryItemService;
 import com.qxcmp.framework.config.SystemDictionaryService;
+import com.qxcmp.framework.domain.Region;
+import com.qxcmp.framework.domain.RegionLevel;
+import com.qxcmp.framework.domain.RegionService;
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +46,8 @@ public class AdminSettingsPageController extends QXCMPController {
     private final SystemDictionaryService systemDictionaryService;
 
     private final SystemDictionaryItemService systemDictionaryItemService;
+
+    private final RegionService regionService;
 
     @GetMapping("")
     public ModelAndView settingsPage() {
@@ -176,5 +187,135 @@ public class AdminSettingsPageController extends QXCMPController {
                     .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_DICTIONARY)
                     .build();
         }).orElse(page(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
+    }
+
+    @GetMapping("/region")
+    public ModelAndView regionPage(Pageable pageable) {
+        return page().addComponent(convertToTable(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.ASC, "level"), regionService))
+                .setBreadcrumb("控制台", "", "系统设置", "settings", "地区管理")
+                .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_REGION)
+                .build();
+    }
+
+    @GetMapping("/region/{id}/new")
+    public ModelAndView regionNewPage(@PathVariable String id, final AdminSettingsRegionNewForm form) {
+        return regionService.findOne(id)
+                .filter(region -> region.getLevel().equals(RegionLevel.CITY))
+                .map(region -> {
+
+                    form.setParent(String.format("%s - %s", region.getName(), region.getCode()));
+
+                    List<Region> inferiors = regionService.findInferiors(region);
+
+                    if (!inferiors.isEmpty()) {
+                        Region infer = inferiors.get(inferiors.size() - 1);
+                        try {
+                            form.setCode(String.valueOf(Integer.parseInt(infer.getCode()) + 1));
+                        } catch (Exception ignored) {
+
+                        }
+                    }
+
+                    return page()
+                            .addComponent(convertToForm(form))
+                            .addComponent(convertToTable(stringObjectMap -> inferiors.forEach(r -> {
+                                stringObjectMap.put(r.getName(), r.getCode());
+                            })))
+                            .setBreadcrumb("控制台", "", "系统设置", "settings", "地区管理", "settings/region", "添加地区")
+                            .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_REGION)
+                            .build();
+                })
+                .orElse(page(viewHelper.nextWarningOverview("地区不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/settings/region")).build());
+    }
+
+    @PostMapping("/region/{id}/new")
+    public ModelAndView regionNewPage(@PathVariable String id, @Valid final AdminSettingsRegionNewForm form, BindingResult bindingResult) {
+        return regionService.findOne(id)
+                .filter(region -> region.getLevel().equals(RegionLevel.CITY))
+                .map(region -> {
+
+                    if (regionService.findOne(form.getCode()).isPresent()) {
+                        bindingResult.rejectValue("code", "", "地区代码已经存在");
+                    }
+
+                    if (bindingResult.hasErrors()) {
+                        return page()
+                                .addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+                                .addComponent(convertToTable(stringObjectMap -> regionService.findInferiors(region).forEach(r -> {
+                                    stringObjectMap.put(r.getName(), r.getCode());
+                                })))
+                                .setBreadcrumb("控制台", "", "系统设置", "settings", "地区管理", "settings/region", "添加地区")
+                                .setVerticalNavigation(NAVIGATION_ADMIN_SETTINGS, NAVIGATION_ADMIN_SETTINGS_REGION)
+                                .build();
+                    }
+
+                    return submitForm(form, context -> {
+                        try {
+                            Region r = regionService.next();
+
+                            r.setCode(form.getCode());
+                            r.setName(form.getName());
+                            r.setParent(id);
+                            r.setLevel(RegionLevel.COUNTY);
+
+                            regionService.create(() -> r);
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/settings/region").addLink("继续添加", ""));
+                })
+                .orElse(page(viewHelper.nextWarningOverview("地区不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/settings/region")).build());
+    }
+
+    @PostMapping("/region/{code}/disable")
+    public ResponseEntity<RestfulResponse> regionDisable(@PathVariable String code) {
+        return regionService.findOne(code).map(region -> {
+            RestfulResponse restfulResponse = audit("禁用地区", context -> {
+                try {
+                    if (region.getLevel().equals(RegionLevel.PROVINCE)) {
+                        regionService.findInferiors(region).forEach(pInferior -> {
+                            regionService.update(pInferior.getCode(), r -> r.setDisable(true));
+
+                            regionService.findInferiors(pInferior).forEach(cInferior -> {
+                                regionService.update(cInferior.getCode(), c -> c.setDisable(true));
+                            });
+                        });
+                    } else if (region.getLevel().equals(RegionLevel.CITY)) {
+                        regionService.findInferiors(region).forEach(inferior -> regionService.update(inferior.getCode(), r -> r.setDisable(true)));
+                    }
+
+                    regionService.update(region.getCode(), r -> r.setDisable(true));
+                } catch (Exception e) {
+                    throw new ActionException(e.getMessage(), e);
+                }
+            });
+            return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+        }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/region/{code}/enable")
+    public ResponseEntity<RestfulResponse> regionEnable(@PathVariable String code) {
+        return regionService.findOne(code).map(region -> {
+            RestfulResponse restfulResponse = audit("启用地区", context -> {
+                try {
+                    if (region.getLevel().equals(RegionLevel.PROVINCE)) {
+                        regionService.findAllInferiors(region).forEach(pInferior -> {
+                            regionService.update(pInferior.getCode(), r -> r.setDisable(false));
+
+                            regionService.findAllInferiors(pInferior).forEach(cInferior -> {
+                                regionService.update(cInferior.getCode(), c -> c.setDisable(false));
+                            });
+                        });
+                    } else if (region.getLevel().equals(RegionLevel.CITY)) {
+                        regionService.findAllInferiors(region).forEach(inferior -> regionService.update(inferior.getCode(), r -> r.setDisable(false)));
+                    }
+
+                    regionService.update(region.getCode(), r -> r.setDisable(false));
+                } catch (Exception e) {
+                    throw new ActionException(e.getMessage(), e);
+                }
+            });
+            return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+        }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 }

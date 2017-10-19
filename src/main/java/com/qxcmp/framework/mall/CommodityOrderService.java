@@ -53,7 +53,6 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      * @param userId       用户ID
      * @param items        用户选择的购物车项目
      * @param shoppingCart 用户购物车
-     *
      * @return 创建好的商品订单
      */
     public Optional<CommodityOrder> order(String userId, List<ShoppingCartItem> items, ShoppingCart shoppingCart) {
@@ -97,9 +96,7 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      * 订单支付成功以后会发送订单完成事件
      *
      * @param orderId 订单号
-     *
      * @return 支付后的订单
-     *
      * @throws FinanceException 如果用户余额不足，或者其他异常，抛出该异常
      */
     public Optional<CommodityOrder> pay(String orderId) throws FinanceException {
@@ -150,7 +147,6 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      *
      * @param userId   用户ID
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     public Page<CommodityOrder> findByUserId(String userId, Pageable pageable) {
@@ -164,7 +160,6 @@ public class CommodityOrderService extends AbstractEntityService<CommodityOrder,
      * @param userId   用户ID
      * @param status   订单状态
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     public Page<CommodityOrder> findByUserIdAndStatus(String userId, OrderStatusEnum status, Pageable pageable) {

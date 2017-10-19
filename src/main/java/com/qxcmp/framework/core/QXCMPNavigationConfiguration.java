@@ -51,6 +51,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_SETTINGS = "ADMIN-SETTINGS";
     public static final String NAVIGATION_ADMIN_SETTINGS_SITE = NAVIGATION_ADMIN_SETTINGS + "-SITE";
     public static final String NAVIGATION_ADMIN_SETTINGS_DICTIONARY = NAVIGATION_ADMIN_SETTINGS + "-DICTIONARY";
+    public static final String NAVIGATION_ADMIN_SETTINGS_REGION = NAVIGATION_ADMIN_SETTINGS + "-REGION";
     public static final String NAVIGATION_ADMIN_SETTINGS_SECURITY = NAVIGATION_ADMIN_SETTINGS + "-SECURITY";
 
     /*
@@ -150,12 +151,19 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_USER_ALL = NAVIGATION_ADMIN_USER + "-ALL";
     public static final String NAVIGATION_ADMIN_USER_WEIXIN = NAVIGATION_ADMIN_USER + "-WEIXIN";
 
+    /*
+     * 链接管理导航栏
+     * */
+    public static final String NAVIGATION_ADMIN_LINK = "ADMIN-LINK";
+    public static final String NAVIGATION_ADMIN_LINK_ALL = NAVIGATION_ADMIN_LINK + "-ALL";
+    public static final String NAVIGATION_ADMIN_LINK_SETTINGS = NAVIGATION_ADMIN_LINK + "-SETTINGS";
+
     @Override
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "侧边导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_USER, "用户管理", QXCMP_BACKEND_URL + "/user").setIcon(new Icon("users")).setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_NEWS, "新闻管理", QXCMP_BACKEND_URL + "/news").setIcon(new Icon("newspaper")).setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_NEWS)))
-                .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_MALL, "商城管理", QXCMP_BACKEND_URL + "/mall").setIcon(new Icon("shipping")).setOrder(30).setPrivilegesAnd(ImmutableSet.of()))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_MALL, "商城管理", QXCMP_BACKEND_URL + "/mall").setIcon(new Icon("shipping")).setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MALL)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_MESSAGE, "消息服务", QXCMP_BACKEND_URL + "/message").setIcon(new Icon("announcement")).setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_WEIXIN, "微信公众平台", QXCMP_BACKEND_URL + "/weixin").setIcon(new Icon("wechat")).setOrder(50).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SIDEBAR_FINANCE, "财务管理", QXCMP_BACKEND_URL + "/finance").setIcon(new Icon("bar chart")).setOrder(60).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_FINANCE)))
@@ -206,6 +214,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_SETTINGS, "系统配置导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_SITE, "网站配置", QXCMP_BACKEND_URL + "/settings/site").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_DICTIONARY, "系统字典", QXCMP_BACKEND_URL + "/settings/dictionary").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_REGION, "地区管理", QXCMP_BACKEND_URL + "/settings/region").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SETTINGS)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_SETTINGS_SECURITY, "安全配置", QXCMP_BACKEND_URL + "/security").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_ADMIN_SECURITY)))
         );
 
@@ -242,9 +251,14 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_WEIXIN_SETTINGS, "公众号配置", QXCMP_BACKEND_URL + "/weixin/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_WEIXIN_SETTINGS)))
         );
 
-        navigationService.add(new Navigation(NAVIGATION_ADMIN_USER, "用户理导航栏")
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_USER, "用户管理导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_USER_ALL, "全部用户", QXCMP_BACKEND_URL + "/user/all").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_USER_WEIXIN, "微信用户", QXCMP_BACKEND_URL + "/user/weixin").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
+        );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_LINK, "链接管理导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_LINK_ALL, "链接管理", QXCMP_BACKEND_URL + "/link").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_LINK_SETTINGS, "链接设置", QXCMP_BACKEND_URL + "/link/settings").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
         );
     }
 

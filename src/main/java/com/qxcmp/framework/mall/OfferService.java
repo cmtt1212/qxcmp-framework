@@ -51,7 +51,6 @@ public class OfferService extends AbstractEntityService<Offer, String, OfferRepo
      *
      * @param prototype 券原型
      * @param quantity  要发布的券的数量
-     *
      * @return 发布券以后的ID
      */
     public Set<String> publish(Consumer<Offer> prototype, int quantity) {
@@ -84,7 +83,6 @@ public class OfferService extends AbstractEntityService<Offer, String, OfferRepo
      *
      * @param userId  用户ID
      * @param offerId 券ID
-     *
      * @return 领取后的券，如果领取失败返回空
      */
     public Optional<Offer> pick(String userId, String offerId) {
@@ -112,7 +110,6 @@ public class OfferService extends AbstractEntityService<Offer, String, OfferRepo
      *
      * @param userId  使用券的用户ID
      * @param offerId 使用的券ID
-     *
      * @return 券是否使用成功
      */
     public void comsume(String userId, String offerId) throws Exception {

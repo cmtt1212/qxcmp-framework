@@ -21,7 +21,6 @@ interface StoreRepository extends JpaRepository<Store, String>, JpaSpecification
      *
      * @param user     用户
      * @param pageable 分页信息
-     *
      * @return 用户拥有的店铺
      */
     @Query("select store from Store store left join store.admins admin where admin = :user or store.owner = :user")

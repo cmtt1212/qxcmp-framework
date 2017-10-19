@@ -65,9 +65,7 @@ public class ImageService extends AbstractEntityService<Image, String, ImageRepo
      *
      * @param inputStream 图片流
      * @param type        图片类型
-     *
      * @return 保存后的图片
-     *
      * @throws IOException 如果存储过程发生异常则抛出该异常
      */
     public Optional<Image> store(InputStream inputStream, String type) throws IOException {
@@ -81,9 +79,7 @@ public class ImageService extends AbstractEntityService<Image, String, ImageRepo
      * @param type        图片类型，支持的类型有 {@link #SUPPORT_TYPE}
      * @param width       图片宽度，小于等于0表示自动
      * @param height      图片高度，小于等于0表示自动
-     *
      * @return 存储后的图片
-     *
      * @throws IOException 如果存储过程发生异常则抛出该异常
      */
     public Optional<Image> store(InputStream inputStream, String type, int width, int height) throws IOException {
@@ -106,7 +102,6 @@ public class ImageService extends AbstractEntityService<Image, String, ImageRepo
      *
      * @param target    目标图片
      * @param watermark 水印文本
-     *
      * @return 添加后的图片
      */
     public Optional<Image> addWatermark(Image target, String watermark) {

@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
  *
  * @param <T> 领域对象类型
  * @param <R> 领域对象实体服务
- *
  * @author aaric
  * @see SpiderPipeline
  * @see AbstractEntityService

@@ -33,7 +33,6 @@ public class SystemDictionaryService extends AbstractEntityService<SystemDiction
      * 获取一个系统字典的字典项
      *
      * @param name 字典名称
-     *
      * @return 字典项
      */
     public List<String> get(String name) {

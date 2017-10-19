@@ -33,7 +33,6 @@ public class QXCMPPageResolver {
      * 把请求解析为一个页面
      *
      * @param request 请求
-     *
      * @return 解析后的页面
      */
     public AbstractPage resolve(HttpServletRequest request, HttpServletResponse response) {

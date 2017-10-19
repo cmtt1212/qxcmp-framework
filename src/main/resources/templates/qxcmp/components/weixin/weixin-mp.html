@@ -13,7 +13,7 @@
 
 */-->
 <!--/*@thymesVar id="jsApiSignature" type="com.qxcmp.module.weixin.mp.WechatMpCGI.WxJsapiSignature"*/-->
-<th:block th:fragment="config">
+<th:block th:fragment="config(component)">
     <script th:src="@{/assets/js/jquery.min.js}"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script th:inline="javascript">
@@ -25,13 +25,13 @@
                 timestamp: jsApiSignature.timestamp,
                 nonceStr: jsApiSignature.nonceStr,
                 signature: jsApiSignature.signature,
-                jsApiList: /*[[${apiList}]]*/ ""
+                jsApiList: /*[[${component.apiList}]]*/ ""
             });
         });
     </script>
 </th:block>
 
-<th:block th:fragment="weixin-pay-script">
+<th:block th:fragment="weixin-pay-script(component)">
     <!--/*@thymesVar id="jsApiSignature" type="me.chanjar.weixin.common.bean.WxJsapiSignature"*/-->
     <script th:src="@{/assets/js/jquery.min.js}"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -50,26 +50,24 @@
 
         wx.ready(function () {
             wx.chooseWXPay({
-                timestamp: [[${wxPayInfo.get('timeStamp')}]], // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                nonceStr: [[${wxPayInfo.get('nonceStr')}]], // 支付签名随机串，不长于 32 位
-                package: [[${wxPayInfo.get('package')}]], // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                signType: [[${wxPayInfo.get('signType')}]], // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                paySign: [[${wxPayInfo.get('paySign')}]], // 支付签名
+                timestamp: [[${component.payInfo.get('timeStamp')}]], // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                nonceStr: [[${component.payInfo.get('nonceStr')}]], // 支付签名随机串，不长于 32 位
+                package: [[${component.payInfo.get('package')}]], // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                signType: [[${component.payInfo.get('signType')}]], // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                paySign: [[${component.payInfo.get('paySign')}]], // 支付签名
                 success: function () {
                     setInterval(function () {
-                        $.get("/api/wxmp-cgi/pay/query", {outTradeNo: [[${depositOrder.id}]]}, function (response) {
+                        $.get("/api/wxmp-cgi/pay/query", {outTradeNo: [[${component.depositOrder.id}]]}, function (response) {
                             if (response === "SUCCESS") {
-                                Materialize.toast('充值成功，正在跳转', 1000, '', function () {
-                                    window.location = [[${successCallback}]];
-                                });
+                                document.title = "充值成功，正在跳转";
+                                window.location = [[${callback}]];
                             }
                         });
                     }, 2000);
                 },
                 error: function (response) {
-                    Materialize.toast('充值失败:' + response, 1000, '', function () {
-                        window.location = [[${failedCallback}]];
-                    });
+                    document.title = "充值失败，正在跳转";
+                    window.location = [[${callback}]];
                 }
             });
         });

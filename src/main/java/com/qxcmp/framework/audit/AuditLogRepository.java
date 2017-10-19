@@ -13,7 +13,6 @@ interface AuditLogRepository extends JpaRepository<AuditLog, Long>, JpaSpecifica
      * 审计日志分页查询接口，按照发生事件降序排列
      *
      * @param pageable 分页查询参数
-     *
      * @return 分页查询结果
      */
     Page<AuditLog> findAllByOrderByDateCreatedDesc(Pageable pageable);

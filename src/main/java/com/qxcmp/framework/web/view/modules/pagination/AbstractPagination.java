@@ -151,7 +151,6 @@ public abstract class AbstractPagination extends AbstractComponent {
 
     /**
      * @param page 目标页面
-     *
      * @return 分页项目的超链接
      */
     public String getItemUrl(int page) {

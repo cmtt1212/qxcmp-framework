@@ -20,6 +20,7 @@ import com.qxcmp.framework.web.view.support.Color;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,6 +38,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkState;
 import static com.qxcmp.framework.core.web.profile.ProfilePageHelper.*;
 
+@Profile("profile")
 @Controller
 @RequestMapping("/profile")
 @RequiredArgsConstructor

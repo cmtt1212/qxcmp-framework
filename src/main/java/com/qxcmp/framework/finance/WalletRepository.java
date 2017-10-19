@@ -13,7 +13,6 @@ interface WalletRepository extends JpaRepository<Wallet, String>, JpaSpecificati
      * 根据用于ID获取钱包
      *
      * @param userId 用户ID
-     *
      * @return 用户ID对应的钱包
      */
     Optional<Wallet> findByUserId(String userId);

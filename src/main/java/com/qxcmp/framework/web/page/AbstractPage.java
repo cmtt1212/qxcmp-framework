@@ -108,7 +108,6 @@ public abstract class AbstractPage {
      * 格式：["控制台","","用户管理","user","编辑用户"]
      *
      * @param breadcrumb 面包屑参数
-     *
      * @return 页面
      */
     public AbstractPage setBreadcrumb(String... breadcrumb) {
@@ -122,7 +121,6 @@ public abstract class AbstractPage {
      *
      * @param id       导航ID
      * @param activeId 当前激活的导航ID
-     *
      * @return 页面
      */
     public AbstractPage setVerticalNavigation(String id, String activeId) {
@@ -132,9 +130,7 @@ public abstract class AbstractPage {
     /**
      * @param id   子导航ID
      * @param text 徽章文本
-     *
      * @return 页面
-     *
      * @see #setVerticalNavigationBadge(String, AbstractLabel)
      */
     public AbstractPage setVerticalNavigationBadge(String id, String text) {
@@ -145,9 +141,7 @@ public abstract class AbstractPage {
      * @param id    子导航ID
      * @param text  徽章文本
      * @param color 徽章颜色
-     *
      * @return 页面
-     *
      * @see #setVerticalNavigationBadge(String, AbstractLabel)
      */
     public AbstractPage setVerticalNavigationBadge(String id, String text, Color color) {
@@ -161,7 +155,6 @@ public abstract class AbstractPage {
      *
      * @param id    子导航ID
      * @param label 徽章
-     *
      * @return 页面
      */
     public AbstractPage setVerticalNavigationBadge(String id, AbstractLabel label) {
@@ -174,7 +167,6 @@ public abstract class AbstractPage {
      * 仅支持移动端页面
      *
      * @param title 标题
-     *
      * @return 页面
      */
     public AbstractPage setMobileTopMenuTitle(String title) {
@@ -188,7 +180,6 @@ public abstract class AbstractPage {
      *
      * @param title 标题
      * @param url   超链接
-     *
      * @return 页面
      */
     public AbstractPage setMobileTopMenuTitle(String title, String url) {
@@ -201,9 +192,7 @@ public abstract class AbstractPage {
      * 仅支持移动端页面
      *
      * @param id 导航ID
-     *
      * @return 页面
-     *
      * @see MobilePage
      */
     public AbstractPage setMobileBottomMenuActiveItem(String id) {
@@ -227,7 +216,6 @@ public abstract class AbstractPage {
      * 仅支持移动端页面
      *
      * @param profileHeader 新的账户组件
-     *
      * @return 页面
      */
     public AbstractPage setProfileHeader(ProfileHeader profileHeader) {

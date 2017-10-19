@@ -13,7 +13,6 @@ interface ConsigneeRepository extends JpaRepository<Consignee, String>, JpaSpeci
      * 获取用户收货地址
      *
      * @param userId 用户ID
-     *
      * @return 用户收货地址
      */
     List<Consignee> findByUserIdOrderByDateModifiedDesc(String userId);

@@ -13,7 +13,6 @@ interface ShoppingCartItemRepository extends JpaRepository<ShoppingCartItem, Lon
      * 获取用户的购物车项目
      *
      * @param userId 用户ID
-     *
      * @return 用户的购物车项目
      */
     List<ShoppingCartItem> findByUserIdOrderByDateCreatedDesc(String userId);

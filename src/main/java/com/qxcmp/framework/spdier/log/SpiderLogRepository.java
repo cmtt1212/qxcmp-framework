@@ -13,7 +13,6 @@ interface SpiderLogRepository extends JpaRepository<SpiderLog, Long>, JpaSpecifi
      * 日志分页查询
      *
      * @param pageable 分页参数
-     *
      * @return 查询后的结果
      */
     Page<SpiderLog> findAllByOrderByDateFinishDesc(Pageable pageable);

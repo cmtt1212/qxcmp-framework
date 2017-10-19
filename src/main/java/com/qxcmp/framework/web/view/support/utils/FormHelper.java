@@ -199,6 +199,8 @@ public class FormHelper {
                     addHtmlField(form, field, (HtmlField) annotation);
                 } else if (annotation instanceof DateTimeField) {
                     addDateTimeField(form, field, (DateTimeField) annotation);
+                } else if (annotation instanceof FileUploadField) {
+                    addFileUploadField(form, field, (FileUploadField) annotation);
                 }
             }
         }
@@ -470,5 +472,19 @@ public class FormHelper {
         }
 
         form.addItem(dateTimeField, annotation.section());
+    }
+
+    private void addFileUploadField(AbstractForm form, Field field, FileUploadField annotation) {
+        final com.qxcmp.framework.web.view.modules.form.field.FileUploadField fileUploadField = new com.qxcmp.framework.web.view.modules.form.field.FileUploadField();
+
+        fileUploadField.setName(field.getName());
+        fileUploadField.setLabel(annotation.value());
+        fileUploadField.setTooltip(annotation.tooltip());
+        fileUploadField.setRequired(annotation.required());
+        fileUploadField.setMaxSize(annotation.maxSize());
+        fileUploadField.setMaxCount(annotation.maxCount());
+        fileUploadField.setText(annotation.text());
+
+        form.addItem(fileUploadField, annotation.section());
     }
 }

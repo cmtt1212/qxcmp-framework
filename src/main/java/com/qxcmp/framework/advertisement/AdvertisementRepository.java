@@ -14,7 +14,6 @@ interface AdvertisementRepository extends JpaRepository<Advertisement, Long>, Jp
      *
      * @param type     广告类型
      * @param pageable 分页信息
-     *
      * @return 分页查询结果
      */
     Page<Advertisement> findByTypeOrderByAdOrderDesc(String type, Pageable pageable);

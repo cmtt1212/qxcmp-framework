@@ -777,5 +777,136 @@
         });
     </script>
 </div>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.FileUploadField"*/-->
+<div th:fragment="field-file-upload(component)"
+     th:id="${component.id}" th:class="${component.getClassName()}">
+    <input th:field="*{__${component.name}__}" type="hidden"/>
+    <input type="file" style="display: none"
+           th:attr="data-max-size=${component.maxSize},data-max-count=${component.maxCount}"/>
+    <label th:replace="~{:: field-label(${component})}"></label>
+    <div class="component">
+        <div class="ui mini black button" th:utext="${component.text}"></div>
+        <span class="message"></span>
+        <div class="ui selection list">
+
+        </div>
+    </div>
+    <script th:replace="~{:: field-common-script(${component})}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var id = /*[[|#${component.id}|]]*/ "",
+                input = $(id).find("input[type='hidden']"),
+                file = $(id).find("input[type='file']"),
+                maxSize = $(file).attr("data-max-size"),
+                maxCount = $(file).attr("data-max-count"),
+                button = $(id).find(".component .ui.button"),
+                message = $(id).find(".component .message"),
+                list = $(id).find(".component .ui.list");
+
+            function createItem(file) {
+                var fileSize = file.size;
+                var fileSizeText = parseFloat((fileSize / 1024)).toFixed(2) + "KB";
+
+                if (fileSizeText > 1024) {
+                    fileSizeText = parseFloat((fileSize / 1024)).toFixed(2) + "MB";
+                }
+
+                if (fileSizeText > 1024) {
+                    fileSizeText = parseFloat((fileSize / 1024)).toFixed(2) + "GB";
+                }
+
+                return $('<div class="item"><div class="info"><i class="file black icon"></i><div class="content"><div class="header">' + file.name + '</div><div class="description">' + fileSizeText + '</div></div><div class="action"><i class="remove grey icon"></i></div></div><div class="ui bottom attached black progress"><div class="bar"></div></div></div></div>')
+            }
+
+            function calculateValue() {
+                var values = [];
+                $(list).find(".item").each(function (index, item) {
+                    var key = $(item).attr("data-key");
+                    if (key) {
+                        values.push(key);
+                    }
+                });
+                $(input).val(values.join(","));
+            }
+
+            $(button).click(function (e) {
+                $(file).click();
+                e.stopPropagation();
+            });
+
+            $(file).on("change", function () {
+
+                if ($(list).find(".item").length >= maxCount) {
+                    $(message).text("最多只能上传" + maxCount + "个文件");
+                    return;
+                }
+
+                if (this.files.length > 0) {
+                    var file = this.files[0];
+
+                    if (file.size > 1024 * maxSize) {
+                        $(message).text("图片大小不能超过" + maxSize + "KB");
+                        return;
+                    } else {
+                        $(message).text("");
+                    }
+
+                    var item = createItem(file);
+                    var icon = $(item).find(".black.icon");
+                    var progress = $(item).find(".ui.progress");
+                    $(item).find(".remove.icon").click(function () {
+                        $(item).remove();
+                        calculateValue();
+                    });
+                    $(list).append(item);
+                    $(progress).progress();
+
+                    var formData = new FormData();
+                    formData.append("file", file);
+
+                    icon.removeClass("file");
+                    icon.addClass("circle notched loading");
+
+                    $.ajax("/api/file/upload", {
+                        xhr: function () {
+                            var xhr = $.ajaxSettings.xhr();
+
+                            if (xhr.upload) {
+                                xhr.upload.addEventListener("progress", function (e) {
+                                    if (e.lengthComputable) {
+                                        var percentComplete = e.loaded / e.total;
+                                        percentComplete = parseInt(percentComplete * 100);
+                                        $(progress).progress("set percent", percentComplete)
+
+                                        if (percentComplete >= 100) {
+                                            $(progress).removeClass("black");
+                                            $(progress).addClass("success");
+                                            icon.addClass("file");
+                                            icon.removeClass("circle notched loading");
+                                        }
+                                    }
+                                }, false);
+                            }
+
+                            return xhr;
+                        },
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            $(item).attr("data-key", response);
+                            calculateValue();
+                        },
+                        error: function (response) {
+                            $(message).text(response.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</div>
 </body>
 </html>

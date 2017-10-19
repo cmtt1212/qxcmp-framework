@@ -25,7 +25,6 @@ public interface SmsService {
      * @param phones       手机号码列表
      * @param templateCode 短信模板Code
      * @param parameters   短信模板用到的参数
-     *
      * @throws ServiceException 如果发送短信失败，则抛出该异常
      */
     void send(List<String> phones, String templateCode, Consumer<Map<String, String>> parameters) throws ServiceException;
@@ -35,7 +34,6 @@ public interface SmsService {
      *
      * @param phone   手机号
      * @param captcha 验证码
-     *
      * @throws ServiceException 如果发送短信失败，则抛出该异常
      */
     void sendCaptcha(String phone, String captcha) throws ServiceException;

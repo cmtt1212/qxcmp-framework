@@ -24,7 +24,6 @@ public class ConsigneeService extends AbstractEntityService<Consignee, String, C
      * 获取用户收货地址
      *
      * @param userId 用户ID
-     *
      * @return 用户收货地址
      */
     public List<Consignee> findByUser(String userId) {

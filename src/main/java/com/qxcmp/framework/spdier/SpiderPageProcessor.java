@@ -23,7 +23,6 @@ import java.util.Optional;
  * 页面处理器负责把目标页面转换为领域实体对象，然后有框架交给页面处理器对应的管理进行下一步处理{@link SpiderPipeline}
  *
  * @param <T> 最后给管道处理的实体类型
- *
  * @author aaric
  * @see SpiderPipeline
  */
@@ -98,7 +97,6 @@ public abstract class SpiderPageProcessor<T> implements PageProcessor {
      * 判断是否为目标页面，如果该页面包含了要抓取实体的信息则为目标页面
      *
      * @param page 当前抓取页面
-     *
      * @return 是否为目标页面
      */
     protected abstract boolean isTargetPage(Page page);
@@ -107,7 +105,6 @@ public abstract class SpiderPageProcessor<T> implements PageProcessor {
      * 处理目标页面，将页面要抓取的信息整合成为实体对象并存放在结果中，交由管道处理
      *
      * @param page 当前抓取页面
-     *
      * @return 处理后的实体对象
      */
     protected abstract Optional<T> processTargetPage(Page page);

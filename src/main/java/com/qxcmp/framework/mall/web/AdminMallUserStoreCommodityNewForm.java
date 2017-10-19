@@ -2,6 +2,7 @@ package com.qxcmp.framework.mall.web;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.qxcmp.framework.mall.CommodityVersion;
 import com.qxcmp.framework.web.view.annotation.form.*;
 import com.qxcmp.framework.web.view.modules.form.support.KeyValueEntity;
 import lombok.Data;
@@ -42,6 +43,9 @@ public class AdminMallUserStoreCommodityNewForm {
 
     @BooleanField(value = "是否下架", section = "商品属性")
     private boolean disabled;
+
+    @DynamicField(value = "商品分类", section = "商品分类", tooltip = "分类用于定义关联商品，所有关联商品ID相同的商品会被关联起来，分类可以定义商品的颜色、尺码、型号等属性", itemHeaders = {"分类名称", "分类值"}, itemFields = {"name", "value"})
+    private List<CommodityVersion> versions = Lists.newArrayList();
 
     @DynamicField(value = "自定义属性", section = "额外属性", itemHeaders = {"属性名称", "属性值"}, itemFields = {"key", "value"})
     private List<KeyValueEntity> customProperties = Lists.newArrayList();

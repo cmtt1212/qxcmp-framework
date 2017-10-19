@@ -1,10 +1,10 @@
 package com.qxcmp.framework.mall.web;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.mall.Commodity;
-import com.qxcmp.framework.mall.CommodityService;
-import com.qxcmp.framework.mall.Store;
-import com.qxcmp.framework.mall.StoreService;
+import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
@@ -31,9 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -54,6 +52,8 @@ public class AdminMallUserPageController extends QXCMPController {
     private final StoreService storeService;
 
     private final CommodityService commodityService;
+
+    private final CommodityVersionService commodityVersionService;
 
     private final TableHelper tableHelper;
 
@@ -166,6 +166,8 @@ public class AdminMallUserPageController extends QXCMPController {
 
     @PostMapping("/commodity/new")
     public ModelAndView userCommodityNewPage(@Valid final AdminMallUserStoreCommodityNewForm form, BindingResult bindingResult,
+                                             @RequestParam(value = "add_versions", required = false) boolean addVersions,
+                                             @RequestParam(value = "remove_versions", required = false) Integer removeVersions,
                                              @RequestParam(value = "add_customProperties", required = false) boolean addCustomProperties,
                                              @RequestParam(value = "remove_customProperties", required = false) Integer removeCustomProperties) {
 
@@ -190,6 +192,24 @@ public class AdminMallUserPageController extends QXCMPController {
 
         if (Objects.nonNull(removeCustomProperties)) {
             form.getCustomProperties().remove(removeCustomProperties.intValue());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (addVersions) {
+            form.getVersions().add(commodityVersionService.next());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeVersions)) {
+            form.getVersions().remove(removeVersions.intValue());
             return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
                     .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "添加商品")
                     .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
@@ -223,12 +243,14 @@ public class AdminMallUserPageController extends QXCMPController {
                     commodity.getCustomProperties().clear();
                     form.getCustomProperties().forEach(keyValueEntity -> commodity.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
 
+                    commodity.setVersions(form.getVersions());
+
                     commodity.setStore(selectedStore);
                     commodity.setUserModified(user);
                     commodity.setDateCreated(new Date());
                     commodity.setDateModified(new Date());
                     return commodity;
-                });
+                }).ifPresent(commodity -> commodityService.update(commodity.getId(), c -> c.setParentId(commodity.getId())));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -263,6 +285,8 @@ public class AdminMallUserPageController extends QXCMPController {
                         keyValueEntity.setValue(stringStringEntry.getValue());
                         return keyValueEntity;
                     }).collect(Collectors.toList()));
+                    form.setParentId(String.valueOf(Objects.isNull(commodity.getParentId()) ? "" : commodity.getParentId()));
+                    form.setVersions(commodity.getVersions());
 
                     return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
                             .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
@@ -274,6 +298,8 @@ public class AdminMallUserPageController extends QXCMPController {
 
     @PostMapping("/commodity/{id}/edit")
     public ModelAndView userCommodityEditPage(@PathVariable String id, @Valid final AdminMallUserStoreCommodityEditForm form, BindingResult bindingResult,
+                                              @RequestParam(value = "add_versions", required = false) boolean addVersions,
+                                              @RequestParam(value = "remove_versions", required = false) Integer removeVersions,
                                               @RequestParam(value = "add_customProperties", required = false) boolean addCustomProperties,
                                               @RequestParam(value = "remove_customProperties", required = false) Integer removeCustomProperties) {
 
@@ -301,6 +327,24 @@ public class AdminMallUserPageController extends QXCMPController {
                     .build();
         }
 
+        if (addVersions) {
+            form.getVersions().add(commodityVersionService.next());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
+        if (Objects.nonNull(removeVersions)) {
+            form.getVersions().remove(removeVersions.intValue());
+            return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理", "mall/user/store/commodity", "编辑商品")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
+                    .addObject("selection_items_catalogs", systemConfigService.getList(SYSTEM_CONFIG_MALL_COMMODITY_CATALOG))
+                    .build();
+        }
+
         return commodityService.findOne(id)
                 .filter(commodity -> stores.contains(commodity.getStore()))
                 .map(commodity -> submitForm(form, context -> {
@@ -319,6 +363,12 @@ public class AdminMallUserPageController extends QXCMPController {
                             commodity.getCustomProperties().clear();
                             form.getCustomProperties().forEach(keyValueEntity -> commodity.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
 
+                            try {
+                                commodity.setParentId(Long.valueOf(form.getParentId()));
+                            } catch (Exception e) {
+                                commodity.setParentId(c.getParentId());
+                            }
+                            commodity.setVersions(form.getVersions());
                             commodity.setStore(selectedStore);
                             commodity.setUserModified(user);
                             commodity.setDateModified(new Date());
@@ -328,6 +378,67 @@ public class AdminMallUserPageController extends QXCMPController {
                     }
                 }, (context, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")))
                 .orElse(page(new Overview(new IconHeader("商品不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/mall/user/store/commodity")).build());
+    }
+
+    @PostMapping("/commodity/{id}/copy")
+    public ResponseEntity<RestfulResponse> userCommodityCopy(@PathVariable String id) {
+        RestfulResponse restfulResponse = audit("复制商品", context -> {
+
+            User user = currentUser().orElseThrow(RuntimeException::new);
+
+            List<Store> stores = storeService.findByUser(user);
+
+            Store selectedStore = getUserSelectedStore(user);
+
+            try {
+                commodityService.findOne(id)
+                        .filter(commodity -> stores.contains(commodity.getStore()))
+                        .ifPresent(commodity -> {
+                            Commodity next = commodityService.next();
+                            next.setCover(commodity.getCover());
+                            next.setTitle("【复制】" + commodity.getTitle());
+                            next.setSubTitle(commodity.getSubTitle());
+                            next.setOriginPrice(commodity.getOriginPrice());
+                            next.setSellPrice(commodity.getSellPrice());
+                            next.setInventory(commodity.getInventory());
+                            next.setDisabled(true);
+                            next.setParentId(commodity.getParentId());
+                            next.setStore(selectedStore);
+                            next.setUserModified(user);
+                            next.setDateCreated(new Date());
+                            next.setDateModified(new Date());
+
+                            Set<String> albums = Sets.newLinkedHashSet();
+                            albums.addAll(commodity.getAlbums());
+                            next.setAlbums(albums);
+
+                            Set<String> details = Sets.newLinkedHashSet();
+                            details.addAll(commodity.getAlbums());
+                            next.setDetails(details);
+
+                            Set<String> catalogs = Sets.newLinkedHashSet();
+                            catalogs.addAll(commodity.getCatalogs());
+                            next.setCatalogs(catalogs);
+
+                            Map<String, String> properties = Maps.newLinkedHashMap();
+                            properties.putAll(commodity.getCustomProperties());
+                            next.setCustomProperties(properties);
+
+                            List<CommodityVersion> versions = Lists.newArrayList();
+                            commodity.getVersions().forEach(commodityVersion -> {
+                                CommodityVersion version = commodityVersionService.next();
+                                version.setName(commodityVersion.getName());
+                                version.setValue(commodityVersion.getValue());
+                                versions.add(version);
+                            });
+                            next.setVersions(versions);
+                            commodityService.create(() -> next);
+                        });
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
     }
 
     @PostMapping("/commodity/{id}/disable")

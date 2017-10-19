@@ -28,7 +28,6 @@ public class ShoppingCartItemService extends AbstractEntityService<ShoppingCartI
      * 获取用户的购物车项目
      *
      * @param userId 用户ID
-     *
      * @return 用户的购物车项目
      */
     public List<ShoppingCartItem> findByUser(String userId) {
@@ -39,7 +38,6 @@ public class ShoppingCartItemService extends AbstractEntityService<ShoppingCartI
      * 获取用户已经选择的购物车项目
      *
      * @param userId 用户ID
-     *
      * @return 用户已经选择的购物车项目
      */
     public List<ShoppingCartItem> findSelectedByUser(String userId) {
@@ -55,7 +53,6 @@ public class ShoppingCartItemService extends AbstractEntityService<ShoppingCartI
      *
      * @param userId      用户ID
      * @param commodityId 要添加的商品
-     *
      * @throws ShoppingCartServiceException 如果添加失败抛出该异常
      */
     public void addCommodity(String userId, long commodityId) throws ShoppingCartServiceException {
@@ -94,7 +91,6 @@ public class ShoppingCartItemService extends AbstractEntityService<ShoppingCartI
      *
      * @param id     购物车项目ID
      * @param amount 要设置的商品数量，必须大于零
-     *
      * @throws ShoppingCartServiceException 如果设置失败抛出该异常
      */
     public void modifyAmount(long id, int amount) throws ShoppingCartServiceException {

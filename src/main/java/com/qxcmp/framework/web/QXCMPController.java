@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.qxcmp.framework.audit.Action;
@@ -16,6 +17,7 @@ import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.page.AbstractPage;
+import com.qxcmp.framework.web.support.QXCMPIpAddressResolver;
 import com.qxcmp.framework.web.support.QXCMPPageResolver;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -32,6 +34,8 @@ import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.support.utils.ViewHelper;
 import com.qxcmp.framework.web.view.views.Overview;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -46,11 +50,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
 
 /**
  * 平台页面路由基类
@@ -74,11 +82,13 @@ public abstract class QXCMPController {
     private TableHelper tableHelper;
     private CaptchaService captchaService;
     private ActionExecutor actionExecutor;
+    private QXCMPIpAddressResolver ipAddressResolver;
 
     /**
      * 根据请求获取一个页面
      *
      * @return 由页面解析器解析出来的页面
+     *
      * @see QXCMPPageResolver
      */
     protected AbstractPage page() {
@@ -89,7 +99,9 @@ public abstract class QXCMPController {
      * 根据请求获取一个页面并设置概览视图
      *
      * @param overview 概览组件
+     *
      * @return 概览视图页面
+     *
      * @see Overview
      */
     protected AbstractPage page(Overview overview) {
@@ -100,6 +112,7 @@ public abstract class QXCMPController {
      * 获取一个重定向页面
      *
      * @param url 重定向链接
+     *
      * @return 重定向页面
      */
     protected ModelAndView redirect(String url) {
@@ -191,21 +204,7 @@ public abstract class QXCMPController {
      * @return 请求IP地址
      */
     protected String getRequestAddress() {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            //多次反向代理后会有多个ip值，第一个ip才是真实ip
-            int index = ip.indexOf(",");
-            if (index != -1) {
-                return ip.substring(0, index);
-            } else {
-                return ip;
-            }
-        }
-        ip = request.getHeader("X-Real-IP");
-        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            return ip;
-        }
-        return request.getRemoteAddr();
+        return ipAddressResolver.resolve(request);
     }
 
     protected ModelAndView submitForm(Object form, Action action) {
@@ -226,6 +225,7 @@ public abstract class QXCMPController {
      * @param form       要提交的表单
      * @param action     要执行的操作
      * @param biConsumer 返回的结果页面
+     *
      * @return 提交后的页面
      */
     protected ModelAndView submitForm(String title, Object form, Action action, BiConsumer<Map<String, Object>, Overview> biConsumer) {
@@ -267,6 +267,7 @@ public abstract class QXCMPController {
      *
      * @param title  操作名称
      * @param action 要执行的操作
+     *
      * @return 操作结果实体
      */
     protected RestfulResponse audit(String title, Action action) {
@@ -282,6 +283,32 @@ public abstract class QXCMPController {
             return new RestfulResponse(HttpStatus.NOT_ACCEPTABLE.value(), "", auditLog.getTitle(), auditLog.getComments());
 
         }).orElse(new RestfulResponse(HttpStatus.BAD_GATEWAY.value(), "", "Can't save audit log"));
+    }
+
+    /**
+     * 获取上传后的文件
+     *
+     * @param keys 临时文件标识
+     *
+     * @return 文件列表
+     */
+    protected List<File> getUploadFiles(List<String> keys) {
+        List<File> files = Lists.newArrayList();
+
+        keys.forEach(s -> files.addAll(FileUtils.listFiles(new File(QXCMP_FILE_UPLOAD_TEMP_FOLDER + s), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)));
+
+        return files;
+    }
+
+    /**
+     * 获取单个上传后的文件
+     *
+     * @param key 临时文件标识
+     *
+     * @return 单个文件
+     */
+    protected File getUploadFile(String key) {
+        return FileUtils.listFiles(new File(QXCMP_FILE_UPLOAD_TEMP_FOLDER + key), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE).stream().findAny().orElse(null);
     }
 
     private String getRequestContent(HttpServletRequest request) {
@@ -352,5 +379,10 @@ public abstract class QXCMPController {
     @Autowired
     public void setPageResolver(QXCMPPageResolver pageResolver) {
         this.pageResolver = pageResolver;
+    }
+
+    @Autowired
+    public void setIpAddressResolver(QXCMPIpAddressResolver ipAddressResolver) {
+        this.ipAddressResolver = ipAddressResolver;
     }
 }

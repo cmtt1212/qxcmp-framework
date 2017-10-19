@@ -14,7 +14,6 @@ public class ReflectionUtils {
      * 获取一个类以及所有父类的所有字段
      *
      * @param type 类型
-     *
      * @return 所有字段集合
      */
     public List<Field> getAllFields(Class<?> type) {

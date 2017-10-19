@@ -28,7 +28,7 @@
     <div th:if="${component.subTitle ne null}" class="extra-content">
         [[${component.subTitle}]]
     </div>
-    <div class="action">
+    <div th:unless="${#strings.isEmpty(component.url)}" class="action">
         <i class="angle right icon"></i>
     </div>
 </a>

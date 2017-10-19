@@ -151,6 +151,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(QXCMP_BACKEND_URL + "/advertisement/**").hasRole(PRIVILEGE_ADMIN_ADVERTISEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/redeem/**").hasRole(PRIVILEGE_ADMIN_REDEEM)
                 .antMatchers(QXCMP_BACKEND_URL + "/spider/**").hasRole(PRIVILEGE_ADMIN_SPIDER)
+                .antMatchers(QXCMP_BACKEND_URL + "/link/**").hasRole(PRIVILEGE_ADMIN_LINK)
                 .antMatchers(QXCMP_BACKEND_URL + "/user/**/role/**").hasRole(PRIVILEGE_USER_ROLE)
                 .antMatchers(QXCMP_BACKEND_URL + "/user/**/status/**").hasRole(PRIVILEGE_USER_STATUS)
                 .antMatchers(QXCMP_BACKEND_URL + "/user/**").hasRole(PRIVILEGE_USER)

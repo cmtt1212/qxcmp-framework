@@ -47,7 +47,6 @@ public class WeixinMpAPI extends QXCMPController {
      *
      * @param request  微信服务器发来的请求
      * @param response 返回给微信服务器的响应
-     *
      * @throws IOException 抛出{@link IOException}
      */
     @RequestMapping("")
@@ -59,6 +58,8 @@ public class WeixinMpAPI extends QXCMPController {
         String signature = request.getParameter("signature");
         String nonce = request.getParameter("nonce");
         String timestamp = request.getParameter("timestamp");
+        String echostr = request.getParameter("echostr");
+
 
         if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
             // 消息签名不正确，说明不是公众平台发过来的消息
@@ -66,11 +67,9 @@ public class WeixinMpAPI extends QXCMPController {
             return;
         }
 
-        String echostr = request.getParameter("echostr");
-
         if (StringUtils.isNotBlank(echostr)) {
             // 说明是一个仅仅用来验证的请求，回显echostr
-            response.getWriter().println(echostr);
+            response.getWriter().print(echostr);
             return;
         }
 
@@ -109,7 +108,6 @@ public class WeixinMpAPI extends QXCMPController {
      * 用于获取当前Url的JS Config配置
      *
      * @param url 页面Url
-     *
      * @return JS Config 配置
      */
     @GetMapping("/jsapi")
