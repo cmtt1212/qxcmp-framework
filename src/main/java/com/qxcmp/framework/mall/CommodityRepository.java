@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -33,4 +34,14 @@ interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecifi
      */
     @Query("select commodity from Commodity commodity left join commodity.catalogs catalog where commodity.disabled = false and catalog in :catalogs")
     Page<Commodity> findByCatalogs(@Param("catalogs") Set<String> catalogs, Pageable pageable);
+
+    /**
+     * 查找关联商品
+     *
+     * @param parentId 关联商品ID
+     *
+     * @return 关联商品
+     */
+    @Query("select commodity from Commodity commodity where commodity.disabled = false and commodity.parentId = :parentId")
+    List<Commodity> findByParentId(@Param("parentId") Long parentId);
 }

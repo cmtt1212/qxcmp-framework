@@ -17,6 +17,7 @@ import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.page.AbstractPage;
+import com.qxcmp.framework.web.support.QXCMPIpAddressResolver;
 import com.qxcmp.framework.web.support.QXCMPPageResolver;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -81,6 +82,7 @@ public abstract class QXCMPController {
     private TableHelper tableHelper;
     private CaptchaService captchaService;
     private ActionExecutor actionExecutor;
+    private QXCMPIpAddressResolver ipAddressResolver;
 
     /**
      * 根据请求获取一个页面
@@ -202,21 +204,7 @@ public abstract class QXCMPController {
      * @return 请求IP地址
      */
     protected String getRequestAddress() {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (StringUtils.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            //多次反向代理后会有多个ip值，第一个ip才是真实ip
-            int index = ip.indexOf(",");
-            if (index != -1) {
-                return ip.substring(0, index);
-            } else {
-                return ip;
-            }
-        }
-        ip = request.getHeader("X-Real-IP");
-        if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-            return ip;
-        }
-        return request.getRemoteAddr();
+        return ipAddressResolver.resolve(request);
     }
 
     protected ModelAndView submitForm(Object form, Action action) {
@@ -391,5 +379,10 @@ public abstract class QXCMPController {
     @Autowired
     public void setPageResolver(QXCMPPageResolver pageResolver) {
         this.pageResolver = pageResolver;
+    }
+
+    @Autowired
+    public void setIpAddressResolver(QXCMPIpAddressResolver ipAddressResolver) {
+        this.ipAddressResolver = ipAddressResolver;
     }
 }

@@ -1,6 +1,7 @@
 package com.qxcmp.framework.mall;
 
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.user.User;
@@ -15,6 +16,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,6 +31,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
         tableActions = @TableAction(value = "添加商品", action = "new", primary = true),
         rowActions = {
                 @RowAction(value = "编辑", action = "edit", color = Color.BLACK),
+                @RowAction(value = "复制", action = "copy", method = FormMethod.POST, color = Color.ORANGE),
                 @RowAction(value = "下架", action = "disable", method = FormMethod.POST, color = Color.RED),
                 @RowAction(value = "上架", action = "enable", method = FormMethod.POST, color = Color.GREEN)
         })
@@ -42,7 +45,15 @@ public class Commodity {
      */
     @Id
     @GeneratedValue
+    @TableField("商品编号")
     private Long id;
+
+    /**
+     * 父商品主键
+     * <p>
+     * 用于关联多型号商品
+     */
+    private Long parentId;
 
     /**
      * 商品封面
@@ -132,6 +143,12 @@ public class Commodity {
      */
     @ElementCollection(fetch = FetchType.EAGER)
     private Map<String, String> customProperties = Maps.newLinkedHashMap();
+
+    /**
+     * 商品版本
+     */
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CommodityVersion> versions = Lists.newArrayList();
 
     @RowActionCheck("下架")
     public boolean canPerformDisable() {
