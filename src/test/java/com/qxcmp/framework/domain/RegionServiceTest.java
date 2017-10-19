@@ -20,7 +20,7 @@ public class RegionServiceTest {
         assertEquals(1, regionService.findByLevel(RegionLevel.STATE).size());
         assertEquals(34, regionService.findByLevel(RegionLevel.PROVINCE).size());
         assertEquals(344, regionService.findByLevel(RegionLevel.CITY).size());
-        assertEquals(3131, regionService.findByLevel(RegionLevel.COUNTY).size());
+        assertEquals(3130, regionService.findByLevel(RegionLevel.COUNTY).size());
     }
 
     @Test
