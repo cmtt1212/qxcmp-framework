@@ -44,6 +44,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MallPageHelper {
 
+    private final CommodityService commodityService;
+
     private final TableHelper tableHelper;
 
     /**
@@ -61,7 +63,9 @@ public class MallPageHelper {
 
         MobileList mobileList = new MobileList();
 
-        mobileList.addItem(new MobileListItem(StringUtils.join(commodity.getVersions().stream().map((Function<CommodityVersion, Object>) CommodityVersion::getValue).toArray(), ", "), "已选", "/mall/item/version-select?id=" + commodity.getId()));
+        if (commodityService.findByParentId(commodity.getParentId()).size() > 1) {
+            mobileList.addItem(new MobileListItem(StringUtils.join(commodity.getVersions().stream().map((Function<CommodityVersion, Object>) CommodityVersion::getValue).toArray(), ", "), "已选", "/mall/item/version-select?id=" + commodity.getId()));
+        }
 
         return new Grid()
                 .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Image(commodity.getCover()).setFluid().setBordered())))

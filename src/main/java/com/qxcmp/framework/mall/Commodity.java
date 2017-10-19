@@ -45,6 +45,7 @@ public class Commodity {
      */
     @Id
     @GeneratedValue
+    @TableField("商品编号")
     private Long id;
 
     /**
