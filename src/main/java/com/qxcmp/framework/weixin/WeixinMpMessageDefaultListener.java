@@ -45,6 +45,6 @@ public class WeixinMpMessageDefaultListener {
 
     @EventListener
     public void onUnsubscribe(WeixinMpUnsubscribeEvent event) {
-        userService.update(event.getWxMpXmlMessage().getFromUser(), user -> user.setSubscribe(false));
+        userService.findByOpenID(event.getWxMpXmlMessage().getFromUser()).ifPresent(user -> userService.update(user.getId(), u -> u.setSubscribe(false)));
     }
 }
