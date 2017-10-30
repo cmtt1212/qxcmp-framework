@@ -11,6 +11,7 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.html.Bold;
 import com.qxcmp.framework.web.view.elements.image.Avatar;
 import com.qxcmp.framework.web.view.elements.input.Input;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
@@ -137,6 +138,7 @@ public class TableHelper {
             table.setAction(table.getAction() + "/");
         }
 
+        table.setDisableFilter(entityTable.disableFilter());
         table.setCelled(entityTable.celled());
         table.setBasic(entityTable.basic());
         table.setVeryBasic(entityTable.veryBasic());
@@ -282,7 +284,9 @@ public class TableHelper {
         int colSpan = getColSpan(table, entityTableFields);
         tableActionHead.setColSpan(colSpan);
 
-        renderTableFilter(table, tableHeader, entityTableFields);
+        if (!table.isDisableFilter()) {
+            renderTableFilter(table, tableHeader, entityTableFields);
+        }
 
         if (!table.getTableActions().isEmpty()) {
             renderTableActionHeader(table, tableActionHead);
@@ -314,8 +318,9 @@ public class TableHelper {
 
         entityTableFields.forEach(entityTableField -> menu.addItem(new TextItem(entityTableField.getTitle())));
 
+        tableHead.addComponent(new Bold("过滤： "));
         tableHead.addComponent(selection);
-        tableHead.addComponent(new Input("搜索...","search"));
+        tableHead.addComponent(new Input("输入要查找的内容", "search"));
         tableHead.addComponent(new Button("搜索").setBasic());
         tableRow.addCell(tableHead);
         tableHeader.addRow(tableRow);

@@ -47,11 +47,9 @@ public @interface EntityTable {
     String action() default "";
 
     /**
-     * 是否为动态操作Url
-     * <p>
-     * 如果为真将会覆盖已设置的 {@link #action()}
+     * 是否禁用掉过滤器
      */
-    boolean dynamicAction() default false;
+    boolean disableFilter() default false;
 
     /**
      * 表格操作
