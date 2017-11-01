@@ -11,9 +11,14 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.html.Bold;
 import com.qxcmp.framework.web.view.elements.image.Avatar;
+import com.qxcmp.framework.web.view.elements.input.Input;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
 import com.qxcmp.framework.web.view.elements.label.Label;
+import com.qxcmp.framework.web.view.modules.dropdown.Selection;
+import com.qxcmp.framework.web.view.modules.dropdown.SelectionMenu;
+import com.qxcmp.framework.web.view.modules.dropdown.item.TextItem;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
@@ -133,6 +138,7 @@ public class TableHelper {
             table.setAction(table.getAction() + "/");
         }
 
+        table.setDisableFilter(entityTable.disableFilter());
         table.setCelled(entityTable.celled());
         table.setBasic(entityTable.basic());
         table.setVeryBasic(entityTable.veryBasic());
@@ -278,6 +284,10 @@ public class TableHelper {
         int colSpan = getColSpan(table, entityTableFields);
         tableActionHead.setColSpan(colSpan);
 
+        if (!table.isDisableFilter()) {
+            renderTableFilter(table, tableHeader, entityTableFields);
+        }
+
         if (!table.getTableActions().isEmpty()) {
             renderTableActionHeader(table, tableActionHead);
         }
@@ -293,6 +303,27 @@ public class TableHelper {
         renderTableTitleHeader(table, entityTableFields, tableHeader);
 
         table.setHeader(tableHeader);
+    }
+
+    private void renderTableFilter(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableHeader tableHeader, List<EntityTableField> entityTableFields) {
+        final TableRow tableRow = new TableRow();
+        final TableHead tableHead = new TableHead();
+
+        int colSpan = getColSpan(table, entityTableFields);
+        tableHead.setColSpan(colSpan);
+
+        Selection selection = new Selection();
+        SelectionMenu menu = new SelectionMenu();
+        selection.setMenu(menu);
+
+        entityTableFields.forEach(entityTableField -> menu.addItem(new TextItem(entityTableField.getTitle())));
+
+        tableHead.addComponent(new Bold("过滤： "));
+        tableHead.addComponent(selection);
+        tableHead.addComponent(new Input("输入要查找的内容", "search"));
+        tableHead.addComponent(new Button("搜索").setBasic());
+        tableRow.addCell(tableHead);
+        tableHeader.addRow(tableRow);
     }
 
     private void renderTableActionHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableHead tableHead) {
