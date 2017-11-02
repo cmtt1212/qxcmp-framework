@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Table
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode(exclude = {"id", "commodity"})
 public class CommodityVersion {
 
     /**
