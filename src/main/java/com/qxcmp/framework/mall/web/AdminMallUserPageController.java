@@ -1,6 +1,5 @@
 package com.qxcmp.framework.mall.web;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qxcmp.framework.audit.ActionException;
@@ -243,14 +242,21 @@ public class AdminMallUserPageController extends QXCMPController {
                     commodity.getCustomProperties().clear();
                     form.getCustomProperties().forEach(keyValueEntity -> commodity.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
 
-                    commodity.setVersions(form.getVersions());
-
                     commodity.setStore(selectedStore);
                     commodity.setUserModified(user);
                     commodity.setDateCreated(new Date());
                     commodity.setDateModified(new Date());
                     return commodity;
-                }).ifPresent(commodity -> commodityService.update(commodity.getId(), c -> c.setParentId(commodity.getId())));
+                }).ifPresent(commodity -> {
+                    form.getVersions().forEach(commodityVersion -> commodityVersionService.create(() -> {
+                        CommodityVersion next = commodityVersionService.next();
+                        next.setCommodity(commodity);
+                        next.setName(commodityVersion.getName());
+                        next.setValue(commodityVersion.getValue());
+                        return next;
+                    }));
+                    commodityService.update(commodity.getId(), c -> c.setParentId(commodity.getId()));
+                });
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -368,10 +374,19 @@ public class AdminMallUserPageController extends QXCMPController {
                             } catch (Exception e) {
                                 commodity.setParentId(c.getParentId());
                             }
-                            commodity.setVersions(form.getVersions());
                             commodity.setStore(selectedStore);
                             commodity.setUserModified(user);
                             commodity.setDateModified(new Date());
+
+                            commodity.getVersions().forEach(commodityVersionService::remove);
+                            commodity.getVersions().clear();
+                            form.getVersions().forEach(commodityVersion -> commodityVersionService.create(() -> {
+                                CommodityVersion next = commodityVersionService.next();
+                                next.setCommodity(commodity);
+                                next.setName(commodityVersion.getName());
+                                next.setValue(commodityVersion.getValue());
+                                return next;
+                            }));
                         });
                     } catch (Exception e) {
                         throw new ActionException(e.getMessage(), e);
@@ -424,15 +439,13 @@ public class AdminMallUserPageController extends QXCMPController {
                             properties.putAll(commodity.getCustomProperties());
                             next.setCustomProperties(properties);
 
-                            List<CommodityVersion> versions = Lists.newArrayList();
-                            commodity.getVersions().forEach(commodityVersion -> {
+                            commodityService.create(() -> next).ifPresent(c -> commodity.getVersions().forEach(commodityVersion -> {
                                 CommodityVersion version = commodityVersionService.next();
+                                version.setCommodity(c);
                                 version.setName(commodityVersion.getName());
                                 version.setValue(commodityVersion.getValue());
-                                versions.add(version);
-                            });
-                            next.setVersions(versions);
-                            commodityService.create(() -> next);
+                                commodityVersionService.create(() -> version);
+                            }));
                         });
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
