@@ -356,33 +356,33 @@ public class AdminMallUserPageController extends QXCMPController {
                 .map(commodity -> submitForm(form, context -> {
                     try {
                         commodityService.update(commodity.getId(), c -> {
-                            commodity.setCover(form.getCover());
-                            commodity.setAlbums(form.getAlbums());
-                            commodity.setDetails(form.getDetails());
-                            commodity.setTitle(form.getTitle());
-                            commodity.setSubTitle(form.getSubTitle());
-                            commodity.setCatalogs(form.getCatalogs());
-                            commodity.setOriginPrice(form.getOriginPrice());
-                            commodity.setSellPrice(form.getSellPrice());
-                            commodity.setInventory(form.getInventory());
-                            commodity.setDisabled(form.isDisabled());
-                            commodity.getCustomProperties().clear();
-                            form.getCustomProperties().forEach(keyValueEntity -> commodity.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
+                            c.setCover(form.getCover());
+                            c.setAlbums(form.getAlbums());
+                            c.setDetails(form.getDetails());
+                            c.setTitle(form.getTitle());
+                            c.setSubTitle(form.getSubTitle());
+                            c.setCatalogs(form.getCatalogs());
+                            c.setOriginPrice(form.getOriginPrice());
+                            c.setSellPrice(form.getSellPrice());
+                            c.setInventory(form.getInventory());
+                            c.setDisabled(form.isDisabled());
+                            c.getCustomProperties().clear();
+                            form.getCustomProperties().forEach(keyValueEntity -> c.getCustomProperties().put(keyValueEntity.getKey(), keyValueEntity.getValue()));
 
                             try {
-                                commodity.setParentId(Long.valueOf(form.getParentId()));
+                                c.setParentId(Long.valueOf(form.getParentId()));
                             } catch (Exception e) {
-                                commodity.setParentId(c.getParentId());
+                                c.setParentId(c.getParentId());
                             }
-                            commodity.setStore(selectedStore);
-                            commodity.setUserModified(user);
-                            commodity.setDateModified(new Date());
+                            c.setStore(selectedStore);
+                            c.setUserModified(user);
+                            c.setDateModified(new Date());
 
-                            commodity.getVersions().forEach(commodityVersionService::remove);
-                            commodity.getVersions().clear();
+                            c.getVersions().forEach(commodityVersionService::remove);
+                            c.getVersions().clear();
                             form.getVersions().forEach(commodityVersion -> commodityVersionService.create(() -> {
                                 CommodityVersion next = commodityVersionService.next();
-                                next.setCommodity(commodity);
+                                next.setCommodity(c);
                                 next.setName(commodityVersion.getName());
                                 next.setValue(commodityVersion.getValue());
                                 return next;
@@ -428,7 +428,7 @@ public class AdminMallUserPageController extends QXCMPController {
                             next.setAlbums(albums);
 
                             Set<String> details = Sets.newLinkedHashSet();
-                            details.addAll(commodity.getAlbums());
+                            details.addAll(commodity.getDetails());
                             next.setDetails(details);
 
                             Set<String> catalogs = Sets.newLinkedHashSet();
