@@ -15,6 +15,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -141,6 +142,8 @@ public class User implements UserDetails {
     /**
      * 上次登陆时间
      */
+    @TableField(value = "登录时间", name = "weixin")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateLogin = new Date();
 
     /**
