@@ -42,6 +42,6 @@ public class HorizontalDivider extends Divider {
 
     @Override
     public String getClassContent() {
-        return super.getClassContent() + (Objects.isNull(header) ? "horizontal" : " header horizontal");
+        return super.getClassContent() + (Objects.isNull(header) ? " horizontal" : " header horizontal");
     }
 }
