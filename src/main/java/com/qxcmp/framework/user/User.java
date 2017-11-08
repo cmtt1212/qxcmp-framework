@@ -250,6 +250,16 @@ public class User implements UserDetails {
     private String personalizedSignature;
 
     /**
+     * 用户地址
+     */
+    private String address;
+
+    /**
+     * 用户介绍
+     */
+    private String description;
+
+    /**
      * 用户标签
      */
     @OneToMany(fetch = FetchType.EAGER)
