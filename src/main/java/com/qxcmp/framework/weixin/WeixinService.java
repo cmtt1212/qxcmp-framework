@@ -21,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -87,7 +88,10 @@ public class WeixinService {
             WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
             Optional<User> userOptional = userService.findByOpenID(wxMpUser.getOpenId());
-            userOptional.ifPresent(user -> SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities())));
+            userOptional.ifPresent(user -> {
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
+                userService.update(user.getId(), u -> u.setDateLogin(new Date()));
+            });
             return userOptional;
         } catch (Exception e) {
             return Optional.empty();
