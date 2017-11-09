@@ -15,12 +15,14 @@ import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -76,6 +78,11 @@ public class WeixinService {
      * @return 如果认证成功返回认证以后的用户，否则返回 empty
      */
     public Optional<User> loadOauth2User(String code) {
+
+        if (Objects.nonNull(userService.currentUser()) || StringUtils.isBlank(code)) {
+            return Optional.empty();
+        }
+
         try {
             WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
