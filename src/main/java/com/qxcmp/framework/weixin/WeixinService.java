@@ -11,10 +11,13 @@ import me.chanjar.weixin.mp.bean.material.WxMpMaterialCountResult;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialNewsBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,6 +66,26 @@ public class WeixinService {
      * 公众号语音素材缓存
      */
     private List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> voices = Lists.newArrayList();
+
+    /**
+     * 微信网页授权登录
+     * <p>
+     * 根据code获取用户OpenId，如果查询到用户信息，则设置OpenId对应的用户为登录状态，并设置登录时间
+     *
+     * @param code Oauth2 认证码
+     * @return 如果认证成功返回认证以后的用户，否则返回 empty
+     */
+    public Optional<User> loadOauth2User(String code) {
+        try {
+            WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
+            WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(accessToken, null);
+            Optional<User> userOptional = userService.findByOpenID(wxMpUser.getOpenId());
+            userOptional.ifPresent(user -> SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities())));
+            return userOptional;
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 
     /**
      * 加载公众号素材
