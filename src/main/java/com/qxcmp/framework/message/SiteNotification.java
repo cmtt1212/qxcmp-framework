@@ -1,6 +1,10 @@
 package com.qxcmp.framework.message;
 
+import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.TableAction;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,9 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+
 /**
  * @author Aaric
  */
+@EntityTable(value = "网站通知", action = QXCMP_BACKEND_URL + "/message/site/notification",
+        tableActions = @TableAction(value = "新建网站通知", action = "new", primary = true))
 @Entity
 @Table
 @Data
@@ -31,21 +39,27 @@ public class SiteNotification {
     /**
      * 类型
      */
+    @TableField("类型")
     private String type;
 
     /**
      * 生效时间
      */
+    @TableField("生效时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateStart;
 
     /**
      * 结束时间
      */
+    @TableField("结束时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateEnd;
 
     /**
      * 通知内容
      */
+    @TableField("内容")
     private String content;
 
 }

@@ -1,15 +1,16 @@
 package com.qxcmp.framework.message.web;
 
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.message.EmailService;
-import com.qxcmp.framework.message.SmsService;
-import com.qxcmp.framework.message.SmsTemplateService;
+import com.qxcmp.framework.message.*;
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -41,6 +43,8 @@ public class AdminMessageController extends QXCMPController {
     private final SmsService smsService;
 
     private final SmsTemplateService smsTemplateService;
+
+    private final SiteNotificationService siteNotificationService;
 
     @GetMapping("")
     public ModelAndView messagePage() {
@@ -327,5 +331,52 @@ public class AdminMessageController extends QXCMPController {
 
             smsService.config();
         });
+    }
+
+    @GetMapping("/site/notification")
+    public ModelAndView siteNotificationPage(Pageable pageable) {
+        return page().addComponent(convertToTable(pageable, siteNotificationService))
+                .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务")
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                .build();
+    }
+
+    @GetMapping("/site/notification/new")
+    public ModelAndView siteNotificationNewPage(final AdminMessageSiteNotificationNewForm form) {
+
+        form.setDateStart(new Date());
+        form.setDateEnd(DateTime.now().plusDays(1).toDate());
+
+        return page().addComponent(convertToForm(form))
+                .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "新建网站通知")
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                .build();
+    }
+
+    @PostMapping("/site/notification/new")
+    public ModelAndView siteNotificationNewPage(@Valid final AdminMessageSiteNotificationNewForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "新建网站通知")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                siteNotificationService.create(() -> {
+                    SiteNotification siteNotification = siteNotificationService.next();
+                    siteNotification.setOwnerId(currentUser().map(User::getId).orElse(""));
+                    siteNotification.setType(form.getType());
+                    siteNotification.setDateStart(form.getDateStart());
+                    siteNotification.setDateEnd(form.getDateEnd());
+                    siteNotification.setContent(form.getContent());
+                    return siteNotification;
+                });
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification").addLink("继续新建", QXCMP_BACKEND_URL + "/message/site/notification/new"));
     }
 }
