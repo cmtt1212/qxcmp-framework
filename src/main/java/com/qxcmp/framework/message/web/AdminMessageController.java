@@ -4,6 +4,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.*;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -422,5 +425,21 @@ public class AdminMessageController extends QXCMPController {
                     }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification"));
                 })
                 .orElse(page(viewHelper.nextWarningOverview("网站通知不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification")).build());
+    }
+
+
+    @PostMapping("/site/notification/{id}/remove")
+    public ResponseEntity<RestfulResponse> siteNotificationRemove(@PathVariable String id) {
+        return siteNotificationService.findOne(id)
+                .map(siteNotification -> {
+                    RestfulResponse restfulResponse = audit("删除网站通知", context -> {
+                        try {
+                            siteNotificationService.remove(siteNotification);
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 }
