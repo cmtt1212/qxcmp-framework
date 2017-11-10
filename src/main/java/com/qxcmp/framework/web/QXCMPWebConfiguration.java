@@ -161,6 +161,7 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(QXCMP_BACKEND_URL + "/message/email/send/**").hasRole(PRIVILEGE_MESSAGE_EMAIL_SEND)
                 .antMatchers(QXCMP_BACKEND_URL + "/message/sms/config/**").hasRole(PRIVILEGE_MESSAGE_SMS_CONFIG)
                 .antMatchers(QXCMP_BACKEND_URL + "/message/sms/send/**").hasRole(PRIVILEGE_MESSAGE_SMS_SEND)
+                .antMatchers(QXCMP_BACKEND_URL + "/message/site/notification/**").hasRole(PRIVILEGE_MESSAGE_SITE_NOTIFICATION)
                 .antMatchers(QXCMP_BACKEND_URL + "/message/**").hasRole(PRIVILEGE_MESSAGE)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/channel/**").hasRole(PRIVILEGE_NEWS_CHANNEL)
                 .antMatchers(QXCMP_BACKEND_URL + "/news/article/**/preview").hasAnyRole(PRIVILEGE_NEWS_ARTICLE_AUDIT, PRIVILEGE_NEWS_ARTICLE_MANAGEMENT)
