@@ -84,8 +84,6 @@ public class SystemDictionaryLoader implements QXCMPConfigurator {
 
             systemDictionaryService.save(systemDictionary);
         });
-
-        systemDictionaryService.refresh();
     }
 
     @Override
@@ -94,6 +92,8 @@ public class SystemDictionaryLoader implements QXCMPConfigurator {
             reload();
             systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG, "true");
         }
+
+        systemDictionaryService.refresh();
     }
 
     @Override
