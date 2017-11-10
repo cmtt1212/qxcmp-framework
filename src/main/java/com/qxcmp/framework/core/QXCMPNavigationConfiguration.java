@@ -121,6 +121,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND = NAVIGATION_ADMIN_MESSAGE + "-EMAIL-SEND";
     public static final String NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS = NAVIGATION_ADMIN_MESSAGE + "-EMAIL-SETTINGS";
     public static final String NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS = NAVIGATION_ADMIN_MESSAGE + "-SMS-SETTINGS";
+    public static final String NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION = NAVIGATION_ADMIN_MESSAGE + "-SITE-NOTIFICATION";
 
     /*
      * 兑换码管理导航栏
@@ -233,6 +234,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND, "邮件发送服务", QXCMP_BACKEND_URL + "/message/email/send").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_EMAIL_SEND)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_SMS_SETTINGS, "短信服务配置", QXCMP_BACKEND_URL + "/message/sms/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_SMS_CONFIG)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_EMAIL_SETTINGS, "邮件服务配置", QXCMP_BACKEND_URL + "/message/email/settings").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_EMAIL_CONFIG)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION, "网站通知服务", QXCMP_BACKEND_URL + "/message/site/notification").setOrder(50).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_MESSAGE_SITE_NOTIFICATION)))
         );
 
         navigationService.add(new Navigation(NAVIGATION_ADMIN_REDEEM, "兑换码管理导航栏")
