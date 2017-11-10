@@ -2,7 +2,6 @@ package com.qxcmp.framework.web.auth;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.user.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;

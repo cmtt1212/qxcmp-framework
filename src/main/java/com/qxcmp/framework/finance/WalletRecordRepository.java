@@ -15,7 +15,6 @@ interface WalletRecordRepository extends JpaRepository<WalletRecord, Long>, JpaS
      * @param userId   用户主键
      * @param type     消费类型
      * @param pageable 分页信息
-     *
      * @return 查询结果
      */
     Page<WalletRecord> findByUserIdAndTypeOrderByDate(String userId, String type, Pageable pageable);

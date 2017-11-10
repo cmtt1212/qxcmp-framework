@@ -39,7 +39,6 @@ interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecifi
      * 查找关联商品
      *
      * @param parentId 关联商品ID
-     *
      * @return 关联商品
      */
     @Query("select commodity from Commodity commodity where commodity.disabled = false and commodity.parentId = :parentId")
