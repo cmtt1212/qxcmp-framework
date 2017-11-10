@@ -34,6 +34,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -57,9 +58,12 @@ public class AccountPageController extends QXCMPController {
     protected final CodeService codeService;
 
     @GetMapping("/login")
-    public ModelAndView loginPage(final LoginForm loginForm, final LoginFormWithCaptcha loginFormWithCaptcha) {
+    public ModelAndView loginPage(@RequestParam(required = false) String callback, final LoginForm loginForm, final LoginFormWithCaptcha loginFormWithCaptcha) {
 
         return buildPage(segment -> {
+
+            loginForm.setCallback(callback);
+            loginFormWithCaptcha.setCallback(callback);
 
             boolean showCaptcha = false;
 
