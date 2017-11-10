@@ -13,10 +13,7 @@ import org.joda.time.DateTime;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
@@ -378,5 +375,52 @@ public class AdminMessageController extends QXCMPController {
                 throw new ActionException(e.getMessage(), e);
             }
         }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification").addLink("继续新建", QXCMP_BACKEND_URL + "/message/site/notification/new"));
+    }
+
+    @GetMapping("/site/notification/{id}/edit")
+    public ModelAndView siteNotificationEditPage(@PathVariable String id, final AdminMessageSiteNotificationEditForm form) {
+        return siteNotificationService.findOne(id)
+                .map(siteNotification -> {
+
+                    form.setType(siteNotification.getType());
+                    form.setDateStart(siteNotification.getDateStart());
+                    form.setDateEnd(siteNotification.getDateEnd());
+                    form.setContent(siteNotification.getContent());
+
+                    return page().addComponent(convertToForm(form))
+                            .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "编辑网站通知")
+                            .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                            .build();
+                })
+                .orElse(page(viewHelper.nextWarningOverview("网站通知不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification")).build());
+    }
+
+    @PostMapping("/site/notification/{id}/edit")
+    public ModelAndView siteNotificationEditPage(@PathVariable String id, @Valid final AdminMessageSiteNotificationEditForm form, BindingResult bindingResult) {
+        return siteNotificationService.findOne(id)
+                .map(siteNotification -> {
+
+                    if (bindingResult.hasErrors()) {
+                        return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
+                                .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "编辑网站通知")
+                                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                                .build();
+                    }
+
+                    return submitForm(form, context -> {
+                        try {
+                            siteNotificationService.update(siteNotification.getId(), notification -> {
+                                notification.setOwnerId(currentUser().map(User::getId).orElse(""));
+                                notification.setType(form.getType());
+                                notification.setDateStart(form.getDateStart());
+                                notification.setDateEnd(form.getDateEnd());
+                                notification.setContent(form.getContent());
+                            });
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification"));
+                })
+                .orElse(page(viewHelper.nextWarningOverview("网站通知不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification")).build());
     }
 }

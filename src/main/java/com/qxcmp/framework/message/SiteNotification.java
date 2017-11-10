@@ -1,8 +1,10 @@
 package com.qxcmp.framework.message;
 
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,7 +20,12 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  * @author Aaric
  */
 @EntityTable(value = "网站通知", action = QXCMP_BACKEND_URL + "/message/site/notification",
-        tableActions = @TableAction(value = "新建网站通知", action = "new", primary = true))
+        tableActions = @TableAction(value = "新建网站通知", action = "new", primary = true),
+        rowActions = {
+                @RowAction(value = "编辑", action = "edit"),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        }
+)
 @Entity
 @Table
 @Data
