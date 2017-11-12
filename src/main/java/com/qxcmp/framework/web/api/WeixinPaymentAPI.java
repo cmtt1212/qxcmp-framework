@@ -51,7 +51,6 @@ public class WeixinPaymentAPI extends QXCMPController {
      *
      * @param fee     充值金额
      * @param feeType 货币类型
-     *
      * @return 带微信支付二维码的充值中心页面
      */
     @PostMapping("/native")
@@ -67,7 +66,6 @@ public class WeixinPaymentAPI extends QXCMPController {
      *
      * @param fee     充值金额
      * @param feeType 货币类型
-     *
      * @return 微信公众号支付页面
      */
     @PostMapping("/mp")
@@ -94,7 +92,6 @@ public class WeixinPaymentAPI extends QXCMPController {
      * 此接口用户自动处理订单
      *
      * @param xmlData 支付结果数据
-     *
      * @return 回复"SUCCESS"表示平台处理订单成功，否则微信服务器将继续发送该通知
      */
     @PostMapping("/notify")
@@ -117,9 +114,7 @@ public class WeixinPaymentAPI extends QXCMPController {
      *
      * @param transactionId 订单号
      * @param outTradeNo    订单号
-     *
      * @return "SUCCESS", "ERROR"
-     *
      * @throws WxPayException WxPayException
      */
     @GetMapping("/query")
@@ -164,7 +159,6 @@ public class WeixinPaymentAPI extends QXCMPController {
      * @param tradeType    支付类型 NATIVE|JSAPI
      * @param user         用户标识
      * @param depositOrder 平台充值订单
-     *
      * @return 预支付结果
      */
     private Map<String, String> doWeixinPayment(String tradeType, User user, DepositOrder depositOrder) throws WxPayException {

@@ -90,7 +90,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
                 @RowAction(value = "启用", action = "enable", method = FormMethod.POST),
                 @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
         })
-@EntityTable(value = "栏目文章管理", name = "userChannel", dynamicAction = true,
+@EntityTable(value = "栏目文章管理", name = "userChannel",
         rowActions = {
                 @RowAction(value = "查看", action = "preview", target = AnchorTarget.BLANK, primary = true),
                 @RowAction(value = "禁用文章", action = "disable", method = FormMethod.POST, color = Color.RED),

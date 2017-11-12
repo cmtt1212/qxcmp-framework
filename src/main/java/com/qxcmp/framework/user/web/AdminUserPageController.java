@@ -27,7 +27,9 @@ import com.qxcmp.framework.web.view.views.Overview;
 import com.qxcmp.framework.weixin.WeixinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -75,7 +77,7 @@ public class AdminUserPageController extends QXCMPController {
 
     @GetMapping("/weixin")
     public ModelAndView userWeixinPage(Pageable pageable) {
-        Page<User> users = userService.findWeixinUser(pageable);
+        Page<User> users = userService.findWeixinUser(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "subscribeTime"));
 
         Grid grid = new Grid();
         Col col = new Col(Wide.SIXTEEN);

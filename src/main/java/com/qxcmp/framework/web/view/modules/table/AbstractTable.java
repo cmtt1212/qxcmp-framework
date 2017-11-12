@@ -33,6 +33,11 @@ public abstract class AbstractTable extends AbstractTableComponent {
     private AbstractTableFooter footer;
 
     /**
+     * 是否禁用掉过滤器
+     */
+    private boolean disableFilter;
+
+    /**
      * 是否在单元格之间显示分隔符
      */
     private boolean celled;

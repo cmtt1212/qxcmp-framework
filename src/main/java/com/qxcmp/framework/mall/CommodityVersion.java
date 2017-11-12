@@ -1,11 +1,10 @@
 package com.qxcmp.framework.mall;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 商品版本
@@ -18,7 +17,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"id", "commodity"})
 public class CommodityVersion {
 
     /**
@@ -27,6 +28,9 @@ public class CommodityVersion {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne
+    private Commodity commodity;
 
     /**
      * 版本名称
@@ -37,4 +41,5 @@ public class CommodityVersion {
      * 版本值
      */
     private String value;
+
 }

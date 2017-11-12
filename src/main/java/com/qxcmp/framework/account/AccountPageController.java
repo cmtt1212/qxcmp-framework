@@ -11,8 +11,6 @@ import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
 import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
 import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.Grid;
-import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -27,9 +25,6 @@ import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.ColumnCount;
-import com.qxcmp.framework.web.view.support.Wide;
-import com.qxcmp.framework.web.view.views.MobileList;
-import com.qxcmp.framework.web.view.views.MobileListItem;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +34,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -62,9 +58,12 @@ public class AccountPageController extends QXCMPController {
     protected final CodeService codeService;
 
     @GetMapping("/login")
-    public ModelAndView loginPage(final LoginForm loginForm, final LoginFormWithCaptcha loginFormWithCaptcha) {
+    public ModelAndView loginPage(@RequestParam(required = false) String callback, final LoginForm loginForm, final LoginFormWithCaptcha loginFormWithCaptcha) {
 
         return buildPage(segment -> {
+
+            loginForm.setCallback(callback);
+            loginFormWithCaptcha.setCallback(callback);
 
             boolean showCaptcha = false;
 
@@ -267,25 +266,5 @@ public class AccountPageController extends QXCMPController {
 
             return user.getId();
         }).orElse("未知用户");
-    }
-
-    @GetMapping("/login/test")
-    public ModelAndView loginTest(final LoginTestForm form) {
-        return page().addComponent(new Grid().setVerticallyPadded().setTextContainer()
-                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(convertToForm(form)))))
-                .build();
-    }
-
-    @PostMapping("/login/test")
-    public ModelAndView loginTest(@Valid final LoginTestForm form, BindingResult bindingResult) {
-        MobileList mobileList = new MobileList();
-
-        getUploadFiles(form.getFile()).forEach(file -> {
-            mobileList.addItem(new MobileListItem(file.getName(), file.getParentFile().getName()));
-        });
-
-        return page().addComponent(new Grid().setVerticallyPadded().setTextContainer()
-                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(mobileList))))
-                .build();
     }
 }

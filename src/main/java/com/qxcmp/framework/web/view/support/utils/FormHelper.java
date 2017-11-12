@@ -45,7 +45,6 @@ public class FormHelper {
      *
      * @param bindingResult 错误对象
      * @param object        表单对象
-     *
      * @return 错误消息组件
      */
     public ErrorMessage convertToErrorMessage(BindingResult bindingResult, Object object) {
@@ -105,7 +104,6 @@ public class FormHelper {
      * 将一个对象转换为表单
      *
      * @param object 对象
-     *
      * @return 转换后的表单
      */
     public AbstractForm convert(Object object) {

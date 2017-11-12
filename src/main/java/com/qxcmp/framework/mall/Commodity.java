@@ -45,6 +45,7 @@ public class Commodity {
      */
     @Id
     @GeneratedValue
+    @TableField("商品编号")
     private Long id;
 
     /**
@@ -146,7 +147,7 @@ public class Commodity {
     /**
      * 商品版本
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "commodity", fetch = FetchType.EAGER)
     private List<CommodityVersion> versions = Lists.newArrayList();
 
     @RowActionCheck("下架")

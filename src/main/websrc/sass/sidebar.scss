@@ -7,6 +7,7 @@ $sidebar-bottom-menu-mobile-height: 70.6px;
 
 .ui.sidebar + .pusher {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .ui.sidebar.mobile {
@@ -104,4 +105,12 @@ $sidebar-bottom-menu-mobile-height: 70.6px;
       height: 32px;
     }
   }
+}
+
+.qxcmp-mobile-logout-button {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 1em;
+  text-align: center;
 }

@@ -12,7 +12,6 @@ public class QXCMPIpAddressResolver {
      * 获取请求的IP地址
      *
      * @param request 请求
-     *
      * @return 请求的真实IP地址
      */
     public String resolve(HttpServletRequest request) {

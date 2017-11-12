@@ -14,6 +14,7 @@ import com.qxcmp.framework.web.view.elements.menu.item.LabeledIconItem;
 import com.qxcmp.framework.web.view.elements.menu.item.TextItem;
 import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
+import com.qxcmp.framework.web.view.modules.sidebar.MobileSidebarLogoutButton;
 import com.qxcmp.framework.web.view.support.Fixed;
 import com.qxcmp.framework.web.view.support.ItemCount;
 import com.qxcmp.framework.web.view.views.ProfileHeader;
@@ -201,6 +202,8 @@ public class MobilePage extends BaseFrontendPage {
         } catch (Exception ignored) {
 
         }
+
+        sidebar.addSideContent(new MobileSidebarLogoutButton());
     }
 
     @Autowired

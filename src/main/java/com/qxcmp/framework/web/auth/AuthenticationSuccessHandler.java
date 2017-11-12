@@ -2,8 +2,11 @@ package com.qxcmp.framework.web.auth;
 
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.user.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +29,21 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
  * @author aaric
  */
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private SystemConfigService systemConfigService;
+    private final SystemConfigService systemConfigService;
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+
+        if (StringUtils.isNotBlank(request.getParameter("callback"))) {
+            redirectStrategy.sendRedirect(request, response, request.getParameter("callback"));
+        }
 
         request.getSession().setMaxInactiveInterval(systemConfigService.getInteger(SYSTEM_CONFIG_SESSION_TIMEOUT).orElse(SYSTEM_CONFIG_SESSION_TIMEOUT_DEFAULT_VALUE));
 

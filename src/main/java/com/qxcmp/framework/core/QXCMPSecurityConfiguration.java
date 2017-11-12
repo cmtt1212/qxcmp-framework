@@ -76,6 +76,8 @@ public class QXCMPSecurityConfiguration {
     public static final String PRIVILEGE_MESSAGE_SMS_CONFIG_DESCRIPTION = "可以修改短信服务配置";
     public static final String PRIVILEGE_MESSAGE_SMS_SEND = "短信发送权限";
     public static final String PRIVILEGE_MESSAGE_SMS_SEND_DESCRIPTION = "可以进行短信发送";
+    public static final String PRIVILEGE_MESSAGE_SITE_NOTIFICATION = "网站通知管理权限";
+    public static final String PRIVILEGE_MESSAGE_SITE_NOTIFICATION_DESCRIPTION = "可以管理和发送网站通知";
 
     /*
      * 新闻模块权限

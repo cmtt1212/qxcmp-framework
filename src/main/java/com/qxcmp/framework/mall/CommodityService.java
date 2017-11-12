@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -39,6 +40,10 @@ public class CommodityService extends AbstractEntityService<Commodity, Long, Com
 
     public Page<Commodity> findByCatalogs(Set<String> catalogs, Pageable pageable) {
         return repository.findByCatalogs(catalogs, pageable);
+    }
+
+    public List<Commodity> findByParentId(Long parentId) {
+        return repository.findByParentId(parentId);
     }
 
     @Override

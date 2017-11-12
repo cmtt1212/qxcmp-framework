@@ -55,5 +55,13 @@
         });
     </script>
 </th:block>
+
+<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.MobileSidebarLogoutButton"*/-->
+<div th:fragment="logout-button(sidebar)" class="qxcmp-mobile-logout-button">
+    <form class="ui grey mini basic button" th:action="@{/logout}" method="post" onclick="$(this).submit()">
+        <i class="sign out icon"></i>
+        退出登录
+    </form>
+</div>
 </body>
 </html>

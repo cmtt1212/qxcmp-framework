@@ -1,12 +1,10 @@
 package com.qxcmp.framework.mall.web;
 
 import com.google.common.collect.Maps;
-import com.qxcmp.framework.mall.Commodity;
-import com.qxcmp.framework.mall.CommodityOrder;
-import com.qxcmp.framework.mall.Consignee;
-import com.qxcmp.framework.mall.ShoppingCartItem;
+import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.components.mall.*;
+import com.qxcmp.framework.web.view.components.mall.ShoppingCart;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.Container;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
@@ -22,16 +20,19 @@ import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Color;
 import com.qxcmp.framework.web.view.support.Size;
+import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.MobileList;
 import com.qxcmp.framework.web.view.views.MobileListItem;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +43,8 @@ import java.util.stream.Collectors;
 @org.springframework.stereotype.Component
 @RequiredArgsConstructor
 public class MallPageHelper {
+
+    private final CommodityService commodityService;
 
     private final TableHelper tableHelper;
 
@@ -57,14 +60,22 @@ public class MallPageHelper {
 
         commodity.getDetails().forEach(s -> details.addImage(new Image(s).setFluid()));
 
+        MobileList mobileList = new MobileList();
+
+        if (commodityService.findByParentId(commodity.getParentId()).size() > 1) {
+            mobileList.addItem(new MobileListItem(StringUtils.join(commodity.getVersions().stream().map((Function<CommodityVersion, Object>) CommodityVersion::getValue).toArray(), ", "), "已选", "/mall/item/version-select?id=" + commodity.getId()));
+        }
+
         return new Grid()
-                .addItem(new Row().addCol(new Col().addComponent(new Image(commodity.getCover()).setFluid().setBordered())))
-                .addItem(new Row().addCol(new Col().addComponent(new Container()
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Image(commodity.getCover()).setFluid().setBordered())))
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Container()
                         .addComponent(new PageHeader(HeaderType.H4, commodity.getTitle()))
                         .addComponent(new ContentHeader(commodity.getSubTitle(), Size.TINY).setColor(Color.RED))
                         .addComponent(new CommodityPrice(commodity))
-                ))).addItem(new Row().addCol(new Col().addComponent(new Segment().addComponent(new HorizontalDivider("商品信息")).addComponent(details))))
-                .addItem(new Row().addCol(new Col().addComponent(new CommodityActionBar(commodity))));
+                )))
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(mobileList)))
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Segment().addComponent(new HorizontalDivider("商品信息")).addComponent(details))))
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new CommodityActionBar(commodity))));
     }
 
     public Component nextMobileShoppingCartComponent(List<ShoppingCartItem> items) {
@@ -73,7 +84,7 @@ public class MallPageHelper {
 
         if (items.isEmpty()) {
             return new Grid().setVerticallyPadded().setContainer()
-                    .addItem(new Row().addCol(new Col().addComponent(new Overview(new IconHeader("购物车空空的", new Icon("opencart"))).addLink("去逛逛", "/mall").setAlignment(Alignment.CENTER))));
+                    .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Overview(new IconHeader("购物车空空的", new Icon("opencart"))).addLink("去逛逛", "/mall").setAlignment(Alignment.CENTER))));
         }
 
         return new Grid().setVerticallyPadded().addItem(new Row().addCol(new Col().addComponent(new ShoppingCart(items, getTotalItemPrice(selectedItems), getTotalItemCount(selectedItems)))));
@@ -83,14 +94,14 @@ public class MallPageHelper {
 
         if (items.isEmpty()) {
             return new Grid().setVerticallyPadded().setContainer()
-                    .addItem(new Row().addCol(new Col().addComponent(new Overview(new IconHeader("购物车空空的", new Icon("opencart"))).addLink("去逛逛", "/mall").setAlignment(Alignment.CENTER))));
+                    .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Overview(new IconHeader("购物车空空的", new Icon("opencart"))).addLink("去逛逛", "/mall").setAlignment(Alignment.CENTER))));
         }
 
         List<ShoppingCartItem> selectedItems = items.stream().filter(ShoppingCartItem::isSelected).collect(Collectors.toList());
 
         if (selectedItems.isEmpty()) {
             return new Grid().setVerticallyPadded().setContainer()
-                    .addItem(new Row().addCol(new Col().addComponent(new Overview(new IconHeader("你还没有选择商品哦", new Icon("opencart"))).addLink("返回选择", "/mall/cart").setAlignment(Alignment.CENTER))));
+                    .addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(new Overview(new IconHeader("你还没有选择商品哦", new Icon("opencart"))).addLink("返回选择", "/mall/cart").setAlignment(Alignment.CENTER))));
         }
 
         AbstractHeader contentHeader;
@@ -106,7 +117,7 @@ public class MallPageHelper {
         selectedItems.forEach(shoppingCartItem -> images.addImage(new Image(shoppingCartItem.getCommodity().getCover())));
 
         return new Grid().setVerticallyPadded()
-                .addItem(new Row().addCol(new Col()
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN)
                         .addComponent(new HorizontalDivider("结算订单"))
                         .addComponent(new MobileList().addItem(new MobileListItem(contentHeader, "/mall/consignee")))
                         .addComponent(new MobileList().addItem(new MobileListItem(images, "/mall/cart/order/details", String.format("共%d件", getTotalItemCount(selectedItems)))))))
@@ -120,7 +131,7 @@ public class MallPageHelper {
         ;
 
         return new Grid().setVerticallyPadded()
-                .addItem(new Row().addCol(new Col()
+                .addItem(new Row().addCol(new Col(Wide.SIXTEEN)
                         .addComponent(new HorizontalDivider("收货地址"))
                         .addComponent(mobileList)
                         .addComponent(new Container().addComponent(new Button("新建收货地址", "/mall/consignee/new").setFluid()))
