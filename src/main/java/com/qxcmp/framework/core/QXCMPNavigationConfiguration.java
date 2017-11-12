@@ -160,6 +160,11 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_LINK_ALL = NAVIGATION_ADMIN_LINK + "-ALL";
     public static final String NAVIGATION_ADMIN_LINK_SETTINGS = NAVIGATION_ADMIN_LINK + "-SETTINGS";
 
+    public static final String NAVIGATION_ADMIN_STATISTIC = "ADMIN-STATISTIC";
+    public static final String NAVIGATION_ADMIN_STATISTIC_PAGES = NAVIGATION_ADMIN_STATISTIC + "-PAGES";
+    public static final String NAVIGATION_ADMIN_STATISTIC_KEYWORDS = NAVIGATION_ADMIN_STATISTIC + "-KEYWORDS";
+    public static final String NAVIGATION_ADMIN_STATISTIC_SETTINGS = NAVIGATION_ADMIN_STATISTIC + "-SETTINGS";
+
     @Override
     public void configureNavigation(NavigationService navigationService) {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_SIDEBAR, "侧边导航栏")
@@ -264,10 +269,17 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
                 .addItem(new Navigation(NAVIGATION_ADMIN_LINK_ALL, "链接管理", QXCMP_BACKEND_URL + "/link").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_LINK_SETTINGS, "链接设置", QXCMP_BACKEND_URL + "/link/settings").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_USER)))
         );
+
+        navigationService.add(new Navigation(NAVIGATION_ADMIN_STATISTIC, "网站统计导航栏")
+                .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_PAGES, "页面统计", QXCMP_BACKEND_URL + "/statistic/pages").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_KEYWORDS, "关键字统计", QXCMP_BACKEND_URL + "/statistic/keywords").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_SETTINGS, "网站统计设置", QXCMP_BACKEND_URL + "/statistic/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC_SETTINGS)))
+        );
     }
 
     @Override
     public int order() {
         return Integer.MIN_VALUE;
     }
+
 }

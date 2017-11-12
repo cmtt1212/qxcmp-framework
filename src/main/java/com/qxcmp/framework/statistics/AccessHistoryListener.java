@@ -51,6 +51,6 @@ public class AccessHistoryListener {
     }
 
     private boolean isAccessRequest(String requestURI) {
-        return !StringUtils.startsWith(requestURI, "/api") && !StringUtils.startsWith(requestURI, "/admin");
+        return !StringUtils.startsWith(requestURI, "/api") && !StringUtils.startsWith(requestURI, "/assets");
     }
 }
