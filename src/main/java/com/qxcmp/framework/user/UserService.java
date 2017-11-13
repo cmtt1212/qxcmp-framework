@@ -202,10 +202,11 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
 
         loginTokens.remove(token);
 
-        findOne(userLoginToken.getUserId()).ifPresent(user -> {
+        return findOne(userLoginToken.getUserId()).map(user -> {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
             update(user.getId(), u -> u.setDateLogin(new Date()));
-        });
+            return true;
+        }).orElse(false);
     }
 
     @Override
