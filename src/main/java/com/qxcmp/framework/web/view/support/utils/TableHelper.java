@@ -11,7 +11,6 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.button.Buttons;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.elements.html.Bold;
 import com.qxcmp.framework.web.view.elements.image.Avatar;
 import com.qxcmp.framework.web.view.elements.input.Input;
 import com.qxcmp.framework.web.view.elements.label.BasicLabel;
@@ -96,10 +95,6 @@ public class TableHelper {
                 tableRow.addCell(new TableData(value.toString()));
             }
         }
-    }
-
-    public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, Class<T> tClass, Page<T> tPage) {
-        return convert(tableName, "", tClass, tPage);
     }
 
     public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, String action, Class<T> tClass, Page<T> tPage) {
@@ -315,13 +310,15 @@ public class TableHelper {
         Selection selection = new Selection();
         SelectionMenu menu = new SelectionMenu();
         selection.setMenu(menu);
+        selection.setName("field");
 
-        entityTableFields.forEach(entityTableField -> menu.addItem(new TextItem(entityTableField.getTitle())));
+        entityTableFields.forEach(entityTableField -> {
+            TextItem textItem = new TextItem(entityTableField.getTitle());
+            textItem.setValue(entityTableField.getField().getName());
+            menu.addItem(textItem);
+        });
 
-        tableHead.addComponent(new Bold("过滤： "));
-        tableHead.addComponent(selection);
-        tableHead.addComponent(new Input("输入要查找的内容", "search"));
-        tableHead.addComponent(new Button("搜索").setBasic());
+        tableHead.addComponent(new EntityTableFilter(selection, new Input("输入要查找的内容", "search"), new Button("搜索").setBasic()));
         tableRow.addCell(tableHead);
         tableHeader.addRow(tableRow);
     }

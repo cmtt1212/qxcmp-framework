@@ -51,6 +51,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -133,7 +134,28 @@ public abstract class QXCMPController {
 
     @SuppressWarnings("unchecked")
     protected EntityTable convertToTable(String tableName, String action, Pageable pageable, EntityService entityService) {
-        return tableHelper.convert(tableName, action, entityService.type(), entityService.findAll(pageable));
+
+        Page page;
+
+        if (StringUtils.isNotBlank(request.getParameter("field")) && StringUtils.isNotBlank(request.getParameter("search"))) {
+            String searchField = request.getParameter("field");
+            String searchContent = request.getParameter("search");
+
+            List<Field> fields = Lists.newArrayList();
+
+            for (Field field : entityService.type().getDeclaredFields()) {
+                if (StringUtils.equals(field.getName(), searchField)) {
+                    fields.add(field);
+                    break;
+                }
+            }
+
+            page = entityService.search(searchContent, fields, pageable);
+        } else {
+            page = entityService.findAll(pageable);
+        }
+
+        return convertToTable(tableName, action, entityService.type(), page);
     }
 
     protected <T> EntityTable convertToTable(Class<T> tClass, Page<T> tPage) {
@@ -141,7 +163,11 @@ public abstract class QXCMPController {
     }
 
     protected <T> EntityTable convertToTable(String tableName, Class<T> tClass, Page<T> tPage) {
-        return tableHelper.convert(tableName, tClass, tPage);
+        return convertToTable(tableName, "", tClass, tPage);
+    }
+
+    protected <T> EntityTable convertToTable(String tableName, String action, Class<T> tClass, Page<T> tPage) {
+        return tableHelper.convert(tableName, action, tClass, tPage);
     }
 
     protected Table convertToTable(Map<String, Object> dictionary) {

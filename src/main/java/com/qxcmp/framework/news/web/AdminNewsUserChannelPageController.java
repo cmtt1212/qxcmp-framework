@@ -62,7 +62,7 @@ public class AdminNewsUserChannelPageController extends QXCMPController {
 
         Page<Channel> channels = channelService.findByUser(user, pageable);
 
-        return page().addComponent(tableHelper.convert("user", Channel.class, channels))
+        return page().addComponent(convertToTable("user", Channel.class, channels))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的栏目")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_USER_CHANNEL)
                 .build();

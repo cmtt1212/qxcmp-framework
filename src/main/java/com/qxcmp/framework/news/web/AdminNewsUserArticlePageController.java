@@ -61,7 +61,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByUserId(user.getId(), new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("user", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("user", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, ""), user)
                 .build();
@@ -74,7 +74,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.NEW, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("userDraft", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("userDraft", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "草稿箱")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT), user)
                 .build();
@@ -87,7 +87,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.AUDITING, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateAuditing"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("userAuditing", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("userAuditing", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "审核中文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING), user)
                 .build();
@@ -100,7 +100,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.REJECT, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateRejected"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("userRejected", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("userRejected", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "未通过文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_REJECTED), user)
                 .build();
@@ -113,7 +113,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.PUBLISHED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "datePublished"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("userPublished", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("userPublished", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "已发布文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_PUBLISHED), user)
                 .build();
@@ -126,7 +126,7 @@ public class AdminNewsUserArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByUserIdAndStatus(user.getId(), ArticleStatus.DISABLED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateDisabled"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("userDisabled", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("userDisabled", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "我的文章", "news/user/article", "已禁用文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DISABLED), user)
                 .build();

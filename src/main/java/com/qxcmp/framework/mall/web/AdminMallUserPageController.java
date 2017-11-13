@@ -137,7 +137,7 @@ public class AdminMallUserPageController extends QXCMPController {
 
         Page<Commodity> commodities = commodityService.findByStore(selectedStore, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateModified"));
 
-        return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(tableHelper.convert("userStoreCommodity", Commodity.class, commodities)))
+        return page().addComponent(new Segment().addComponent(getUserStorePageHeader(selectedStore)).addComponent(convertToTable("userStoreCommodity", Commodity.class, commodities)))
                 .setBreadcrumb("控制台", "", "商城管理", "mall", "我的店铺", "mall/user/store", "商品管理")
                 .setVerticalNavigation(NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT, NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY)
                 .build();

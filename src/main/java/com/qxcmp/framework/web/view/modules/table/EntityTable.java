@@ -22,8 +22,6 @@ public class EntityTable extends AbstractTable {
 
     private boolean multiple;
 
-    private List<AbstractEntityTableFilter> filters = Lists.newArrayList();
-
     private List<EntityTableAction> tableActions = Lists.newArrayList();
 
     private List<EntityTableBatchAction> batchActions = Lists.newArrayList();

@@ -21,7 +21,6 @@ import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.image.Image;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Wide;
-import com.qxcmp.framework.web.view.support.utils.TableHelper;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -49,8 +48,6 @@ public class AdminNewsArticlePageController extends QXCMPController {
 
     private final ArticleService articleService;
 
-    private final TableHelper tableHelper;
-
     private final AdminNewsPageHelper adminNewsPageHelper;
 
     @GetMapping("")
@@ -76,7 +73,7 @@ public class AdminNewsArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByStatus(ArticleStatus.AUDITING, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateAuditing"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("auditing", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("auditing", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "待审核文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING))
                 .build();
@@ -87,7 +84,7 @@ public class AdminNewsArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByStatus(ArticleStatus.PUBLISHED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "datePublished"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("published", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("published", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "已发布文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_PUBLISHED))
                 .build();
@@ -98,7 +95,7 @@ public class AdminNewsArticlePageController extends QXCMPController {
 
         Page<Article> articles = articleService.findByStatus(ArticleStatus.DISABLED, new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "dateDisabled"));
 
-        return calculateBadge(page().addComponent(tableHelper.convert("disabled", Article.class, articles))
+        return calculateBadge(page().addComponent(convertToTable("disabled", Article.class, articles))
                 .setBreadcrumb("控制台", "", "新闻管理", "news", "文章管理", "news/article", "已禁用文章")
                 .setVerticalNavigation(NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT, NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_DISABLED))
                 .build();
