@@ -1,13 +1,17 @@
 package com.qxcmp.framework.user;
 
+import com.google.common.collect.Maps;
+import com.google.common.hash.Hashing;
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.core.support.ImageGenerator;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.security.Role;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,9 +20,8 @@ import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.nio.charset.Charset;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -32,6 +35,13 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
     private final ImageService imageService;
 
     private final ImageGenerator imageGenerator;
+
+    /**
+     * 储存用户登录Token，每个Token使用以后可以直接免密码登录，使用以后清楚掉该Token
+     * <p>
+     * Token的有效期为五分钟
+     */
+    private Map<String, UserLoginToken> loginTokens = Maps.newConcurrentMap();
 
     public UserService(UserRepository repository, ImageService imageService, ImageGenerator imageGenerator) {
         super(repository);
@@ -165,6 +175,37 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 为用户生成一个登录Token
+     *
+     * @param userId 用户ID
+     * @return 生成以后的Token
+     */
+    public String generateLoginToken(String userId) {
+        String token = Hashing.sha256().hashString(userId + String.valueOf(System.currentTimeMillis()), Charset.defaultCharset()).toString();
+        loginTokens.put(token, new UserLoginToken(userId, DateTime.now().plusMinutes(5).toDate()));
+        return token;
+    }
+
+    public boolean tokenLogin(String token) {
+        if (!loginTokens.containsKey(token)) {
+            return false;
+        }
+
+        UserLoginToken userLoginToken = loginTokens.get(token);
+
+        if (System.currentTimeMillis() > userLoginToken.getDateExpired().getTime()) {
+            return false;
+        }
+
+        loginTokens.remove(token);
+
+        findOne(userLoginToken.getUserId()).ifPresent(user -> {
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
+            update(user.getId(), u -> u.setDateLogin(new Date()));
+        });
     }
 
     @Override
