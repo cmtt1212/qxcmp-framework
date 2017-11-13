@@ -4,6 +4,7 @@ import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
 import com.qxcmp.framework.core.support.ImageGenerator;
 import com.qxcmp.framework.domain.ImageService;
+import com.qxcmp.framework.security.Role;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -95,7 +96,7 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      * @param role 拥有的角色
      * @return 指定角色的用户
      */
-    public List<User> findByRole(String role) {
+    public List<User> findByRole(Role role) {
         return repository.findByRole(role);
     }
 

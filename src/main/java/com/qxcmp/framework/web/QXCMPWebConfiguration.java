@@ -175,6 +175,8 @@ public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/settings/**").hasRole(PRIVILEGE_MALL_SETTINGS)
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/user/**").hasRole(PRIVILEGE_MALL)
                 .antMatchers(QXCMP_BACKEND_URL + "/mall/**").hasRole(PRIVILEGE_MALL)
+                .antMatchers(QXCMP_BACKEND_URL + "/statistic/settings/**").hasRole(PRIVILEGE_STATISTIC_SETTINGS)
+                .antMatchers(QXCMP_BACKEND_URL + "/statistic/**").hasRole(PRIVILEGE_STATISTIC)
                 .antMatchers(QXCMP_BACKEND_URL + "/**").hasRole(PRIVILEGE_SYSTEM_ADMIN)
                 .anyRequest().authenticated()
                 .and()
