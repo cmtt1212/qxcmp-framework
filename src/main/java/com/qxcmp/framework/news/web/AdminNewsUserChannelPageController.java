@@ -221,7 +221,7 @@ public class AdminNewsUserChannelPageController extends QXCMPController {
 
                     Page<Article> articles = articleService.findByChannelsAndStatuses(ImmutableSet.of(channel), ImmutableSet.of(ArticleStatus.PUBLISHED, ArticleStatus.DISABLED), pageable);
 
-                    return page().addComponent(tableHelper.convert("userChannel", String.format(QXCMP_BACKEND_URL + "/news/user/channel/%d/article", channel.getId()), Article.class, articles))
+                    return page().addComponent(convertToTable("userChannel", String.format(QXCMP_BACKEND_URL + "/news/user/channel/%d/article", channel.getId()), Article.class, articles))
                             .setBreadcrumb("控制台", "", "新闻管理", "news", "我的栏目", "news/user/channel", channel.getName())
                             .setVerticalNavigation(NAVIGATION_ADMIN_NEWS, NAVIGATION_ADMIN_NEWS_USER_CHANNEL)
                             .build();

@@ -34,6 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -97,7 +98,7 @@ public class TableHelper {
         }
     }
 
-    public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, String action, Class<T> tClass, Page<T> tPage) {
+    public <T> com.qxcmp.framework.web.view.modules.table.EntityTable convert(String tableName, String action, Class<T> tClass, Page<T> tPage, HttpServletRequest request) {
         checkNotNull(tableName);
 
         final com.qxcmp.framework.web.view.modules.table.EntityTable table = new com.qxcmp.framework.web.view.modules.table.EntityTable();
@@ -108,7 +109,7 @@ public class TableHelper {
 
         configEntityTable(table, entityTable, tClass);
 
-        renderTableContent(table, entityTable, tClass, tPage);
+        renderTableContent(table, entityTable, tClass, tPage, request);
 
         return table;
     }
@@ -203,14 +204,14 @@ public class TableHelper {
         table.setMultiple(!table.getBatchActions().isEmpty());
     }
 
-    private <T> void renderTableContent(com.qxcmp.framework.web.view.modules.table.EntityTable table, EntityTable entityTable, Class<T> tClass, Page<T> tPage) {
+    private <T> void renderTableContent(com.qxcmp.framework.web.view.modules.table.EntityTable table, EntityTable entityTable, Class<T> tClass, Page<T> tPage, HttpServletRequest request) {
         final List<EntityTableField> entityTableFields = getEntityTableFields(table, entityTable, tClass);
 
-        renderTableHeader(table, entityTableFields);
+        renderTableHeader(table, entityTableFields, request);
 
         renderTableBody(table, entityTableFields, tClass, tPage);
 
-        renderTableFooter(table, entityTableFields, tPage);
+        renderTableFooter(table, entityTableFields, tPage, request);
     }
 
     private <T> List<EntityTableField> getEntityTableFields(com.qxcmp.framework.web.view.modules.table.EntityTable table, EntityTable entityTable, Class<T> tClass) {
@@ -269,7 +270,7 @@ public class TableHelper {
         return entityTableFields;
     }
 
-    private void renderTableHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields) {
+    private void renderTableHeader(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, HttpServletRequest request) {
         final TableHeader tableHeader = new TableHeader();
         final TableRow tableActionRow = new TableRow();
         final TableHead tableActionHead = new TableHead();
@@ -280,7 +281,7 @@ public class TableHelper {
         tableActionHead.setColSpan(colSpan);
 
         if (!table.isDisableFilter()) {
-            renderTableFilter(table, tableHeader, entityTableFields);
+            renderTableFilter(table, tableHeader, entityTableFields, request);
         }
 
         if (!table.getTableActions().isEmpty()) {
@@ -300,7 +301,7 @@ public class TableHelper {
         table.setHeader(tableHeader);
     }
 
-    private void renderTableFilter(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableHeader tableHeader, List<EntityTableField> entityTableFields) {
+    private void renderTableFilter(com.qxcmp.framework.web.view.modules.table.EntityTable table, TableHeader tableHeader, List<EntityTableField> entityTableFields, HttpServletRequest request) {
         final TableRow tableRow = new TableRow();
         final TableHead tableHead = new TableHead();
 
@@ -315,10 +316,15 @@ public class TableHelper {
         entityTableFields.forEach(entityTableField -> {
             TextItem textItem = new TextItem(entityTableField.getTitle());
             textItem.setValue(entityTableField.getField().getName());
+
+            if (StringUtils.equals(entityTableField.getField().getName(), request.getParameter("field"))) {
+                selection.setText(entityTableField.getTitle());
+            }
+
             menu.addItem(textItem);
         });
 
-        tableHead.addComponent(new EntityTableFilter(selection, new Input("输入要查找的内容", "search"), new Button("搜索").setBasic()));
+        tableHead.addComponent(new EntityTableFilter(selection, new Input(StringUtils.isNotBlank(request.getParameter("search")) ? request.getParameter("search") : "输入要查找的内容", "search"), new Button(StringUtils.isNotBlank(request.getParameter("search")) ? "清空" : "搜索").setBasic()));
         tableRow.addCell(tableHead);
         tableHeader.addRow(tableRow);
     }
@@ -519,16 +525,22 @@ public class TableHelper {
         tableData.addComponent(buttons);
     }
 
-    private <T> void renderTableFooter(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Page<T> tPage) {
+    private <T> void renderTableFooter(com.qxcmp.framework.web.view.modules.table.EntityTable table, List<EntityTableField> entityTableFields, Page<T> tPage, HttpServletRequest request) {
         final TableFooter tableFooter = new TableFooter();
         final TableRow tableRow = new TableRow();
         final TableHead tableHead = new TableHead();
 
         int colSpan = getColSpan(table, entityTableFields);
 
+        String queryString = "";
+
+        if (StringUtils.isNotBlank(request.getParameter("field")) && StringUtils.isNotBlank(request.getParameter("search"))) {
+            queryString += String.format("&field=%s&search=%s", request.getParameter("field"), request.getParameter("search"));
+        }
+
         tableHead.setColSpan(colSpan);
         tableHead.setAlignment(Alignment.CENTER);
-        tableHead.addComponent(new Pagination("", tPage.getNumber() + 1, (int) tPage.getTotalElements(), tPage.getSize()).setShowSizeChanger().setShowQuickJumper().setShowTotal());
+        tableHead.addComponent(new Pagination("", queryString, tPage.getNumber() + 1, (int) tPage.getTotalElements(), tPage.getSize()).setShowSizeChanger().setShowQuickJumper().setShowTotal());
 
         tableRow.addCell(tableHead);
         tableFooter.addRow(tableRow);

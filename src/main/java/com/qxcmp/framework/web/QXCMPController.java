@@ -167,7 +167,7 @@ public abstract class QXCMPController {
     }
 
     protected <T> EntityTable convertToTable(String tableName, String action, Class<T> tClass, Page<T> tPage) {
-        return tableHelper.convert(tableName, action, tClass, tPage);
+        return tableHelper.convert(tableName, action, tClass, tPage, request);
     }
 
     protected Table convertToTable(Map<String, Object> dictionary) {
