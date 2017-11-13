@@ -189,18 +189,21 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
         return token;
     }
 
-    public boolean tokenLogin(String token) {
+    public boolean tokenLogin(String userId, String token) {
         if (!loginTokens.containsKey(token)) {
             return false;
         }
 
         UserLoginToken userLoginToken = loginTokens.get(token);
+        loginTokens.remove(token);
 
         if (System.currentTimeMillis() > userLoginToken.getDateExpired().getTime()) {
             return false;
         }
 
-        loginTokens.remove(token);
+        if (!StringUtils.equals(userId, userLoginToken.getUserId())) {
+            return false;
+        }
 
         return findOne(userLoginToken.getUserId()).map(user -> {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
