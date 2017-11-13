@@ -5,9 +5,11 @@ import com.qxcmp.framework.web.QXCMPController;
 import lombok.RequiredArgsConstructor;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -32,8 +34,8 @@ public class AdminStatisticPageController extends QXCMPController {
     }
 
     @GetMapping("/pages")
-    public ModelAndView statisticPagesPage() {
-        List<AccessHistoryPageResult> results = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusDays(1).toDate(), new PageRequest(0, 20)).getContent();
+    public ModelAndView statisticPagesPage(@RequestParam(defaultValue = "1") int date, Pageable pageable) {
+        List<AccessHistoryPageResult> results = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusDays(date).toDate(), new PageRequest(0, pageable.getPageSize())).getContent();
 
         return page()
                 .addComponent(convertToTable(stringObjectMap -> results.forEach(accessHistoryPageResult -> stringObjectMap.put(accessHistoryPageResult.getUrl(), accessHistoryPageResult.getNbr()))))
