@@ -27,7 +27,7 @@ public class StationMessageService extends AbstractEntityService<StationMessage,
     }
 
     public Page<StationMessage> findByUserID(String userID, Pageable pageable) {
-        return repository.findByUserID(userID,pageable).orElse(null);
+        return repository.findByUserID(userID, pageable).orElse(null);
     }
 
     @Override

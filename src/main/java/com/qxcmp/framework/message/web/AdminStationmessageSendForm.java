@@ -12,7 +12,7 @@ import java.util.Set;
 
 import static com.qxcmp.framework.web.view.support.utils.FormHelper.SELF_ACTION;
 
-@Form(value = "发送站内信",action = SELF_ACTION)
+@Form(value = "发送站内信", action = SELF_ACTION)
 @Data
 public class AdminStationmessageSendForm {
 

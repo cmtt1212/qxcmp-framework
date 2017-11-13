@@ -3,9 +3,9 @@ package com.qxcmp.framework.statistics;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
 @AllArgsConstructor
+@Data
 public class AccessHistoryPageResult {
     private String url;
-    private Long nbr;
+    private String nbr;
 }

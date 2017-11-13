@@ -1,7 +1,6 @@
 package com.qxcmp.framework.message;
 
 
-import com.qxcmp.framework.web.view.annotation.form.TextAreaField;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
