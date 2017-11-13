@@ -116,4 +116,14 @@ public class QXCMPSecurityConfiguration {
     public static final String PRIVILEGE_MALL_STORE_DESCRIPTION = "可以管理商城店铺，店铺所有者和管理员能够管理自己店铺的商品和订单";
     public static final String PRIVILEGE_MALL_SETTINGS = "商城配置管理权限";
     public static final String PRIVILEGE_MALL_SETTINGS_DESCRIPTION = "可以管理商城配置";
+
+    /**
+     * 网站统计管理权限
+     */
+    public static final String PRIVILEGE_STATISTIC = "网站统计管理权限";
+    public static final String PRIVILEGE_STATISTIC_DESCRIPTION = "网站统计管理权限入口页面";
+    public static final String PRIVILEGE_STATISTIC_SETTINGS = "网站统计配置管理权限";
+    public static final String PRIVILEGE_STATISTIC_SETTINGS_DESCRIPTION = "可以修改网站统计配置";
+
+
 }
