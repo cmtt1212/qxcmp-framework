@@ -1,6 +1,5 @@
 package com.qxcmp.framework.statistics;
 
-import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import lombok.Data;
 
 import javax.persistence.Entity;

@@ -9,10 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.Map;
 
 @Repository
 interface AccessHistoryRepository extends JpaRepository<AccessHistory, Long>, JpaSpecificationExecutor<AccessHistory> {
 
-    @Query("select new com.qxcmp.framework.statistics.AccessHistoryPageResult(a.url, count(a)) from AccessHistory a where a.dateCreated > :date group by a.url")
-    Page<AccessHistoryPageResult> findByDateCreatedAfter(@Param("date") Date date, Pageable pageable);
+    @Query("select a.url as url, count(a) as nbr from AccessHistory a where a.dateCreated > :date group by a.url order by nbr desc ")
+    Page<Map<String, Object>> findByDateCreatedAfter(@Param("date") Date date, Pageable pageable);
 }
