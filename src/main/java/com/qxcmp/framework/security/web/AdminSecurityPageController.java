@@ -211,7 +211,7 @@ public class AdminSecurityPageController extends QXCMPController {
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))
                 .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "认证配置")
-                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_PRIVILEGE)
+                .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_AUTHENTICATION)
                 .build();
     }
 
@@ -221,7 +221,7 @@ public class AdminSecurityPageController extends QXCMPController {
         if (bindingResult.hasErrors()) {
             return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
                     .setBreadcrumb("控制台", "", "系统配置", "settings", "安全配置", "security", "认证配置")
-                    .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_PRIVILEGE)
+                    .setVerticalNavigation(NAVIGATION_ADMIN_SECURITY, NAVIGATION_ADMIN_SECURITY_AUTHENTICATION)
                     .build();
         }
 
