@@ -64,9 +64,14 @@ public class SiteNotification {
     private Date dateEnd;
 
     /**
+     * 通知标题
+     */
+    @TableField("标题")
+    private String title;
+
+    /**
      * 通知内容
      */
-    @TableField("内容")
     private String content;
 
 }

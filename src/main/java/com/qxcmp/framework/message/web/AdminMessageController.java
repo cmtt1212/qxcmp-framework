@@ -1,5 +1,6 @@
 package com.qxcmp.framework.message.web;
 
+import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.*;
 import com.qxcmp.framework.user.User;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
@@ -37,6 +39,8 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @RequestMapping(QXCMP_BACKEND_URL + "/message")
 @RequiredArgsConstructor
 public class AdminMessageController extends QXCMPController {
+
+    private static final List<String> SITE_NOTIFICATION_TYPE = ImmutableList.of("一般消息", "网站通知", "网站警告", "网站错误");
 
     private final EmailService emailService;
 
@@ -344,12 +348,14 @@ public class AdminMessageController extends QXCMPController {
     @GetMapping("/site/notification/new")
     public ModelAndView siteNotificationNewPage(final AdminMessageSiteNotificationNewForm form) {
 
+        form.setType(SITE_NOTIFICATION_TYPE.get(0));
         form.setDateStart(new Date());
         form.setDateEnd(DateTime.now().plusDays(1).toDate());
 
         return page().addComponent(convertToForm(form))
                 .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "新建网站通知")
                 .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                .addObject("selection_items_type", SITE_NOTIFICATION_TYPE)
                 .build();
     }
 
@@ -360,6 +366,7 @@ public class AdminMessageController extends QXCMPController {
             return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
                     .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "新建网站通知")
                     .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                    .addObject("selection_items_type", SITE_NOTIFICATION_TYPE)
                     .build();
         }
 
@@ -371,6 +378,7 @@ public class AdminMessageController extends QXCMPController {
                     siteNotification.setType(form.getType());
                     siteNotification.setDateStart(form.getDateStart());
                     siteNotification.setDateEnd(form.getDateEnd());
+                    siteNotification.setTitle(form.getTitle());
                     siteNotification.setContent(form.getContent());
                     return siteNotification;
                 });
@@ -388,11 +396,13 @@ public class AdminMessageController extends QXCMPController {
                     form.setType(siteNotification.getType());
                     form.setDateStart(siteNotification.getDateStart());
                     form.setDateEnd(siteNotification.getDateEnd());
+                    form.setTitle(siteNotification.getTitle());
                     form.setContent(siteNotification.getContent());
 
                     return page().addComponent(convertToForm(form))
                             .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "编辑网站通知")
                             .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                            .addObject("selection_items_type", SITE_NOTIFICATION_TYPE)
                             .build();
                 })
                 .orElse(page(viewHelper.nextWarningOverview("网站通知不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/message/site/notification")).build());
@@ -407,6 +417,7 @@ public class AdminMessageController extends QXCMPController {
                         return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
                                 .setBreadcrumb("控制台", "", "消息服务", "message", "网站通知服务", "message/site/notification", "编辑网站通知")
                                 .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_SITE_NOTIFICATION)
+                                .addObject("selection_items_type", SITE_NOTIFICATION_TYPE)
                                 .build();
                     }
 
@@ -417,6 +428,7 @@ public class AdminMessageController extends QXCMPController {
                                 notification.setType(form.getType());
                                 notification.setDateStart(form.getDateStart());
                                 notification.setDateEnd(form.getDateEnd());
+                                notification.setTitle(form.getTitle());
                                 notification.setContent(form.getContent());
                             });
                         } catch (Exception e) {

@@ -1,6 +1,8 @@
 package com.qxcmp.framework.web.page;
 
 import com.qxcmp.framework.config.SiteService;
+import com.qxcmp.framework.message.SiteNotification;
+import com.qxcmp.framework.message.SiteNotificationService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.model.navigation.NavigationService;
@@ -20,6 +22,7 @@ import com.qxcmp.framework.web.view.elements.menu.RightMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalMenu;
 import com.qxcmp.framework.web.view.elements.menu.VerticalSubMenu;
 import com.qxcmp.framework.web.view.elements.menu.item.*;
+import com.qxcmp.framework.web.view.elements.message.*;
 import com.qxcmp.framework.web.view.modules.accordion.AccordionItem;
 import com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar;
 import com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar;
@@ -36,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -56,6 +60,7 @@ public class BackendPage extends AbstractPage {
     private UserService userService;
     private SiteService siteService;
     private NavigationService navigationService;
+    private SiteNotificationService siteNotificationService;
 
     public BackendPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -240,6 +245,12 @@ public class BackendPage extends AbstractPage {
         final AbstractGrid grid = new VerticallyDividedGrid().setVerticallyPadded();
         final Row contentRow = new Row();
 
+        AbstractMessage message = buildSiteNotification();
+
+        if (Objects.nonNull(message)) {
+            container.addComponent(message);
+        }
+
         if (Objects.nonNull(breadcrumb)) {
             grid.addItem(new Row().addCol(new Col(Wide.SIXTEEN).addComponent(breadcrumb)));
         }
@@ -256,6 +267,36 @@ public class BackendPage extends AbstractPage {
         sidebar.addContent(container);
     }
 
+    private AbstractMessage buildSiteNotification() {
+
+        AbstractMessage message = null;
+
+        Optional<SiteNotification> activeNotifications = siteNotificationService.findActiveNotifications();
+
+        if (activeNotifications.isPresent()) {
+
+            SiteNotification siteNotification = activeNotifications.get();
+
+            switch (siteNotification.getType()) {
+                case "网站通知":
+                    message = new InfoMessage(siteNotification.getTitle(), siteNotification.getContent());
+                    break;
+                case "网站警告":
+                    message = new WarningMessage(siteNotification.getTitle(), siteNotification.getContent());
+                    break;
+                case "网站错误":
+                    message = new ErrorMessage(siteNotification.getTitle(), siteNotification.getContent());
+                    break;
+                default:
+                    message = new Message(siteNotification.getTitle(), siteNotification.getContent());
+            }
+
+            message.setCloseable(true);
+        }
+
+        return message;
+    }
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -269,5 +310,10 @@ public class BackendPage extends AbstractPage {
     @Autowired
     public void setNavigationService(NavigationService navigationService) {
         this.navigationService = navigationService;
+    }
+
+    @Autowired
+    public void setSiteNotificationService(SiteNotificationService siteNotificationService) {
+        this.siteNotificationService = siteNotificationService;
     }
 }

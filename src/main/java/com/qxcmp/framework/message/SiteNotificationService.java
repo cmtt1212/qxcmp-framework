@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * @author Aaric
+ */
 @Service
 public class SiteNotificationService extends AbstractEntityService<SiteNotification, Long, SiteNotificationRepository> {
 
@@ -18,6 +21,15 @@ public class SiteNotificationService extends AbstractEntityService<SiteNotificat
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    /**
+     * 当前启用的网站通知
+     *
+     * @return 当前激活的网站通知中的第一个
+     */
+    public Optional<SiteNotification> findActiveNotifications() {
+        return repository.findActive().stream().findAny();
     }
 
     @Override
