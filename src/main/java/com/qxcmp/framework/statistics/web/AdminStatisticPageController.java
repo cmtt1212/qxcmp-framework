@@ -1,6 +1,8 @@
-package com.qxcmp.framework.statistics;
+package com.qxcmp.framework.statistics.web;
 
 
+import com.qxcmp.framework.statistics.AccessHistoryPageResult;
+import com.qxcmp.framework.statistics.AccessHistoryService;
 import com.qxcmp.framework.web.QXCMPController;
 import lombok.RequiredArgsConstructor;
 import org.joda.time.DateTime;
@@ -18,6 +20,9 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_STATISTIC;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_STATISTIC_PAGES;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/statistic")
 @RequiredArgsConstructor

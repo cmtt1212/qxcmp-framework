@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * @author Aaric
+ */
 @Service
 public class AccessHistoryService extends AbstractEntityService<AccessHistory, Long, AccessHistoryRepository> {
     public AccessHistoryService(AccessHistoryRepository repository) {
@@ -19,7 +22,6 @@ public class AccessHistoryService extends AbstractEntityService<AccessHistory, L
     }
 
     public Page<AccessHistoryPageResult> findByDateCreatedAfter(Date date, Pageable pageable) {
-
-        return repository.findByDateCreatedAfter(date, pageable).map(stringLongMap -> new AccessHistoryPageResult(stringLongMap.get("url").toString(), stringLongMap.get("nbr").toString()));
+        return repository.findByDateCreatedAfter(date, pageable);
     }
 }
