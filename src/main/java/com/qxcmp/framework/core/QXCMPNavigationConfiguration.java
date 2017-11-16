@@ -160,9 +160,14 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     public static final String NAVIGATION_ADMIN_LINK_ALL = NAVIGATION_ADMIN_LINK + "-ALL";
     public static final String NAVIGATION_ADMIN_LINK_SETTINGS = NAVIGATION_ADMIN_LINK + "-SETTINGS";
 
+    /*
+    * 网站统计导航栏
+    * */
+
     public static final String NAVIGATION_ADMIN_STATISTIC = "ADMIN-STATISTIC";
     public static final String NAVIGATION_ADMIN_STATISTIC_PAGES = NAVIGATION_ADMIN_STATISTIC + "-PAGES";
     public static final String NAVIGATION_ADMIN_STATISTIC_KEYWORDS = NAVIGATION_ADMIN_STATISTIC + "-KEYWORDS";
+    public static final String NAVIGATION_ADMIN_STATISTIC_BAIDU_LINK = NAVIGATION_ADMIN_STATISTIC + "-BAIDU-LINK";
     public static final String NAVIGATION_ADMIN_STATISTIC_SETTINGS = NAVIGATION_ADMIN_STATISTIC + "-SETTINGS";
 
     @Override
@@ -273,7 +278,8 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
         navigationService.add(new Navigation(NAVIGATION_ADMIN_STATISTIC, "网站统计导航栏")
                 .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_PAGES, "页面统计", QXCMP_BACKEND_URL + "/statistic/pages").setOrder(10).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC)))
                 .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_KEYWORDS, "关键字统计", QXCMP_BACKEND_URL + "/statistic/keywords").setOrder(20).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC)))
-                .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_SETTINGS, "网站统计设置", QXCMP_BACKEND_URL + "/statistic/settings").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC_SETTINGS)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_BAIDU_LINK, "百度链接提交", QXCMP_BACKEND_URL + "/statistic/baidu/link").setOrder(30).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC)))
+                .addItem(new Navigation(NAVIGATION_ADMIN_STATISTIC_SETTINGS, "网站统计设置", QXCMP_BACKEND_URL + "/statistic/settings").setOrder(40).setPrivilegesAnd(ImmutableSet.of(PRIVILEGE_STATISTIC_SETTINGS)))
         );
     }
 
