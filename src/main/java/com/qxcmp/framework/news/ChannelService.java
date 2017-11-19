@@ -76,6 +76,10 @@ public class ChannelService extends AbstractEntityService<Channel, Long, Channel
         }
     }
 
+    public Optional<Channel> findByName(String name) {
+        return repository.findByName(name);
+    }
+
     @Override
     protected <S extends Channel> Long getEntityId(S entity) {
         return entity.getId();

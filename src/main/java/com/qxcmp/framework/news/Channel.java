@@ -49,6 +49,7 @@ public class Channel {
      * 栏目显示名称
      */
     @TableField("名称")
+    @Column(unique = true)
     private String name;
 
     @TableField(value = "封面", image = true, order = Integer.MIN_VALUE)

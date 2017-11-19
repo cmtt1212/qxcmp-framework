@@ -10,10 +10,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
 interface ChannelRepository extends JpaRepository<Channel, Long>, JpaSpecificationExecutor<Channel> {
+
+    Optional<Channel> findByName(String name);
 
     @Query("select channel from Channel channel left join channel.admins admin where admin = :user or channel.owner = :user")
     Page<Channel> findByUser(@Param("user") User user, Pageable pageable);
