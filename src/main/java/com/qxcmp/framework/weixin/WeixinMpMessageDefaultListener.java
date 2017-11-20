@@ -35,7 +35,7 @@ public class WeixinMpMessageDefaultListener {
         try {
             WxMpUser wxMpUser = event.getWxMpService().getUserService().userInfo(event.getWxMpXmlMessage().getFromUser());
 
-            wechatService.sync(wxMpUser);
+            wechatService.syncWeixinUser(wxMpUser);
 
             event.setWxMpXmlOutMessage(WxMpXmlOutMessage.TEXT().content(systemConfigService.getString(SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE).orElse("")).build());
         } catch (WxErrorException e) {

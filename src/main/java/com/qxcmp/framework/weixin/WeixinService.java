@@ -43,32 +43,11 @@ public class WeixinService {
     private static final int MAX_MATERIAL_COUNT = 20;
 
     private final UserService userService;
-
     private final WxMpService wxMpService;
-
-    private final WechatMpNewsArticleService wechatMpNewsArticleService;
+    private final WeixinMpMaterialService weixinMpMaterialService;
 
     private boolean weixinUserSync;
-
-    /**
-     * 公众号图文消息缓存
-     */
-    private List<WxMpMaterialNews.WxMpMaterialNewsArticle> articles = Lists.newArrayList();
-
-    /**
-     * 公众号图片素材缓存
-     */
-    private List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> images = Lists.newArrayList();
-
-    /**
-     * 公众号视频素材缓存
-     */
-    private List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> videos = Lists.newArrayList();
-
-    /**
-     * 公众号语音素材缓存
-     */
-    private List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> voices = Lists.newArrayList();
+    private boolean weixinMaterialSync;
 
     /**
      * 微信网页授权登录
@@ -102,49 +81,62 @@ public class WeixinService {
      * 加载公众号素材
      */
     @Async
-    public void loadMaterials() {
-        log.info("Loading weixin materials");
+    public void doWeixinMaterialSync() {
 
         try {
+            log.info("Start weixin materials");
+            weixinMaterialSync = true;
+
             WxMpMaterialCountResult countResult = wxMpService.getMaterialService().materialCount();
 
             for (int i = 0; i <= countResult.getNewsCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialNewsBatchGetResult newsBatchGetResult = wxMpService.getMaterialService().materialNewsBatchGet(i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
-                newsBatchGetResult.getItems().forEach(wxMaterialNewsBatchGetNewsItem -> wxMaterialNewsBatchGetNewsItem.getContent().getArticles().forEach(wxMpMaterialNewsArticle -> {
 
-                    WechatMpNewsArticle wechatMpNewsArticle = wechatMpNewsArticleService.next();
-                    wechatMpNewsArticle.setUrl(wxMpMaterialNewsArticle.getUrl());
-                    wechatMpNewsArticle.setThumbMediaId(wxMpMaterialNewsArticle.getThumbMediaId());
-                    wechatMpNewsArticle.setThumbUrl(wxMpMaterialNewsArticle.getThumbUrl().replaceAll("\\?wx_fmt=jpeg", ""));
-                    wechatMpNewsArticle.setAuthor(wxMpMaterialNewsArticle.getAuthor());
-                    wechatMpNewsArticle.setTitle(wxMpMaterialNewsArticle.getTitle());
-                    wechatMpNewsArticle.setContentSourceUrl(wxMpMaterialNewsArticle.getContentSourceUrl());
-                    wechatMpNewsArticle.setContent(wxMpMaterialNewsArticle.getContent().replaceAll("data-src=\"(.*?)\"", "src=\"http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=$1\"").replaceAll("<img", "<img class=\"responsive-img\"").replaceAll("\\?wx_fmt=jpeg", ""));
-                    wechatMpNewsArticle.setDigest(wxMpMaterialNewsArticle.getDigest());
-                    wechatMpNewsArticle.setShowCoverPic(wxMpMaterialNewsArticle.isShowCoverPic());
+                newsBatchGetResult.getItems().forEach(wxMaterialNewsBatchGetNewsItem -> {
+                    List<WxMpMaterialNews.WxMpMaterialNewsArticle> articles = wxMaterialNewsBatchGetNewsItem.getContent().getArticles();
 
-                    wechatMpNewsArticleService.findByUrl(wxMpMaterialNewsArticle.getUrl()).ifPresent(wArticle -> wechatMpNewsArticle.setId(wArticle.getId()));
+                    for (int j = 0; j < articles.size(); j++) {
+                        WxMpMaterialNews.WxMpMaterialNewsArticle article = articles.get(j);
+                        log.info("Load weixin material news: {}", article.getTitle());
+                        String id = wxMaterialNewsBatchGetNewsItem.getMediaId() + j;
 
-                    wechatMpNewsArticleService.save(wechatMpNewsArticle);
-                }));
+                        WeixinMpMaterial next = weixinMpMaterialService.next();
+                        next.setId(id);
+                        next.setType(WeixinMpMaterialType.NEWS);
+                        next.setTitle(article.getTitle());
+                        next.setThumbMediaId(article.getThumbMediaId());
+                        next.setThumbUrl(article.getThumbUrl());
+                        next.setShowCover(article.isShowCoverPic());
+                        next.setAuthor(article.getAuthor());
+                        next.setDigest(article.getDigest());
+                        next.setContent(article.getContent());
+                        next.setUrl(article.getUrl());
+                        next.setSourceUrl(article.getContentSourceUrl());
+                        weixinMpMaterialService.save(next);
+                    }
+                });
             }
 
             for (int i = 0; i <= countResult.getImageCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_IMAGE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
-                images.addAll(fileBatchGetResult.getItems());
+                syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.IMAGE);
             }
 
             for (int i = 0; i <= countResult.getVideoCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VIDEO, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
-                videos.addAll(fileBatchGetResult.getItems());
+                syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.VIDEO);
             }
 
             for (int i = 0; i <= countResult.getVoiceCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VOICE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
-                voices.addAll(fileBatchGetResult.getItems());
+                syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.VOICE);
             }
+
+            log.info("Finish weixin material syncWeixinUser");
+            weixinMaterialSync = false;
         } catch (Exception e) {
             log.warn("Can't load weixin materials, cause: {}", e.getMessage());
+            weixinMaterialSync = false;
         }
     }
 
@@ -154,9 +146,9 @@ public class WeixinService {
      * 负责查询所有微信公众号已关注用户，并与平台用户数据库同步
      */
     @Async
-    public void doSync() {
+    public void doWeixinUserSync() {
         try {
-            log.info("Start Wechat user sync");
+            log.info("Start weixin user syncWeixinUser");
             weixinUserSync = true;
 
             List<String> openIds = Lists.newArrayList();
@@ -171,16 +163,16 @@ public class WeixinService {
 
             openIds.forEach(s -> {
                 try {
-                    sync(wxMpService.getUserService().userInfo(s));
+                    syncWeixinUser(wxMpService.getUserService().userInfo(s));
                 } catch (Exception e) {
-                    log.warn("Wechat user info sync failed：{}", e.getMessage());
+                    log.warn("Weixin user info syncWeixinUser failed：{}", e.getMessage());
                 }
             });
 
-            log.info("Finish Wechat user sync");
+            log.info("Finish weixin user syncWeixinUser");
             weixinUserSync = false;
         } catch (Exception e) {
-            log.error("Wechat user sync failed：{}", e.getMessage());
+            log.error("Weixin user syncWeixinUser failed：{}", e.getMessage());
             weixinUserSync = false;
         }
     }
@@ -194,43 +186,31 @@ public class WeixinService {
      *
      * @param wxMpUser 获取到的微信用户信息
      */
-    public void sync(WxMpUser wxMpUser) {
+    public void syncWeixinUser(WxMpUser wxMpUser) {
 
         Optional<User> userOptional = userService.findByOpenID(wxMpUser.getOpenId());
 
         if (userOptional.isPresent()) {
-            userService.update(userOptional.get().getId(), user -> setUserWechatInfo(user, wxMpUser));
+            userService.update(userOptional.get().getId(), user -> setUserWeixinInfo(user, wxMpUser));
         } else {
             userService.create(() -> {
                 User user = userService.next();
                 user.setUsername(nextUsername());
-                setUserWechatInfo(user, wxMpUser);
+                setUserWeixinInfo(user, wxMpUser);
                 return user;
             });
         }
-    }
-
-    public List<WxMpMaterialNews.WxMpMaterialNewsArticle> getArticles() {
-        return articles;
-    }
-
-    public List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> getImages() {
-        return images;
-    }
-
-    public List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> getVideos() {
-        return videos;
-    }
-
-    public List<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> getVoices() {
-        return voices;
     }
 
     public boolean isWeixinUserSync() {
         return weixinUserSync;
     }
 
-    private void setUserWechatInfo(User user, WxMpUser wxMpUser) {
+    public boolean isWeixinMaterialSync() {
+        return weixinMaterialSync;
+    }
+
+    private void setUserWeixinInfo(User user, WxMpUser wxMpUser) {
         user.setSubscribe(wxMpUser.getSubscribe());
         user.setOpenID(wxMpUser.getOpenId());
         user.setNickname(wxMpUser.getNickname());
@@ -256,5 +236,17 @@ public class WeixinService {
         }
 
         return username;
+    }
+
+    private void syncWeixinMaterial(WxMpMaterialFileBatchGetResult fileBatchGetResult, WeixinMpMaterialType type) {
+        fileBatchGetResult.getItems().forEach(wxMaterialFileBatchGetNewsItem -> {
+            log.info("Load weixin material: {}", wxMaterialFileBatchGetNewsItem.getName());
+            WeixinMpMaterial next = weixinMpMaterialService.next();
+            next.setId(wxMaterialFileBatchGetNewsItem.getMediaId());
+            next.setType(type);
+            next.setTitle(wxMaterialFileBatchGetNewsItem.getName());
+            next.setUrl(wxMaterialFileBatchGetNewsItem.getUrl());
+            weixinMpMaterialService.save(next);
+        });
     }
 }

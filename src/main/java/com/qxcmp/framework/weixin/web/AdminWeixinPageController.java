@@ -4,11 +4,19 @@ import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.model.RestfulResponse;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
+import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
+import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.views.Overview;
+import com.qxcmp.framework.weixin.WeixinMpMaterialService;
+import com.qxcmp.framework.weixin.WeixinService;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -16,6 +24,11 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +49,9 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 public class AdminWeixinPageController extends QXCMPController {
 
     private final WxMpService wxMpService;
-
     private final WxMpConfigStorage wxMpConfigStorage;
+    private final WeixinMpMaterialService weixinMpMaterialService;
+    private final WeixinService weixinService;
 
     @GetMapping("")
     public ModelAndView weixinPage() {
@@ -55,6 +69,30 @@ public class AdminWeixinPageController extends QXCMPController {
                 .setBreadcrumb("控制台", "", "微信公众平台")
                 .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, "")
                 .build();
+    }
+
+    @GetMapping("/material")
+    public ModelAndView materialPage(Pageable pageable) {
+
+        Grid grid = new Grid();
+        Col col = new Col(Wide.SIXTEEN);
+
+        if (weixinService.isWeixinMaterialSync()) {
+            col.addComponent(new InfoMessage("微信用户正在同步中，请稍后刷新查看").setCloseable());
+        }
+
+        col.addComponent(convertToTable(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), new Sort("type")), weixinMpMaterialService));
+
+        return page().addComponent(grid.addItem(new Row().addCol(col)))
+                .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "素材管理")
+                .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MATERIAL)
+                .build();
+    }
+
+    @PostMapping("/material/sync")
+    public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
+        weixinService.doWeixinMaterialSync();
+        return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
     }
 
     @GetMapping("/settings")
