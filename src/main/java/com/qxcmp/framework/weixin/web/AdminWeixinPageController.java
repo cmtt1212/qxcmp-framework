@@ -46,6 +46,9 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/weixin")
 @RequiredArgsConstructor

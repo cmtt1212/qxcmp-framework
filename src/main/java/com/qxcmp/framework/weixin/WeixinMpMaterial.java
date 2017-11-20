@@ -20,10 +20,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  */
 @EntityTable(value = "公众号素材管理", action = QXCMP_BACKEND_URL + "/weixin/material", disableFilter = true,
         tableActions = @TableAction(value = "同步素材", action = "sync", method = FormMethod.POST, primary = true),
-        rowActions = {
-                @RowAction(value = "查看", action = "preview"),
-                @RowAction(value = "转为文章", action = "convert", method = FormMethod.POST)
-        })
+        rowActions = @RowAction(value = "查看", action = "preview"))
 @Entity
 @Table
 @Data
@@ -105,11 +102,4 @@ public class WeixinMpMaterial {
     public boolean canPerformPreviewAction() {
         return type.equals(WeixinMpMaterialType.NEWS);
     }
-
-    @RowActionCheck("转为文章")
-    public boolean canPerformConvertwAction() {
-        return type.equals(WeixinMpMaterialType.NEWS);
-    }
-
-
 }

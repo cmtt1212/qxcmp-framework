@@ -5,6 +5,8 @@ import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -18,11 +20,15 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -121,7 +127,7 @@ public class WeixinService {
                         next.setShowCover(article.isShowCoverPic());
                         next.setAuthor(article.getAuthor());
                         next.setDigest(article.getDigest());
-                        next.setContent(article.getContent());
+                        next.setContent(getWeixinArticleContent(article.getContent()));
                         next.setUrl(article.getUrl());
                         next.setSourceUrl(article.getContentSourceUrl());
 
@@ -151,6 +157,25 @@ public class WeixinService {
             log.warn("Can't load weixin materials, cause: {}", e.getMessage());
             weixinMaterialSync = false;
         }
+    }
+
+    private String getWeixinArticleContent(String content) {
+        Document document = Jsoup.parse(content);
+        Elements images = document.select("img");
+        images.forEach(element -> {
+            String weixinImageSrc = element.attr("data-src");
+
+            if (StringUtils.isNotBlank(weixinImageSrc)) {
+                try {
+                    HttpResponse response = new HttpRequest().method("GET").set(weixinImageSrc).send();
+                    String imageType = StringUtils.substringAfter(weixinImageSrc, "wx_fmt=");
+                    imageService.store(new ByteArrayInputStream(response.bodyBytes()), StringUtils.isNotBlank(imageType) ? imageType : "jpg").ifPresent(image -> element.attr("src", String.format("/api/image/%s.%s", image.getId(), image.getType())));
+                } catch (Exception e) {
+                    log.error("Can't convert article image: {}", e.getMessage());
+                }
+            }
+        });
+        return document.toString();
     }
 
     /**
