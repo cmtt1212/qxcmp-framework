@@ -3,8 +3,12 @@ package com.qxcmp.framework.weixin.web;
 import com.google.gson.GsonBuilder;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.news.Article;
+import com.qxcmp.framework.news.ArticleService;
+import com.qxcmp.framework.news.ArticleStatus;
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
+import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -58,6 +62,7 @@ public class AdminWeixinPageController extends QXCMPController {
     private final WxMpConfigStorage wxMpConfigStorage;
     private final WeixinMpMaterialService weixinMpMaterialService;
     private final WeixinService weixinService;
+    private final ArticleService articleService;
 
     @GetMapping("")
     public ModelAndView weixinPage() {
@@ -105,9 +110,35 @@ public class AdminWeixinPageController extends QXCMPController {
     public ModelAndView materialPreviewPage(@PathVariable String id) {
         return weixinMpMaterialService.findOne(id)
                 .filter(weixinMpMaterial -> weixinMpMaterial.getType().equals(WeixinMpMaterialType.NEWS))
-                .map(weixinMpMaterial -> page().addComponent(new Overview(weixinMpMaterial.getTitle(), weixinMpMaterial.getAuthor()).addComponent(new HtmlText(weixinMpMaterial.getContent())))
+                .map(weixinMpMaterial -> page()
+                        .addComponent(new Segment().addComponent(new Button("转换为文章", String.format(QXCMP_BACKEND_URL + "/weixin/material/%s/convert", id)).setPrimary())
+                                .addComponent(new Overview(weixinMpMaterial.getTitle(), weixinMpMaterial.getAuthor()).addComponent(new HtmlText(weixinMpMaterial.getContent()))))
                         .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "素材管理", "weixin/material", "图文查看")
                         .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MATERIAL))
+                .orElse(page(viewHelper.nextWarningOverview("素材不存在或者不为图文素材", "目前仅支持图文素材的查看"))).build();
+    }
+
+    @GetMapping("/material/{id}/convert")
+    public ModelAndView materialConvertPage(@PathVariable String id) {
+        return weixinMpMaterialService.findOne(id)
+                .filter(weixinMpMaterial -> weixinMpMaterial.getType().equals(WeixinMpMaterialType.NEWS))
+                .map(weixinMpMaterial -> {
+
+                    Article next = articleService.next();
+                    next.setUserId(currentUser().orElseThrow(RuntimeException::new).getId());
+                    next.setTitle(weixinMpMaterial.getTitle());
+                    next.setAuthor(weixinMpMaterial.getAuthor());
+                    next.setDigest(weixinMpMaterial.getDigest());
+                    next.setContent(weixinMpMaterial.getContent());
+                    next.setCover(weixinMpMaterial.getThumbUrl());
+                    next.setStatus(ArticleStatus.NEW);
+
+                    return articleService.create(() -> next).map(article -> page(viewHelper.nextSuccessOverview("转换文章成功", "现在可以前往新闻中心发布该文章")
+                            .addLink("返回素材管理", QXCMP_BACKEND_URL + "/weixin/material")
+                            .addLink("我的文章", QXCMP_BACKEND_URL + "/news/user/article/draft")
+                            .addLink("申请发布该文章", QXCMP_BACKEND_URL + "/news/user/article/" + article.getId() + "/audit")
+                    )).orElse(page(viewHelper.nextWarningOverview("转换文章失败", "").addLink("返回", String.format(QXCMP_BACKEND_URL + "/weixin/material/%s/preview", id))));
+                })
                 .orElse(page(viewHelper.nextWarningOverview("素材不存在或者不为图文素材", "目前仅支持图文素材的查看"))).build();
     }
 
