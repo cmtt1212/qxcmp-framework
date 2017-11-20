@@ -9,6 +9,7 @@ import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
+import com.qxcmp.framework.web.view.elements.html.HtmlText;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
@@ -16,6 +17,7 @@ import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Wide;
 import com.qxcmp.framework.web.view.views.Overview;
 import com.qxcmp.framework.weixin.WeixinMpMaterialService;
+import com.qxcmp.framework.weixin.WeixinMpMaterialType;
 import com.qxcmp.framework.weixin.WeixinService;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -32,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,6 +96,16 @@ public class AdminWeixinPageController extends QXCMPController {
     public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
         weixinService.doWeixinMaterialSync();
         return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/material/{id}/preview")
+    public ModelAndView materialPreviewPage(@PathVariable String id) {
+        return weixinMpMaterialService.findOne(id)
+                .filter(weixinMpMaterial -> weixinMpMaterial.getType().equals(WeixinMpMaterialType.NEWS))
+                .map(weixinMpMaterial -> page().addComponent(new Overview(weixinMpMaterial.getTitle(), weixinMpMaterial.getAuthor()).addComponent(new HtmlText(weixinMpMaterial.getContent())))
+                        .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "素材管理", "weixin/material", "图文查看")
+                        .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MATERIAL))
+                .orElse(page(viewHelper.nextWarningOverview("素材不存在或者不为图文素材", "目前仅支持图文素材的查看"))).build();
     }
 
     @GetMapping("/settings")

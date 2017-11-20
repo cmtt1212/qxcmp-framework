@@ -1,9 +1,6 @@
 package com.qxcmp.framework.weixin;
 
-import com.qxcmp.framework.web.view.annotation.table.EntityTable;
-import com.qxcmp.framework.web.view.annotation.table.TableAction;
-import com.qxcmp.framework.web.view.annotation.table.TableField;
-import com.qxcmp.framework.web.view.annotation.table.TableFieldRender;
+import com.qxcmp.framework.web.view.annotation.table.*;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.table.TableData;
 import com.qxcmp.framework.web.view.support.Alignment;
@@ -22,7 +19,11 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
  * @author Aaric
  */
 @EntityTable(value = "公众号素材管理", action = QXCMP_BACKEND_URL + "/weixin/material", disableFilter = true,
-        tableActions = @TableAction(value = "同步素材", action = "sync", method = FormMethod.POST, primary = true))
+        tableActions = @TableAction(value = "同步素材", action = "sync", method = FormMethod.POST, primary = true),
+        rowActions = {
+                @RowAction(value = "查看", action = "preview"),
+                @RowAction(value = "转为文章", action = "convert", method = FormMethod.POST)
+        })
 @Entity
 @Table
 @Data
@@ -75,7 +76,6 @@ public class WeixinMpMaterial {
 
     private String sourceUrl;
 
-
     @TableFieldRender("type")
     public TableData renderTypeField() {
         final TableData tableData = new TableData();
@@ -100,4 +100,16 @@ public class WeixinMpMaterial {
         tableData.setAlignment(Alignment.CENTER);
         return tableData;
     }
+
+    @RowActionCheck("查看")
+    public boolean canPerformPreviewAction() {
+        return type.equals(WeixinMpMaterialType.NEWS);
+    }
+
+    @RowActionCheck("转为文章")
+    public boolean canPerformConvertwAction() {
+        return type.equals(WeixinMpMaterialType.NEWS);
+    }
+
+
 }
