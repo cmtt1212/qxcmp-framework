@@ -1,6 +1,8 @@
 package com.qxcmp.framework.weixin;
 
 import com.google.common.collect.Lists;
+import com.qxcmp.framework.config.SiteService;
+import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +48,8 @@ public class WeixinService {
     private final UserService userService;
     private final WxMpService wxMpService;
     private final WeixinMpMaterialService weixinMpMaterialService;
+    private final SiteService siteService;
+    private final ImageService imageService;
 
     private boolean weixinUserSync;
     private boolean weixinMaterialSync;
@@ -105,13 +110,21 @@ public class WeixinService {
                         next.setType(WeixinMpMaterialType.NEWS);
                         next.setTitle(article.getTitle());
                         next.setThumbMediaId(article.getThumbMediaId());
-                        next.setThumbUrl(article.getThumbUrl());
+
+                        try {
+                            InputStream inputStream = wxMpService.getMaterialService().materialImageOrVoiceDownload(article.getThumbMediaId());
+                            imageService.store(inputStream, "jpg").ifPresent(image -> next.setThumbUrl(String.format("/api/image/%s.jpg", image.getId())));
+                        } catch (Exception e) {
+                            next.setThumbUrl(siteService.getLogo());
+                        }
+
                         next.setShowCover(article.isShowCoverPic());
                         next.setAuthor(article.getAuthor());
                         next.setDigest(article.getDigest());
                         next.setContent(article.getContent());
                         next.setUrl(article.getUrl());
                         next.setSourceUrl(article.getContentSourceUrl());
+
                         weixinMpMaterialService.save(next);
                     }
                 });
@@ -246,6 +259,7 @@ public class WeixinService {
             next.setType(type);
             next.setTitle(wxMaterialFileBatchGetNewsItem.getName());
             next.setUrl(wxMaterialFileBatchGetNewsItem.getUrl());
+            next.setThumbUrl(siteService.getLogo());
             weixinMpMaterialService.save(next);
         });
     }

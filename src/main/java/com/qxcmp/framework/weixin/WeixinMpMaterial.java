@@ -3,7 +3,10 @@ package com.qxcmp.framework.weixin;
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.annotation.table.TableFieldRender;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.modules.table.TableData;
+import com.qxcmp.framework.web.view.support.Alignment;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -71,4 +74,30 @@ public class WeixinMpMaterial {
     private String url;
 
     private String sourceUrl;
+
+
+    @TableFieldRender("type")
+    public TableData renderTypeField() {
+        final TableData tableData = new TableData();
+
+        switch (type) {
+            case NEWS:
+                tableData.setContent("图文");
+                break;
+            case IMAGE:
+                tableData.setContent("图片");
+                break;
+            case VOICE:
+                tableData.setContent("语音");
+                break;
+            case VIDEO:
+                tableData.setContent("视频");
+                break;
+            default:
+                tableData.setContent("未知");
+        }
+
+        tableData.setAlignment(Alignment.CENTER);
+        return tableData;
+    }
 }
