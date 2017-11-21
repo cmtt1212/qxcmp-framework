@@ -33,7 +33,7 @@ public class AccessAddress {
     private String address;
 
     @TableField("类型")
-    private AccessAddressType type;
+    private AccessAddressType type = AccessAddressType.NORMAL;
 
     @TableField("备注")
     @Size(max = 20)
