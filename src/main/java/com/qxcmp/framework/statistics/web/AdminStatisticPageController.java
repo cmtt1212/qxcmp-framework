@@ -64,6 +64,14 @@ public class AdminStatisticPageController extends QXCMPController {
                 .build();
     }
 
+    @GetMapping("/access/history")
+    public ModelAndView accessHistoryPage(Pageable pageable) {
+        return page().addComponent(convertToTable(pageable, accessHistoryService))
+                .setBreadcrumb("控制台", "", "网站统计", "statistic", "访问记录")
+                .setVerticalNavigation(NAVIGATION_ADMIN_STATISTIC, NAVIGATION_ADMIN_STATISTIC_ACCESS_HISTORY)
+                .build();
+    }
+
     @GetMapping("/baidu/link")
     public ModelAndView statisticBaiduLinkPage(final AdminStatisticBaiduLinkForm form) {
 
