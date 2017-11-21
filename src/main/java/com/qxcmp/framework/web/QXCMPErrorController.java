@@ -67,6 +67,10 @@ public class QXCMPErrorController extends QXCMPController implements ErrorContro
             return "网页叔叔被抓去关起来了";
         }
 
+        if (status.equals(HttpStatus.GONE)) {
+            return "网页大叔已经离你远去了";
+        }
+
         if (status.is4xxClientError()) {
             return "网页叔叔搭乘航班去追寻诗和远方了";
         } else if (status.is5xxServerError()) {
