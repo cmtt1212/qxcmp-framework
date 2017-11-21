@@ -95,7 +95,7 @@ public class WeixinService {
     public void doWeixinMaterialSync() {
 
         try {
-            log.info("Start weixin materials");
+            log.info("Start weixin materials sync");
             weixinMaterialSync = true;
 
             WxMpMaterialCountResult countResult = wxMpService.getMaterialService().materialCount();
@@ -151,31 +151,12 @@ public class WeixinService {
                 syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.VOICE);
             }
 
-            log.info("Finish weixin material syncWeixinUser");
+            log.info("Finish weixin material sync");
             weixinMaterialSync = false;
         } catch (Exception e) {
             log.warn("Can't load weixin materials, cause: {}", e.getMessage());
             weixinMaterialSync = false;
         }
-    }
-
-    private String getWeixinArticleContent(String content) {
-        Document document = Jsoup.parse(content);
-        Elements images = document.select("img");
-        images.forEach(element -> {
-            String weixinImageSrc = element.attr("data-src");
-
-            if (StringUtils.isNotBlank(weixinImageSrc)) {
-                try {
-                    HttpResponse response = new HttpRequest().method("GET").set(weixinImageSrc).send();
-                    String imageType = StringUtils.substringAfter(weixinImageSrc, "wx_fmt=");
-                    imageService.store(new ByteArrayInputStream(response.bodyBytes()), StringUtils.isNotBlank(imageType) ? imageType : "jpg").ifPresent(image -> element.attr("src", String.format("/api/image/%s.%s", image.getId(), image.getType())));
-                } catch (Exception e) {
-                    log.error("Can't convert article image: {}", e.getMessage());
-                }
-            }
-        });
-        return document.toString();
     }
 
     /**
@@ -186,7 +167,7 @@ public class WeixinService {
     @Async
     public void doWeixinUserSync() {
         try {
-            log.info("Start weixin user syncWeixinUser");
+            log.info("Start weixin user sync");
             weixinUserSync = true;
 
             List<String> openIds = Lists.newArrayList();
@@ -207,10 +188,10 @@ public class WeixinService {
                 }
             });
 
-            log.info("Finish weixin user syncWeixinUser");
+            log.info("Finish weixin user sync");
             weixinUserSync = false;
         } catch (Exception e) {
-            log.error("Weixin user syncWeixinUser failed：{}", e.getMessage());
+            log.error("Can't load weixin user, cause：{}", e.getMessage(), Objects.nonNull(e.getCause()) ? e.getCause().getMessage() : "");
             weixinUserSync = false;
         }
     }
@@ -246,6 +227,25 @@ public class WeixinService {
 
     public boolean isWeixinMaterialSync() {
         return weixinMaterialSync;
+    }
+
+    private String getWeixinArticleContent(String content) {
+        Document document = Jsoup.parse(content);
+        Elements images = document.select("img");
+        images.forEach(element -> {
+            String weixinImageSrc = element.attr("data-src");
+
+            if (StringUtils.isNotBlank(weixinImageSrc)) {
+                try {
+                    HttpResponse response = new HttpRequest().method("GET").set(weixinImageSrc).send();
+                    String imageType = StringUtils.substringAfter(weixinImageSrc, "wx_fmt=");
+                    imageService.store(new ByteArrayInputStream(response.bodyBytes()), StringUtils.isNotBlank(imageType) ? imageType : "jpg").ifPresent(image -> element.attr("src", String.format("/api/image/%s.%s", image.getId(), image.getType())));
+                } catch (Exception e) {
+                    log.error("Can't convert article image: {}", e.getMessage());
+                }
+            }
+        });
+        return document.toString();
     }
 
     private void setUserWeixinInfo(User user, WxMpUser wxMpUser) {
