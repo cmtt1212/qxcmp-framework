@@ -1,5 +1,10 @@
 package com.qxcmp.framework.exception;
 
+/**
+ * 所有异常基类
+ *
+ * @author Aaric
+ */
 public abstract class BaseQXCMPException extends Exception {
     public BaseQXCMPException() {
     }

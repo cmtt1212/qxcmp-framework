@@ -1,9 +1,11 @@
 package com.qxcmp.framework.web;
 
+import com.qxcmp.framework.exception.BlackListException;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.support.Alignment;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -38,7 +40,15 @@ public class QXCMPErrorController extends QXCMPController implements ErrorContro
         String path = errors.get("path").toString();
         String message = errors.get("message").toString();
 
-        return pageResolver.resolveByPath(path, request, response).addComponent(new Grid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().addItem(new Col().addComponent(viewHelper.nextWarningOverview(status.toString(), parseStatusCode(status)).addComponent(new P(message))))).build();
+        if (StringUtils.equals(BlackListException.class.getName(), errors.get("exception").toString())) {
+            status = HttpStatus.GONE;
+            message = "你已经在网页大叔的黑名单中了";
+        }
+
+        return pageResolver.resolveByPath(path, request, response)
+                .addComponent(new Grid().setTextContainer().setAlignment(Alignment.CENTER).setVerticallyPadded().addItem(new Col()
+                        .addComponent(viewHelper.nextWarningOverview(status.toString(), parseStatusCode(status))
+                                .addComponent(new P(message))))).build();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.qxcmp.framework.web.filter;
 
+import com.qxcmp.framework.exception.BlackListException;
 import com.qxcmp.framework.statistics.AccessAddressService;
 import com.qxcmp.framework.statistics.AccessAddressType;
 import com.qxcmp.framework.web.support.QXCMPIpAddressResolver;
@@ -39,9 +40,9 @@ public class QXCMPFilter extends GenericFilterBean {
         applicationContext.publishEvent(new QXCMPRequestEvent(request, response));
 
         if (accessAddressService.findOne(ipAddressResolver.resolve(request)).map(accessAddress -> Objects.equals(accessAddress.getType(), AccessAddressType.BLACK)).orElse(false)) {
-            throw new RuntimeException("无法访问该站点");
+            throw new BlackListException();
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }
