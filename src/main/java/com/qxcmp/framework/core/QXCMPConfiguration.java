@@ -4,7 +4,9 @@ import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.framework.config.SystemConfigService;
+import com.qxcmp.framework.statistics.AccessAddressService;
 import com.qxcmp.framework.web.filter.QXCMPFilter;
+import com.qxcmp.framework.web.support.QXCMPIpAddressResolver;
 import com.qxcmp.framework.weixin.WeixinMpMessageHandler;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -50,10 +52,10 @@ public class QXCMPConfiguration {
     public static final String QXCMP_FILE_UPLOAD_TEMP_FOLDER = "/tmp/";
 
     private final WeixinMpMessageHandler defaultMessageHandler;
-
     private final SystemConfigService systemConfigService;
-
     private final ApplicationContext applicationContext;
+    private final AccessAddressService accessAddressService;
+    private final QXCMPIpAddressResolver ipAddressResolver;
 
     @Bean
     public TaskExecutor taskExecutor() {
@@ -137,7 +139,7 @@ public class QXCMPConfiguration {
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        QXCMPFilter qxcmpFilter = new QXCMPFilter(applicationContext);
+        QXCMPFilter qxcmpFilter = new QXCMPFilter(applicationContext, accessAddressService, ipAddressResolver);
         filterRegistrationBean.setFilter(qxcmpFilter);
         return filterRegistrationBean;
     }
