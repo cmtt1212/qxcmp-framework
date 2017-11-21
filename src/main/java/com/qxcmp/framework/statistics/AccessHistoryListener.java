@@ -31,7 +31,7 @@ public class AccessHistoryListener {
             String ipAddress = ipAddressResolver.resolve(request);
             String requestURI = request.getRequestURI();
 
-            if (isAccessRequest(requestURI) && isNotSpider(ipAddress)) {
+            if (isAccessRequest(requestURI) && !isSpider(ipAddress)) {
                 AccessHistory accessHistory = accessHistoryService.next();
                 accessHistory.setDateCreated(new Date());
                 accessHistory.setIp(ipAddress);
@@ -51,7 +51,7 @@ public class AccessHistoryListener {
         }
     }
 
-    private boolean isNotSpider(String ipAddress) {
+    private boolean isSpider(String ipAddress) {
         return accessAddressService.findOne(ipAddress).map(accessAddress -> Objects.equals(accessAddress.getType(), AccessAddressType.SPIDER)).orElse(false);
     }
 
