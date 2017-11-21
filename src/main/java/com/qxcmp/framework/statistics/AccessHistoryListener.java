@@ -20,7 +20,7 @@ public class AccessHistoryListener {
     private final UserService userService;
 
     private final AccessHistoryService accessHistoryService;
-
+    private final AccessAddressService accessAddressService;
     private final QXCMPIpAddressResolver ipAddressResolver;
 
     @EventListener
@@ -28,12 +28,13 @@ public class AccessHistoryListener {
         try {
             HttpServletRequest request = event.getRequest();
 
+            String ipAddress = ipAddressResolver.resolve(request);
             String requestURI = request.getRequestURI();
 
-            if (isAccessRequest(requestURI)) {
+            if (isAccessRequest(requestURI) && isNotSpider(ipAddress)) {
                 AccessHistory accessHistory = accessHistoryService.next();
                 accessHistory.setDateCreated(new Date());
-                accessHistory.setIp(ipAddressResolver.resolve(request));
+                accessHistory.setIp(ipAddress);
                 accessHistory.setUrl(request.getRequestURL().toString());
 
                 User user = userService.currentUser();
@@ -48,6 +49,10 @@ public class AccessHistoryListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isNotSpider(String ipAddress) {
+        return accessAddressService.findOne(ipAddress).map(accessAddress -> Objects.equals(accessAddress.getType(), AccessAddressType.SPIDER)).orElse(false);
     }
 
     private boolean isAccessRequest(String requestURI) {

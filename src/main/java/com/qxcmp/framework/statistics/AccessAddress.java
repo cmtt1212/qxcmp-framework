@@ -1,7 +1,12 @@
 package com.qxcmp.framework.statistics;
 
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.annotation.table.TableFieldRender;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.framework.web.view.modules.table.TableData;
+import com.qxcmp.framework.web.view.support.Alignment;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.Date;
+
+import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 访问地址实体
@@ -22,7 +29,13 @@ import java.util.Date;
  *
  * @author Aaric
  */
-@EntityTable("访问地址管理")
+@EntityTable(value = "访问地址管理", action = QXCMP_BACKEND_URL + "/statistic/access/address", entityIndex = "address",
+        rowActions = {
+                @RowAction(value = "普通", action = "normal", method = FormMethod.POST),
+                @RowAction(value = "黑名单", action = "black", method = FormMethod.POST),
+                @RowAction(value = "白名单", action = "white", method = FormMethod.POST),
+                @RowAction(value = "爬虫", action = "spider", method = FormMethod.POST)
+        })
 @Entity
 @Table
 @Data
@@ -42,4 +55,26 @@ public class AccessAddress {
     @TableField("最近访问时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
+
+    @TableFieldRender("type")
+    public TableData renderTypeField() {
+        final TableData tableData = new TableData();
+
+        switch (type) {
+            case BLACK:
+                tableData.setContent("黑名单");
+                break;
+            case WHITE:
+                tableData.setContent("白名单");
+                break;
+            case SPIDER:
+                tableData.setContent("网络蜘蛛");
+                break;
+            default:
+                tableData.setContent("普通地址");
+        }
+
+        tableData.setAlignment(Alignment.CENTER);
+        return tableData;
+    }
 }
