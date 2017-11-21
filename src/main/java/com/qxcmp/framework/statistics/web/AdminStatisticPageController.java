@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -66,7 +67,7 @@ public class AdminStatisticPageController extends QXCMPController {
 
     @GetMapping("/access/history")
     public ModelAndView accessHistoryPage(Pageable pageable) {
-        return page().addComponent(convertToTable(pageable, accessHistoryService))
+        return page().addComponent(convertToTable(new PageRequest(pageable.getPageSize(), pageable.getPageSize(), Sort.Direction.DESC, "dateCreated"), accessHistoryService))
                 .setBreadcrumb("控制台", "", "网站统计", "statistic", "访问记录")
                 .setVerticalNavigation(NAVIGATION_ADMIN_STATISTIC, NAVIGATION_ADMIN_STATISTIC_ACCESS_HISTORY)
                 .build();
