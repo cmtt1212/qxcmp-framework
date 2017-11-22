@@ -11,9 +11,9 @@ import java.util.Date;
  * @author Aaric
  */
 @Service
-public class SearchKeyWordService extends AbstractEntityService<SearchKeyWord, Long, SearchKeyWordRepository> {
+public class SearchKeywordsService extends AbstractEntityService<SearchKeywords, Long, SearchKeywordsRepository> {
 
-    public SearchKeyWordService(SearchKeyWordRepository repository) {
+    public SearchKeywordsService(SearchKeywordsRepository repository) {
         super(repository);
     }
 
@@ -25,7 +25,7 @@ public class SearchKeyWordService extends AbstractEntityService<SearchKeyWord, L
      */
     public void add(String title, String userId) {
         create(() -> {
-            SearchKeyWord next = next();
+            SearchKeywords next = next();
             next.setDateCreated(new Date());
             next.setTitle(title);
             next.setUserId(userId);
@@ -40,12 +40,12 @@ public class SearchKeyWordService extends AbstractEntityService<SearchKeyWord, L
      * @param pageable 分页信息
      * @return 排名结果
      */
-    public Page<SearchKeyWordPageResult> findByDateCreatedAfter(Date date, Pageable pageable) {
+    public Page<SearchKeywordsPageResult> findByDateCreatedAfter(Date date, Pageable pageable) {
         return repository.findByDateCreatedAfter(date, pageable);
     }
 
     @Override
-    protected <S extends SearchKeyWord> Long getEntityId(S entity) {
+    protected <S extends SearchKeywords> Long getEntityId(S entity) {
         return entity.getId();
     }
 }

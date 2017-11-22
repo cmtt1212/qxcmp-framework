@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity
 @Table
 @Data
-public class SearchKeyWord {
+public class SearchKeywords {
 
     @Id
     @GeneratedValue

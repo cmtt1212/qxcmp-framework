@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class SearchKeyWordPageResult {
+public class SearchKeywordsPageResult {
     private String title;
     private Long count;
 }
