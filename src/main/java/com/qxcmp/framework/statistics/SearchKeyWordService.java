@@ -1,7 +1,6 @@
 package com.qxcmp.framework.statistics;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
-import com.qxcmp.framework.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,15 +20,15 @@ public class SearchKeyWordService extends AbstractEntityService<SearchKeyWord, L
     /**
      * 增加一个搜索关键词记录
      *
-     * @param title 关键词
-     * @param user  搜索用户
+     * @param title  关键词
+     * @param userId 搜索用户
      */
-    public void add(String title, User user) {
+    public void add(String title, String userId) {
         create(() -> {
             SearchKeyWord next = next();
             next.setDateCreated(new Date());
             next.setTitle(title);
-            next.setUserId(user.getId());
+            next.setUserId(userId);
             return next;
         });
     }
