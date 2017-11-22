@@ -6,10 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.statistics.AccessAddressService;
-import com.qxcmp.framework.statistics.AccessAddressType;
-import com.qxcmp.framework.statistics.AccessHistoryPageResult;
-import com.qxcmp.framework.statistics.AccessHistoryService;
+import com.qxcmp.framework.statistics.*;
 import com.qxcmp.framework.web.QXCMPController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import jodd.http.HttpRequest;
@@ -46,6 +43,7 @@ public class AdminStatisticPageController extends QXCMPController {
 
     private final AccessHistoryService accessHistoryService;
     private final AccessAddressService accessAddressService;
+    private final SearchKeyWordService searchKeyWordService;
 
     @GetMapping("")
     public ModelAndView statisticPage() {
@@ -62,6 +60,17 @@ public class AdminStatisticPageController extends QXCMPController {
         return page()
                 .addComponent(convertToTable(stringObjectMap -> results.forEach(accessHistoryPageResult -> stringObjectMap.put(accessHistoryPageResult.getUrl(), accessHistoryPageResult.getNbr()))))
                 .setVerticalNavigation(NAVIGATION_ADMIN_STATISTIC, NAVIGATION_ADMIN_STATISTIC_PAGES)
+                .setBreadcrumb("控制台", "", "网站统计", "statistic", "页面访问统计")
+                .build();
+    }
+
+    @GetMapping("/keywords")
+    public ModelAndView statisticsKeywordsPage(@RequestParam(defaultValue = "1") int date, Pageable pageable) {
+        List<SearchKeyWordPageResult> results = searchKeyWordService.findByDateCreatedAfter(DateTime.now().minusDays(date).toDate(), new PageRequest(0, pageable.getPageSize())).getContent();
+
+        return page()
+                .addComponent(convertToTable(stringObjectMap -> results.forEach(searchKeyWordPageResult -> stringObjectMap.put(searchKeyWordPageResult.getTitle(), searchKeyWordPageResult.getCount()))))
+                .setVerticalNavigation(NAVIGATION_ADMIN_STATISTIC, NAVIGATION_ADMIN_STATISTIC_KEYWORDS)
                 .setBreadcrumb("控制台", "", "网站统计", "statistic", "页面访问统计")
                 .build();
     }
