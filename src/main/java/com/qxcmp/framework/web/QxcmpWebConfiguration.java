@@ -44,7 +44,7 @@ import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 @PrivilegeAutowired
 @Order
 @RequiredArgsConstructor
-public class QXCMPWebConfiguration extends WebSecurityConfigurerAdapter {
+public class QxcmpWebConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SystemConfigService systemConfigService;
 
