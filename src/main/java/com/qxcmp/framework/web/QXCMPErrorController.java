@@ -40,7 +40,7 @@ public class QXCMPErrorController extends QXCMPController implements ErrorContro
         String path = errors.get("path").toString();
         String message = errors.get("message").toString();
 
-        if (StringUtils.equals(BlackListException.class.getName(), errors.get("exception").toString())) {
+        if (StringUtils.equals(BlackListException.class.getName(), String.valueOf(errors.get("exception")))) {
             status = HttpStatus.GONE;
             message = "你已经在网页大叔的黑名单中了";
         }
