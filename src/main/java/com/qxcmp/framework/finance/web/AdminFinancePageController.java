@@ -2,7 +2,9 @@ package com.qxcmp.framework.finance.web;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.google.common.collect.ImmutableList;
+import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
+import com.qxcmp.framework.finance.WalletService;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_FINANCE;
-import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/finance")
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class AdminFinancePageController extends QxcmpController {
     private static final List<String> SUPPORT_WEIXIN_PAYMENT = ImmutableList.of("NATIVE", "JSAPI");
 
     private final WxPayConfig wxPayConfig;
+    private final WalletService walletService;
 
     @GetMapping("")
     public ModelAndView financePage() {
@@ -35,6 +40,37 @@ public class AdminFinancePageController extends QxcmpController {
                 .setBreadcrumb("控制台", "", "财务管理")
                 .setVerticalNavigation(NAVIGATION_ADMIN_FINANCE, "")
                 .build();
+    }
+
+    @GetMapping("/wallet")
+    public ModelAndView financeWalletPage(final AdminFinanceWalletForm form) {
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", "", "财务管理", "finance", "用户钱包管理")
+                .setVerticalNavigation(NAVIGATION_ADMIN_FINANCE, NAVIGATION_ADMIN_FINANCE_WALLET_MANAGMENT)
+                .build();
+    }
+
+    @PostMapping("/wallet")
+    public ModelAndView financeWalletPage(@Valid final AdminFinanceWalletForm form, BindingResult bindingResult) {
+
+        if (!userService.findOne(form.getUserId()).isPresent()) {
+            bindingResult.rejectValue("userId", "", "用户ID不存在");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", "", "财务管理", "finance", "用户钱包管理")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_FINANCE, NAVIGATION_ADMIN_FINANCE_WALLET_MANAGMENT)
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+                walletService.changeBalance(form.getUserId(), form.getAmount(), form.getComments(), "");
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        });
     }
 
     @GetMapping("/weixin")
