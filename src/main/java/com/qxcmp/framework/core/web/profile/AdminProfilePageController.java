@@ -36,7 +36,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.web.profile.ProfilePageHelper.*;
 
 @Controller

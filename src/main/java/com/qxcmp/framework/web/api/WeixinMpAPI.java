@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.api;
 
-import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.core.QxcmpConfiguration;
 import com.qxcmp.framework.web.QxcmpController;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -40,7 +40,7 @@ public class WeixinMpAPI extends QxcmpController {
 
     private WxMpMessageRouter wxMpMessageRouter;
 
-    private QXCMPConfiguration qxcmpConfiguration;
+    private QxcmpConfiguration qxcmpConfiguration;
 
     /**
      * 微信公众平台网关路由，负责处理所有平台发送过来的消息

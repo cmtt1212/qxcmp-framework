@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.persistence.*;
 import java.util.Set;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 角色实体定义

@@ -10,7 +10,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 权限实体定义

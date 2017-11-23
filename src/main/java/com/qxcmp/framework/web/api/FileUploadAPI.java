@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
 
 /**
  * 文件上传通用接口

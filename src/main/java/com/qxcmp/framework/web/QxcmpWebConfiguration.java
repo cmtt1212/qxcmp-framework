@@ -29,9 +29,9 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.EnumSet;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_LOGIN_URL;
 import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_LOGIN_URL;
 
 
 /**

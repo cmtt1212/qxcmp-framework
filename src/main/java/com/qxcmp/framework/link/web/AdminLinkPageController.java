@@ -23,9 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_LINK_TYPE;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/link")

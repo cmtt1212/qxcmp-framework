@@ -42,7 +42,7 @@ import java.util.Properties;
 @EnableScheduling
 @EnableTransactionManagement
 @RequiredArgsConstructor
-public class QXCMPConfiguration {
+public class QxcmpConfiguration {
 
     public static final String QXCMP = "清醒内容管理平台";
     public static final String QXCMP_BACKEND_URL = "/admin";

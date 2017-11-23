@@ -9,7 +9,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 系统字典配置

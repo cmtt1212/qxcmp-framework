@@ -25,10 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS_CHANNEL;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ARTICLE_CHANNEL_CATALOG;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_NEWS;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_NEWS_CHANNEL;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/channel")

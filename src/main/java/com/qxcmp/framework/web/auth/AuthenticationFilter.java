@@ -20,7 +20,7 @@ import java.util.Date;
 /**
  * 认证过滤器，属于框架基本功能，供平台和前端共同使用
  * <p>
- * 在{@link com.qxcmp.framework.core.QXCMPConfiguration}中配置
+ * 在{@link com.qxcmp.framework.core.QxcmpConfiguration}中配置
  * <p>
  * 平台认证方式如下： <ol> <li>检查用户是否存在</li> <li>如果不存在则返回错误码</li> <li>检查是否开启账户锁定</li> <li>如果开启账户锁定，并且登录时间已经超过账户锁定阈值，则解锁账户</li>
  * <li>检查是否开始账户过期</li> <li>如果开启账户过期，并且账户已经过期，则使账户过期（作废账户，无法恢复）</li> <li>检查是否开始密码过期</li>

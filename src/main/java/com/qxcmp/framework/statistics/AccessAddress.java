@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 访问地址实体

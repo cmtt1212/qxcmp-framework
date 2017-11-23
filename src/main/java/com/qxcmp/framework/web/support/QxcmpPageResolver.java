@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpConfiguration.*;
 
 /**
  * 平台页面解析器
@@ -23,7 +23,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.*;
  */
 @Component
 @RequiredArgsConstructor
-public class QXCMPPageResolver {
+public class QxcmpPageResolver {
 
     private final ApplicationContext applicationContext;
 

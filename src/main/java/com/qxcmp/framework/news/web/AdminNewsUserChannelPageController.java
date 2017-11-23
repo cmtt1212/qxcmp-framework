@@ -38,9 +38,9 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_NEWS_USER_CHANNEL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_NEWS;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_NEWS_USER_CHANNEL;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/news/user/channel")

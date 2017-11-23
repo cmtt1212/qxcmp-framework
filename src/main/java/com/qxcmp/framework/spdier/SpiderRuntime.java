@@ -8,7 +8,7 @@ import com.qxcmp.framework.web.view.support.Color;
 import lombok.Data;
 import us.codecraft.webmagic.Spider;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 蜘蛛运行时信息

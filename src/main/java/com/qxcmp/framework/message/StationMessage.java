@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 @EntityTable(value = "我的信箱", name = "inbox", action = QXCMP_BACKEND_URL + "/inbox",
         tableActions = @TableAction(value = "发信息", action = "new", primary = true))

@@ -7,8 +7,8 @@ import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import org.springframework.context.annotation.Configuration;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 /**
  * 平台导航配置
@@ -16,11 +16,12 @@ import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
  * @author Aaric
  */
 @Configuration
-public class QXCMPNavigationConfiguration implements NavigationConfigurator {
+public class QxcmpNavigationConfiguration implements NavigationConfigurator {
 
     /*
      * 移动端导航栏扩展
      * */
+
     public static final String NAVIGATION_GLOBAL_MOBILE_TOP = "GLOBAL-MOBILE-TOP";
     public static final String NAVIGATION_GLOBAL_MOBILE_BOTTOM = "GLOBAL-MOBILE-BOTTOM";
     public static final String NAVIGATION_GLOBAL_MOBILE_SIDEBAR = "GLOBAL-MOBILE-SIDEBAR";
@@ -28,6 +29,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 侧边导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_SIDEBAR = "ADMIN-SIDEBAR";
     public static final String NAVIGATION_ADMIN_SIDEBAR_USER = NAVIGATION_ADMIN_SIDEBAR + "-USER";
     public static final String NAVIGATION_ADMIN_SIDEBAR_NEWS = NAVIGATION_ADMIN_SIDEBAR + "-NEWS";
@@ -42,6 +44,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 个人中心导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_PROFILE = "ADMIN-PROFILE";
     public static final String NAVIGATION_ADMIN_PROFILE_INFO = NAVIGATION_ADMIN_PROFILE + "-INFO";
     public static final String NAVIGATION_ADMIN_PROFILE_SECURITY = NAVIGATION_ADMIN_PROFILE + "-SECURITY";
@@ -49,6 +52,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 系统设置导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_SETTINGS = "ADMIN-SETTINGS";
     public static final String NAVIGATION_ADMIN_SETTINGS_SITE = NAVIGATION_ADMIN_SETTINGS + "-SITE";
     public static final String NAVIGATION_ADMIN_SETTINGS_DICTIONARY = NAVIGATION_ADMIN_SETTINGS + "-DICTIONARY";
@@ -58,6 +62,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 安全配置导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_SECURITY = "ADMIN-SECURITY";
     public static final String NAVIGATION_ADMIN_SECURITY_ROLE = NAVIGATION_ADMIN_SECURITY + "-ROLE";
     public static final String NAVIGATION_ADMIN_SECURITY_PRIVILEGE = NAVIGATION_ADMIN_SECURITY + "-PRIVILEGE";
@@ -66,6 +71,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 新闻管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_NEWS = "ADMIN-NEWS";
     public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE = NAVIGATION_ADMIN_NEWS + "-USER-ARTICLE";
     public static final String NAVIGATION_ADMIN_NEWS_USER_CHANNEL = NAVIGATION_ADMIN_NEWS + "-USER-CHANNEL";
@@ -75,6 +81,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 我的文章导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT = "ADMIN-NEWS-USER-ARTICLE-MANAGEMENT";
     public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_DRAFT = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-DRAFT";
     public static final String NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT_AUDITING = NAVIGATION_ADMIN_NEWS_USER_ARTICLE_MANAGEMENT + "-AUDITING";
@@ -85,6 +92,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 文章管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT = "ADMIN-NEWS-ARTICLE-MANAGEMENT";
     public static final String NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_AUDITING = NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT + "-AUDITING";
     public static final String NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT_PUBLISHED = NAVIGATION_ADMIN_NEWS_ARTICLE_MANAGEMENT + "-PUBLISHED";
@@ -93,6 +101,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 商城管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_MALL = "ADMIN-MALL";
     public static final String NAVIGATION_ADMIN_MALL_USER_STORE = NAVIGATION_ADMIN_MALL + "-USER-STORE";
     public static final String NAVIGATION_ADMIN_MALL_ORDER = NAVIGATION_ADMIN_MALL + "-ORDER";
@@ -103,6 +112,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 我的店铺导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT = "ADMIN-MALL-USER-STORE-MANAGEMENT";
     public static final String NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_ORDER = NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT + "-ORDER";
     public static final String NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY = NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT + "-COMMODITY";
@@ -111,12 +121,14 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 财务管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_FINANCE = "ADMIN-FINANCE";
     public static final String NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS = NAVIGATION_ADMIN_FINANCE + "-WEIXIN-SETTINGS";
 
     /*
      * 消息服务导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_MESSAGE = "ADMIN-MESSAGE";
     public static final String NAVIGATION_ADMIN_MESSAGE_SMS_SEND = NAVIGATION_ADMIN_MESSAGE + "-SMS-SEND";
     public static final String NAVIGATION_ADMIN_MESSAGE_EMAIL_SEND = NAVIGATION_ADMIN_MESSAGE + "-EMAIL-SEND";
@@ -127,6 +139,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 兑换码管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_REDEEM = "ADMIN-REDEEM";
     public static final String NAVIGATION_ADMIN_REDEEM_MANAGEMENT = NAVIGATION_ADMIN_REDEEM + "-MANAGEMENT";
     public static final String NAVIGATION_ADMIN_REDEEM_SETTINGS = NAVIGATION_ADMIN_REDEEM + "-SETTINGS";
@@ -134,6 +147,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 蜘蛛管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_SPIDER = "ADMIN-SPIDER";
     public static final String NAVIGATION_ADMIN_SPIDER_STATUS = NAVIGATION_ADMIN_SPIDER + "-STATUS";
     public static final String NAVIGATION_ADMIN_SPIDER_LOG = NAVIGATION_ADMIN_SPIDER + "-LOG";
@@ -141,6 +155,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 微信公众平台导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_WEIXIN = "ADMIN-WEIXIN";
     public static final String NAVIGATION_ADMIN_WEIXIN_MATERIAL = NAVIGATION_ADMIN_WEIXIN + "-MATERIAL";
     public static final String NAVIGATION_ADMIN_WEIXIN_MENU = NAVIGATION_ADMIN_SPIDER + "-MENU";
@@ -149,6 +164,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 用户管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_USER = "ADMIN-USER";
     public static final String NAVIGATION_ADMIN_USER_ALL = NAVIGATION_ADMIN_USER + "-ALL";
     public static final String NAVIGATION_ADMIN_USER_WEIXIN = NAVIGATION_ADMIN_USER + "-WEIXIN";
@@ -156,6 +172,7 @@ public class QXCMPNavigationConfiguration implements NavigationConfigurator {
     /*
      * 链接管理导航栏
      * */
+
     public static final String NAVIGATION_ADMIN_LINK = "ADMIN-LINK";
     public static final String NAVIGATION_ADMIN_LINK_ALL = NAVIGATION_ADMIN_LINK + "-ALL";
     public static final String NAVIGATION_ADMIN_LINK_SETTINGS = NAVIGATION_ADMIN_LINK + "-SETTINGS";

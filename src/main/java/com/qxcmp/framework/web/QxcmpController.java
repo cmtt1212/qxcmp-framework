@@ -18,7 +18,7 @@ import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.page.AbstractPage;
 import com.qxcmp.framework.web.support.QXCMPIpAddressResolver;
-import com.qxcmp.framework.web.support.QXCMPPageResolver;
+import com.qxcmp.framework.web.support.QxcmpPageResolver;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
@@ -59,7 +59,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
 
 /**
  * 平台页面路由基类
@@ -78,7 +78,7 @@ public abstract class QxcmpController {
     protected UserConfigService userConfigService;
     protected SystemConfigService systemConfigService;
     protected ViewHelper viewHelper;
-    protected QXCMPPageResolver pageResolver;
+    protected QxcmpPageResolver pageResolver;
 
     private TableHelper tableHelper;
     private CaptchaService captchaService;
@@ -89,7 +89,7 @@ public abstract class QxcmpController {
      * 根据请求获取一个页面
      *
      * @return 由页面解析器解析出来的页面
-     * @see QXCMPPageResolver
+     * @see QxcmpPageResolver
      */
     protected AbstractPage page() {
         return pageResolver.resolve(request, response);
@@ -397,7 +397,7 @@ public abstract class QxcmpController {
     }
 
     @Autowired
-    public void setPageResolver(QXCMPPageResolver pageResolver) {
+    public void setPageResolver(QxcmpPageResolver pageResolver) {
         this.pageResolver = pageResolver;
     }
 

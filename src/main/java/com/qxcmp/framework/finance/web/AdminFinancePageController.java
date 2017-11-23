@@ -16,9 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_FINANCE;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_FINANCE;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_FINANCE_WEIXIN_SETTINGS;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/finance")

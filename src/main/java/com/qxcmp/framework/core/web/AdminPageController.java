@@ -1,7 +1,7 @@
 package com.qxcmp.framework.core.web;
 
 import com.jcabi.manifests.Manifests;
-import com.qxcmp.framework.core.QXCMPConfiguration;
+import com.qxcmp.framework.core.QxcmpConfiguration;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -23,8 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP;
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL)
@@ -41,7 +41,7 @@ public class AdminPageController extends QxcmpController {
     public ModelAndView aboutPage() {
         return page()
                 .addComponent(new TextContainer().addComponent(new Overview(new PageHeader(HeaderType.H1, QXCMP)).addComponent(convertToTable(stringObjectMap -> {
-                    String appVersion = QXCMPConfiguration.class.getPackage().getImplementationVersion();
+                    String appVersion = QxcmpConfiguration.class.getPackage().getImplementationVersion();
                     String appBuildDate = "development";
                     String appStartUpDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(applicationContext.getStartupDate()));
 

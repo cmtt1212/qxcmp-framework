@@ -33,10 +33,10 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY;
 import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_MALL_COMMODITY_CATALOG;
+import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.NAVIGATION_ADMIN_MALL_USER_STORE_MANAGEMENT_COMMODITY;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall/user/store")

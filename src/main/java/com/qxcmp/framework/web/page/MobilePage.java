@@ -31,7 +31,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
 
 @org.springframework.stereotype.Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
