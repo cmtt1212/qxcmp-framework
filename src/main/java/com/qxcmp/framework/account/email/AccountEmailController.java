@@ -2,7 +2,7 @@ package com.qxcmp.framework.account.email;
 
 import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -36,7 +36,7 @@ public class AccountEmailController extends AccountPageController {
     @GetMapping("logon")
     public ModelAndView logon(final AccountEmailLogonForm form) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
             return logonClosedPage().build();
         }
 
@@ -49,7 +49,7 @@ public class AccountEmailController extends AccountPageController {
     @PostMapping("logon")
     public ModelAndView logonEmailPost(@Valid final AccountEmailLogonForm form, BindingResult bindingResult) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
             return logonClosedPage().build();
         }
 
@@ -97,7 +97,7 @@ public class AccountEmailController extends AccountPageController {
     @GetMapping("reset")
     public ModelAndView reset(final AccountEmailResetForm form) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
             return resetClosedPage().build();
         }
 
@@ -110,7 +110,7 @@ public class AccountEmailController extends AccountPageController {
     @PostMapping("reset")
     public ModelAndView resetEmailPost(@Valid final AccountEmailResetForm form, BindingResult bindingResult) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL).orElse(false)) {
             return resetClosedPage().build();
         }
 

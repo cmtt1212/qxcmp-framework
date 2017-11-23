@@ -1,8 +1,8 @@
 package com.qxcmp.framework.config;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.core.QXCMPConfigurator;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpConfigurator;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SystemDictionaryLoader implements QXCMPConfigurator {
+public class SystemDictionaryLoader implements QxcmpConfigurator {
 
     private final SystemConfigService systemConfigService;
 
@@ -88,9 +88,9 @@ public class SystemDictionaryLoader implements QXCMPConfigurator {
 
     @Override
     public void config() throws Exception {
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG).orElse(false)) {
             reload();
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG, "true");
+            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG, "true");
         }
 
         systemDictionaryService.refresh();

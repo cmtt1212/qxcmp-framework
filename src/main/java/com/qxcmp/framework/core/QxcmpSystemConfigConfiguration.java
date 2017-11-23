@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @SystemConfigAutowired
-public class QXCMPSystemConfigConfiguration {
+public class QxcmpSystemConfigConfiguration {
 
     /*
      * 系统核心相关配置

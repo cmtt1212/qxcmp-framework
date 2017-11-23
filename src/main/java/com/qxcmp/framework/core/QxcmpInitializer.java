@@ -16,15 +16,15 @@ import java.util.stream.Collectors;
  * <p>
  * 在平台启动的最后进行平台初始化操作
  * <p>
- * 加载所有实现了{@link QXCMPConfigurator} 接口的Spring Bean，排序以后分别执行初始化操作
+ * 加载所有实现了{@link QxcmpConfigurator} 接口的Spring Bean，排序以后分别执行初始化操作
  *
  * @author aaric
- * @see QXCMPConfigurator
+ * @see QxcmpConfigurator
  */
 @Component
 @Slf4j
 @AllArgsConstructor
-public class QXCMPInitializer implements ApplicationRunner {
+public class QxcmpInitializer implements ApplicationRunner {
 
     private ApplicationContext applicationContext;
 
@@ -33,7 +33,7 @@ public class QXCMPInitializer implements ApplicationRunner {
 
         log.info("========== Start QXCMP Initialization ==========");
 
-        applicationContext.getBeansOfType(QXCMPConfigurator.class).entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(QXCMPConfigurator::order)).collect(Collectors.toList()).forEach(qxcmpConfigurator -> {
+        applicationContext.getBeansOfType(QxcmpConfigurator.class).entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(QxcmpConfigurator::order)).collect(Collectors.toList()).forEach(qxcmpConfigurator -> {
             try {
                 log.info("==> Configuring: {}", qxcmpConfigurator.name());
                 qxcmpConfigurator.config();

@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_NOTIFY_URL;
 
 
 /**

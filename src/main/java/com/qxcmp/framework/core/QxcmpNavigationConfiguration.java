@@ -7,8 +7,8 @@ import com.qxcmp.framework.web.model.navigation.NavigationService;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import org.springframework.context.annotation.Configuration;
 
-import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
+import static com.qxcmp.framework.core.QxcmpSecurityConfiguration.*;
 
 /**
  * 平台导航配置

@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME;
 
 @Controller
 @RequestMapping("/account/username/")

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.security;
 
-import com.qxcmp.framework.core.QXCMPConfigurator;
+import com.qxcmp.framework.core.QxcmpConfigurator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +28,7 @@ import static com.google.common.base.Preconditions.checkState;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class PrivilegeLoader implements QXCMPConfigurator {
+public class PrivilegeLoader implements QxcmpConfigurator {
 
     private ApplicationContext applicationContext;
 

@@ -2,7 +2,7 @@ package com.qxcmp.framework.redeem.web;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.redeem.RedeemKey;
 import com.qxcmp.framework.redeem.RedeemKeyService;
 import com.qxcmp.framework.user.User;
@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/redeem")
@@ -66,7 +66,7 @@ public class AdminRedeemPageController extends QxcmpController {
     @GetMapping("/generate")
     public ModelAndView redeemGeneratePage(final AdminRedeemGenerateForm form) {
 
-        form.setDateExpired(new Date(System.currentTimeMillis() + 1000 * systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE)));
+        form.setDateExpired(new Date(System.currentTimeMillis() + 1000 * systemConfigService.getInteger(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION_DEFAULT_VALUE)));
         form.setQuantity(1);
 
         return page().addComponent(new Segment().addComponent(convertToForm(form)))

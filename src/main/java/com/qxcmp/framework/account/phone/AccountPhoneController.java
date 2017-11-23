@@ -2,7 +2,7 @@ package com.qxcmp.framework.account.phone;
 
 import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
@@ -42,7 +42,7 @@ public class AccountPhoneController extends AccountPageController {
     @GetMapping("logon")
     public ModelAndView logon(final AccountPhoneLogonForm form) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
             return logonClosedPage().build();
         }
 
@@ -55,7 +55,7 @@ public class AccountPhoneController extends AccountPageController {
     @PostMapping("logon")
     public ModelAndView logon(@Valid final AccountPhoneLogonForm form, BindingResult bindingResult) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
             return logonClosedPage().build();
         }
 
@@ -103,7 +103,7 @@ public class AccountPhoneController extends AccountPageController {
     @GetMapping("reset")
     public ModelAndView reset(final AccountPhoneResetForm form) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
             return resetClosedPage().build();
         }
 
@@ -116,7 +116,7 @@ public class AccountPhoneController extends AccountPageController {
     @PostMapping("reset")
     public ModelAndView reset(@Valid final AccountPhoneResetForm form, BindingResult bindingResult) {
 
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE).orElse(false)) {
             return resetClosedPage().build();
         }
 

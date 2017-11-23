@@ -2,7 +2,7 @@ package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.config.SystemConfigAutowired;
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.security.PrivilegeAutowired;
 import com.qxcmp.framework.user.UserService;
 import com.qxcmp.framework.web.auth.AuthenticationFilter;
@@ -29,9 +29,9 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.EnumSet;
 
-import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_LOGIN_URL;
+import static com.qxcmp.framework.core.QxcmpSecurityConfiguration.*;
 
 
 /**
@@ -185,8 +185,8 @@ public class QxcmpWebConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage(QXCMP_LOGIN_URL).permitAll()
                 .and().logout()
                 .and().sessionManagement()
-                .maximumSessions(systemConfigService.getInteger(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE))
-                .maxSessionsPreventsLogin(systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE))
+                .maximumSessions(systemConfigService.getInteger(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT_DEFAULT_VALUE))
+                .maxSessionsPreventsLogin(systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN_DEFAULT_VALUE))
                 .expiredUrl("/login?expired")
                 .sessionRegistry(sessionRegistry())
                 .and().and().addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)

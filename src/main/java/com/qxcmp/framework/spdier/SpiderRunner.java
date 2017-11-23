@@ -1,6 +1,6 @@
 package com.qxcmp.framework.spdier;
 
-import com.qxcmp.framework.core.QXCMPConfigurator;
+import com.qxcmp.framework.core.QxcmpConfigurator;
 import com.qxcmp.framework.spdier.log.SpiderLogService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class SpiderRunner implements QXCMPConfigurator {
+public class SpiderRunner implements QxcmpConfigurator {
 
     private ApplicationContext applicationContext;
 

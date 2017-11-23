@@ -1,6 +1,6 @@
 package com.qxcmp.framework.config;
 
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,31 +21,31 @@ public class SiteServiceImpl implements SiteService {
 
     @Override
     public String getTitle() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_TITLE).orElse(applicationName);
+        return systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_TITLE).orElse(applicationName);
     }
 
     @Override
     public String getDomain() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DOMAIN).orElse("");
+        return systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DOMAIN).orElse("");
     }
 
     @Override
     public String getLogo() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO_DEFAULT_VALUE);
+        return systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_LOGO_DEFAULT_VALUE);
     }
 
     @Override
     public String getFavicon() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON).orElse(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON_DEFAULT_VALUE);
+        return systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_FAVICON_DEFAULT_VALUE);
     }
 
     @Override
     public String getKeywords() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_KEYWORDS).orElse("");
+        return systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_KEYWORDS).orElse("");
     }
 
     @Override
     public String getDescription() {
-        return systemConfigService.getString(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DESCRIPTION).orElse("");
+        return systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SITE_DESCRIPTION).orElse("");
     }
 }

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.model.navigation;
 
-import com.qxcmp.framework.core.QXCMPConfigurator;
+import com.qxcmp.framework.core.QxcmpConfigurator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import java.util.Comparator;
  */
 @Component
 @RequiredArgsConstructor
-public class NavigationLoader implements QXCMPConfigurator {
+public class NavigationLoader implements QxcmpConfigurator {
 
     private final ApplicationContext applicationContext;
 

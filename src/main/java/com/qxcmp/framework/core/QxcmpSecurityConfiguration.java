@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @PrivilegeAutowired
-public class QXCMPSecurityConfiguration {
+public class QxcmpSecurityConfiguration {
 
     /*
      * 平台内置角色

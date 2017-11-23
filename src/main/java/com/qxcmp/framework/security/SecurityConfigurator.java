@@ -2,14 +2,14 @@ package com.qxcmp.framework.security;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.qxcmp.framework.core.QXCMPConfigurator;
+import com.qxcmp.framework.core.QxcmpConfigurator;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpSecurityConfiguration.*;
 
 /**
  * 平台安全配置
@@ -20,7 +20,7 @@ import static com.qxcmp.framework.core.QXCMPSecurityConfiguration.*;
  */
 @Component
 @AllArgsConstructor
-public class SecurityConfigurator implements QXCMPConfigurator {
+public class SecurityConfigurator implements QxcmpConfigurator {
 
     private UserService userService;
 

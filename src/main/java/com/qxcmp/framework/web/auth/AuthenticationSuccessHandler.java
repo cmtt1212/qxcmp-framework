@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT;
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT_DEFAULT_VALUE;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_SESSION_TIMEOUT_DEFAULT_VALUE;
 
 /**
  * 认证成功处理器，属于框架基本功能，供平台和前端共同使用

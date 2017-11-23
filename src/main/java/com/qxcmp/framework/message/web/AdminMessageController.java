@@ -26,9 +26,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.*;
 
 /**
  * 消息服务后台页面

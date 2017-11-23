@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FILE_UPLOAD_TEMP_FILE_RESERVE_DURATION;
-import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_FILE_UPLOAD_TEMP_FILE_RESERVE_DURATION_DEFAULT_VALE;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_FILE_UPLOAD_TEMP_FILE_RESERVE_DURATION;
+import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_FILE_UPLOAD_TEMP_FILE_RESERVE_DURATION_DEFAULT_VALE;
 
 /**
  * 上传临时文件清理定是任务

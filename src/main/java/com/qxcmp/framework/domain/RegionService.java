@@ -1,8 +1,8 @@
 package com.qxcmp.framework.domain;
 
 import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.core.QXCMPConfigurator;
-import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
+import com.qxcmp.framework.core.QxcmpConfigurator;
+import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 @Service
-public class RegionService extends AbstractEntityService<Region, String, RegionRepository> implements QXCMPConfigurator {
+public class RegionService extends AbstractEntityService<Region, String, RegionRepository> implements QxcmpConfigurator {
 
     private final SystemConfigService systemConfigService;
 
@@ -50,9 +50,9 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
 
     @Override
     public void config() throws Exception {
-        if (!systemConfigService.getBoolean(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG).orElse(false)) {
+        if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG).orElse(false)) {
             reload();
-            systemConfigService.update(QXCMPSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG, "true");
+            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG, "true");
         }
     }
 

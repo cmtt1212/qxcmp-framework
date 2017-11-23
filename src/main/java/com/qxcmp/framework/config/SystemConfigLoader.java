@@ -1,6 +1,6 @@
 package com.qxcmp.framework.config;
 
-import com.qxcmp.framework.core.QXCMPConfigurator;
+import com.qxcmp.framework.core.QxcmpConfigurator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +28,7 @@ import java.util.Objects;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SystemConfigLoader implements QXCMPConfigurator {
+public class SystemConfigLoader implements QxcmpConfigurator {
 
     private final ApplicationContext applicationContext;
 

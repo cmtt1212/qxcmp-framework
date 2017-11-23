@@ -7,7 +7,7 @@ package com.qxcmp.framework.core;
  *
  * @author aaric
  */
-public interface QXCMPConfigurator {
+public interface QxcmpConfigurator {
 
     /**
      * 执行相应配置
