@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
@@ -41,7 +41,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall/user/store")
 @RequiredArgsConstructor
-public class AdminMallUserPageController extends QXCMPController {
+public class AdminMallUserPageController extends QxcmpController {
 
     /**
      * 用户所选店铺偏好

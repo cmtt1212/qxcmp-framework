@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.*;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.views.Overview;
@@ -38,7 +38,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/message")
 @RequiredArgsConstructor
-public class AdminMessageController extends QXCMPController {
+public class AdminMessageController extends QxcmpController {
 
     private static final List<String> SITE_NOTIFICATION_TYPE = ImmutableList.of("一般消息", "网站通知", "网站警告", "网站错误");
 

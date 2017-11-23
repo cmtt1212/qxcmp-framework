@@ -5,7 +5,7 @@ import com.qxcmp.framework.account.username.AccountSecurityQuestion;
 import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -42,7 +42,7 @@ import static com.qxcmp.framework.core.web.profile.ProfilePageHelper.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/profile")
 @RequiredArgsConstructor
-public class AdminProfilePageController extends QXCMPController {
+public class AdminProfilePageController extends QxcmpController {
 
     private final AccountSecurityQuestionService securityQuestionService;
     private final AccountService accountService;

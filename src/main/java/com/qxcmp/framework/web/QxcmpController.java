@@ -68,7 +68,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_FILE_UPLOAD_TEMP
  *
  * @author Aaric
  */
-public abstract class QXCMPController {
+public abstract class QxcmpController {
 
     protected HttpServletRequest request;
     protected HttpServletResponse response;

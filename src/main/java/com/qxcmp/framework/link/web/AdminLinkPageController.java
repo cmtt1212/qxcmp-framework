@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.link.Link;
 import com.qxcmp.framework.link.LinkService;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/link")
 @RequiredArgsConstructor
-public class AdminLinkPageController extends QXCMPController {
+public class AdminLinkPageController extends QxcmpController {
 
     private static final List<String> SUPPORT_TARGET = ImmutableList.of("当前窗口打开", "新窗口打开");
 

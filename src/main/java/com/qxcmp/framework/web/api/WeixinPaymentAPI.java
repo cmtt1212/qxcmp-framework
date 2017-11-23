@@ -11,7 +11,7 @@ import com.qxcmp.framework.finance.DepositOrder;
 import com.qxcmp.framework.finance.DepositOrderService;
 import com.qxcmp.framework.mall.OrderStatusEnum;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.components.weixin.WeixinPayScript;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping("/api/wxmp-cgi/pay")
 @RequiredArgsConstructor
-public class WeixinPaymentAPI extends QXCMPController {
+public class WeixinPaymentAPI extends QxcmpController {
 
     private final WxPayService wxPayService;
 

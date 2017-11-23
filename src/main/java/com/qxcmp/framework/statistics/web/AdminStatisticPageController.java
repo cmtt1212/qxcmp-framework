@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.statistics.*;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPNavigationConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/statistic")
 @RequiredArgsConstructor
-public class AdminStatisticPageController extends QXCMPController {
+public class AdminStatisticPageController extends QxcmpController {
 
     private static final int MAX_BAIDU_LINK_PUSH_SIZE = 2000;
 

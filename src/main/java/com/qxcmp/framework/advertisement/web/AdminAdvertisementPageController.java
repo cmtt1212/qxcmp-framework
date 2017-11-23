@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.advertisement.Advertisement;
 import com.qxcmp.framework.advertisement.AdvertisementService;
 import com.qxcmp.framework.audit.ActionException;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -28,7 +28,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/advertisement")
 @RequiredArgsConstructor
-public class AdminAdvertisementPageController extends QXCMPController {
+public class AdminAdvertisementPageController extends QxcmpController {
 
     public static final List<String> SUPPORT_TYPES = ImmutableList.of("横幅", "弹框", "摩天楼");
 

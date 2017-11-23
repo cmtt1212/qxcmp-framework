@@ -6,7 +6,7 @@ import com.qxcmp.framework.core.QXCMPSystemConfigConfiguration;
 import com.qxcmp.framework.news.Article;
 import com.qxcmp.framework.news.ArticleService;
 import com.qxcmp.framework.news.ArticleStatus;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.grid.Col;
@@ -56,7 +56,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/weixin")
 @RequiredArgsConstructor
-public class AdminWeixinPageController extends QXCMPController {
+public class AdminWeixinPageController extends QxcmpController {
 
     private final WxMpService wxMpService;
     private final WxMpConfigStorage wxMpConfigStorage;

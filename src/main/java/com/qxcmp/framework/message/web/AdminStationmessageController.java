@@ -6,7 +6,7 @@ import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +29,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/inbox")
 @RequiredArgsConstructor
-public class AdminStationmessageController extends QXCMPController {
+public class AdminStationmessageController extends QxcmpController {
 
     private final StationMessageService stationMessageService;
 

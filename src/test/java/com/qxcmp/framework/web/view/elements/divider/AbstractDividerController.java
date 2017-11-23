@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.view.elements.divider;
 
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.support.Size;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test/elements/divider")
-public class AbstractDividerController extends QXCMPController {
+public class AbstractDividerController extends QxcmpController {
 
     @GetMapping("/1")
     public ModelAndView testPage1() {

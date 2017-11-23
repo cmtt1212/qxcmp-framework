@@ -3,7 +3,7 @@ package com.qxcmp.framework.mall.web;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.mall.Store;
 import com.qxcmp.framework.mall.StoreService;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -29,7 +29,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/mall")
 @RequiredArgsConstructor
-public class AdminMallPageController extends QXCMPController {
+public class AdminMallPageController extends QxcmpController {
 
     private final StoreService storeService;
 

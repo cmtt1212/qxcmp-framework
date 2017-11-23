@@ -1,6 +1,6 @@
 package com.qxcmp.framework.web.api;
 
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_FILE_UPLOAD_TEMP
  */
 @Controller
 @RequestMapping("/api/file/")
-public class FileUploadAPI extends QXCMPController {
+public class FileUploadAPI extends QxcmpController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam MultipartFile file) {

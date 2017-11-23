@@ -9,7 +9,7 @@ import com.qxcmp.framework.config.SystemDictionaryService;
 import com.qxcmp.framework.domain.Region;
 import com.qxcmp.framework.domain.RegionLevel;
 import com.qxcmp.framework.domain.RegionService;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.*;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/settings")
 @RequiredArgsConstructor
-public class AdminSettingsPageController extends QXCMPController {
+public class AdminSettingsPageController extends QxcmpController {
 
     private static final List<String> WATERMARK_POSITIONS = ImmutableList.of("左上", "中上", "右上", "左中", "居中", "右中", "左下", "中下", "右下");
 

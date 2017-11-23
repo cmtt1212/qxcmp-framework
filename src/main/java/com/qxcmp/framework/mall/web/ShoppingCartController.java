@@ -3,7 +3,7 @@ package com.qxcmp.framework.mall.web;
 import com.qxcmp.framework.exception.ShoppingCartServiceException;
 import com.qxcmp.framework.mall.*;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
@@ -26,7 +26,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping("/mall/cart")
 @RequiredArgsConstructor
-public class ShoppingCartController extends QXCMPController {
+public class ShoppingCartController extends QxcmpController {
 
     private final ShoppingCartService shoppingCartService;
 

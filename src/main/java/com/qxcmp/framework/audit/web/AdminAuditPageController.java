@@ -2,7 +2,7 @@ package com.qxcmp.framework.audit.web;
 
 import com.qxcmp.framework.audit.AuditLog;
 import com.qxcmp.framework.audit.AuditLogService;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -29,7 +29,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/audit")
 @RequiredArgsConstructor
-public class AdminAuditPageController extends QXCMPController {
+public class AdminAuditPageController extends QxcmpController {
 
     private final AuditLogService auditLogService;
 

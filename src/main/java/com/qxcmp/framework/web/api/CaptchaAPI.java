@@ -4,7 +4,7 @@ import com.qxcmp.framework.core.validation.PhoneValidator;
 import com.qxcmp.framework.domain.Captcha;
 import com.qxcmp.framework.domain.CaptchaService;
 import com.qxcmp.framework.message.SmsService;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ import static com.qxcmp.framework.core.QXCMPSystemConfigConfiguration.SYSTEM_CON
 @Controller
 @RequestMapping("/api/captcha/")
 @RequiredArgsConstructor
-public class CaptchaAPI extends QXCMPController {
+public class CaptchaAPI extends QxcmpController {
 
     private final CaptchaService captchaComponent;
 

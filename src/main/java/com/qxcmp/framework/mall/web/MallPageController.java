@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.qxcmp.framework.mall.Commodity;
 import com.qxcmp.framework.mall.CommodityService;
 import com.qxcmp.framework.mall.CommodityVersion;
-import com.qxcmp.framework.web.QXCMPController;
+import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.button.AbstractButton;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.divider.Divider;
@@ -42,7 +42,7 @@ import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 @Controller
 @RequestMapping("/mall")
 @RequiredArgsConstructor
-public class MallPageController extends QXCMPController {
+public class MallPageController extends QxcmpController {
 
     private final CommodityService commodityService;
 

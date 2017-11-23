@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/error")
-public class QXCMPErrorController extends QXCMPController implements ErrorController {
+public class QxcmpErrorController extends QxcmpController implements ErrorController {
 
     private ErrorAttributes errorAttributes;
 
