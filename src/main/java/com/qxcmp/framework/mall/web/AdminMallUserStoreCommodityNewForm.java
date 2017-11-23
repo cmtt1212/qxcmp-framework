@@ -10,6 +10,9 @@ import lombok.Data;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Aaric
+ */
 @Form(value = "添加商品", submitText = "确认添加")
 @Data
 public class AdminMallUserStoreCommodityNewForm {

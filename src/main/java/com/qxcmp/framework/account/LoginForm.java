@@ -6,6 +6,9 @@ import com.qxcmp.framework.web.view.annotation.form.PasswordField;
 import com.qxcmp.framework.web.view.annotation.form.TextInputField;
 import lombok.Data;
 
+/**
+ * @author Aaric
+ */
 @Form(submitIcon = "sign in")
 @Data
 public class LoginForm {
