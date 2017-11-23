@@ -21,13 +21,13 @@ import java.util.Objects;
  *
  * @author Aaric
  */
-public class QXCMPFilter extends GenericFilterBean {
+public class QxcmpFilter extends GenericFilterBean {
 
     private final ApplicationContext applicationContext;
     private final AccessAddressService accessAddressService;
     private final QXCMPIpAddressResolver ipAddressResolver;
 
-    public QXCMPFilter(ApplicationContext applicationContext, AccessAddressService accessAddressService, QXCMPIpAddressResolver ipAddressResolver) {
+    public QxcmpFilter(ApplicationContext applicationContext, AccessAddressService accessAddressService, QXCMPIpAddressResolver ipAddressResolver) {
         this.applicationContext = applicationContext;
         this.accessAddressService = accessAddressService;
         this.ipAddressResolver = ipAddressResolver;

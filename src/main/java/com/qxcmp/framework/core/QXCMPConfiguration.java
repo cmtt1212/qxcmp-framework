@@ -5,7 +5,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.statistics.AccessAddressService;
-import com.qxcmp.framework.web.filter.QXCMPFilter;
+import com.qxcmp.framework.web.filter.QxcmpFilter;
 import com.qxcmp.framework.web.support.QXCMPIpAddressResolver;
 import com.qxcmp.framework.weixin.WeixinMpMessageHandler;
 import lombok.RequiredArgsConstructor;
@@ -139,7 +139,7 @@ public class QXCMPConfiguration {
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        QXCMPFilter qxcmpFilter = new QXCMPFilter(applicationContext, accessAddressService, ipAddressResolver);
+        QxcmpFilter qxcmpFilter = new QxcmpFilter(applicationContext, accessAddressService, ipAddressResolver);
         filterRegistrationBean.setFilter(qxcmpFilter);
         return filterRegistrationBean;
     }
