@@ -16,8 +16,8 @@ public class AdminNewsPageHelper {
 
     private final UserService userService;
 
-    public Map<String, Object> getArticleInfoTable(Article article) {
-        Map<String, Object> stringObjectMap = Maps.newLinkedHashMap();
+    public Map<Object, Object> getArticleInfoTable(Article article) {
+        Map<Object, Object> stringObjectMap = Maps.newLinkedHashMap();
         stringObjectMap.put("所属栏目", new CollectionValueCell(article.getChannels(), "name"));
         stringObjectMap.put("文章摘要", article.getDigest());
         stringObjectMap.put("文章状态", article.getStatus().getName());

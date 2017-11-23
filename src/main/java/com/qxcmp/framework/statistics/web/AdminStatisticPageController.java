@@ -173,7 +173,7 @@ public class AdminStatisticPageController extends QxcmpController {
 
         return submitForm(form, context -> {
 
-            Map<String, Object> result = Maps.newLinkedHashMap();
+            Map<Object, Object> result = Maps.newLinkedHashMap();
             context.put("result", result);
 
             try {
@@ -225,6 +225,6 @@ public class AdminStatisticPageController extends QxcmpController {
                 throw new ActionException(e.getMessage(), e);
             }
 
-        }, (stringObjectMap, overview) -> overview.addComponent(convertToTable((Map<String, Object>) stringObjectMap.get("result"))));
+        }, (stringObjectMap, overview) -> overview.addComponent(convertToTable((Map<Object, Object>) stringObjectMap.get("result"))));
     }
 }

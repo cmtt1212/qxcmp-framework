@@ -62,7 +62,7 @@ public class TableHelper {
      * @param dictionary 渲染的字典对象
      * @return 表格视图
      */
-    public Table convert(Map<String, Object> dictionary) {
+    public Table convert(Map<Object, Object> dictionary) {
         final Table table = new Table();
         table.setCelled().setBasic().setSize(Size.SMALL);
         table.setBody(new TableBody());
@@ -78,10 +78,8 @@ public class TableHelper {
         } else {
             dictionary.forEach((key, value) -> {
                 TableRow tableRow = new TableRow();
-                TableData keyCell = new TableData();
-                keyCell.setContent(key);
-                tableRow.addCell(keyCell);
 
+                parseValueCell(tableRow, key);
                 parseValueCell(tableRow, value);
 
                 table.getBody().addRow(tableRow);

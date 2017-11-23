@@ -170,12 +170,12 @@ public abstract class QxcmpController {
         return tableHelper.convert(tableName, action, tClass, tPage, request);
     }
 
-    protected Table convertToTable(Map<String, Object> dictionary) {
+    protected Table convertToTable(Map<Object, Object> dictionary) {
         return tableHelper.convert(dictionary);
     }
 
-    protected Table convertToTable(Consumer<Map<String, Object>> consumer) {
-        Map<String, Object> dictionary = Maps.newLinkedHashMap();
+    protected Table convertToTable(Consumer<Map<Object, Object>> consumer) {
+        Map<Object, Object> dictionary = Maps.newLinkedHashMap();
         consumer.accept(dictionary);
         return convertToTable(dictionary);
     }

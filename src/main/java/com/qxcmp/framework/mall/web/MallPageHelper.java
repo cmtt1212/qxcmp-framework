@@ -140,7 +140,7 @@ public class MallPageHelper {
 
     public Component nextMobileCashier(CommodityOrder commodityOrder) {
 
-        Map<String, Object> dictionary = Maps.newLinkedHashMap();
+        Map<Object, Object> dictionary = Maps.newLinkedHashMap();
 
         dictionary.put("订单号", commodityOrder.getId());
         dictionary.put("实付款", new DecimalFormat("￥0.00").format((double) commodityOrder.getActualPayment() / 100));
