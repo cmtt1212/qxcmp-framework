@@ -26,6 +26,9 @@ import java.text.SimpleDateFormat;
 
 import static com.qxcmp.framework.core.QXCMPConfiguration.QXCMP_BACKEND_URL;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/audit")
 @RequiredArgsConstructor
@@ -47,7 +50,7 @@ public class AdminAuditPageController extends QxcmpController {
                         .addComponent(convertToTable(stringObjectMap -> {
                             stringObjectMap.put("ID", auditLog.getId());
                             stringObjectMap.put("操作名称", auditLog.getTitle());
-                            stringObjectMap.put("操作人", auditLog.getOwner() == null ? "无" : new TextValueCell(auditLog.getOwner().getDisplayName()).setUrl(QXCMP_BACKEND_URL + "/user/" + auditLog.getOwner().getId() + "/details"));
+                            stringObjectMap.put("操作人", auditLog.getOwner() == null ? "无" : new TextValueCell(auditLog.getOwner().getDisplayName(), QXCMP_BACKEND_URL + "/user/" + auditLog.getOwner().getId() + "/details"));
                             stringObjectMap.put("操作链接", auditLog.getUrl());
                             stringObjectMap.put("操作时间", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(auditLog.getDateCreated()));
                             stringObjectMap.put("操作状态", auditLog.getStatus().equals(AuditLog.Status.SUCCESS) ? new ComponentCell(new Icon("check circle").setColor(Color.GREEN)) : new ComponentCell(new Icon("warning circle").setColor(Color.RED)));

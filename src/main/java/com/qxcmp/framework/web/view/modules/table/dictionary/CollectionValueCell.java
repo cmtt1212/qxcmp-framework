@@ -43,7 +43,7 @@ public class CollectionValueCell extends BaseDictionaryValueCell<Collection<?>> 
 
     @SuppressWarnings("unchecked")
     @Override
-    public AbstractTableCell parse() {
+    public AbstractTableCell render() {
         final TableData tableData = new TableData();
 
         List<Component> components = Lists.newArrayList();

@@ -104,7 +104,7 @@ public class TableHelper {
                 tableRow.addCell(new TableData(Boolean.parseBoolean(value.toString()) ? "是" : "否"));
             } else if (value instanceof BaseDictionaryValueCell) {
                 BaseDictionaryValueCell dictionaryValueCell = (BaseDictionaryValueCell) value;
-                tableRow.addCell(dictionaryValueCell.parse());
+                tableRow.addCell(dictionaryValueCell.render());
             } else {
                 tableRow.addCell(new TableData(value.toString()));
             }

@@ -1,8 +1,6 @@
 package com.qxcmp.framework.web.view.modules.table.dictionary;
 
-import com.qxcmp.framework.web.view.elements.html.Anchor;
 import com.qxcmp.framework.web.view.modules.table.AbstractTableCell;
-import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,22 +17,20 @@ import lombok.Setter;
 @Setter
 public abstract class BaseDictionaryValueCell<T> {
 
+    /**
+     * 单元格绑定的对象
+     */
     protected T object;
-
-    protected Anchor anchor;
 
     public BaseDictionaryValueCell(T object) {
         this.object = object;
     }
 
-    public abstract AbstractTableCell parse();
+    /**
+     * 将单元格对象渲染为视图组件
+     *
+     * @return 表格单元格视图组件
+     */
+    public abstract AbstractTableCell render();
 
-    public BaseDictionaryValueCell<T> setUrl(String url) {
-        return setUrl(url, AnchorTarget.SELF);
-    }
-
-    public BaseDictionaryValueCell<T> setUrl(String url, AnchorTarget target) {
-        this.anchor = new Anchor("", url, target.toString());
-        return this;
-    }
 }

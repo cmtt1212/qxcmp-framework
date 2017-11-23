@@ -16,7 +16,7 @@ public class ComponentCell extends BaseDictionaryValueCell<Component> {
     }
 
     @Override
-    public AbstractTableCell parse() {
+    public AbstractTableCell render() {
         return new TableData(object);
     }
 }
