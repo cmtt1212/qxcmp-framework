@@ -151,6 +151,7 @@ public class QxcmpWebConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(QXCMP_BACKEND_URL + "/user/**/role/**").hasRole(PRIVILEGE_USER_ROLE)
                 .antMatchers(QXCMP_BACKEND_URL + "/user/**/status/**").hasRole(PRIVILEGE_USER_STATUS)
                 .antMatchers(QXCMP_BACKEND_URL + "/user/**").hasRole(PRIVILEGE_USER)
+                .antMatchers(QXCMP_BACKEND_URL + "/finance/wallet/**").hasRole(PRIVILEGE_FINANCE_WALLET_MANAGEMENT)
                 .antMatchers(QXCMP_BACKEND_URL + "/finance/weixin/**").hasRole(PRIVILEGE_FINANCE_WEIXIN)
                 .antMatchers(QXCMP_BACKEND_URL + "/finance/**").hasRole(PRIVILEGE_FINANCE)
                 .antMatchers(QXCMP_BACKEND_URL + "/message/email/config/**").hasRole(PRIVILEGE_MESSAGE_EMAIL_CONFIG)

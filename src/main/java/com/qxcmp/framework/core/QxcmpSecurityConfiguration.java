@@ -22,6 +22,7 @@ public class QxcmpSecurityConfiguration {
     /*
      * 基本权限
      * */
+
     public static final String PRIVILEGE_SYSTEM_ADMIN = "系统管理员权限";
     public static final String PRIVILEGE_SYSTEM_ADMIN_DESCRIPTION = "可以进入后台系统";
     public static final String PRIVILEGE_ADMIN_SETTINGS = "系统配置管理权限";
@@ -32,6 +33,7 @@ public class QxcmpSecurityConfiguration {
     /*
      * 系统工具权限
      * */
+
     public static final String PRIVILEGE_ADMIN_TOOL = "系统工具使用权限";
     public static final String PRIVILEGE_ADMIN_TOOL_DESCRIPTION = "可以使用系统工具，还需要具有具体工具的使用权限";
     public static final String PRIVILEGE_ADMIN_LOG = "平台日志管理权限";
@@ -48,6 +50,7 @@ public class QxcmpSecurityConfiguration {
     /*
      * 用户管理模块
      * */
+
     public static final String PRIVILEGE_USER = "用户管理权限";
     public static final String PRIVILEGE_USER_DESCRIPTION = "可以查看用户管理入口页面";
     public static final String PRIVILEGE_USER_ROLE = "用户角色管理权限";
@@ -58,14 +61,18 @@ public class QxcmpSecurityConfiguration {
     /*
      * 财务模块权限
      * */
+
     public static final String PRIVILEGE_FINANCE = "财务管理权限";
     public static final String PRIVILEGE_FINANCE_DESCRIPTION = "可以查看财务管理入口页面";
+    public static final String PRIVILEGE_FINANCE_WALLET_MANAGEMENT = "用户钱包管理权限";
+    public static final String PRIVILEGE_FINANCE_WALLET_MANAGEMENT_DESCRIPTION = "可以修改用户钱包";
     public static final String PRIVILEGE_FINANCE_WEIXIN = "微信支付配置管理权限";
     public static final String PRIVILEGE_FINANCE_WEIXIN_DESCRIPTION = "可以修改微信支付配置";
 
     /*
      * 消息服务权限
      * */
+
     public static final String PRIVILEGE_MESSAGE = "消息服务使用权限";
     public static final String PRIVILEGE_MESSAGE_DESCRIPTION = "可以查看消息服务入口页面";
     public static final String PRIVILEGE_MESSAGE_EMAIL_CONFIG = "邮件服务配置权限";
@@ -82,6 +89,7 @@ public class QxcmpSecurityConfiguration {
     /*
      * 新闻模块权限
      * */
+
     public static final String PRIVILEGE_NEWS = "新闻管理权限";
     public static final String PRIVILEGE_NEWS_DESCRIPTION = "可以查看新闻管理入口页面";
     public static final String PRIVILEGE_NEWS_CHANNEL = "栏目管理权限";
@@ -94,6 +102,7 @@ public class QxcmpSecurityConfiguration {
     /*
      * 微信公众号模块权限
      * */
+
     public static final String PRIVILEGE_WEIXIN = "微信公众号管理权限";
     public static final String PRIVILEGE_WEIXIN_DESCRIPTION = "可以查看微信公众号管理入口页面";
     public static final String PRIVILEGE_WEIXIN_SETTINGS = "微信公众号配置管理权限";
@@ -106,6 +115,7 @@ public class QxcmpSecurityConfiguration {
     /*
      * 商城模块权限
      * */
+
     public static final String PRIVILEGE_MALL = "商城管理权限";
     public static final String PRIVILEGE_MALL_DESCRIPTION = "可以查看商城管理入口页面";
     public static final String PRIVILEGE_MALL_ORDER = "商城订单管理权限";
@@ -117,9 +127,10 @@ public class QxcmpSecurityConfiguration {
     public static final String PRIVILEGE_MALL_SETTINGS = "商城配置管理权限";
     public static final String PRIVILEGE_MALL_SETTINGS_DESCRIPTION = "可以管理商城配置";
 
-    /**
-     * 网站统计管理权限
-     */
+    /*
+    * 网站统计管理权限
+    * */
+
     public static final String PRIVILEGE_STATISTIC = "网站统计管理权限";
     public static final String PRIVILEGE_STATISTIC_DESCRIPTION = "网站统计管理权限入口页面";
     public static final String PRIVILEGE_STATISTIC_SETTINGS = "网站统计配置管理权限";

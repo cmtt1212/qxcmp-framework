@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping("/finance")
 @RequiredArgsConstructor
@@ -18,8 +21,6 @@ public class FinancePageController extends QxcmpController {
 
 
     private final SystemConfigService systemConfigService;
-
-
     private final FinancePageHelper financePageHelper;
 
     /**
