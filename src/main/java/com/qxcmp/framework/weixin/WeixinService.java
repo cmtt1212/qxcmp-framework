@@ -47,8 +47,6 @@ import java.util.Optional;
 @Slf4j
 public class WeixinService {
 
-    private static final int MAX_COUNT = 10000;
-
     private static final int MAX_MATERIAL_COUNT = 20;
 
     private final UserService userService;
@@ -171,24 +169,28 @@ public class WeixinService {
             weixinUserSync = true;
 
             List<String> openIds = Lists.newArrayList();
+            long total;
+            long successCount = 0;
 
-            int count;
+            String nextOpenId = null;
 
             do {
-                WxMpUserList userList = wxMpService.getUserService().userList(null);
-                count = userList.getCount();
+                WxMpUserList userList = wxMpService.getUserService().userList(nextOpenId);
+                total = userList.getTotal();
                 openIds.addAll(userList.getOpenids());
-            } while (count == MAX_COUNT);
+                nextOpenId = userList.getNextOpenid();
+            } while (StringUtils.isNotBlank(nextOpenId));
 
-            openIds.forEach(s -> {
+            for (String openId : openIds) {
                 try {
-                    syncWeixinUser(wxMpService.getUserService().userInfo(s));
+                    syncWeixinUser(wxMpService.getUserService().userInfo(openId));
+                    ++successCount;
                 } catch (Exception e) {
                     log.warn("Weixin user info syncWeixinUser failed：{}", e.getMessage());
                 }
-            });
+            }
 
-            log.info("Finish weixin user sync");
+            log.info("Finish weixin user sync, total {}, success: {}", total, successCount);
             weixinUserSync = false;
         } catch (Exception e) {
             log.error("Can't load weixin user, cause：{}", e.getMessage(), Objects.nonNull(e.getCause()) ? e.getCause().getMessage() : "");
