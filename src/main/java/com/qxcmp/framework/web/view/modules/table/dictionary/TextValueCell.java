@@ -6,9 +6,14 @@ import com.qxcmp.framework.web.view.modules.table.TableData;
 
 import java.util.Objects;
 
-public class TextValueCell extends AbstractDictionaryValueCell {
+/**
+ * 文本单元格，支持超链接
+ *
+ * @author Aaric
+ */
+public class TextValueCell extends BaseDictionaryValueCell<String> {
 
-    public TextValueCell(Object object) {
+    public TextValueCell(String object) {
         super(object);
     }
 
@@ -17,9 +22,9 @@ public class TextValueCell extends AbstractDictionaryValueCell {
         final TableData tableData = new TableData();
 
         if (Objects.nonNull(getAnchor())) {
-            tableData.addComponent(new Anchor(object.toString(), getAnchor().getHref(), getAnchor().getTarget()));
+            tableData.addComponent(new Anchor(object, getAnchor().getHref(), getAnchor().getTarget()));
         } else {
-            tableData.setContent(object.toString());
+            tableData.setContent(object);
         }
 
         return tableData;

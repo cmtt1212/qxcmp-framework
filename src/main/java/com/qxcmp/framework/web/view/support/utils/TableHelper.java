@@ -21,7 +21,7 @@ import com.qxcmp.framework.web.view.modules.dropdown.item.TextItem;
 import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.modules.table.*;
-import com.qxcmp.framework.web.view.modules.table.dictionary.AbstractDictionaryValueCell;
+import com.qxcmp.framework.web.view.modules.table.dictionary.BaseDictionaryValueCell;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Size;
 import lombok.RequiredArgsConstructor;
@@ -43,12 +43,25 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * 表格视图生成工具类
+ *
+ * @author Aaric
+ */
 @Component
 @RequiredArgsConstructor
 public class TableHelper {
 
     private final FormattingConversionService conversionService;
 
+    /**
+     * 生成一个字典表格视图
+     * <p>
+     * 字典表格视图包含两列，第一列为键，第二列为值
+     *
+     * @param dictionary 渲染的字典对象
+     * @return 表格视图
+     */
     public Table convert(Map<String, Object> dictionary) {
         final Table table = new Table();
         table.setCelled().setBasic().setSize(Size.SMALL);
@@ -89,8 +102,8 @@ public class TableHelper {
         } else {
             if (value instanceof Boolean) {
                 tableRow.addCell(new TableData(Boolean.parseBoolean(value.toString()) ? "是" : "否"));
-            } else if (value instanceof AbstractDictionaryValueCell) {
-                AbstractDictionaryValueCell dictionaryValueCell = (AbstractDictionaryValueCell) value;
+            } else if (value instanceof BaseDictionaryValueCell) {
+                BaseDictionaryValueCell dictionaryValueCell = (BaseDictionaryValueCell) value;
                 tableRow.addCell(dictionaryValueCell.parse());
             } else {
                 tableRow.addCell(new TableData(value.toString()));

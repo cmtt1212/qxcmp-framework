@@ -7,31 +7,33 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 字典表格单元格
+ * 自定义字典表格单元格基类
  * <p>
  * 用于将对象解析为其他格式的单元格
+ * <p>
+ * 所有子类可以将对象转换为自定义视图组件
  *
  * @author Aaric
  */
 @Getter
 @Setter
-public abstract class AbstractDictionaryValueCell<T> {
+public abstract class BaseDictionaryValueCell<T> {
 
     protected T object;
 
     protected Anchor anchor;
 
-    public AbstractDictionaryValueCell(T object) {
+    public BaseDictionaryValueCell(T object) {
         this.object = object;
     }
 
     public abstract AbstractTableCell parse();
 
-    public AbstractDictionaryValueCell<T> setUrl(String url) {
+    public BaseDictionaryValueCell<T> setUrl(String url) {
         return setUrl(url, AnchorTarget.SELF);
     }
 
-    public AbstractDictionaryValueCell<T> setUrl(String url, AnchorTarget target) {
+    public BaseDictionaryValueCell<T> setUrl(String url, AnchorTarget target) {
         this.anchor = new Anchor("", url, target.toString());
         return this;
     }

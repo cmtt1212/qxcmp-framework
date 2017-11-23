@@ -13,12 +13,23 @@ import org.springframework.beans.BeanWrapperImpl;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
+/**
+ * 集合单元格
+ * <p>
+ * 把集合元素渲染为标签单元格
+ *
+ * @author Aaric
+ */
 @Getter
 @Setter
-public class CollectionValueCell extends AbstractDictionaryValueCell {
+public class CollectionValueCell extends BaseDictionaryValueCell<Collection<?>> {
 
+    /**
+     * 集合元素索引
+     * <p>
+     * 如果索引为空则去元素 toString() 方法
+     */
     private String entityIndex;
 
     public CollectionValueCell(Collection<?> object) {
@@ -34,11 +45,10 @@ public class CollectionValueCell extends AbstractDictionaryValueCell {
     @Override
     public AbstractTableCell parse() {
         final TableData tableData = new TableData();
+
         List<Component> components = Lists.newArrayList();
 
-        List list = (List) ((Collection) object).stream().collect(Collectors.toList());
-
-        list.forEach(item -> {
+        Lists.newArrayList(object).forEach(item -> {
             final BeanWrapperImpl beanWrapper = new BeanWrapperImpl(item);
 
             if (StringUtils.isNotBlank(entityIndex)) {

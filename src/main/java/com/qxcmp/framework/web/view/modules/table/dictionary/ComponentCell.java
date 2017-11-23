@@ -4,7 +4,12 @@ import com.qxcmp.framework.web.view.Component;
 import com.qxcmp.framework.web.view.modules.table.AbstractTableCell;
 import com.qxcmp.framework.web.view.modules.table.TableData;
 
-public class ComponentCell extends AbstractDictionaryValueCell {
+/**
+ * 自定义组件视图
+ *
+ * @author Aaric
+ */
+public class ComponentCell extends BaseDictionaryValueCell<Component> {
 
     public ComponentCell(Component component) {
         super(component);
@@ -12,6 +17,6 @@ public class ComponentCell extends AbstractDictionaryValueCell {
 
     @Override
     public AbstractTableCell parse() {
-        return new TableData((Component) object);
+        return new TableData(object);
     }
 }
