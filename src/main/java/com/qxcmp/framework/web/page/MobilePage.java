@@ -203,7 +203,9 @@ public class MobilePage extends BaseFrontendPage {
 
         }
 
-        sidebar.addSideContent(new MobileSidebarLogoutButton());
+        if (Objects.nonNull(user)) {
+            sidebar.addSideContent(new MobileSidebarLogoutButton());
+        }
     }
 
     @Autowired
