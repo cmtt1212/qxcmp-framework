@@ -89,7 +89,7 @@ public class AdminWeixinPageController extends QxcmpController {
         Col col = new Col(Wide.SIXTEEN);
 
         if (weixinService.isWeixinMaterialSync()) {
-            col.addComponent(new InfoMessage("微信用户正在同步中，请稍后刷新查看").setCloseable());
+            col.addComponent(new InfoMessage(String.format("微信素材正在同步中%d/%d，请稍后刷新后查看", weixinService.getCurrentMaterialSync(), weixinService.getTotalMaterialSync())).setCloseable());
         }
 
         col.addComponent(convertToTable(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), new Sort("type")), weixinMpMaterialService));

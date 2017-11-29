@@ -56,7 +56,11 @@ public class WeixinService {
     private final ImageService imageService;
 
     private boolean weixinUserSync;
+    private long currentUserSync;
+    private long totalUserSync;
     private boolean weixinMaterialSync;
+    private long currentMaterialSync;
+    private long totalMaterialSync;
 
     /**
      * 微信网页授权登录
@@ -64,6 +68,7 @@ public class WeixinService {
      * 根据code获取用户OpenId，如果查询到用户信息，则设置OpenId对应的用户为登录状态，并设置登录时间
      *
      * @param code Oauth2 认证码
+     *
      * @return 如果认证成功返回认证以后的用户，否则返回 empty
      */
     public Optional<User> loadOauth2User(String code) {
@@ -97,6 +102,7 @@ public class WeixinService {
             weixinMaterialSync = true;
 
             WxMpMaterialCountResult countResult = wxMpService.getMaterialService().materialCount();
+            totalMaterialSync = countResult.getImageCount() + countResult.getNewsCount() + countResult.getVideoCount() + countResult.getVoiceCount();
 
             for (int i = 0; i <= countResult.getNewsCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialNewsBatchGetResult newsBatchGetResult = wxMpService.getMaterialService().materialNewsBatchGet(i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
@@ -130,6 +136,7 @@ public class WeixinService {
                         next.setSourceUrl(article.getContentSourceUrl());
 
                         weixinMpMaterialService.save(next);
+                        currentMaterialSync++;
                     }
                 });
             }
@@ -137,16 +144,19 @@ public class WeixinService {
             for (int i = 0; i <= countResult.getImageCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_IMAGE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
                 syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.IMAGE);
+                currentMaterialSync++;
             }
 
             for (int i = 0; i <= countResult.getVideoCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VIDEO, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
                 syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.VIDEO);
+                currentMaterialSync++;
             }
 
             for (int i = 0; i <= countResult.getVoiceCount() / MAX_MATERIAL_COUNT; i++) {
                 WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VOICE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
                 syncWeixinMaterial(fileBatchGetResult, WeixinMpMaterialType.VOICE);
+                currentMaterialSync++;
             }
 
             log.info("Finish weixin material sync");
@@ -181,10 +191,13 @@ public class WeixinService {
                 nextOpenId = userList.getNextOpenid();
             } while (StringUtils.isNotBlank(nextOpenId));
 
+            totalUserSync = total;
+
             for (String openId : openIds) {
                 try {
                     syncWeixinUser(wxMpService.getUserService().userInfo(openId));
                     ++successCount;
+                    currentUserSync++;
                 } catch (Exception e) {
                     log.warn("Weixin user info syncWeixinUser failed：{}", e.getMessage());
                 }
@@ -229,6 +242,22 @@ public class WeixinService {
 
     public boolean isWeixinMaterialSync() {
         return weixinMaterialSync;
+    }
+
+    public long getCurrentUserSync() {
+        return currentUserSync;
+    }
+
+    public long getTotalUserSync() {
+        return totalUserSync;
+    }
+
+    public long getCurrentMaterialSync() {
+        return currentMaterialSync;
+    }
+
+    public long getTotalMaterialSync() {
+        return totalMaterialSync;
     }
 
     private String getWeixinArticleContent(String content) {

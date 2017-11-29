@@ -83,7 +83,7 @@ public class AdminUserPageController extends QxcmpController {
         Col col = new Col(Wide.SIXTEEN);
 
         if (weixinService.isWeixinUserSync()) {
-            col.addComponent(new InfoMessage("微信用户正在同步中，请稍后刷新查看").setCloseable());
+            col.addComponent(new InfoMessage(String.format("微信用户正在同步中%d/%d，请稍后刷新后查看", weixinService.getCurrentUserSync(), weixinService.getTotalUserSync())).setCloseable());
         }
 
         col.addComponent(convertToTable("weixin", User.class, users));
