@@ -1,7 +1,6 @@
 package com.qxcmp.framework.core.support;
 
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Encoder;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Locale;
 
@@ -184,8 +184,7 @@ public class AliyunApiUtils {
             mdTemp = MessageDigest.getInstance("MD5");
             mdTemp.update(utfBytes);
             byte[] md5Bytes = mdTemp.digest();
-            BASE64Encoder b64Encoder = new BASE64Encoder();
-            encodeStr = b64Encoder.encode(md5Bytes);
+            encodeStr = Base64.getEncoder().encodeToString(md5Bytes);
         } catch (Exception e) {
             throw new Error("Failed to generate MD5 : " + e.getMessage());
         }
@@ -199,7 +198,7 @@ public class AliyunApiUtils {
             Mac mac = Mac.getInstance("HmacSHA1");
             mac.init(signingKey);
             byte[] rawHmac = mac.doFinal(data.getBytes());
-            result = (new BASE64Encoder()).encode(rawHmac);
+            result = Base64.getEncoder().encodeToString(rawHmac);
         } catch (Exception e) {
             throw new Error("Failed to generate HMAC : " + e.getMessage());
         }
