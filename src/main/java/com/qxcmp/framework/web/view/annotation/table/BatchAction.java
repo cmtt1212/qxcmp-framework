@@ -40,6 +40,23 @@ public @interface BatchAction {
     AnchorTarget target() default AnchorTarget.NONE;
 
     /**
+     * 是否开启确认对话框
+     * <p>
+     * 当操作为POST请求时生效
+     */
+    boolean showConfirmDialog() default false;
+
+    /**
+     * 当开启确认对话框时，对话框的标题
+     */
+    String confirmDialogTitle() default "";
+
+    /**
+     * 当开启确认对话框时，对话框的文本
+     */
+    String confirmDialogDescription() default "";
+
+    /**
      * 按钮颜色
      */
     Color color() default Color.NONE;

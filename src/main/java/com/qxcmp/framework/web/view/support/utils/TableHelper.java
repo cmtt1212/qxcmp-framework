@@ -177,6 +177,14 @@ public class TableHelper {
             entityTableAction.setInverted(tableAction.inverted());
             entityTableAction.setBasic(tableAction.basic());
 
+            if (Objects.equals(tableAction.method(), FormMethod.POST)) {
+                entityTableAction.setShowConfirmDialog(tableAction.showConfirmDialog());
+                entityTableAction.setConfirmDialogTitle(tableAction.confirmDialogTitle());
+                entityTableAction.setConfirmDialogDescription(tableAction.confirmDialogDescription());
+            } else {
+                entityTableAction.setShowConfirmDialog(false);
+            }
+
             table.getTableActions().add(entityTableAction);
         });
 
@@ -193,6 +201,10 @@ public class TableHelper {
             entityTableBatchAction.setInverted(batchAction.inverted());
             entityTableBatchAction.setBasic(batchAction.basic());
 
+            entityTableBatchAction.setShowConfirmDialog(batchAction.showConfirmDialog());
+            entityTableBatchAction.setConfirmDialogTitle(batchAction.confirmDialogTitle());
+            entityTableBatchAction.setConfirmDialogDescription(batchAction.confirmDialogDescription());
+
             table.getBatchActions().add(entityTableBatchAction);
         });
 
@@ -208,6 +220,14 @@ public class TableHelper {
             entityTableRowAction.setSecondary(rowAction.secondary());
             entityTableRowAction.setInverted(rowAction.inverted());
             entityTableRowAction.setBasic(rowAction.basic());
+
+            if (Objects.equals(rowAction.method(), FormMethod.POST)) {
+                entityTableRowAction.setShowConfirmDialog(rowAction.showConfirmDialog());
+                entityTableRowAction.setConfirmDialogTitle(rowAction.confirmDialogTitle());
+                entityTableRowAction.setConfirmDialogDescription(rowAction.confirmDialogDescription());
+            } else {
+                entityTableRowAction.setShowConfirmDialog(false);
+            }
 
             table.getRowActions().add(entityTableRowAction);
         });

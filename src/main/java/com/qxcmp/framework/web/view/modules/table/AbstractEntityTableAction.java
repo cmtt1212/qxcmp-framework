@@ -18,6 +18,12 @@ public abstract class AbstractEntityTableAction {
 
     private AnchorTarget target;
 
+    boolean showConfirmDialog;
+
+    String confirmDialogTitle;
+
+    String confirmDialogDescription;
+
     private Color color = Color.NONE;
 
     private boolean primary;
