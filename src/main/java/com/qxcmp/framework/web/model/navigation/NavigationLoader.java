@@ -22,7 +22,7 @@ public class NavigationLoader implements QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE + 5;
+        return Integer.MIN_VALUE + 6;
     }
 
     @Override

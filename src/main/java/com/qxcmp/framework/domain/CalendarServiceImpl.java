@@ -76,6 +76,6 @@ public class CalendarServiceImpl implements CalendarService, QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE + 3;
+        return Integer.MIN_VALUE + 4;
     }
 }

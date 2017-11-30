@@ -41,7 +41,7 @@ public class PrivilegeLoader implements QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE;
+        return Integer.MIN_VALUE + 1;
     }
 
     private void loadFromClass(Object bean) {

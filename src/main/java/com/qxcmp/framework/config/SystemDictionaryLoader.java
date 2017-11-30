@@ -98,6 +98,6 @@ public class SystemDictionaryLoader implements QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE + 2;
+        return Integer.MIN_VALUE + 3;
     }
 }
