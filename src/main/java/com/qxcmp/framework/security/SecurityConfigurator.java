@@ -96,6 +96,6 @@ public class SecurityConfigurator implements QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MAX_VALUE;
+        return Integer.MAX_VALUE - 1;
     }
 }

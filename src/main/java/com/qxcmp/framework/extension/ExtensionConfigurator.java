@@ -41,6 +41,6 @@ public class ExtensionConfigurator implements QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE;
+        return Integer.MAX_VALUE;
     }
 }

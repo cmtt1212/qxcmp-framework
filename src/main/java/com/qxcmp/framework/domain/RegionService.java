@@ -56,11 +56,6 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
         }
     }
 
-    @Override
-    public int order() {
-        return Integer.MIN_VALUE + 5;
-    }
-
     public void reload() {
         try {
             Resource areaFile = new ClassPathResource("/district/District.csv");

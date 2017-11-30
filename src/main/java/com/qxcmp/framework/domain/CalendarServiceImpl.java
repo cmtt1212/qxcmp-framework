@@ -73,9 +73,4 @@ public class CalendarServiceImpl implements CalendarService, QxcmpConfigurator {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public int order() {
-        return Integer.MIN_VALUE + 4;
-    }
 }

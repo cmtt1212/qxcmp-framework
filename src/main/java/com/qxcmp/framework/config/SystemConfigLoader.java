@@ -41,7 +41,7 @@ public class SystemConfigLoader implements QxcmpConfigurator {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE + 2;
+        return Integer.MIN_VALUE + 1;
     }
 
     private void loadFromClass(Object bean) {
