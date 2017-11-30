@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 public class BackendAccountAlarmItem extends AbstractMenuItem {
 
-    private int messageCount;
+    private long messageCount;
 
-    public BackendAccountAlarmItem(int messageCount) {
+    public BackendAccountAlarmItem(long messageCount) {
         this.messageCount = messageCount;
     }
 

@@ -1,0 +1,32 @@
+package com.qxcmp.framework.message.web;
+
+
+import com.google.common.collect.Lists;
+import com.qxcmp.framework.security.Role;
+import com.qxcmp.framework.web.view.annotation.form.*;
+import lombok.Data;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * @author Aaric
+ */
+@Form(value = "发送站内信")
+@Data
+public class AdminMessageInnerMessageForm {
+
+    @BooleanField("发送给所有用户")
+    private boolean sendToAll;
+
+    @TextSelectionField(value = "收件组", itemTextIndex = "name", itemValueIndex = "id")
+    private Set<Role> group;
+
+    @DynamicField(value = "收件人", itemHeaders = "收件人ID")
+    private List<String> receivers = Lists.newArrayList();
+
+    @HtmlField("内容")
+    private String content;
+    private String contentQuill;
+
+}

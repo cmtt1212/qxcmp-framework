@@ -5,9 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 public class InnerMessageService extends AbstractEntityService<InnerMessage, Long, InnerMessageRepository> {
@@ -26,19 +24,20 @@ public class InnerMessageService extends AbstractEntityService<InnerMessage, Lon
         }
     }
 
-    public Page<InnerMessage> findByUserID(String userID, Pageable pageable) {
-        return repository.findByUserID(userID, pageable);
+    public Page<InnerMessage> findByUserID(String userId, Pageable pageable) {
+        return repository.findByUserIdOrderBySendTimeDesc(userId, pageable);
     }
 
-    @Override
-    public <S extends InnerMessage> Optional<S> create(Supplier<S> supplier) {
+    public Page<InnerMessage> findUserUnreadMessages(String userId, Pageable pageable) {
+        return repository.findByUserIdAndUnreadOrderBySendTimeDesc(userId, true, pageable);
+    }
 
-        S entity = supplier.get();
+    public Page<InnerMessage> findUserReadMessages(String userId, Pageable pageable) {
+        return repository.findByUserIdAndUnreadOrderBySendTimeDesc(userId, false, pageable);
+    }
 
-        if (Objects.nonNull(entity.getId())) {
-            return Optional.empty();
-        }
-        return super.create(() -> entity);
+    public long countByUserId(String userId) {
+        return repository.countByUserIdAndUnread(userId, true);
     }
 
     @Override

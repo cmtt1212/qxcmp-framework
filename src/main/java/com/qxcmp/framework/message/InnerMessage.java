@@ -5,6 +5,7 @@ import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.TableAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
  *
  * @author Aaric
  */
-@EntityTable(value = "站内消息", name = "inbox", action = QXCMP_BACKEND_URL + "/inbox",
+@EntityTable(value = "站内消息", name = "admin", action = QXCMP_BACKEND_URL + "/inbox",
         tableActions = @TableAction(value = "发信息", action = "new", primary = true))
 @Entity
 @Table
@@ -30,17 +31,18 @@ public class InnerMessage {
     @GeneratedValue
     private Long id;
 
-    private String userID;
+    private String userId;
 
-    @TableField("发件人")
     private String sender;
 
-    @TableField("内容")
+    @TableField("标题")
+    private String title;
+
     private String content;
 
     @TableField("发送时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date sendTime;
 
-    @TableField("已读")
-    private boolean alreadyRead;
+    private boolean unread;
 }

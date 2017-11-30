@@ -85,6 +85,8 @@ public class QxcmpSecurityConfiguration {
     public static final String PRIVILEGE_MESSAGE_SMS_SEND_DESCRIPTION = "可以进行短信发送";
     public static final String PRIVILEGE_MESSAGE_SITE_NOTIFICATION = "网站通知管理权限";
     public static final String PRIVILEGE_MESSAGE_SITE_NOTIFICATION_DESCRIPTION = "可以管理和发送网站通知";
+    public static final String PRIVILEGE_MESSAGE_INNER_MESSAGE = "站内信发送权限";
+    public static final String PRIVILEGE_MESSAGE_INNER_MESSAGE_DESCRIPTION = "可以发送站内信到指定用户或用户组";
 
     /*
      * 新闻模块权限
@@ -128,8 +130,8 @@ public class QxcmpSecurityConfiguration {
     public static final String PRIVILEGE_MALL_SETTINGS_DESCRIPTION = "可以管理商城配置";
 
     /*
-    * 网站统计管理权限
-    * */
+     * 网站统计管理权限
+     * */
 
     public static final String PRIVILEGE_STATISTIC = "网站统计管理权限";
     public static final String PRIVILEGE_STATISTIC_DESCRIPTION = "网站统计管理权限入口页面";

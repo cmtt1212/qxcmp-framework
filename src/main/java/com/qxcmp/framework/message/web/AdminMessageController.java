@@ -1,8 +1,10 @@
 package com.qxcmp.framework.message.web;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.*;
+import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
@@ -25,6 +27,9 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
@@ -43,12 +48,11 @@ public class AdminMessageController extends QxcmpController {
     private static final List<String> SITE_NOTIFICATION_TYPE = ImmutableList.of("一般消息", "网站通知", "网站警告", "网站错误");
 
     private final EmailService emailService;
-
     private final SmsService smsService;
-
     private final SmsTemplateService smsTemplateService;
-
     private final SiteNotificationService siteNotificationService;
+    private final InnerMessageService innerMessageService;
+    private final RoleService roleService;
 
     @GetMapping("")
     public ModelAndView messagePage() {
@@ -453,5 +457,99 @@ public class AdminMessageController extends QxcmpController {
                     });
                     return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @GetMapping("/inner/message")
+    public ModelAndView innerMessagePage(final AdminMessageInnerMessageForm form) {
+        return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                .setBreadcrumb("控制台", "", "消息服务", "message", "站内信服务")
+                .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_INNER_MESSAGE)
+                .addObject("selection_items_group", roleService.findAll())
+                .build();
+    }
+
+    @PostMapping("/inner/message")
+    public ModelAndView innerMessagePage(@Valid final AdminMessageInnerMessageForm form, BindingResult bindingResult,
+                                         @RequestParam(value = "add_receivers", required = false) boolean addReceivers,
+                                         @RequestParam(value = "remove_receivers", required = false) Integer removeReceivers) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        if (addReceivers) {
+            form.getReceivers().add("");
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "站内信服务")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_INNER_MESSAGE)
+                    .addObject("selection_items_group", roleService.findAll())
+                    .build();
+        }
+
+        if (Objects.nonNull(removeReceivers)) {
+            form.getReceivers().remove(removeReceivers.intValue());
+            return page().addComponent(new Segment().addComponent(convertToForm(form)))
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "站内信服务")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_INNER_MESSAGE)
+                    .addObject("selection_items_group", roleService.findAll())
+                    .build();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return page().addComponent(new Segment().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form))))
+                    .setBreadcrumb("控制台", "", "消息服务", "message", "站内信服务")
+                    .setVerticalNavigation(NAVIGATION_ADMIN_MESSAGE, NAVIGATION_ADMIN_MESSAGE_INNER_MESSAGE)
+                    .addObject("selection_items_group", roleService.findAll())
+                    .build();
+        }
+
+        return submitForm(form, context -> {
+            try {
+
+                int totalCount;
+                AtomicInteger successCount = new AtomicInteger();
+
+                Set<String> targets = Sets.newHashSet();
+
+                if (form.isSendToAll()) {
+                    targets.addAll(userService.findAll().stream().map(User::getId).collect(Collectors.toList()));
+                } else {
+                    targets.addAll(form.getReceivers());
+                    form.getGroup().forEach(role -> targets.addAll(userService.findByRole(role).stream().map(User::getId).collect(Collectors.toList())));
+                }
+
+                totalCount = targets.size();
+
+                targets.stream().filter(s -> userService.findOne(s).isPresent()).forEach(s -> {
+                    try {
+                        innerMessageService.create(() -> {
+                                    InnerMessage message = innerMessageService.next();
+                                    message.setSender(user.getId());
+                                    message.setTitle(form.getContent());
+                                    message.setContent(form.getContent());
+                                    message.setUserId(s);
+                                    message.setUnread(true);
+                                    message.setSendTime(new Date());
+                                    return message;
+                                }
+                        );
+
+                        successCount.incrementAndGet();
+                    } catch (Exception ignored) {
+
+                    }
+                });
+
+                context.put("totalCount", totalCount);
+                context.put("successCount", successCount.intValue());
+
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview
+                .addComponent(convertToTable(objectObjectMap -> {
+                            objectObjectMap.put("总共发送条数", stringObjectMap.get("totalCount"));
+                            objectObjectMap.put("成功发送条数", stringObjectMap.get("successCount"));
+                        }
+                ))
+                .addLink("返回消息服务", QXCMP_BACKEND_URL + "/message").addLink("继续发送站内信", ""));
     }
 }
