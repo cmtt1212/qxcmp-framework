@@ -35,7 +35,7 @@ public class PrivilegeLoader implements QxcmpConfigurator {
     private PrivilegeService privilegeService;
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         applicationContext.getBeansWithAnnotation(PrivilegeAutowired.class).forEach((s, o) -> loadFromClass(o));
     }
 

@@ -20,7 +20,7 @@ public class ExtensionConfigurator implements QxcmpConfigurator {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void config() throws Exception {
+    public void config() {
         log.info("Start load extension points...");
 
         applicationContext.getBeansOfType(ExtensionPoint.class).forEach((s, extensionPoint) -> {
