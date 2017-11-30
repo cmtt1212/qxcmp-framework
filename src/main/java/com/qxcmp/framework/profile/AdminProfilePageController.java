@@ -8,6 +8,7 @@ import com.qxcmp.framework.message.InnerMessage;
 import com.qxcmp.framework.message.InnerMessageService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
+import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
@@ -26,6 +27,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -72,12 +75,48 @@ public class AdminProfilePageController extends QxcmpController {
         User user = currentUser().orElseThrow(RuntimeException::new);
         return innerMessageService.findOne(id)
                 .filter(innerMessage -> StringUtils.equals(innerMessage.getUserId(), user.getId()))
-                .map(innerMessage -> page()
-                        .addComponent(new Overview(innerMessage.getTitle(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(innerMessage.getSendTime()))
-                                .addComponent(new HtmlText(innerMessage.getContent())))
-                        .setBreadcrumb("控制台", "", "个人中心", null, "站内消息", "profile/message", innerMessage.getTitle())
-                        .build())
+                .map(innerMessage -> {
+
+                    innerMessageService.update(innerMessage.getId(), message -> message.setUnread(false));
+
+                    return page()
+                            .addComponent(new Overview(innerMessage.getTitle(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(innerMessage.getSendTime()))
+                                    .addComponent(new HtmlText(innerMessage.getContent()))
+                                    .addLink("返回我的站内信", QXCMP_BACKEND_URL + "/profile/message"))
+                            .setBreadcrumb("控制台", "", "个人中心", null, "站内消息", "profile/message", innerMessage.getTitle())
+                            .build();
+                })
                 .orElse(page(viewHelper.nextWarningOverview("站内消息不存在", "")).build());
+    }
+
+    @PostMapping("/message/{id}/read")
+    public ResponseEntity<RestfulResponse> messageRead(@PathVariable String id) {
+        return innerMessageService.findOne(id)
+                .map(innerMessage -> {
+                    RestfulResponse restfulResponse = audit("标记站内信为已读", context -> {
+                        try {
+                            innerMessageService.update(innerMessage.getId(), message -> message.setUnread(false));
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
+    }
+
+    @PostMapping("/message/{id}/remove")
+    public ResponseEntity<RestfulResponse> messageRemove(@PathVariable String id) {
+        return innerMessageService.findOne(id)
+                .map(innerMessage -> {
+                    RestfulResponse restfulResponse = audit("删除站内信", context -> {
+                        try {
+                            innerMessageService.remove(innerMessage);
+                        } catch (Exception e) {
+                            throw new ActionException(e.getMessage(), e);
+                        }
+                    });
+                    return ResponseEntity.status(restfulResponse.getStatus()).body(restfulResponse);
+                }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestfulResponse(HttpStatus.NOT_FOUND.value())));
     }
 
     @GetMapping("/info")

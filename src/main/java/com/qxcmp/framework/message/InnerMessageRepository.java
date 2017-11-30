@@ -17,7 +17,7 @@ interface InnerMessageRepository extends JpaRepository<InnerMessage, Long>, JpaS
      *
      * @return 用户的所有站内信消息
      */
-    Page<InnerMessage> findByUserIdOrderBySendTimeDesc(String userId, Pageable pageable);
+    Page<InnerMessage> findByUserIdOrderByUnreadDescSendTimeDesc(String userId, Pageable pageable);
 
     /**
      * 查询用户某一状态的站内信消息

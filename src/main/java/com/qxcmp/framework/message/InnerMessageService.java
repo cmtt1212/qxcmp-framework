@@ -25,7 +25,7 @@ public class InnerMessageService extends AbstractEntityService<InnerMessage, Lon
     }
 
     public Page<InnerMessage> findByUserID(String userId, Pageable pageable) {
-        return repository.findByUserIdOrderBySendTimeDesc(userId, pageable);
+        return repository.findByUserIdOrderByUnreadDescSendTimeDesc(userId, pageable);
     }
 
     public Page<InnerMessage> findUserUnreadMessages(String userId, Pageable pageable) {
