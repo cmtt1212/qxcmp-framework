@@ -26,10 +26,13 @@ import java.util.Set;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
+/**
+ * @author Tony
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/inbox")
 @RequiredArgsConstructor
-public class AdminStationmessageController extends QxcmpController {
+public class AdminStationMessageController extends QxcmpController {
 
     private final StationMessageService stationMessageService;
 

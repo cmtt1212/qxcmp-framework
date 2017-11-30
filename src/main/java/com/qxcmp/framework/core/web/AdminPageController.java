@@ -82,17 +82,8 @@ public class AdminPageController extends QxcmpController {
         });
 
         return page().addComponent(new TextContainer().addComponent(new Segment().setAlignment(Alignment.CENTER)
-                        .addComponent(new PageHeader(HeaderType.H1, "系统工具").setDividing())
-                        .addComponent(list)
-//                .addComponent(new List().setSelection()
-//                        .addItem(new TextItem("兑换码管理").setUrl(QXCMP_BACKEND_URL + "/redeem"))
-//                        .addItem(new TextItem("链接管理").setUrl(QXCMP_BACKEND_URL + "/link"))
-//                        .addItem(new TextItem("广告管理").setUrl(QXCMP_BACKEND_URL + "/advertisement"))
-//                        .addItem(new TextItem("蜘蛛管理").setUrl(QXCMP_BACKEND_URL + "/spider"))
-//                        .addItem(new TextItem("系统日志").setUrl(QXCMP_BACKEND_URL + "/audit"))
-//                        .addItem(new TextItem("站内信").setUrl(QXCMP_BACKEND_URL + "/inbox"))
-//                )
-        ))
+                .addComponent(new PageHeader(HeaderType.H1, "系统工具").setDividing())
+                .addComponent(list)))
                 .setBreadcrumb("控制台", "", "系统工具")
                 .build();
     }
