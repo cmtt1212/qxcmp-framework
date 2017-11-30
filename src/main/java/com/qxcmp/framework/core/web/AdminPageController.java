@@ -2,7 +2,6 @@ package com.qxcmp.framework.core.web;
 
 import com.jcabi.manifests.Manifests;
 import com.qxcmp.framework.core.QxcmpConfiguration;
-import com.qxcmp.framework.core.web.tool.AdminToolPageExtensionPoint;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;

@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web.profile;
+package com.qxcmp.framework.profile;
 
 import com.qxcmp.framework.core.validation.Phone;
 import com.qxcmp.framework.web.view.annotation.form.Form;

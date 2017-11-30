@@ -1,6 +1,6 @@
 package com.qxcmp.framework.spdier.web;
 
-import com.qxcmp.framework.core.web.tool.AdminToolPageExtension;
+import com.qxcmp.framework.core.web.AdminToolPageExtension;
 import org.springframework.stereotype.Component;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;

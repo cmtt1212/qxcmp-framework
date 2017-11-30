@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web.profile;
+package com.qxcmp.framework.profile;
 
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.PasswordField;
@@ -6,9 +6,9 @@ import lombok.Data;
 
 import javax.validation.constraints.Size;
 
-@Form(value = "修改登录密码", submitText = "确认修改")
+@Form(value = "修改支付密码", submitText = "确认修改")
 @Data
-public class AdminProfileSecurityPasswordForm {
+public class AdminProfileSecurityPayPasswordEditForm {
 
     @Size(min = 6, max = 20, message = "密码长度应该在6到20之间")
     @PasswordField(value = "原始密码", maxLength = 20, required = true, autoFocus = true)

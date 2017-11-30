@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web.profile;
+package com.qxcmp.framework.profile;
 
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.account.username.AccountSecurityQuestion;
@@ -37,7 +37,7 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.core.web.profile.ProfilePageHelper.*;
+import static com.qxcmp.framework.profile.ProfilePageHelper.*;
 
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/profile")
