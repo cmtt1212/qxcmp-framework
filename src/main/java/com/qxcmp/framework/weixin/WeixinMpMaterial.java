@@ -5,11 +5,13 @@ import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.modules.table.TableData;
 import com.qxcmp.framework.web.view.support.Alignment;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import java.util.Date;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
@@ -72,6 +74,10 @@ public class WeixinMpMaterial {
     private String url;
 
     private String sourceUrl;
+
+    @TableField("更新日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date updateTime;
 
     @TableFieldRender("type")
     public TableData renderTypeField() {

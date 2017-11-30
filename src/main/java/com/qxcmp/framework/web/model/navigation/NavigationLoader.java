@@ -21,11 +21,6 @@ public class NavigationLoader implements QxcmpConfigurator {
     private final NavigationService navigationService;
 
     @Override
-    public int order() {
-        return Integer.MIN_VALUE + 5;
-    }
-
-    @Override
     public void config() {
         applicationContext.getBeansOfType(NavigationConfigurator.class).values().stream().sorted(Comparator.comparingInt(NavigationConfigurator::order)).forEach(navigationConfigurator -> navigationConfigurator.configureNavigation(navigationService));
     }

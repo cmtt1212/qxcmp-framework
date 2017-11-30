@@ -49,16 +49,11 @@ public class RegionService extends AbstractEntityService<Region, String, RegionR
     }
 
     @Override
-    public void config() throws Exception {
+    public void config() {
         if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG).orElse(false)) {
             reload();
             systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_REGION_INITIAL_FLAG, "true");
         }
-    }
-
-    @Override
-    public int order() {
-        return Integer.MIN_VALUE + 4;
     }
 
     public void reload() {

@@ -87,7 +87,7 @@ public class SystemDictionaryLoader implements QxcmpConfigurator {
     }
 
     @Override
-    public void config() throws Exception {
+    public void config() throws IOException {
         if (!systemConfigService.getBoolean(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG).orElse(false)) {
             reload();
             systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_DICTIONARY_INITIAL_FLAG, "true");

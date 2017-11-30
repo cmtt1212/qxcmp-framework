@@ -1,6 +1,7 @@
 package com.qxcmp.framework.web.page;
 
 import com.qxcmp.framework.config.SiteService;
+import com.qxcmp.framework.message.InnerMessageService;
 import com.qxcmp.framework.message.SiteNotification;
 import com.qxcmp.framework.message.SiteNotificationService;
 import com.qxcmp.framework.user.User;
@@ -61,6 +62,7 @@ public class BackendPage extends AbstractPage {
     private SiteService siteService;
     private NavigationService navigationService;
     private SiteNotificationService siteNotificationService;
+    private InnerMessageService innerMessageService;
 
     public BackendPage(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -194,6 +196,7 @@ public class BackendPage extends AbstractPage {
         menu.setInverted().setFixed(Fixed.TOP);
         menu.addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle()));
         RightMenu rightMenu = new RightMenu();
+        rightMenu.addItem(new BackendAccountAlarmItem(innerMessageService.countByUserId(user.getId())));
         rightMenu.addItem(new BackendAccountMenuItem(user, navigationService.get(NAVIGATION_ADMIN_PROFILE).getItems()));
         menu.setRightMenu(rightMenu);
         sidebar.setTopFixedMenu(menu);
@@ -315,5 +318,10 @@ public class BackendPage extends AbstractPage {
     @Autowired
     public void setSiteNotificationService(SiteNotificationService siteNotificationService) {
         this.siteNotificationService = siteNotificationService;
+    }
+
+    @Autowired
+    public void setInnerMessageService(InnerMessageService innerMessageService) {
+        this.innerMessageService = innerMessageService;
     }
 }
