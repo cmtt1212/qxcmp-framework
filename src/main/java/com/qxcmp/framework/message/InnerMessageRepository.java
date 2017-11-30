@@ -8,12 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-interface StationMessageRepository extends JpaRepository<StationMessage, Long>, JpaSpecificationExecutor<StationMessage> {
+interface InnerMessageRepository extends JpaRepository<InnerMessage, Long>, JpaSpecificationExecutor<InnerMessage> {
 
-    @Query("select message from StationMessage message where message.userID = :userID")
-    Optional<Page> findByUserID(@Param("userID") String userID, Pageable pageable);
+    @Query("select message from InnerMessage message where message.userID = :userID")
+    Page<InnerMessage> findByUserID(@Param("userID") String userID, Pageable pageable);
 
 }

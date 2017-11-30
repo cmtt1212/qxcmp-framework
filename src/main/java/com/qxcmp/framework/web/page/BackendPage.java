@@ -194,6 +194,7 @@ public class BackendPage extends AbstractPage {
         menu.setInverted().setFixed(Fixed.TOP);
         menu.addItem(new LogoImageItem(siteService.getLogo(), siteService.getTitle()));
         RightMenu rightMenu = new RightMenu();
+        rightMenu.addItem(new BackendAccountAlarmItem(10));
         rightMenu.addItem(new BackendAccountMenuItem(user, navigationService.get(NAVIGATION_ADMIN_PROFILE).getItems()));
         menu.setRightMenu(rightMenu);
         sidebar.setTopFixedMenu(menu);

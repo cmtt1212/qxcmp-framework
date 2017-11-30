@@ -1,7 +1,7 @@
 package com.qxcmp.framework.message.web;
 
-import com.qxcmp.framework.message.StationMessage;
-import com.qxcmp.framework.message.StationMessageService;
+import com.qxcmp.framework.message.InnerMessage;
+import com.qxcmp.framework.message.InnerMessageService;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.user.User;
@@ -34,7 +34,7 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 @RequiredArgsConstructor
 public class AdminStationMessageController extends QxcmpController {
 
-    private final StationMessageService stationMessageService;
+    private final InnerMessageService stationMessageService;
 
     private final UserService userService;
 
@@ -46,9 +46,9 @@ public class AdminStationMessageController extends QxcmpController {
         //RuntimeException::new 这是干嘛的？
         User user = currentUser().orElseThrow(RuntimeException::new);
 
-        Page<StationMessage> messages = stationMessageService.findByUserID(user.getId(), new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "sendTime"));
+        Page<InnerMessage> messages = stationMessageService.findByUserID(user.getId(), new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "sendTime"));
 
-        return page().addComponent(convertToTable("inbox", StationMessage.class, messages)).build();
+        return page().addComponent(convertToTable("inbox", InnerMessage.class, messages)).build();
     }
 
     @GetMapping(value = "/new")
@@ -85,7 +85,7 @@ public class AdminStationMessageController extends QxcmpController {
 
         receivers.forEach(rev -> {
             stationMessageService.create(() -> {
-                        StationMessage message = stationMessageService.next();
+                InnerMessage message = stationMessageService.next();
                         message.setSender(user.getUsername());
                         message.setContent(form.getContent());
                         message.setUserID(rev.getId());

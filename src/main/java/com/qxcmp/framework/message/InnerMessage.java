@@ -14,12 +14,17 @@ import java.util.Date;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 
-@EntityTable(value = "我的信箱", name = "inbox", action = QXCMP_BACKEND_URL + "/inbox",
+/**
+ * 站内消息
+ *
+ * @author Aaric
+ */
+@EntityTable(value = "站内消息", name = "inbox", action = QXCMP_BACKEND_URL + "/inbox",
         tableActions = @TableAction(value = "发信息", action = "new", primary = true))
 @Entity
 @Table
 @Data
-public class StationMessage {
+public class InnerMessage {
 
     @Id
     @GeneratedValue

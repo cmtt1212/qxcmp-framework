@@ -10,14 +10,14 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
-public class StationMessageService extends AbstractEntityService<StationMessage, Long, StationMessageRepository> {
+public class InnerMessageService extends AbstractEntityService<InnerMessage, Long, InnerMessageRepository> {
 
 
-    public StationMessageService(StationMessageRepository repository) {
+    public InnerMessageService(InnerMessageRepository repository) {
         super(repository);
     }
 
-    public Optional<StationMessage> findOne(String id) {
+    public Optional<InnerMessage> findOne(String id) {
         try {
             Long aId = Long.parseLong(id);
             return findOne(aId);
@@ -26,12 +26,12 @@ public class StationMessageService extends AbstractEntityService<StationMessage,
         }
     }
 
-    public Page<StationMessage> findByUserID(String userID, Pageable pageable) {
-        return repository.findByUserID(userID, pageable).orElse(null);
+    public Page<InnerMessage> findByUserID(String userID, Pageable pageable) {
+        return repository.findByUserID(userID, pageable);
     }
 
     @Override
-    public <S extends StationMessage> Optional<S> create(Supplier<S> supplier) {
+    public <S extends InnerMessage> Optional<S> create(Supplier<S> supplier) {
 
         S entity = supplier.get();
 
@@ -42,7 +42,7 @@ public class StationMessageService extends AbstractEntityService<StationMessage,
     }
 
     @Override
-    protected <S extends StationMessage> Long getEntityId(S entity) {
+    protected <S extends InnerMessage> Long getEntityId(S entity) {
         return entity.getId();
     }
 }
