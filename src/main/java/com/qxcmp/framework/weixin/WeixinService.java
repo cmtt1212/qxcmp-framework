@@ -134,6 +134,7 @@ public class WeixinService {
                         next.setContent(getWeixinArticleContent(article.getContent()));
                         next.setUrl(article.getUrl());
                         next.setSourceUrl(article.getContentSourceUrl());
+                        next.setUpdateTime(wxMaterialNewsBatchGetNewsItem.getUpdateTime());
 
                         weixinMpMaterialService.save(next);
                         currentMaterialSync++;
@@ -316,6 +317,7 @@ public class WeixinService {
             next.setTitle(wxMaterialFileBatchGetNewsItem.getName());
             next.setUrl(wxMaterialFileBatchGetNewsItem.getUrl());
             next.setThumbUrl(siteService.getLogo());
+            next.setUpdateTime(wxMaterialFileBatchGetNewsItem.getUpdateTime());
             weixinMpMaterialService.save(next);
         });
     }
