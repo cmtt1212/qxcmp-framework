@@ -4,6 +4,8 @@ import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.account.username.AccountSecurityQuestion;
 import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
+import com.qxcmp.framework.message.InnerMessage;
+import com.qxcmp.framework.message.InnerMessageService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.button.Button;
@@ -11,6 +13,7 @@ import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
+import com.qxcmp.framework.web.view.elements.html.HtmlText;
 import com.qxcmp.framework.web.view.elements.html.P;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
@@ -21,17 +24,21 @@ import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,6 +46,9 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.profile.ProfilePageHelper.*;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/profile")
 @RequiredArgsConstructor
@@ -46,6 +56,29 @@ public class AdminProfilePageController extends QxcmpController {
 
     private final AccountSecurityQuestionService securityQuestionService;
     private final AccountService accountService;
+    private final InnerMessageService innerMessageService;
+
+    @GetMapping("/message")
+    public ModelAndView messagePage(Pageable pageable) {
+        User user = currentUser().orElseThrow(RuntimeException::new);
+        Page<InnerMessage> messages = innerMessageService.findByUserID(user.getId(), pageable);
+        return page().addComponent(convertToTable(InnerMessage.class, messages))
+                .setBreadcrumb("控制台", "", "个人中心", null, "站内消息")
+                .build();
+    }
+
+    @GetMapping("/message/{id}/details")
+    public ModelAndView messageDetailsPage(@PathVariable String id) {
+        User user = currentUser().orElseThrow(RuntimeException::new);
+        return innerMessageService.findOne(id)
+                .filter(innerMessage -> StringUtils.equals(innerMessage.getUserId(), user.getId()))
+                .map(innerMessage -> page()
+                        .addComponent(new Overview(innerMessage.getTitle(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(innerMessage.getSendTime()))
+                                .addComponent(new HtmlText(innerMessage.getContent())))
+                        .setBreadcrumb("控制台", "", "个人中心", null, "站内消息", "profile/message", innerMessage.getTitle())
+                        .build())
+                .orElse(page(viewHelper.nextWarningOverview("站内消息不存在", "")).build());
+    }
 
     @GetMapping("/info")
     public ModelAndView infoPage(final AdminProfileInfoForm form) {

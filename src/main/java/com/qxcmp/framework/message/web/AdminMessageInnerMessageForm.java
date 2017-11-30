@@ -4,6 +4,7 @@ package com.qxcmp.framework.message.web;
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.framework.web.view.annotation.table.TableField;
 import lombok.Data;
 
 import java.util.List;
@@ -24,6 +25,9 @@ public class AdminMessageInnerMessageForm {
 
     @DynamicField(value = "收件人", itemHeaders = "收件人ID")
     private List<String> receivers = Lists.newArrayList();
+
+    @TableField("标题")
+    private String title;
 
     @HtmlField("内容")
     private String content;

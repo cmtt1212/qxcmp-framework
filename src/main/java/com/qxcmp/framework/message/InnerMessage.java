@@ -2,8 +2,9 @@ package com.qxcmp.framework.message;
 
 
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
-import com.qxcmp.framework.web.view.annotation.table.TableAction;
+import com.qxcmp.framework.web.view.annotation.table.RowAction;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
+import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,8 +21,12 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
  *
  * @author Aaric
  */
-@EntityTable(value = "站内消息", name = "admin", action = QXCMP_BACKEND_URL + "/inbox",
-        tableActions = @TableAction(value = "发信息", action = "new", primary = true))
+@EntityTable(value = "我的站内消息", action = QXCMP_BACKEND_URL + "/profile/message", disableFilter = true,
+        rowActions = {
+                @RowAction(value = "查看", action = "details"),
+                @RowAction(value = "标位已读", action = "read", method = FormMethod.POST),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        })
 @Entity
 @Table
 @Data

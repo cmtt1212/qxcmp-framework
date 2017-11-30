@@ -139,7 +139,7 @@
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.menu.item.BackendAccountAlarmItem"*/-->
 <th:block th:fragment="item-backend-alarm(component)">
-    <a th:href="@{/admin/innerMessage}" target="_blank" class="link icon item">
+    <a th:href="@{/admin/profile/message}" target="_blank" class="link icon item">
         <i class="alarm icon"></i>
         <div th:if="${component.messageCount gt 0}"
              class="ui red label" th:utext="${component.messageCount}"></div>

@@ -523,7 +523,7 @@ public class AdminMessageController extends QxcmpController {
                         innerMessageService.create(() -> {
                                     InnerMessage message = innerMessageService.next();
                                     message.setSender(user.getId());
-                                    message.setTitle(form.getContent());
+                            message.setTitle(form.getTitle());
                                     message.setContent(form.getContent());
                                     message.setUserId(s);
                                     message.setUnread(true);
