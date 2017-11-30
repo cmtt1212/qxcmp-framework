@@ -12,10 +12,8 @@ import com.qxcmp.framework.web.view.elements.button.Button;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Grid;
 import com.qxcmp.framework.web.view.elements.grid.Row;
-import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.html.HtmlText;
 import com.qxcmp.framework.web.view.elements.html.P;
-import com.qxcmp.framework.web.view.elements.icon.Icon;
 import com.qxcmp.framework.web.view.elements.message.InfoMessage;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Wide;
@@ -89,10 +87,10 @@ public class AdminWeixinPageController extends QxcmpController {
         Col col = new Col(Wide.SIXTEEN);
 
         if (weixinService.isWeixinMaterialSync()) {
-            col.addComponent(new InfoMessage(String.format("微信素材正在同步中%d/%d，请稍后刷新后查看", weixinService.getCurrentMaterialSync(), weixinService.getTotalMaterialSync())).setCloseable());
+            col.addComponent(new InfoMessage(String.format("微信素材正在同步中... 当前进度为 %d/%d，请稍后刷新查看", weixinService.getCurrentMaterialSync(), weixinService.getTotalMaterialSync())).setCloseable());
         }
 
-        col.addComponent(convertToTable(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), new Sort("type")), weixinMpMaterialService));
+        col.addComponent(convertToTable(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), new Sort(new Sort.Order("type"), new Sort.Order(Sort.Direction.DESC, "updateTime"))), weixinMpMaterialService));
 
         return page().addComponent(grid.addItem(new Row().addCol(col)))
                 .setBreadcrumb("控制台", "", "微信公众平台", "weixin", "素材管理")
@@ -214,7 +212,7 @@ public class AdminWeixinPageController extends QxcmpController {
                     .setVerticalNavigation(NAVIGATION_ADMIN_WEIXIN, NAVIGATION_ADMIN_WEIXIN_MENU)
                     .build();
         } catch (Exception e) {
-            return page(new Overview(new IconHeader("无法获取公众号菜单", new Icon("warning circle")))
+            return page(viewHelper.nextWarningOverview("无法获取公众号菜单", "")
                     .addComponent(new P(e.getMessage()))
                     .addLink("返回", QXCMP_BACKEND_URL + "/weixin")).build();
         }

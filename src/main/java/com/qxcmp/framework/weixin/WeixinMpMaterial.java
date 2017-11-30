@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-
 import java.util.Date;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
@@ -76,6 +75,7 @@ public class WeixinMpMaterial {
 
     private String sourceUrl;
 
+    @TableField("更新日期")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateTime;
 
