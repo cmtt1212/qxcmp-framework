@@ -1,7 +1,5 @@
 package com.qxcmp.framework.web.view.modules.table;
 
-import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class EntityTableActionButton extends Button {
-
-    private FormMethod method = FormMethod.POST;
+public class EntityTableActionButton extends AbstractTableActionButton {
 
     public EntityTableActionButton(String text) {
         super(text);
@@ -43,11 +39,6 @@ public class EntityTableActionButton extends Button {
 
     @Override
     public String getClassSuffix() {
-        return "table-action action " + super.getClassSuffix();
-    }
-
-    public EntityTableActionButton setMethod(FormMethod method) {
-        this.method = method;
-        return this;
+        return "table-action " + super.getClassSuffix();
     }
 }

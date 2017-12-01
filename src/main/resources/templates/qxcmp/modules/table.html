@@ -128,7 +128,68 @@
             var dataCheckbox = $(table).find("tbody .ui.data.checkbox");
             var tableActionButton = $(table).find("thead tr .table-action.action.button");
             var batchActionButton = $(table).find("thead tr .batch.action.button");
-            var rowActionButton = $(table).find("tbody tr td .action.button");
+            var rowActionButton = $(table).find("tbody tr td .table-row.action.button");
+
+            function performRowAction(button, action) {
+                button.addClass("loading");
+
+                $.ajax(action, {
+                    type: "POST",
+                    data: {
+                        "_csrf": csrf
+                    },
+                    success: function () {
+                        button.removeClass("loading");
+                        $(loadDimmer).dimmer("show");
+                        window.location.reload();
+                    },
+                    error: function () {
+                        button.removeClass("loading");
+                        button.addClass("error");
+                    }
+                });
+            }
+
+            function performTableAction(button, action) {
+                button.addClass("loading");
+
+                $.ajax(action, {
+                    type: "POST",
+                    data: {
+                        "_csrf": csrf
+                    },
+                    success: function () {
+                        button.removeClass("loading");
+                        $(loadDimmer).dimmer("show");
+                        window.location.reload();
+                    },
+                    error: function () {
+                        button.removeClass("loading");
+                        button.addClass("error");
+                    }
+                });
+            }
+
+            function performBatchAction(button, action, keys) {
+                button.addClass("loading");
+
+                $.ajax(action, {
+                    type: "POST",
+                    data: {
+                        "_csrf": csrf,
+                        "keys": keys
+                    },
+                    success: function () {
+                        button.removeClass("loading");
+                        $(loadDimmer).dimmer("show");
+                        window.location.reload();
+                    },
+                    error: function () {
+                        button.removeClass("loading");
+                        button.addClass("error");
+                    }
+                });
+            }
 
             $(loadDimmer).dimmer({
                 closeable: false
@@ -137,50 +198,48 @@
             $(rowActionButton).click(function () {
                 var button = $(this);
                 var action = $(button).attr("data-action");
+                var showConfirm = eval($(button).attr("data-show-confirm"));
 
                 if (action) {
-                    $(button).addClass("loading");
+                    if (showConfirm) {
+                        var title = $(button).attr("data-confirm-title");
+                        var description = $(button).attr("data-confirm-description");
 
-                    $.ajax(action, {
-                        type: "POST",
-                        data: {
-                            "_csrf": csrf
-                        },
-                        success: function () {
-                            $(button).removeClass("loading");
-                            $(loadDimmer).dimmer("show");
-                            window.location.reload();
-                        },
-                        error: function () {
-                            $(button).removeClass("loading");
-                            $(button).addClass("error");
-                        }
-                    });
+                        $.dialog({
+                            title: title,
+                            description: description,
+                            onAccept: function () {
+                                performRowAction(button, action);
+                                return true;
+                            }
+                        })
+                    } else {
+                        performRowAction(button, action);
+                    }
                 }
             });
 
             $(tableActionButton).click(function () {
                 var button = $(this);
                 var action = $(button).attr("data-action");
+                var showConfirm = eval($(button).attr("data-show-confirm"));
 
                 if (action) {
-                    $(button).addClass("loading");
+                    if (showConfirm) {
+                        var title = $(button).attr("data-confirm-title");
+                        var description = $(button).attr("data-confirm-description");
 
-                    $.ajax(action, {
-                        type: "POST",
-                        data: {
-                            "_csrf": csrf
-                        },
-                        success: function () {
-                            $(button).removeClass("loading");
-                            $(loadDimmer).dimmer("show");
-                            window.location.reload();
-                        },
-                        error: function () {
-                            $(button).removeClass("loading");
-                            $(button).addClass("error");
-                        }
-                    });
+                        $.dialog({
+                            title: title,
+                            description: description,
+                            onAccept: function () {
+                                performTableAction(button, action);
+                                return true;
+                            }
+                        })
+                    } else {
+                        performTableAction(button, action);
+                    }
                 }
             });
 
@@ -188,6 +247,7 @@
                 var button = $(this);
                 var action = $(button).attr("data-action");
                 var keys = [];
+                var showConfirm = eval($(button).attr("data-show-confirm"));
 
                 $.each(dataCheckbox, function () {
                     if ($(this).checkbox("is checked")) {
@@ -196,24 +256,21 @@
                 });
 
                 if (action && keys.length > 0) {
-                    $(button).addClass("loading");
+                    if (showConfirm) {
+                        var title = $(button).attr("data-confirm-title");
+                        var description = $(button).attr("data-confirm-description");
 
-                    $.ajax(action, {
-                        type: "POST",
-                        data: {
-                            "_csrf": csrf,
-                            "keys": keys
-                        },
-                        success: function () {
-                            $(button).removeClass("loading");
-                            $(loadDimmer).dimmer("show");
-                            window.location.reload();
-                        },
-                        error: function () {
-                            $(button).removeClass("loading");
-                            $(button).addClass("error");
-                        }
-                    });
+                        $.dialog({
+                            title: title,
+                            description: description,
+                            onAccept: function () {
+                                performBatchAction(button, action, keys);
+                                return true;
+                            }
+                        })
+                    } else {
+                        performBatchAction(button, action, keys);
+                    }
                 }
             });
 
@@ -258,8 +315,13 @@
 </th:block>
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTableActionButton"*/-->
-<button th:fragment="action-button(component)" th:class="${component.getClassName()}"
-        th:attr="data-action=@{${component.anchor.href}}" th:utext="${component.text}">
-</button>
+<th:block th:fragment="action-button(component)">
+    <button th:if="${component.method.name() eq 'POST'}" th:class="${component.getClassName()}"
+            th:attr="data-action=@{${component.anchor.href}},data-show-confirm=${component.showConfirm},data-confirm-title=${component.confirmDialogTitle},data-confirm-description=${component.confirmDialogDescription}"
+            th:utext="${component.text}"></button>
+    <a th:if="${component.method.name() ne 'POST'}" th:class="${component.getClassName()}"
+       th:utext="${component.text}" th:href="@{${component.anchor.href}}"
+       th:target="${component.anchor.target}"></a>
+</th:block>
 </body>
 </html>

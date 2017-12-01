@@ -20,7 +20,7 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 @EntityTable(value = "权限列表", action = QXCMP_BACKEND_URL + "/security/privilege",
         rowActions = {
                 @RowAction(value = "激活", action = "enable", method = FormMethod.POST, color = Color.GREEN),
-                @RowAction(value = "禁用", action = "disable", method = FormMethod.POST, color = Color.RED)
+                @RowAction(value = "禁用", action = "disable", method = FormMethod.POST, color = Color.RED, showConfirmDialog = true, confirmDialogTitle = "禁用权限", confirmDialogDescription = "确认要禁用该权限，权限禁用后将不能使用权限所控制的功能")
         })
 @Entity
 @Table

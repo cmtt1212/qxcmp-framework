@@ -592,17 +592,21 @@ public class TableHelper {
     }
 
     private AbstractButton convertActionToButton(AbstractEntityTableAction tableAction) {
-        AbstractButton button;
+        AbstractTableActionButton button;
 
-        if (tableAction.getMethod().equals(FormMethod.NONE)) {
-            button = new Button(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+        if (tableAction instanceof EntityTableAction) {
+            button = new EntityTableActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
+        } else if (tableAction instanceof EntityTableBatchAction) {
+            button = new EntityTableBatchActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
         } else {
-            if (tableAction instanceof EntityTableBatchAction) {
-                button = new EntityTableBatchActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
-            } else {
-                button = new EntityTableActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
-            }
+            button = new EntityTableRowActionButton(tableAction.getTitle(), tableAction.getAction(), tableAction.getTarget());
         }
+
+        button.setMethod(tableAction.getMethod());
+
+        button.setShowConfirm(tableAction.isShowConfirmDialog());
+        button.setConfirmDialogTitle(tableAction.getConfirmDialogTitle());
+        button.setConfirmDialogDescription(tableAction.getConfirmDialogDescription());
 
         button.setColor(tableAction.getColor());
         button.setPrimary(tableAction.isPrimary());
