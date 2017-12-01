@@ -15,4 +15,7 @@ interface SearchKeywordsRepository extends JpaRepository<SearchKeywords, Long>, 
 
     @Query("select new com.qxcmp.framework.statistics.SearchKeywordsPageResult(a.title, count(a)) from SearchKeywords a where a.dateCreated > :date group by a.title order by count(a) desc")
     Page<SearchKeywordsPageResult> findByDateCreatedAfter(@Param("date") Date date, Pageable pageable);
+
+    @Query("select new com.qxcmp.framework.statistics.SearchKeywordsPageResult(a.title, count(a)) from SearchKeywords a group by a.title order by count(a) desc")
+    Page<SearchKeywordsPageResult> findAllResult(Pageable pageable);
 }
