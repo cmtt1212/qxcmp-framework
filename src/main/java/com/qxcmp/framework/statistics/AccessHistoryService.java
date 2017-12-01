@@ -24,4 +24,8 @@ public class AccessHistoryService extends AbstractEntityService<AccessHistory, L
     public Page<AccessHistoryPageResult> findByDateCreatedAfter(Date date, Pageable pageable) {
         return repository.findByDateCreatedAfter(date, pageable);
     }
+
+    public Page<AccessHistoryPageResult> findAllResult(Pageable pageable) {
+        return repository.findAllResult(pageable);
+    }
 }

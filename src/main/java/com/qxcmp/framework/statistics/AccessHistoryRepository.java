@@ -13,6 +13,9 @@ import java.util.Date;
 @Repository
 interface AccessHistoryRepository extends JpaRepository<AccessHistory, Long>, JpaSpecificationExecutor<AccessHistory> {
 
-    @Query("select new com.qxcmp.framework.statistics.AccessHistoryPageResult(a.url, count (a)) from AccessHistory a where a.dateCreated > :date group by a.url order by count(a) desc")
+    @Query("select new com.qxcmp.framework.statistics.AccessHistoryPageResult(a.url, count(a)) from AccessHistory a where a.dateCreated > :date group by a.url order by count(a) desc")
     Page<AccessHistoryPageResult> findByDateCreatedAfter(@Param("date") Date date, Pageable pageable);
+
+    @Query("select new com.qxcmp.framework.statistics.AccessHistoryPageResult(a.url, count(a)) from AccessHistory a group by a.url order by count(a) desc")
+    Page<AccessHistoryPageResult> findAllResult(Pageable pageable);
 }

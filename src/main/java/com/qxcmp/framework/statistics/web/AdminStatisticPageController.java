@@ -9,6 +9,14 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.statistics.*;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
+import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Grid;
+import com.qxcmp.framework.web.view.modules.table.Table;
+import com.qxcmp.framework.web.view.modules.table.TableHead;
+import com.qxcmp.framework.web.view.modules.table.TableHeader;
+import com.qxcmp.framework.web.view.modules.table.TableRow;
+import com.qxcmp.framework.web.view.modules.table.dictionary.TextValueCell;
+import com.qxcmp.framework.web.view.support.Wide;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +29,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -54,22 +65,54 @@ public class AdminStatisticPageController extends QxcmpController {
     }
 
     @GetMapping("/pages")
-    public ModelAndView statisticPagesPage(@RequestParam(defaultValue = "1") int date, Pageable pageable) {
-        List<AccessHistoryPageResult> results = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusDays(date).toDate(), new PageRequest(0, pageable.getPageSize())).getContent();
+    public ModelAndView statisticPagesPage(Pageable pageable) {
 
-        return page()
-                .addComponent(convertToTable(stringObjectMap -> results.forEach(accessHistoryPageResult -> stringObjectMap.put(accessHistoryPageResult.getUrl(), accessHistoryPageResult.getNbr()))))
+        PageRequest pageRequest = new PageRequest(0, pageable.getPageSize());
+
+        List<AccessHistoryPageResult> dayResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusDays(1).toDate(), pageRequest).getContent();
+        List<AccessHistoryPageResult> weekResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusWeeks(1).toDate(), pageRequest).getContent();
+        List<AccessHistoryPageResult> monthResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusMonths(1).toDate(), pageRequest).getContent();
+        List<AccessHistoryPageResult> seasonResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusMonths(3).toDate(), pageRequest).getContent();
+        List<AccessHistoryPageResult> halfYearResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusMonths(6).toDate(), pageRequest).getContent();
+        List<AccessHistoryPageResult> yearResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusYears(1).toDate(), pageRequest).getContent();
+        List<AccessHistoryPageResult> allResult = accessHistoryService.findAllResult(pageRequest).getContent();
+
+        return page().addComponent(new Grid()
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("昨日", dayResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近7天", weekResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近30天", monthResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近3月", seasonResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近6月", halfYearResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近1年", yearResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("全部", allResult)))
+        )
                 .setVerticalNavigation(NAVIGATION_ADMIN_STATISTIC, NAVIGATION_ADMIN_STATISTIC_PAGES)
                 .setBreadcrumb("控制台", "", "网站统计", "statistic", "页面访问统计")
                 .build();
     }
 
     @GetMapping("/keywords")
-    public ModelAndView statisticsKeywordsPage(@RequestParam(defaultValue = "1") int date, Pageable pageable) {
-        List<SearchKeywordsPageResult> results = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusDays(date).toDate(), new PageRequest(0, pageable.getPageSize())).getContent();
+    public ModelAndView statisticsKeywordsPage(Pageable pageable) {
 
-        return page()
-                .addComponent(convertToTable(stringObjectMap -> results.forEach(searchKeywordsPageResult -> stringObjectMap.put(searchKeywordsPageResult.getTitle(), searchKeywordsPageResult.getCount()))))
+        PageRequest pageRequest = new PageRequest(0, pageable.getPageSize());
+
+        List<SearchKeywordsPageResult> dayResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusDays(1).toDate(), pageRequest).getContent();
+        List<SearchKeywordsPageResult> weekResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusWeeks(1).toDate(), pageRequest).getContent();
+        List<SearchKeywordsPageResult> monthResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusMonths(1).toDate(), pageRequest).getContent();
+        List<SearchKeywordsPageResult> seasonResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusMonths(3).toDate(), pageRequest).getContent();
+        List<SearchKeywordsPageResult> halfYearResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusMonths(6).toDate(), pageRequest).getContent();
+        List<SearchKeywordsPageResult> yearResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusYears(1).toDate(), pageRequest).getContent();
+        List<SearchKeywordsPageResult> allResult = searchKeywordsService.findAllResult(pageRequest).getContent();
+
+        return page().addComponent(new Grid()
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("昨日", dayResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近7天", weekResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近30天", monthResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近3月", seasonResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近6月", halfYearResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近1年", yearResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("全部", allResult)))
+        )
                 .setVerticalNavigation(NAVIGATION_ADMIN_STATISTIC, NAVIGATION_ADMIN_STATISTIC_KEYWORDS)
                 .setBreadcrumb("控制台", "", "网站统计", "statistic", "页面访问统计")
                 .build();
@@ -226,5 +269,21 @@ public class AdminStatisticPageController extends QxcmpController {
             }
 
         }, (stringObjectMap, overview) -> overview.addComponent(convertToTable((Map<Object, Object>) stringObjectMap.get("result"))));
+    }
+
+    private Table convertAccessResultToTable(String title, List<AccessHistoryPageResult> results) {
+        Table table = convertToTable(stringObjectMap -> results.forEach(result -> stringObjectMap.put(new TextValueCell(result.getUrl(), result.getUrl()), result.getNbr())));
+        TableHeader tableHeader = new TableHeader();
+        tableHeader.addRow(new TableRow().addCell(new TableHead(title)));
+        table.setHeader(tableHeader);
+        return table;
+    }
+
+    private Table convertSearchResultToTable(String title, List<SearchKeywordsPageResult> results) {
+        Table table = convertToTable(stringObjectMap -> results.forEach(result -> stringObjectMap.put(result.getTitle(), result.getCount())));
+        TableHeader tableHeader = new TableHeader();
+        tableHeader.addRow(new TableRow().addCell(new TableHead(title)));
+        table.setHeader(tableHeader);
+        return table;
     }
 }

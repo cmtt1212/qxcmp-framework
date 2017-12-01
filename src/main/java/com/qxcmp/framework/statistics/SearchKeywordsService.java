@@ -38,10 +38,15 @@ public class SearchKeywordsService extends AbstractEntityService<SearchKeywords,
      *
      * @param date     日期
      * @param pageable 分页信息
+     *
      * @return 排名结果
      */
     public Page<SearchKeywordsPageResult> findByDateCreatedAfter(Date date, Pageable pageable) {
         return repository.findByDateCreatedAfter(date, pageable);
+    }
+
+    public Page<SearchKeywordsPageResult> findAllResult(Pageable pageable) {
+        return repository.findAllResult(pageable);
     }
 
     @Override

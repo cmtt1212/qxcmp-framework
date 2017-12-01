@@ -1,5 +1,11 @@
 # Common Server Settings
 server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: qxcmpAdmin
+    key-store-type: PKCS12
+    key-alias: qxcmp
   compression:
     enabled: true
     mime-types: application/json,application/xml,application/javascript,text/html,text/xml,text/plain,text/css
