@@ -23,7 +23,10 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
  */
 @EntityTable(value = "广告管理", action = QXCMP_BACKEND_URL + "/advertisement",
         tableActions = @TableAction(value = "新建", action = "new", primary = true),
-        rowActions = {@RowAction(value = "编辑", action = "edit"), @RowAction(value = "删除", action = "remove", method = FormMethod.POST)})
+        rowActions = {
+                @RowAction(value = "编辑", action = "edit"),
+                @RowAction(value = "删除", action = "remove", method = FormMethod.POST)
+        })
 @Entity
 @Table
 @Data
