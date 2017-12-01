@@ -102,6 +102,10 @@ public class WeixinService {
     @Async
     public void doWeixinMaterialSync() {
 
+        if (weixinMaterialSync) {
+            return;
+        }
+
         try {
             log.info("Start weixin materials sync");
             weixinMaterialSync = true;
@@ -180,6 +184,11 @@ public class WeixinService {
      */
     @Async
     public void doWeixinUserSync() {
+
+        if (weixinUserSync) {
+            return;
+        }
+
         try {
             log.info("Start weixin user sync");
             weixinUserSync = true;
