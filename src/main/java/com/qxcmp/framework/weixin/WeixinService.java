@@ -266,6 +266,13 @@ public class WeixinService {
         return totalMaterialSync;
     }
 
+    /**
+     * 解析微信素材图文内容
+     *
+     * @param content 图文内容
+     *
+     * @return 解析后的内容
+     */
     private String getWeixinArticleContent(String content) {
         Document document = Jsoup.parse(content);
         Elements images = document.select("img");
@@ -281,6 +288,12 @@ public class WeixinService {
                     log.error("Can't convert article image: {}", e.getMessage());
                 }
             }
+        });
+        Elements videoIframes = document.select("iframe.video_iframe");
+        videoIframes.forEach(element -> {
+            element.attr("src", element.attr("data-src"));
+            element.attr("width", "100%");
+            element.attr("height", "300px");
         });
         return document.toString();
     }
