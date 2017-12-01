@@ -47,6 +47,11 @@ import java.util.Optional;
 @Slf4j
 public class WeixinService {
 
+    /**
+     * 微信被动回复文本信息最大长度限制
+     */
+    public static final int MAX_WEIXIN_MP_TEXT_RESPONSE_LENGTH = 2400;
+
     private static final int MAX_MATERIAL_COUNT = 20;
 
     private final UserService userService;
