@@ -21,7 +21,7 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
  * @author Aaric
  */
 @EntityTable(value = "公众号素材管理", action = QXCMP_BACKEND_URL + "/weixin/material", disableFilter = true,
-        tableActions = @TableAction(value = "同步素材", action = "sync", method = FormMethod.POST, primary = true),
+        tableActions = @TableAction(value = "同步素材", action = "sync", method = FormMethod.POST, primary = true, showConfirmDialog = true, confirmDialogTitle = "微信素材同步", confirmDialogDescription = "素材同步将需要较长时间，点击是继续"),
         rowActions = @RowAction(value = "查看", action = "preview"))
 @Entity
 @Table
