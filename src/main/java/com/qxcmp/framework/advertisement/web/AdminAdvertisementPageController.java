@@ -3,7 +3,10 @@ package com.qxcmp.framework.advertisement.web;
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.advertisement.Advertisement;
 import com.qxcmp.framework.advertisement.AdvertisementService;
+import com.qxcmp.framework.advertisement.event.AdminAdvertisementEditEvent;
+import com.qxcmp.framework.advertisement.event.AdminAdvertisementNewEvent;
 import com.qxcmp.framework.audit.ActionException;
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -51,6 +54,9 @@ public class AdminAdvertisementPageController extends QxcmpController {
 
     @PostMapping("/new")
     public ModelAndView advertisementNewPage(@Valid final AdminAdvertisementNewForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
         if (bindingResult.hasErrors()) {
             return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
@@ -58,16 +64,23 @@ public class AdminAdvertisementPageController extends QxcmpController {
                     .build();
         }
 
-        return submitForm(form, context -> advertisementService.create(() -> {
-            Advertisement advertisement = advertisementService.next();
-            advertisement.setImage(form.getImage());
-            advertisement.setType(form.getType());
-            advertisement.setTitle(form.getTitle());
-            advertisement.setLink(form.getLink());
-            advertisement.setAdOrder(form.getAdOrder());
-            advertisement.setBlank(form.isBlack());
-            return advertisement;
-        }), (stringObjectMap, overview) -> overview.addLink("返回广告列表", QXCMP_BACKEND_URL + "/advertisement").addLink("继续新建广告", QXCMP_BACKEND_URL + "/advertisement/new"));
+        return submitForm(form, context -> {
+            try {
+                advertisementService.create(() -> {
+                    Advertisement advertisement = advertisementService.next();
+                    advertisement.setImage(form.getImage());
+                    advertisement.setType(form.getType());
+                    advertisement.setTitle(form.getTitle());
+                    advertisement.setLink(form.getLink());
+                    advertisement.setAdOrder(form.getAdOrder());
+                    advertisement.setBlank(form.isBlack());
+                    return advertisement;
+                }).ifPresent(advertisement -> applicationContext.publishEvent(new AdminAdvertisementNewEvent(user, advertisement)));
+
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回广告列表", QXCMP_BACKEND_URL + "/advertisement").addLink("继续新建广告", QXCMP_BACKEND_URL + "/advertisement/new"));
     }
 
     @GetMapping("/{id}/edit")
@@ -88,6 +101,9 @@ public class AdminAdvertisementPageController extends QxcmpController {
 
     @PostMapping("/{id}/edit")
     public ModelAndView advertisementEditPage(@PathVariable String id, @Valid final AdminAdvertisementEditForm form, BindingResult bindingResult) {
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
         if (bindingResult.hasErrors()) {
             return page().addComponent(convertToForm(form).setErrorMessage(convertToErrorMessage(bindingResult, form)))
                     .setBreadcrumb("控制台", "", "系统工具", "tools", "广告管理", "advertisement", "新建广告")
@@ -104,7 +120,7 @@ public class AdminAdvertisementPageController extends QxcmpController {
                     advertisement.setLink(form.getLink());
                     advertisement.setAdOrder(form.getAdOrder());
                     advertisement.setBlank(form.isBlack());
-                });
+                }).ifPresent(advertisement -> applicationContext.publishEvent(new AdminAdvertisementEditEvent(user, advertisement)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }

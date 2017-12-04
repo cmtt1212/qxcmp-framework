@@ -33,6 +33,7 @@ public class Feed {
     /**
      * Feed相关的用户
      */
+    @ManyToOne
     private User target;
 
     /**
