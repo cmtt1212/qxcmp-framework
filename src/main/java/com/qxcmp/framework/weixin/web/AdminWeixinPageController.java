@@ -21,6 +21,7 @@ import com.qxcmp.framework.web.view.views.Overview;
 import com.qxcmp.framework.weixin.WeixinMpMaterialService;
 import com.qxcmp.framework.weixin.WeixinMpMaterialType;
 import com.qxcmp.framework.weixin.WeixinService;
+import com.qxcmp.framework.weixin.event.AdminWeixinSettingsEvent;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -100,7 +101,7 @@ public class AdminWeixinPageController extends QxcmpController {
 
     @PostMapping("/material/sync")
     public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
-        weixinService.doWeixinMaterialSync();
+        weixinService.doWeixinMaterialSync(currentUser().orElseThrow(RuntimeException::new));
         return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
     }
 
@@ -170,29 +171,33 @@ public class AdminWeixinPageController extends QxcmpController {
         }
 
         return submitForm(form, context -> {
+            try {
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG, String.valueOf(form.isDebug()));
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SECRET, form.getSecret());
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_TOKEN, form.getToken());
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_AES_KEY, form.getAesKey());
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL, form.getOauth2Url());
+                systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE, form.getSubscribeMessage());
 
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_DEBUG, String.valueOf(form.isDebug()));
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_APP_ID, form.getAppId());
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SECRET, form.getSecret());
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_TOKEN, form.getToken());
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_AES_KEY, form.getAesKey());
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_CALLBACK_URL, form.getOauth2Url());
-            systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_SUBSCRIBE_WELCOME_MESSAGE, form.getSubscribeMessage());
+                WxMpInMemoryConfigStorage configStorage = (WxMpInMemoryConfigStorage) wxMpConfigStorage;
+                configStorage.setAppId(form.getAppId());
+                configStorage.setSecret(form.getSecret());
+                configStorage.setToken(form.getToken());
+                configStorage.setAesKey(form.getAesKey());
 
-            WxMpInMemoryConfigStorage configStorage = (WxMpInMemoryConfigStorage) wxMpConfigStorage;
-            configStorage.setAppId(form.getAppId());
-            configStorage.setSecret(form.getSecret());
-            configStorage.setToken(form.getToken());
-            configStorage.setAesKey(form.getAesKey());
-
-            if (StringUtils.isNotBlank(form.getOauth2Url())) {
-                try {
-                    String oauth2Url = wxMpService.oauth2buildAuthorizationUrl(form.getOauth2Url(), WxConsts.OAUTH2_SCOPE_USER_INFO, null);
-                    context.put("oauth2Url", oauth2Url);
-                    systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL, oauth2Url);
-                } catch (Exception e) {
-                    throw new ActionException("Can't build Oauth2 Url", e);
+                if (StringUtils.isNotBlank(form.getOauth2Url())) {
+                    try {
+                        String oauth2Url = wxMpService.oauth2buildAuthorizationUrl(form.getOauth2Url(), WxConsts.OAUTH2_SCOPE_USER_INFO, null);
+                        context.put("oauth2Url", oauth2Url);
+                        systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL, oauth2Url);
+                    } catch (Exception e) {
+                        throw new ActionException("Can't build Oauth2 Url", e);
+                    }
                 }
+                applicationContext.publishEvent(new AdminWeixinSettingsEvent(currentUser().orElseThrow(RuntimeException::new)));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
             }
         }, (stringObjectMap, overview) -> overview.addComponent(convertToTable(map -> map.put("网页授权链接", stringObjectMap.get("oauth2Url")))));
     }
@@ -232,6 +237,7 @@ public class AdminWeixinPageController extends QxcmpController {
         return submitForm(form, context -> {
             try {
                 wxMpService.getMenuService().menuCreate(form.getContent());
+                applicationContext.publishEvent(new AdminWeixinSettingsEvent(currentUser().orElseThrow(RuntimeException::new)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }

@@ -107,7 +107,7 @@ public class AdminUserPageController extends QxcmpController {
 
     @PostMapping("/weixin/sync")
     public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
-        weixinService.doWeixinUserSync();
+        weixinService.doWeixinUserSync(currentUser().orElseThrow(RuntimeException::new));
         return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
     }
 

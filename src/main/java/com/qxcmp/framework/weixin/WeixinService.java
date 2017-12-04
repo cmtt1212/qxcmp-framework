@@ -5,6 +5,10 @@ import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.domain.ImageService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.user.UserService;
+import com.qxcmp.framework.weixin.event.WeixinMaterialSyncFinishEvent;
+import com.qxcmp.framework.weixin.event.WeixinMaterialSyncStartEvent;
+import com.qxcmp.framework.weixin.event.WeixinUserSyncFinishEvent;
+import com.qxcmp.framework.weixin.event.WeixinUserSyncStartEvent;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +59,7 @@ public class WeixinService {
 
     private static final int MAX_MATERIAL_COUNT = 20;
 
+    private final ApplicationContext applicationContext;
     private final UserService userService;
     private final WxMpService wxMpService;
     private final WeixinMpMaterialService weixinMpMaterialService;
@@ -73,7 +79,6 @@ public class WeixinService {
      * 根据code获取用户OpenId，如果查询到用户信息，则设置OpenId对应的用户为登录状态，并设置登录时间
      *
      * @param code Oauth2 认证码
-     *
      * @return 如果认证成功返回认证以后的用户，否则返回 empty
      */
     public Optional<User> loadOauth2User(String code) {
@@ -98,9 +103,11 @@ public class WeixinService {
 
     /**
      * 加载公众号素材
+     *
+     * @param user 触发同步用户
      */
     @Async
-    public void doWeixinMaterialSync() {
+    public void doWeixinMaterialSync(User user) {
 
         if (weixinMaterialSync) {
             return;
@@ -109,6 +116,7 @@ public class WeixinService {
         try {
             log.info("Start weixin materials sync");
             weixinMaterialSync = true;
+            applicationContext.publishEvent(new WeixinMaterialSyncStartEvent(user));
 
             WxMpMaterialCountResult countResult = wxMpService.getMaterialService().materialCount();
             totalMaterialSync = countResult.getImageCount() + countResult.getNewsCount() + countResult.getVideoCount() + countResult.getVoiceCount();
@@ -171,6 +179,7 @@ public class WeixinService {
 
             log.info("Finish weixin material sync");
             weixinMaterialSync = false;
+            applicationContext.publishEvent(new WeixinMaterialSyncFinishEvent(user, totalMaterialSync));
         } catch (Exception e) {
             log.warn("Can't load weixin materials, cause: {}", e.getMessage());
             weixinMaterialSync = false;
@@ -181,9 +190,11 @@ public class WeixinService {
      * 执行微信公众号用户同步任务
      * <p>
      * 负责查询所有微信公众号已关注用户，并与平台用户数据库同步
+     *
+     * @param user 触发同步用户Id
      */
     @Async
-    public void doWeixinUserSync() {
+    public void doWeixinUserSync(User user) {
 
         if (weixinUserSync) {
             return;
@@ -192,6 +203,7 @@ public class WeixinService {
         try {
             log.info("Start weixin user sync");
             weixinUserSync = true;
+            applicationContext.publishEvent(new WeixinUserSyncStartEvent(user));
 
             List<String> openIds = Lists.newArrayList();
             long total;
@@ -220,6 +232,7 @@ public class WeixinService {
 
             log.info("Finish weixin user sync, total {}, success: {}", total, successCount);
             weixinUserSync = false;
+            applicationContext.publishEvent(new WeixinUserSyncFinishEvent(user, totalUserSync));
         } catch (Exception e) {
             log.error("Can't load weixin user, cause：{}", e.getMessage(), Objects.nonNull(e.getCause()) ? e.getCause().getMessage() : "");
             weixinUserSync = false;
@@ -279,7 +292,6 @@ public class WeixinService {
      * 解析微信素材图文内容
      *
      * @param content 图文内容
-     *
      * @return 解析后的内容
      */
     private String getWeixinArticleContent(String content) {
