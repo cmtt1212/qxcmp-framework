@@ -96,9 +96,7 @@ public class AdminPageController extends QxcmpController {
 
         List list = new List().setSelection();
 
-        adminToolPageExtensionPoint.getExtensions().forEach(adminToolPageExtension -> {
-            list.addItem(new TextItem(adminToolPageExtension.getTitle()).setUrl(adminToolPageExtension.getUrl()));
-        });
+        adminToolPageExtensionPoint.getExtensions().forEach(adminToolPageExtension -> list.addItem(new TextItem(adminToolPageExtension.getTitle()).setUrl(adminToolPageExtension.getUrl())));
 
         return page().addComponent(new TextContainer().addComponent(new Segment().setAlignment(Alignment.CENTER)
                 .addComponent(new PageHeader(HeaderType.H1, "系统工具").setDividing())
