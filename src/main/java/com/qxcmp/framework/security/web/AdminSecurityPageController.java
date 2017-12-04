@@ -4,6 +4,7 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.PrivilegeService;
 import com.qxcmp.framework.security.Role;
 import com.qxcmp.framework.security.RoleService;
+import com.qxcmp.framework.security.event.*;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -91,7 +92,7 @@ public class AdminSecurityPageController extends QxcmpController {
                     role.setDescription(form.getDescription());
                     role.setPrivileges(form.getPrivileges());
                     return role;
-                });
+                }).ifPresent(role -> applicationContext.publishEvent(new AdminSecurityRoleNewEvent(currentUser().orElseThrow(RuntimeException::new), role)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -130,7 +131,7 @@ public class AdminSecurityPageController extends QxcmpController {
                     role.setName(form.getName());
                     role.setDescription(form.getDescription());
                     role.setPrivileges(form.getPrivileges());
-                });
+                }).ifPresent(role -> applicationContext.publishEvent(new AdminSecurityRoleEditEvent(currentUser().orElseThrow(RuntimeException::new), role)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -175,7 +176,8 @@ public class AdminSecurityPageController extends QxcmpController {
     public ResponseEntity<RestfulResponse> privilegeEnable(@PathVariable String id) {
         RestfulResponse restfulResponse = audit("启用权限", context -> {
             try {
-                privilegeService.update(Long.parseLong(id), privilege -> privilege.setDisabled(false));
+                privilegeService.update(Long.parseLong(id), privilege -> privilege.setDisabled(false))
+                        .ifPresent(privilege -> applicationContext.publishEvent(new AdminSecurityPrivilegeEnableEvent(currentUser().orElseThrow(RuntimeException::new), privilege)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -187,7 +189,8 @@ public class AdminSecurityPageController extends QxcmpController {
     public ResponseEntity<RestfulResponse> privilegeDisable(@PathVariable String id) {
         RestfulResponse restfulResponse = audit("禁用权限", context -> {
             try {
-                privilegeService.update(Long.parseLong(id), privilege -> privilege.setDisabled(true));
+                privilegeService.update(Long.parseLong(id), privilege -> privilege.setDisabled(true))
+                        .ifPresent(privilege -> applicationContext.publishEvent(new AdminSecurityPrivilegeDisableEvent(currentUser().orElseThrow(RuntimeException::new), privilege)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -237,6 +240,8 @@ public class AdminSecurityPageController extends QxcmpController {
                 systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE, String.valueOf(form.isExpireCredential()));
                 systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_EXPIRE_DURATION, String.valueOf(form.getExpireCredentialDuration()));
                 systemConfigService.update(SYSTEM_CONFIG_AUTHENTICATION_CREDENTIAL_UNIQUE, String.valueOf(form.isUniqueCredential()));
+
+                applicationContext.publishEvent(new AdminSecurityAuthenticationEvent(currentUser().orElseThrow(RuntimeException::new)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
