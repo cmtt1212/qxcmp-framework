@@ -1,5 +1,6 @@
 package com.qxcmp.framework.redeem.web;
 
+import com.google.common.collect.Lists;
 import com.qxcmp.framework.web.view.annotation.form.BooleanField;
 import com.qxcmp.framework.web.view.annotation.form.DynamicField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
@@ -19,5 +20,5 @@ public class AdminRedeemSettingsForm {
     private Integer expireDuration;
 
     @DynamicField(value = "兑换码业务", itemHeaders = "业务名称")
-    private List<String> type;
+    private List<String> type = Lists.newArrayList();
 }

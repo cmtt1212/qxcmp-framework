@@ -5,6 +5,8 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.redeem.RedeemKey;
 import com.qxcmp.framework.redeem.RedeemKeyService;
+import com.qxcmp.framework.redeem.event.AdminRedeemGenerateEvent;
+import com.qxcmp.framework.redeem.event.AdminRedeemSettingsEvent;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
@@ -104,6 +106,8 @@ public class AdminRedeemPageController extends QxcmpController {
                 }
 
                 context.put("keys", redeemKeys);
+
+                applicationContext.publishEvent(new AdminRedeemGenerateEvent(currentUser().orElseThrow(RuntimeException::new), form.getType(), form.getQuantity()));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage());
             }
@@ -168,6 +172,8 @@ public class AdminRedeemPageController extends QxcmpController {
                 systemConfigService.update(SYSTEM_CONFIG_REDEEM_ENABLE, String.valueOf(form.isEnable()));
                 systemConfigService.update(SYSTEM_CONFIG_REDEEM_DEFAULT_EXPIRE_DURATION, String.valueOf(form.getExpireDuration()));
                 systemConfigService.update(SYSTEM_CONFIG_REDEEM_TYPE_LIST, form.getType());
+
+                applicationContext.publishEvent(new AdminRedeemSettingsEvent(currentUser().orElseThrow(RuntimeException::new)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
