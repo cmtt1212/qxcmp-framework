@@ -2,17 +2,23 @@ package com.qxcmp.framework.core.web;
 
 import com.jcabi.manifests.Manifests;
 import com.qxcmp.framework.core.QxcmpConfiguration;
+import com.qxcmp.framework.message.FeedService;
+import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
+import com.qxcmp.framework.web.view.elements.grid.Row;
 import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.framework.web.view.elements.header.ContentHeader;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.list.List;
 import com.qxcmp.framework.web.view.elements.list.item.TextItem;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
 import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.ColumnCount;
+import com.qxcmp.framework.web.view.support.Size;
+import com.qxcmp.framework.web.view.support.Wide;
+import com.qxcmp.framework.web.view.views.Feed;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -36,12 +42,21 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 public class AdminPageController extends QxcmpController {
 
     private final AdminToolPageExtensionPoint adminToolPageExtensionPoint;
+    private final FeedService feedService;
 
     @GetMapping("")
     public ModelAndView homePage() {
-        return page().addComponent(new VerticallyDividedGrid().setTextContainer().setVerticallyPadded().setAlignment(Alignment.CENTER).setColumnCount(ColumnCount.ONE).addItem(new Col()
-                .addComponent(new Overview(new PageHeader(HeaderType.H1, siteService.getTitle()).setSubTitle("欢迎登陆")))
-        )).build();
+
+        User user = currentUser().orElseThrow(RuntimeException::new);
+
+        return page().addComponent(new VerticallyDividedGrid().setContainer()
+                .addItem(new Row()
+                        .addCol(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(new Segment()
+                                .addComponent(new ContentHeader("我的动态", Size.NONE).setDividing())
+                                .addComponent(new Feed(feedService.findByOwner(user.getId())))
+                        ))
+                )
+        ).build();
     }
 
     @GetMapping("/about")
