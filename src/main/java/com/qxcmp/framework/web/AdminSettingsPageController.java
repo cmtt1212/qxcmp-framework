@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.web;
 
 import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.account.AccountService;
@@ -9,7 +9,6 @@ import com.qxcmp.framework.config.SystemDictionaryService;
 import com.qxcmp.framework.domain.Region;
 import com.qxcmp.framework.domain.RegionLevel;
 import com.qxcmp.framework.domain.RegionService;
-import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -34,6 +33,9 @@ import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
 import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.*;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/settings")
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package com.qxcmp.framework.audit.web;
 
-import com.qxcmp.framework.core.web.AdminToolPageExtension;
+import com.qxcmp.framework.web.extension.AdminToolPageExtension;
 import org.springframework.stereotype.Component;
 
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;

@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.web;
 
 import com.qxcmp.framework.web.view.annotation.form.BooleanField;
 import com.qxcmp.framework.web.view.annotation.form.Form;

@@ -1,4 +1,4 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.web;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.config.SystemDictionaryItem;

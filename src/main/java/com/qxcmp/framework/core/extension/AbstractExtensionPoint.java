@@ -1,4 +1,4 @@
-package com.qxcmp.framework.extension;
+package com.qxcmp.framework.core.extension;
 
 import com.google.common.reflect.TypeToken;
 import org.assertj.core.util.Lists;

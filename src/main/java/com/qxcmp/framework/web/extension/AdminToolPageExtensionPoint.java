@@ -1,6 +1,6 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.web.extension;
 
-import com.qxcmp.framework.extension.AbstractExtensionPoint;
+import com.qxcmp.framework.core.extension.AbstractExtensionPoint;
 import org.springframework.stereotype.Component;
 
 /**

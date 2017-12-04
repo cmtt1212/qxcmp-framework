@@ -1,4 +1,4 @@
-package com.qxcmp.framework.extension;
+package com.qxcmp.framework.core.extension;
 
 import com.qxcmp.framework.core.QxcmpConfigurator;
 import lombok.RequiredArgsConstructor;

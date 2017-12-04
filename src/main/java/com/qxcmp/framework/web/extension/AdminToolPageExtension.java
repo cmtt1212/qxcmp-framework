@@ -1,6 +1,6 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.web.extension;
 
-import com.qxcmp.framework.extension.Extension;
+import com.qxcmp.framework.core.extension.Extension;
 
 /**
  * 后台工具页面扩展

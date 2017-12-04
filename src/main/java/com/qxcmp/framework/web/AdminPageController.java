@@ -1,10 +1,10 @@
-package com.qxcmp.framework.core.web;
+package com.qxcmp.framework.web;
 
 import com.jcabi.manifests.Manifests;
 import com.qxcmp.framework.core.QxcmpConfiguration;
 import com.qxcmp.framework.message.FeedService;
 import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QxcmpController;
+import com.qxcmp.framework.web.extension.AdminToolPageExtensionPoint;
 import com.qxcmp.framework.web.view.elements.container.TextContainer;
 import com.qxcmp.framework.web.view.elements.grid.Col;
 import com.qxcmp.framework.web.view.elements.grid.Row;
