@@ -22,6 +22,6 @@ public class AdminStationMessageToolPageExtension implements AdminToolPageExtens
 
     @Override
     public String getUrl() {
-        return QXCMP_BACKEND_URL + "/inbox";
+        return QXCMP_BACKEND_URL + "/inner/message";
     }
 }

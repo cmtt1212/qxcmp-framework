@@ -18,7 +18,7 @@ import static com.qxcmp.framework.core.QxcmpSecurityConfiguration.PRIVILEGE_ADMI
  */
 @Component
 @RequiredArgsConstructor
-public class AdminSecurityListener {
+public class AdminSecurityEventListener {
 
     private final MessageService messageService;
     private final UserService userService;

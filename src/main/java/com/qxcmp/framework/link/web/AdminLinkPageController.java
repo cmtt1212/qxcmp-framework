@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.link.Link;
 import com.qxcmp.framework.link.LinkService;
+import com.qxcmp.framework.link.event.AdminLinkEditEvent;
+import com.qxcmp.framework.link.event.AdminLinkNewEvent;
+import com.qxcmp.framework.link.event.AdminLinkSettingsEvent;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.support.AnchorTarget;
@@ -91,7 +94,8 @@ public class AdminLinkPageController extends QxcmpController {
                     link.setTarget(AnchorTarget.BLANK.toString());
                 }
 
-                linkService.create(() -> link);
+                linkService.create(() -> link)
+                        .ifPresent(link1 -> applicationContext.publishEvent(new AdminLinkNewEvent(currentUser().orElseThrow(RuntimeException::new), link1)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -150,7 +154,8 @@ public class AdminLinkPageController extends QxcmpController {
                         } else {
                             target.setTarget(AnchorTarget.BLANK.toString());
                         }
-                    });
+                    })
+                            .ifPresent(link1 -> applicationContext.publishEvent(new AdminLinkEditEvent(currentUser().orElseThrow(RuntimeException::new), link1)));
                 } catch (Exception e) {
                     throw new ActionException(e.getMessage(), e);
                 }
@@ -210,6 +215,7 @@ public class AdminLinkPageController extends QxcmpController {
         return submitForm(form, context -> {
             try {
                 systemConfigService.update(SYSTEM_CONFIG_LINK_TYPE, form.getType());
+                applicationContext.publishEvent(new AdminLinkSettingsEvent(currentUser().orElseThrow(RuntimeException::new)));
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
