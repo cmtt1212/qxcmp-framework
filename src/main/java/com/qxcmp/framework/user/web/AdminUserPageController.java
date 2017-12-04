@@ -1,7 +1,10 @@
 package com.qxcmp.framework.user.web;
 
+import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.security.RoleService;
 import com.qxcmp.framework.user.User;
+import com.qxcmp.framework.user.event.AdminUserRoleEditEvent;
+import com.qxcmp.framework.user.event.AdminUserStatusEditEvent;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.button.Button;
@@ -45,6 +48,9 @@ import javax.validation.Valid;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/user")
 @RequiredArgsConstructor
@@ -176,7 +182,14 @@ public class AdminUserPageController extends QxcmpController {
                     .build();
         }
 
-        return submitForm(form, context -> userService.update(id, user -> user.setRoles(form.getRoles())), (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
+        return submitForm(form, context -> {
+            try {
+                userService.update(id, user -> user.setRoles(form.getRoles()))
+                        .ifPresent(user -> applicationContext.publishEvent(new AdminUserRoleEditEvent(currentUser().orElseThrow(RuntimeException::new), user)));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
     }
 
     @GetMapping("/{id}/status")
@@ -206,11 +219,18 @@ public class AdminUserPageController extends QxcmpController {
                     .build();
         }
 
-        return submitForm(form, context -> userService.update(id, user -> {
-            user.setEnabled(!form.isDisabled());
-            user.setAccountNonLocked(!form.isLocked());
-            user.setAccountNonExpired(!form.isExpired());
-            user.setCredentialsNonExpired(!form.isCredentialExpired());
-        }), (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
+        return submitForm(form, context -> {
+            try {
+                userService.update(id, user -> {
+                    user.setEnabled(!form.isDisabled());
+                    user.setAccountNonLocked(!form.isLocked());
+                    user.setAccountNonExpired(!form.isExpired());
+                    user.setCredentialsNonExpired(!form.isCredentialExpired());
+                })
+                        .ifPresent(user -> applicationContext.publishEvent(new AdminUserStatusEditEvent(currentUser().orElseThrow(RuntimeException::new), user)));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        }, (stringObjectMap, overview) -> overview.addLink("返回", QXCMP_BACKEND_URL + "/user/" + id + "/details"));
     }
 }

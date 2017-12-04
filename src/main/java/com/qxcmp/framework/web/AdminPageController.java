@@ -53,7 +53,7 @@ public class AdminPageController extends QxcmpController {
         User user = currentUser().orElseThrow(RuntimeException::new);
         Page<com.qxcmp.framework.message.Feed> feeds = feedService.findByOwner(user.getId(), pageable);
 
-        return page().addComponent(new VerticallyDividedGrid().setContainer()
+        return page().addComponent(new VerticallyDividedGrid().setContainer().setCentered()
                 .addItem(new Row()
                         .addCol(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(new Segment()
                                 .addComponent(new ContentHeader("我的动态", Size.NONE).setDividing())
