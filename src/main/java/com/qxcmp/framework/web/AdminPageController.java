@@ -15,6 +15,7 @@ import com.qxcmp.framework.web.view.elements.header.PageHeader;
 import com.qxcmp.framework.web.view.elements.list.List;
 import com.qxcmp.framework.web.view.elements.list.item.TextItem;
 import com.qxcmp.framework.web.view.elements.segment.Segment;
+import com.qxcmp.framework.web.view.modules.pagination.Pagination;
 import com.qxcmp.framework.web.view.support.Alignment;
 import com.qxcmp.framework.web.view.support.Size;
 import com.qxcmp.framework.web.view.support.Wide;
@@ -22,6 +23,8 @@ import com.qxcmp.framework.web.view.views.Feed;
 import com.qxcmp.framework.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,15 +48,17 @@ public class AdminPageController extends QxcmpController {
     private final FeedService feedService;
 
     @GetMapping("")
-    public ModelAndView homePage() {
+    public ModelAndView homePage(Pageable pageable) {
 
         User user = currentUser().orElseThrow(RuntimeException::new);
+        Page<com.qxcmp.framework.message.Feed> feeds = feedService.findByOwner(user.getId(), pageable);
 
         return page().addComponent(new VerticallyDividedGrid().setContainer()
                 .addItem(new Row()
                         .addCol(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(new Segment()
                                 .addComponent(new ContentHeader("我的动态", Size.NONE).setDividing())
-                                .addComponent(new Feed(feedService.findByOwner(user.getId())))
+                                .addComponent(new Feed(feeds.getContent()))
+                                .addComponent(new Pagination("", feeds.getNumber() + 1, (int) feeds.getTotalElements(), feeds.getSize()))
                         ))
                 )
         ).build();

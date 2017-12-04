@@ -2,9 +2,9 @@ package com.qxcmp.framework.message;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import org.joda.time.DateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author Aaric
@@ -21,8 +21,8 @@ public class FeedService extends AbstractEntityService<Feed, Long, FeedRepositor
      * @param userId 用户ID
      * @return 用户Feed流列表
      */
-    public List<Feed> findByOwner(String userId) {
-        return repository.findByOwnerAndDateCreatedAfterOrderByDateCreatedDesc(userId, DateTime.now().minusDays(30).toDate());
+    public Page<Feed> findByOwner(String userId, Pageable pageable) {
+        return repository.findByOwnerAndDateCreatedAfterOrderByDateCreatedDesc(userId, DateTime.now().minusDays(30).toDate(), pageable);
     }
 
     @Override
