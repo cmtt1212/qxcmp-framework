@@ -1,0 +1,22 @@
+package com.qxcmp.framework.web.event;
+
+import com.qxcmp.framework.domain.Region;
+import com.qxcmp.framework.user.User;
+import lombok.Getter;
+
+/**
+ * @author Aaric
+ */
+@Getter
+public class AdminSettingsRegionEvent {
+
+    private final User user;
+    private final Region region;
+    private final String action;
+
+    public AdminSettingsRegionEvent(User user, Region region, String action) {
+        this.user = user;
+        this.region = region;
+        this.action = action;
+    }
+}

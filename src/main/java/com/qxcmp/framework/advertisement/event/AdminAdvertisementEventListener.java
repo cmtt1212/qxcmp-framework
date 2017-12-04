@@ -11,6 +11,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.qxcmp.framework.core.QxcmpSecurityConfiguration.PRIVILEGE_ADMIN_ADVERTISEMENT;
 
@@ -30,14 +31,11 @@ public class AdminAdvertisementEventListener {
         Advertisement advertisement = event.getAdvertisement();
         List<User> feedUsers = userService.findByAuthority(PRIVILEGE_ADMIN_ADVERTISEMENT);
         feedUsers.add(event.getUser());
-        feedUsers.stream().distinct().forEach(u -> messageService.feed(feed -> {
-            feed.setOwner(u.getId());
-            feed.setTarget(event.getUser());
-            feed.setContent(String.format("%s 新建了一条广告 <a href='https://%s'>%s</a>",
-                    event.getUser().getDisplayName(),
-                    siteService.getDomain() + "/admin/advertisement/" + advertisement.getId() + "/edit",
-                    StringUtils.isNotBlank(advertisement.getTitle()) ? advertisement.getTitle() : "无名称"));
-        }));
+
+        messageService.feed(feedUsers.stream().map(User::getId).collect(Collectors.toList()), event.getUser(), String.format("%s 新建了一条广告 <a href='https://%s'>%s</a>",
+                event.getUser().getDisplayName(),
+                siteService.getDomain() + "/admin/advertisement/" + advertisement.getId() + "/edit",
+                StringUtils.isNotBlank(advertisement.getTitle()) ? advertisement.getTitle() : "无名称"));
     }
 
     @EventListener
@@ -45,13 +43,10 @@ public class AdminAdvertisementEventListener {
         Advertisement advertisement = event.getAdvertisement();
         List<User> feedUsers = userService.findByAuthority(PRIVILEGE_ADMIN_ADVERTISEMENT);
         feedUsers.add(event.getUser());
-        feedUsers.stream().distinct().forEach(u -> messageService.feed(feed -> {
-            feed.setOwner(u.getId());
-            feed.setTarget(event.getUser());
-            feed.setContent(String.format("%s 编辑了广告 <a href='https://%s'>%s</a>",
-                    event.getUser().getDisplayName(),
-                    siteService.getDomain() + "/admin/advertisement/" + advertisement.getId() + "/edit",
-                    StringUtils.isNotBlank(advertisement.getTitle()) ? advertisement.getTitle() : "无名称"));
-        }));
+
+        messageService.feed(feedUsers.stream().map(User::getId).collect(Collectors.toList()), event.getUser(), String.format("%s 编辑了广告 <a href='https://%s'>%s</a>",
+                event.getUser().getDisplayName(),
+                siteService.getDomain() + "/admin/advertisement/" + advertisement.getId() + "/edit",
+                StringUtils.isNotBlank(advertisement.getTitle()) ? advertisement.getTitle() : "无名称"));
     }
 }

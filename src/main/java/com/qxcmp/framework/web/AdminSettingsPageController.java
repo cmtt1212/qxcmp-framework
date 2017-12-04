@@ -9,6 +9,9 @@ import com.qxcmp.framework.config.SystemDictionaryService;
 import com.qxcmp.framework.domain.Region;
 import com.qxcmp.framework.domain.RegionLevel;
 import com.qxcmp.framework.domain.RegionService;
+import com.qxcmp.framework.web.event.AdminSettingsDictionaryEvent;
+import com.qxcmp.framework.web.event.AdminSettingsRegionEvent;
+import com.qxcmp.framework.web.event.AdminSettingsSiteEvent;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
 import com.qxcmp.framework.web.view.elements.icon.Icon;
@@ -108,32 +111,38 @@ public class AdminSettingsPageController extends QxcmpController {
         }
 
         return submitForm(form, (context) -> {
-            systemConfigService.update(SYSTEM_CONFIG_SITE_LOGO, form.getLogo());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_FAVICON, form.getFavicon());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_DOMAIN, form.getDomain());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
-            systemConfigService.update(SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
+            try {
+                systemConfigService.update(SYSTEM_CONFIG_SITE_LOGO, form.getLogo());
+                systemConfigService.update(SYSTEM_CONFIG_SITE_FAVICON, form.getFavicon());
+                systemConfigService.update(SYSTEM_CONFIG_SITE_DOMAIN, form.getDomain());
+                systemConfigService.update(SYSTEM_CONFIG_SITE_TITLE, form.getTitle());
+                systemConfigService.update(SYSTEM_CONFIG_SITE_KEYWORDS, form.getKeywords());
+                systemConfigService.update(SYSTEM_CONFIG_SITE_DESCRIPTION, form.getDescription());
 
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE, String.valueOf(form.isWatermarkEnabled()));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME, form.getWatermarkName());
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION, String.valueOf(WATERMARK_POSITIONS.indexOf(form.getWatermarkPosition())));
-            systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE, String.valueOf(form.getWatermarkFontSize()));
+                systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_ENABLE, String.valueOf(form.isWatermarkEnabled()));
+                systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_NAME, form.getWatermarkName());
+                systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_POSITION, String.valueOf(WATERMARK_POSITIONS.indexOf(form.getWatermarkPosition())));
+                systemConfigService.update(SYSTEM_CONFIG_IMAGE_WATERMARK_FONT_SIZE, String.valueOf(form.getWatermarkFontSize()));
 
-            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME, String.valueOf(form.isAccountEnableUsername()));
-            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL, String.valueOf(form.isAccountEnableEmail()));
-            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isAccountEnablePhone()));
-            systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isAccountEnableInvite()));
+                systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME, String.valueOf(form.isAccountEnableUsername()));
+                systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_EMAIL, String.valueOf(form.isAccountEnableEmail()));
+                systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_PHONE, String.valueOf(form.isAccountEnablePhone()));
+                systemConfigService.update(SYSTEM_CONFIG_ACCOUNT_ENABLE_INVITE, String.valueOf(form.isAccountEnableInvite()));
 
-            systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE, String.valueOf(form.getThreadPoolSize()));
-            systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE, String.valueOf(form.getMaxPoolSize()));
-            systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY, String.valueOf(form.getQueueSize()));
+                systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_CORE_POOL_SIZE, String.valueOf(form.getThreadPoolSize()));
+                systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_MAX_POOL_SIZE, String.valueOf(form.getMaxPoolSize()));
+                systemConfigService.update(SYSTEM_CONFIG_TASK_EXECUTOR_QUEUE_CAPACITY, String.valueOf(form.getQueueSize()));
 
-            systemConfigService.update(SYSTEM_CONFIG_SESSION_TIMEOUT, String.valueOf(form.getSessionTimeout()));
-            systemConfigService.update(SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT, String.valueOf(form.getMaxSessionCount()));
-            systemConfigService.update(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN, String.valueOf(form.isPreventLogin()));
+                systemConfigService.update(SYSTEM_CONFIG_SESSION_TIMEOUT, String.valueOf(form.getSessionTimeout()));
+                systemConfigService.update(SYSTEM_CONFIG_SESSION_MAX_ACTIVE_COUNT, String.valueOf(form.getMaxSessionCount()));
+                systemConfigService.update(SYSTEM_CONFIG_SESSION_MAX_PREVENT_LOGIN, String.valueOf(form.isPreventLogin()));
 
-            accountService.loadConfig();
+                accountService.loadConfig();
+
+                applicationContext.publishEvent(new AdminSettingsSiteEvent(currentUser().orElseThrow(RuntimeException::new)));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
         });
     }
 
@@ -169,13 +178,18 @@ public class AdminSettingsPageController extends QxcmpController {
         }
 
         return systemDictionaryService.findOne(form.getName()).map(systemDictionary -> submitForm(form, context -> {
-            systemDictionary.getItems().forEach(systemDictionaryItemService::remove);
-            form.getItems().forEach(systemDictionaryItem -> {
-                systemDictionaryItem.setId(null);
-                systemDictionaryItem.setParent(systemDictionary);
-                systemDictionaryItemService.create(() -> systemDictionaryItem);
-            });
-        })).orElse(page(new Overview(new IconHeader("字典不存在", new Icon("warning circle"))).addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
+            try {
+                systemDictionary.getItems().forEach(systemDictionaryItemService::remove);
+                form.getItems().forEach(systemDictionaryItem -> {
+                    systemDictionaryItem.setId(null);
+                    systemDictionaryItem.setParent(systemDictionary);
+                    systemDictionaryItemService.create(() -> systemDictionaryItem);
+                });
+                applicationContext.publishEvent(new AdminSettingsDictionaryEvent(currentUser().orElseThrow(RuntimeException::new), systemDictionary));
+            } catch (Exception e) {
+                throw new ActionException(e.getMessage(), e);
+            }
+        })).orElse(page(viewHelper.nextWarningOverview("字典不存在", "").addLink("返回", QXCMP_BACKEND_URL + "/settings/dictionary")).build());
     }
 
     @GetMapping("/dictionary/{name}/edit")
@@ -260,7 +274,9 @@ public class AdminSettingsPageController extends QxcmpController {
                             r.setParent(id);
                             r.setLevel(RegionLevel.COUNTY);
 
-                            regionService.create(() -> r);
+                            regionService.create(() -> r)
+                                    .ifPresent(region1 -> applicationContext.publishEvent(new AdminSettingsRegionEvent(currentUser().orElseThrow(RuntimeException::new), region1, "new")));
+
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
@@ -286,7 +302,8 @@ public class AdminSettingsPageController extends QxcmpController {
                         regionService.findInferiors(region).forEach(inferior -> regionService.update(inferior.getCode(), r -> r.setDisable(true)));
                     }
 
-                    regionService.update(region.getCode(), r -> r.setDisable(true));
+                    regionService.update(region.getCode(), r -> r.setDisable(true))
+                            .ifPresent(region1 -> applicationContext.publishEvent(new AdminSettingsRegionEvent(currentUser().orElseThrow(RuntimeException::new), region1, "disable")));
                 } catch (Exception e) {
                     throw new ActionException(e.getMessage(), e);
                 }
@@ -312,7 +329,8 @@ public class AdminSettingsPageController extends QxcmpController {
                         regionService.findAllInferiors(region).forEach(inferior -> regionService.update(inferior.getCode(), r -> r.setDisable(false)));
                     }
 
-                    regionService.update(region.getCode(), r -> r.setDisable(false));
+                    regionService.update(region.getCode(), r -> r.setDisable(false))
+                            .ifPresent(region1 -> applicationContext.publishEvent(new AdminSettingsRegionEvent(currentUser().orElseThrow(RuntimeException::new), region1, "enable")));
                 } catch (Exception e) {
                     throw new ActionException(e.getMessage(), e);
                 }
