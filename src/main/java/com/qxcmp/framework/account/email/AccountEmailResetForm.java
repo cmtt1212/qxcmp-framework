@@ -1,7 +1,7 @@
 package com.qxcmp.framework.account.email;
 
+import com.qxcmp.framework.account.AccountCode;
 import com.qxcmp.framework.account.AccountResetForm;
-import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.web.view.annotation.form.EmailField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Email;
  * <p>
  * 用户在使用邮箱找回密码的时候需要填写的信息
  * <p>
- * 找回流程如下： <ol> <li>填写用户邮箱</li> <li>检查邮箱格式以及是否存在</li> <li>生成重置密码链接{@link Code}，并发送到该邮箱</li>
+ * 找回流程如下： <ol> <li>填写用户邮箱</li> <li>检查邮箱格式以及是否存在</li> <li>生成重置密码链接{@link AccountCode}，并发送到该邮箱</li>
  * <li>用户点击该重置密码链接，生成账户密码重置表单{@link AccountResetForm}</li> <li>提交密码重置表单以修改账户密码</li> </ol>
  *
  * @author aaric

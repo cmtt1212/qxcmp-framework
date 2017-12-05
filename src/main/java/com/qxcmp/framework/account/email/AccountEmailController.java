@@ -1,9 +1,9 @@
 package com.qxcmp.framework.account.email;
 
+import com.qxcmp.framework.account.AccountCodeService;
 import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
-import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequestMapping("/account/email/")
 public class AccountEmailController extends AccountPageController {
 
-    public AccountEmailController(AccountService accountService, CodeService codeService) {
+    public AccountEmailController(AccountService accountService, AccountCodeService codeService) {
         super(accountService, codeService);
     }
 

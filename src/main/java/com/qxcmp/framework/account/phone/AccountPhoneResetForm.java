@@ -1,7 +1,7 @@
 package com.qxcmp.framework.account.phone;
 
+import com.qxcmp.framework.account.AccountCode;
 import com.qxcmp.framework.core.validation.Phone;
-import com.qxcmp.framework.domain.Code;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.PhoneCaptchaField;
 import com.qxcmp.framework.web.view.annotation.form.PhoneField;
@@ -13,7 +13,7 @@ import lombok.Data;
  * 用户在使用手机号找回密码的时候需要填写的信息
  * <p>
  * 找回流程如下： <ol> <li>用户填写手机号，并点击发送短信验证码按钮</li> <li>验证手机号是否已经注册</li> <li>发送短信验证码到指定手机号</li> <li>用户输入短信验证码</li>
- * <li>如果验证码正确则生成一个密码重置链接并跳转到该链接{@link Code}</li> </ol>
+ * <li>如果验证码正确则生成一个密码重置链接并跳转到该链接{@link AccountCode}</li> </ol>
  *
  * @author aaric
  */

@@ -1,9 +1,9 @@
 package com.qxcmp.framework.account.username;
 
+import com.qxcmp.framework.account.AccountCode;
+import com.qxcmp.framework.account.AccountCodeService;
 import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
-import com.qxcmp.framework.domain.Code;
-import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -33,7 +33,7 @@ public class AccountUsernameController extends AccountPageController {
 
     private final AccountSecurityQuestionService securityQuestionService;
 
-    public AccountUsernameController(AccountService accountService, CodeService codeService, AccountSecurityQuestionService securityQuestionService) {
+    public AccountUsernameController(AccountService accountService, AccountCodeService codeService, AccountSecurityQuestionService securityQuestionService) {
         super(accountService, codeService);
         this.securityQuestionService = securityQuestionService;
     }
@@ -165,7 +165,7 @@ public class AccountUsernameController extends AccountPageController {
 
         return securityQuestionService.findByUserId(form.getUserId()).map(securityQuestion -> {
             if (validateQuestion(form, securityQuestion)) {
-                Code code = codeService.nextPasswordCode(securityQuestion.getUserId());
+                AccountCode code = codeService.nextPasswordCode(securityQuestion.getUserId());
                 return redirect("/account/reset/" + code.getId());
             } else {
                 return page(new Overview("找回密码", "密保问题错误").addLink("重新找回密码", "/account/username/reset")).build();

@@ -1,10 +1,10 @@
 package com.qxcmp.framework.account.phone;
 
+import com.qxcmp.framework.account.AccountCode;
+import com.qxcmp.framework.account.AccountCodeService;
 import com.qxcmp.framework.account.AccountPageController;
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
-import com.qxcmp.framework.domain.Code;
-import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;
 import com.qxcmp.framework.web.view.elements.header.IconHeader;
@@ -30,7 +30,7 @@ import java.util.Optional;
 @RequestMapping("/account/phone/")
 public class AccountPhoneController extends AccountPageController {
 
-    public AccountPhoneController(AccountService accountService, CodeService codeService) {
+    public AccountPhoneController(AccountService accountService, AccountCodeService codeService) {
         super(accountService, codeService);
     }
 
@@ -135,7 +135,7 @@ public class AccountPhoneController extends AccountPageController {
             ).build();
         }
 
-        Code code = codeService.nextPasswordCode(userOptional.get().getId());
+        AccountCode code = codeService.nextPasswordCode(userOptional.get().getId());
 
         return redirect("/account/reset/" + code.getId());
     }

@@ -5,8 +5,6 @@ import com.qxcmp.framework.config.SiteService;
 import com.qxcmp.framework.config.SystemConfigService;
 import com.qxcmp.framework.core.QxcmpConfigurator;
 import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
-import com.qxcmp.framework.domain.Code;
-import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.message.EmailService;
 import com.qxcmp.framework.user.User;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class AccountService implements QxcmpConfigurator {
 
     private final EmailService emailService;
 
-    private final CodeService codeService;
+    private final AccountCodeService codeService;
 
     private final SystemConfigService systemConfigService;
 
@@ -95,7 +93,7 @@ public class AccountService implements QxcmpConfigurator {
      */
     public void sendActivateEmail(User user) {
         emailService.send(mimeMessageHelper -> {
-            Code code = codeService.nextActivateCode(user.getId());
+            AccountCode code = codeService.nextActivateCode(user.getId());
             String subject = String.format("【%s】", siteService.getTitle()) + systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_SUBJECT_DEFAULT_VALUE);
             String content = systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_CONTENT).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_ACTIVATE_CONTENT_DEFAULT_VALUE);
             content = content.replaceAll("\\$\\{link}", String.format("https://%s/account/activate/%s", siteService.getDomain(), code.getId()));
@@ -112,7 +110,7 @@ public class AccountService implements QxcmpConfigurator {
      */
     public void sendResetEmail(User user) {
         emailService.send(mimeMessageHelper -> {
-            Code code = codeService.nextPasswordCode(user.getId());
+            AccountCode code = codeService.nextPasswordCode(user.getId());
             String subject = String.format("【%s】", siteService.getTitle()) + systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_SUBJECT_DEFAULT_VALUE);
             String content = systemConfigService.getString(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT).orElse(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_MESSAGE_EMAIL_ACCOUNT_RESET_CONTENT_DEFAULT_VALUE);
             content = content.replaceAll("\\$\\{link}", String.format("https://%s/account/reset/%s", siteService.getDomain(), code.getId()));

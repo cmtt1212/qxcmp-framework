@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.account;
 
 import lombok.Data;
 
@@ -9,18 +9,18 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * 平台码实体
+ * 账户码
  * <p>
- * 当用户执行某些操作的时候，需要提供相应的码
+ * 账户码用于激活用户和重置用户密码
  * <p>
- * 该实体存放这些码，并记录生成时间，会定期从数据库中删除
+ * 使用一次以后将标记为过期
  *
  * @author aaric
  */
 @Entity
 @Table
 @Data
-public class Code {
+public class AccountCode {
 
     /**
      * 平台码唯一ID，由平台生成

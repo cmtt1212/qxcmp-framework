@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.account;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
  * @author aaric
  */
 @Service
-public class CodeService extends AbstractEntityService<Code, String, CodeRepository> {
+public class AccountCodeService extends AbstractEntityService<AccountCode, String, AccountCodeRepository> {
 
     /**
      * 验证码过期时间，默认为1天
      */
     private static final long CODE_EXPIRE_DURATION = 1000 * 60 * 60 * 24;
 
-    public CodeService(CodeRepository repository) {
+    public AccountCodeService(AccountCodeRepository repository) {
         super(repository);
     }
 
@@ -41,8 +41,8 @@ public class CodeService extends AbstractEntityService<Code, String, CodeReposit
      * @param userId 要激活的用户主键
      * @return 保存以后的激活码
      */
-    public Code nextActivateCode(String userId) {
-        return create(() -> next(Code.Type.ACTIVATE, userId)).orElse(null);
+    public AccountCode nextActivateCode(String userId) {
+        return create(() -> next(AccountCode.Type.ACTIVATE, userId)).orElse(null);
     }
 
     /**
@@ -51,12 +51,12 @@ public class CodeService extends AbstractEntityService<Code, String, CodeReposit
      * @param userId 要重置的用户主键
      * @return 保存以后的重置码
      */
-    public Code nextPasswordCode(String userId) {
-        return create(() -> next(Code.Type.PASSWORD, userId)).orElse(null);
+    public AccountCode nextPasswordCode(String userId) {
+        return create(() -> next(AccountCode.Type.PASSWORD, userId)).orElse(null);
     }
 
     @Override
-    protected <S extends Code> String getEntityId(S entity) {
+    protected <S extends AccountCode> String getEntityId(S entity) {
         return entity.getId();
     }
 
@@ -67,15 +67,15 @@ public class CodeService extends AbstractEntityService<Code, String, CodeReposit
      * @param userId 平台码关联的用户主键
      * @return 平台码实体
      */
-    private Code next(Code.Type type, String userId) {
-        Code code = next();
+    private AccountCode next(AccountCode.Type type, String userId) {
+        AccountCode code = next();
         code.setId(IDGenerator.next());
         code.setType(type);
         code.setUserId(userId);
         return code;
     }
 
-    private boolean isInvalidCode(Code code) {
+    private boolean isInvalidCode(AccountCode code) {
         return System.currentTimeMillis() - code.getDateCreated().getTime() > CODE_EXPIRE_DURATION;
     }
 }

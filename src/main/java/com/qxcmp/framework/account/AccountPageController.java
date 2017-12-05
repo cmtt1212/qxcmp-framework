@@ -1,7 +1,5 @@
 package com.qxcmp.framework.account;
 
-import com.qxcmp.framework.domain.Code;
-import com.qxcmp.framework.domain.CodeService;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.auth.AuthenticationFailureHandler;
@@ -55,7 +53,7 @@ public class AccountPageController extends QxcmpController {
 
     protected final AccountService accountService;
 
-    protected final CodeService codeService;
+    protected final AccountCodeService codeService;
 
     @GetMapping("/login")
     public ModelAndView loginPage(@RequestParam(required = false) String callback, final LoginForm loginForm, final LoginFormWithCaptcha loginFormWithCaptcha) {
@@ -132,7 +130,7 @@ public class AccountPageController extends QxcmpController {
     @PostMapping("/account/reset/{id}")
     public ModelAndView reset(@PathVariable String id, @Valid final AccountResetForm form, BindingResult bindingResult) throws Exception {
 
-        Code code = codeService.findOne(id).orElse(null);
+        AccountCode code = codeService.findOne(id).orElse(null);
 
         if (codeService.isInvalidCode(id)) {
             return page(new Overview(new IconHeader("无效的重置链接", new Icon("warning circle")).setSubTitle("请确认重置链接是否正确，或者重新找回密码")).addLink("重新找回密码", "/account/reset").addLink("返回登录", "/login")).build();
@@ -210,9 +208,9 @@ public class AccountPageController extends QxcmpController {
     @GetMapping("/account/activate/{id}")
     public ModelAndView activate(@PathVariable String id) {
         try {
-            Code code = codeService.findOne(id).orElseThrow(Exception::new);
+            AccountCode code = codeService.findOne(id).orElseThrow(Exception::new);
 
-            if (codeService.isInvalidCode(id) || !code.getType().equals(Code.Type.ACTIVATE)) {
+            if (codeService.isInvalidCode(id) || !code.getType().equals(AccountCode.Type.ACTIVATE)) {
                 return page(new Overview(new IconHeader("账户激活失败", new Icon("warning circle")).setSubTitle("无效的激活码")).addLink("重新激活账户", "/account/activate").addLink("返回登录", "/login")).build();
             }
 
