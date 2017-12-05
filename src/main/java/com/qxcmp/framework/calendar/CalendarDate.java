@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.calendar;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

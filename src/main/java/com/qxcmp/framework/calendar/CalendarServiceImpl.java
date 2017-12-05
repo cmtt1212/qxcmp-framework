@@ -1,4 +1,4 @@
-package com.qxcmp.framework.domain;
+package com.qxcmp.framework.calendar;
 
 import com.google.common.collect.Maps;
 import com.qxcmp.framework.core.QxcmpConfigurator;

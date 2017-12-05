@@ -1,7 +1,5 @@
 package com.qxcmp.framework.calendar;
 
-import com.qxcmp.framework.domain.CalendarDateType;
-import com.qxcmp.framework.domain.CalendarService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
