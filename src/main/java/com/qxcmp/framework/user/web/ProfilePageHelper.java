@@ -1,4 +1,4 @@
-package com.qxcmp.framework.profile;
+package com.qxcmp.framework.user.web;
 
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;

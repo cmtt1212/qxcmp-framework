@@ -1,4 +1,4 @@
-package com.qxcmp.framework.profile;
+package com.qxcmp.framework.user.web;
 
 import com.qxcmp.framework.account.AccountService;
 import com.qxcmp.framework.account.username.AccountSecurityQuestion;
@@ -47,7 +47,7 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
-import static com.qxcmp.framework.profile.ProfilePageHelper.*;
+import static com.qxcmp.framework.user.web.ProfilePageHelper.*;
 
 /**
  * @author Aaric

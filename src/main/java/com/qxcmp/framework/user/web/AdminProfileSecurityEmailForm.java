@@ -1,4 +1,4 @@
-package com.qxcmp.framework.profile;
+package com.qxcmp.framework.user.web;
 
 import com.qxcmp.framework.web.view.annotation.form.EmailField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
