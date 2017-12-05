@@ -1,4 +1,4 @@
-package com.qxcmp.framework.spdier.log;
+package com.qxcmp.framework.spdier;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

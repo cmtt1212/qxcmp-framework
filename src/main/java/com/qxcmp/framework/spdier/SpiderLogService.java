@@ -1,10 +1,7 @@
-package com.qxcmp.framework.spdier.log;
+package com.qxcmp.framework.spdier;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.TimeDurationHelper;
-import com.qxcmp.framework.spdier.Spider;
-import com.qxcmp.framework.spdier.SpiderPageProcessor;
-import com.qxcmp.framework.spdier.SpiderPipeline;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

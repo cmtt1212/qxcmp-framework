@@ -1,7 +1,6 @@
 package com.qxcmp.framework.spdier;
 
 import com.qxcmp.framework.core.QxcmpConfigurator;
-import com.qxcmp.framework.spdier.log.SpiderLogService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

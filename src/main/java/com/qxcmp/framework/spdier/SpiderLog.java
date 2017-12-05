@@ -1,4 +1,4 @@
-package com.qxcmp.framework.spdier.log;
+package com.qxcmp.framework.spdier;
 
 import com.qxcmp.framework.web.view.annotation.table.EntityTable;
 import com.qxcmp.framework.web.view.annotation.table.TableField;
