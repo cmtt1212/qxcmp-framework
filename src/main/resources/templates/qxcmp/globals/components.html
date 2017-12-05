@@ -3,7 +3,7 @@
 */-->
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<!--/*@thymesVar id="page" type="com.qxcmp.framework.web.page.AbstractPage"*/-->
+<!--/*@thymesVar id="page" type="com.qxcmp.web.page.AbstractPage"*/-->
 <body th:fragment="body(page)">
 <th:block th:each="component : ${page.components}">
     <div th:replace="~{:: component(${component})}"></div>
@@ -14,7 +14,7 @@
 </th:block>
 </body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.AbstractComponent"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.AbstractComponent"*/-->
 <th:block th:fragment="component(component)">
     <div th:replace="~{__${component.fragmentFile}__ :: __${component.fragmentName}__(${component})}"></div>
 </th:block>

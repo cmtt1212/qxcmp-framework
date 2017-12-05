@@ -1,7 +1,7 @@
 package com.qxcmp.account.email;
 
-import com.qxcmp.framework.core.validation.Username;
-import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.core.validation.Username;
+import com.qxcmp.web.view.annotation.form.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;

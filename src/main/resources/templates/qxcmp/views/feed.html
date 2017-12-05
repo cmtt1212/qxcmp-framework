@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.views.Feed"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.views.Feed"*/-->
 <div th:fragment="default(component)" th:class="${component.getClassName()}">
     <p th:if="${#lists.isEmpty(component.feeds)}">暂无内容</p>
     <div th:each="feed : ${component.feeds}" class="event">

@@ -4,7 +4,7 @@
 <!--/*
     页面页眉
 */-->
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.AbstractHeader"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.header.AbstractHeader"*/-->
 <div th:fragment="default(component)" th:class="${component.getClassName()}">
     <th:block th:if="${component.image ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.header.PageHeader"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.header.PageHeader"*/-->
 <th:block th:fragment="page-header(component)" th:switch="${component.type.getTag()}">
     <h1 th:case="h1" th:class="${component.getClassName()}">
         <th:block th:if="${component.image ne null}">

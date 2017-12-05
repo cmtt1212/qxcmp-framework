@@ -2,14 +2,14 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.List"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.list.List"*/-->
 <div th:fragment="list(component)" th:class="${component.getClassName()}">
     <th:block th:each="item : ${component.items}">
         <div th:replace="~{qxcmp/globals/components :: component(${item})}"></div>
     </th:block>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.TextItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.list.item.TextItem"*/-->
 <th:block th:fragment="item-text(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">
@@ -25,7 +25,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.IconTextItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.list.item.IconTextItem"*/-->
 <th:block th:fragment="item-icon-text(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">
@@ -47,7 +47,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.ImageTextItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.list.item.ImageTextItem"*/-->
 <th:block th:fragment="item-image-text(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">
@@ -69,7 +69,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.IconHeaderItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.list.item.IconHeaderItem"*/-->
 <th:block th:fragment="item-icon-header(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">
@@ -97,7 +97,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.list.item.ImageHeaderItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.list.item.ImageHeaderItem"*/-->
 <th:block th:fragment="item-image-header(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">

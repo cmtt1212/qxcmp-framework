@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.step.Step"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.step.Step"*/-->
 <th:block th:fragment="step(component)" th:class="${component.getClassName()}">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}">
@@ -28,7 +28,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.step.Steps"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.step.Steps"*/-->
 <div th:fragment="steps(component)" th:class="${component.getClassName()}">
     <th:block th:each="step : ${component.steps}">
         <div th:replace="~{qxcmp/globals/components :: component(${step})}"></div>

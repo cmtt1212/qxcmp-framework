@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.message.AbstractMessage"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.message.AbstractMessage"*/-->
 <div th:fragment="default(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <th:block th:if="${component.icon eq null}">
         <i th:if="${component.closeable}" class="close icon"></i>
@@ -28,7 +28,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.message.AbstractMessage"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.message.AbstractMessage"*/-->
 <th:block th:fragment="scripts(message)">
     <script th:inline="javascript">
         $(document).ready(function () {

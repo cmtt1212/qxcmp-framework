@@ -1,13 +1,13 @@
 package com.qxcmp.account;
 
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.PasswordField;
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.web.view.annotation.form.Form;
+import com.qxcmp.web.view.annotation.form.PasswordField;
+import com.qxcmp.web.view.modules.form.FormMethod;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
 
-import static com.qxcmp.framework.web.view.support.utils.FormHelper.SELF_ACTION;
+import static com.qxcmp.web.view.support.utils.FormHelper.SELF_ACTION;
 
 /**
  * 账户密码重置平台统一表单

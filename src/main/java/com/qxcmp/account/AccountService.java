@@ -1,12 +1,12 @@
 package com.qxcmp.account;
 
 import com.google.common.collect.Lists;
-import com.qxcmp.framework.config.SiteService;
-import com.qxcmp.framework.config.SystemConfigService;
-import com.qxcmp.framework.core.QxcmpConfigurator;
-import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
-import com.qxcmp.framework.message.EmailService;
-import com.qxcmp.framework.user.User;
+import com.qxcmp.config.SiteService;
+import com.qxcmp.config.SystemConfigService;
+import com.qxcmp.core.QxcmpConfigurator;
+import com.qxcmp.core.QxcmpSystemConfigConfiguration;
+import com.qxcmp.message.EmailService;
+import com.qxcmp.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,10 @@
 package com.qxcmp.account.username;
 
-import com.qxcmp.framework.core.validation.Username;
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
-import com.qxcmp.framework.web.view.annotation.form.PasswordField;
-import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.core.validation.Username;
+import com.qxcmp.web.view.annotation.form.Form;
+import com.qxcmp.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.web.view.annotation.form.PasswordField;
+import com.qxcmp.web.view.annotation.form.TextInputField;
 import lombok.Data;
 
 import javax.validation.constraints.Size;

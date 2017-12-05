@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.pagination.Pagination"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.pagination.Pagination"*/-->
 <div th:id="${component.id}" th:fragment="default(component)"
      th:if="${component.showSizeChanger or (component.getTotalPage() gt 1)}">
     <small th:if="${component.showTotal}" style="margin-right: 1em" th:utext="${component.getTotalText()}"></small>

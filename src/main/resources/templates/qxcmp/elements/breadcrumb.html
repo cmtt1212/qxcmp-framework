@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.breadcrumb.Breadcrumb"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.breadcrumb.Breadcrumb"*/-->
 <div th:fragment="default(component)" th:class="${component.getClassName()}">
     <th:block th:each="item : ${component.items}">
         <span th:if="${itemStat.index gt 0}" class="divider" th:utext="${component.separator}"></span>
@@ -10,7 +10,7 @@
     </th:block>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.breadcrumb.IconBreadCrumb"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.breadcrumb.IconBreadCrumb"*/-->
 <div th:fragment="icon(component)" th:class="${component.getClassName()}">
     <th:block th:each="item : ${component.items}">
         <i th:if="${itemStat.index gt 0}" th:class="|${component.iconName} icon divider|"></i>
@@ -18,7 +18,7 @@
     </th:block>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.breadcrumb.BreadcrumbItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.breadcrumb.BreadcrumbItem"*/-->
 <th:block th:fragment="item(component)">
     <th:block th:if="${#strings.isEmpty(component.url)}">
         <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>

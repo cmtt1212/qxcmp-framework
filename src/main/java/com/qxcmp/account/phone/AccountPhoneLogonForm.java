@@ -1,8 +1,8 @@
 package com.qxcmp.account.phone;
 
-import com.qxcmp.framework.core.validation.Phone;
-import com.qxcmp.framework.core.validation.Username;
-import com.qxcmp.framework.web.view.annotation.form.*;
+import com.qxcmp.core.validation.Phone;
+import com.qxcmp.core.validation.Username;
+import com.qxcmp.web.view.annotation.form.*;
 import lombok.Data;
 
 import javax.validation.constraints.Size;

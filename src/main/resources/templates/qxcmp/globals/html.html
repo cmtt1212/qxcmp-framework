@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.Anchor"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.html.Anchor"*/-->
 <a th:fragment="anchor(component)" th:class="${component.className}"
    th:href="@{${component.href}}" th:target="${component.target}" th:attr="download=${component.download}">
     <span th:replace="~{:: element-body(${component})}"></span>
 </a>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.HeaderElement"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.html.HeaderElement"*/-->
 <h1 th:fragment="h1(component)" th:class="${component.className}">
     <span th:replace="~{:: element-body(${component})}"></span>
 </h1>
@@ -50,7 +50,7 @@
     <span th:replace="~{:: element-body(${component})}"></span>
 </i>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.BaseHtmlElement"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.html.BaseHtmlElement"*/-->
 <th:block th:fragment="element-body(component)">
     <th:block th:if="${#lists.isEmpty(component.inlineElements)}" th:utext="${component.text}"/>
     <th:block th:unless="${#lists.isEmpty(component.inlineElements)}"
@@ -59,7 +59,7 @@
     </th:block>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.html.HtmlText"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.html.HtmlText"*/-->
 <th:block th:fragment="html-text(component)">
     <div class="ql-snow">
         <div class="ql-editor" style="line-height: 1.4285em;padding: 1rem 0;height: auto" th:utext="${component.text}"></div>

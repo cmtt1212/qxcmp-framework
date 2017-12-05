@@ -2,10 +2,10 @@ package com.qxcmp.account.email;
 
 import com.qxcmp.account.AccountCode;
 import com.qxcmp.account.AccountResetForm;
-import com.qxcmp.framework.web.view.annotation.form.EmailField;
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
-import com.qxcmp.framework.web.view.modules.form.FormMethod;
+import com.qxcmp.web.view.annotation.form.EmailField;
+import com.qxcmp.web.view.annotation.form.Form;
+import com.qxcmp.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.web.view.modules.form.FormMethod;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 

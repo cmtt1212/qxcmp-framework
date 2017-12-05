@@ -1,29 +1,29 @@
 package com.qxcmp.account;
 
-import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.QxcmpController;
-import com.qxcmp.framework.web.auth.AuthenticationFailureHandler;
-import com.qxcmp.framework.web.page.AbstractPage;
-import com.qxcmp.framework.web.view.elements.button.Button;
-import com.qxcmp.framework.web.view.elements.container.Container;
-import com.qxcmp.framework.web.view.elements.divider.Divider;
-import com.qxcmp.framework.web.view.elements.divider.HorizontalDivider;
-import com.qxcmp.framework.web.view.elements.grid.Col;
-import com.qxcmp.framework.web.view.elements.grid.VerticallyDividedGrid;
-import com.qxcmp.framework.web.view.elements.header.HeaderType;
-import com.qxcmp.framework.web.view.elements.header.IconHeader;
-import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.elements.html.Anchor;
-import com.qxcmp.framework.web.view.elements.html.P;
-import com.qxcmp.framework.web.view.elements.icon.Icon;
-import com.qxcmp.framework.web.view.elements.image.Image;
-import com.qxcmp.framework.web.view.elements.list.List;
-import com.qxcmp.framework.web.view.elements.list.item.TextItem;
-import com.qxcmp.framework.web.view.elements.message.ErrorMessage;
-import com.qxcmp.framework.web.view.elements.segment.Segment;
-import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.support.ColumnCount;
-import com.qxcmp.framework.web.view.views.Overview;
+import com.qxcmp.user.User;
+import com.qxcmp.web.QxcmpController;
+import com.qxcmp.web.auth.AuthenticationFailureHandler;
+import com.qxcmp.web.page.AbstractPage;
+import com.qxcmp.web.view.elements.button.Button;
+import com.qxcmp.web.view.elements.container.Container;
+import com.qxcmp.web.view.elements.divider.Divider;
+import com.qxcmp.web.view.elements.divider.HorizontalDivider;
+import com.qxcmp.web.view.elements.grid.Col;
+import com.qxcmp.web.view.elements.grid.VerticallyDividedGrid;
+import com.qxcmp.web.view.elements.header.HeaderType;
+import com.qxcmp.web.view.elements.header.IconHeader;
+import com.qxcmp.web.view.elements.header.PageHeader;
+import com.qxcmp.web.view.elements.html.Anchor;
+import com.qxcmp.web.view.elements.html.P;
+import com.qxcmp.web.view.elements.icon.Icon;
+import com.qxcmp.web.view.elements.image.Image;
+import com.qxcmp.web.view.elements.list.List;
+import com.qxcmp.web.view.elements.list.item.TextItem;
+import com.qxcmp.web.view.elements.message.ErrorMessage;
+import com.qxcmp.web.view.elements.segment.Segment;
+import com.qxcmp.web.view.support.Alignment;
+import com.qxcmp.web.view.support.ColumnCount;
+import com.qxcmp.web.view.views.Overview;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,7 +40,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static com.qxcmp.framework.web.auth.AuthenticationFailureHandler.AUTHENTICATION_ERROR_MESSAGE;
+import static com.qxcmp.web.auth.AuthenticationFailureHandler.AUTHENTICATION_ERROR_MESSAGE;
 
 /**
  * 账户登录、注册、重置页面路由

@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTable"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTable"*/-->
 <table th:fragment="table(component)" th:class="${component.getClassName()}">
     <th:block th:if="${component.header ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
@@ -15,7 +15,7 @@
     </th:block>
 </table>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTableFilter"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.EntityTableFilter"*/-->
 <form th:fragment="table-filter(component)">
     <b>过滤： </b>
     <div th:replace="~{qxcmp/globals/components :: component(${component.selection})}"></div>
@@ -23,7 +23,7 @@
     <div th:replace="~{qxcmp/globals/components :: component(${component.button})}"></div>
 </form>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableHeader"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTableHeader"*/-->
 <th:block th:fragment="table-header(component)">
     <thead th:class="${component.getClassName()}">
     <th:block th:each="row : ${component.rows}">
@@ -31,7 +31,7 @@
     </th:block>
     </thead>
 </th:block>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableBody"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTableBody"*/-->
 <th:block th:fragment="table-body(component)">
     <tbody th:class="${component.getClassName()}">
     <th:block th:each="row : ${component.rows}">
@@ -40,7 +40,7 @@
     </tbody>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableFooter"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTableFooter"*/-->
 <th:block th:fragment="table-footer(component)">
     <tfoot th:class="${component.getClassName()}">
     <th:block th:each="row : ${component.rows}">
@@ -49,7 +49,7 @@
     </tfoot>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableRow"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTableRow"*/-->
 <th:block th:fragment="table-row(component)">
     <tr th:class="${component.getClassName()}">
         <th:block th:each="cell : ${component.cells}">
@@ -58,7 +58,7 @@
     </tr>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableCell"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTableCell"*/-->
 <th:block th:fragment="table-head(component)">
     <th th:class="${component.getClassName()}" th:title="${component.content}"
         th:rowspan="${component.rowSpan gt 1 ? component.rowSpan : _}"
@@ -72,7 +72,7 @@
     </th>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.AbstractTableCell"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.AbstractTableCell"*/-->
 <th:block th:fragment="table-data(component)">
     <td th:class="${component.getClassName()}" th:title="${component.content}"
         th:rowspan="${component.rowSpan gt 1 ? component.rowSpan : _}"
@@ -86,7 +86,7 @@
     </td>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.TableHeadCheckbox"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.TableHeadCheckbox"*/-->
 <th:block th:fragment="table-head-checkbox(component)">
     <th th:class="${component.getClassName()}">
         <div class="ui head fitted checkbox" th:attr="data-key=${component.key}">
@@ -96,7 +96,7 @@
     </th>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.TableHeadCheckbox"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.TableHeadCheckbox"*/-->
 <th:block th:fragment="table-data-checkbox(component)">
     <td th:class="${component.getClassName()}">
         <div class="ui data fitted checkbox" th:attr="data-key=${component.key}">
@@ -106,7 +106,7 @@
     </td>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTable"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.EntityTable"*/-->
 <th:block th:fragment="entity-table(component)">
     <th:block th:if="${component.tableHeader ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.tableHeader})}"></div>
@@ -314,7 +314,7 @@
     </script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.table.EntityTableActionButton"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.table.EntityTableActionButton"*/-->
 <th:block th:fragment="action-button(component)">
     <button th:if="${component.method.name() eq 'POST'}" th:class="${component.getClassName()}"
             th:attr="data-action=@{${component.anchor.href}},data-show-confirm=${component.showConfirm},data-confirm-title=${component.confirmDialogTitle},data-confirm-description=${component.confirmDialogDescription}"

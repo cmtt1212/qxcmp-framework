@@ -1,8 +1,8 @@
 package com.qxcmp.account;
 
-import com.qxcmp.framework.web.view.annotation.form.Form;
-import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;
-import com.qxcmp.framework.web.view.annotation.form.TextInputField;
+import com.qxcmp.web.view.annotation.form.Form;
+import com.qxcmp.web.view.annotation.form.ImageCaptchaField;
+import com.qxcmp.web.view.annotation.form.TextInputField;
 import lombok.Data;
 
 /**

@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.views.ProfileHeader"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.views.ProfileHeader"*/-->
 <th:block th:fragment="default(component)">
     <a th:unless="${#strings.isEmpty(component.url)}" class="ui profile-header" th:href="@{${component.url}}">
         <div class="ui circular image">

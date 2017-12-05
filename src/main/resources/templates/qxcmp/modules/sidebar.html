@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.Sidebar"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.sidebar.Sidebar"*/-->
 <th:block th:fragment="sidebar(component)">
     <th:block th:if="${component.topFixedMenu ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.topFixedMenu})}"></div>
@@ -22,7 +22,7 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.AccordionMenuSidebar"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.sidebar.AccordionMenuSidebar"*/-->
 <th:block th:fragment="sidebar-accordion(component)">
     <th:block th:if="${component.topFixedMenu ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.topFixedMenu})}"></div>
@@ -44,7 +44,7 @@
     <script th:replace="~{qxcmp/modules/accordion :: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.AbstractSidebar"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.sidebar.AbstractSidebar"*/-->
 <th:block th:fragment="scripts(sidebar)">
     <script th:inline="javascript">
         $(document).ready(function () {
@@ -56,7 +56,7 @@
     </script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.sidebar.MobileSidebarLogoutButton"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.sidebar.MobileSidebarLogoutButton"*/-->
 <div th:fragment="logout-button(sidebar)" class="qxcmp-mobile-logout-button">
     <form class="ui grey mini basic button" th:action="@{/logout}" method="post" onclick="$(this).submit()">
         <i class="sign out icon"></i>

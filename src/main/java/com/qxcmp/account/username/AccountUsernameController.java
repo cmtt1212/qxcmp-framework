@@ -4,15 +4,15 @@ import com.qxcmp.account.AccountCode;
 import com.qxcmp.account.AccountCodeService;
 import com.qxcmp.account.AccountPageController;
 import com.qxcmp.account.AccountService;
-import com.qxcmp.framework.user.User;
-import com.qxcmp.framework.web.view.elements.header.HeaderType;
-import com.qxcmp.framework.web.view.elements.header.IconHeader;
-import com.qxcmp.framework.web.view.elements.header.PageHeader;
-import com.qxcmp.framework.web.view.elements.html.P;
-import com.qxcmp.framework.web.view.elements.icon.Icon;
-import com.qxcmp.framework.web.view.elements.image.Image;
-import com.qxcmp.framework.web.view.support.Alignment;
-import com.qxcmp.framework.web.view.views.Overview;
+import com.qxcmp.user.User;
+import com.qxcmp.web.view.elements.header.HeaderType;
+import com.qxcmp.web.view.elements.header.IconHeader;
+import com.qxcmp.web.view.elements.header.PageHeader;
+import com.qxcmp.web.view.elements.html.P;
+import com.qxcmp.web.view.elements.icon.Icon;
+import com.qxcmp.web.view.elements.image.Image;
+import com.qxcmp.web.view.support.Alignment;
+import com.qxcmp.web.view.views.Overview;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.qxcmp.framework.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME;
+import static com.qxcmp.core.QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_ACCOUNT_ENABLE_USERNAME;
 
 @Controller
 @RequestMapping("/account/username/")

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Dropdown"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.Dropdown"*/-->
 <th:block th:fragment="dropdown(component)">
     <div th:id="${component.id}" th:class="${component.getClassName()}">
         <span class="text" th:utext="${component.text}"></span>
@@ -11,7 +11,7 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.ButtonDropdown"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.ButtonDropdown"*/-->
 <th:block th:fragment="button(component)">
     <div th:id="${component.id}" th:class="${component.getClassName()}">
         <span th:if="not ${#strings.isEmpty(component.text)}" class="text" th:utext="${component.text}"></span>
@@ -21,7 +21,7 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.Selection"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.Selection"*/-->
 <th:block th:fragment="selection(component)">
     <div th:id="${component.id}" th:class="${component.getClassName()}">
         <input th:name="${component.name}" type="hidden"/>
@@ -32,7 +32,7 @@
     <script th:replace="~{:: scripts(${component})}"></script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.AbstractDropdownMenu"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.AbstractDropdownMenu"*/-->
 <th:block th:fragment="menu(component)">
     <div th:class="${component.getClassName()}">
         <th:block th:each="item : ${component.items}">
@@ -41,7 +41,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.TextItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.item.TextItem"*/-->
 <th:block th:fragment="item-text(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         [[${component.text}]]
@@ -57,10 +57,10 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.DividerItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.item.DividerItem"*/-->
 <div th:fragment="item-divider(component)" class="divider"></div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.IconItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.item.IconItem"*/-->
 <th:block th:fragment="item-icon(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.icon})}"></div>
@@ -69,7 +69,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.ImageItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.item.ImageItem"*/-->
 <th:block th:fragment="item-image(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.image})}"></div>
@@ -78,7 +78,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.LabelItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.item.LabelItem"*/-->
 <th:block th:fragment="item-label(component)">
     <div th:class="${component.getClassName()}" th:attr="data-value=${component.value}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.label})}"></div>
@@ -87,7 +87,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.item.MenuItem"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.item.MenuItem"*/-->
 <th:block th:fragment="item-menu(component)">
     <div th:class="${component.getClassName()}">
         <i th:class="|${component.direction} dropdown icon|"></i>
@@ -113,7 +113,7 @@
     <span class="description" th:utext="${component.description}"></span>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.dropdown.AbstractDropdown"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.dropdown.AbstractDropdown"*/-->
 <th:block th:fragment="scripts(dropdown)">
     <script th:inline="javascript">
         $(document).ready(function () {

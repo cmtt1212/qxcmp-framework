@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.input.Input"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.input.Input"*/-->
 <th:block th:fragment="default(component)">
     <div th:class="${component.getClassName()}">
         <input type="text" th:name="${component.name}" th:placeholder="${component.placeholder}"
@@ -9,7 +9,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.input.IconInput"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.input.IconInput"*/-->
 <th:block th:fragment="icon(component)">
     <div th:class="${component.getClassName()}">
         <input type="text" th:name="${component.name}" th:placeholder="${component.placeholder}"
@@ -18,7 +18,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.input.LabeledInput"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.input.LabeledInput"*/-->
 <th:block th:fragment="label(component)">
     <div th:if="${component.rightLabel}" th:class="${component.getClassName()}">
         <th:block th:if="${component.extraLabel ne null}">
@@ -36,7 +36,7 @@
     </div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.input.ActionInput"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.input.ActionInput"*/-->
 <th:block th:fragment="action(component)">
     <div th:if="${component.leftAction}" th:class="${component.getClassName()}">
         <th:block th:if="${component.button ne null}">

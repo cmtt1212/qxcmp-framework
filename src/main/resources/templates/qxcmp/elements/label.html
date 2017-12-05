@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.label.Label"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.label.Label"*/-->
 <th:block th:fragment="label(component)">
     <div th:if="${#strings.isEmpty(component.url)}" th:class="${component.getClassName()}">
         <div th:replace="~{:: label-content(${component})}"></div>
@@ -24,7 +24,7 @@
     <div th:if="not ${#strings.isEmpty(component.details)}" class="detail" th:utext="${component.details}"></div>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.label.Labels"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.label.Labels"*/-->
 <th:block th:fragment="labels(component)">
     <div th:class="${component.getClassName()}">
         <th:block th:each="label : ${component.labels}">

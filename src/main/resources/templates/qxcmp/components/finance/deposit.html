@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.components.finance.DepositComponent"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.components.finance.DepositComponent"*/-->
 <th:block th:fragment="default(component)">
     <div class="ui horizontal divider">充值中心</div>
     <form name="deposit" class="ui form" method="post" th:action="${component.weixinActionUrl}">

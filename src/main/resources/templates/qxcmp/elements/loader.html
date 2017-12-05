@@ -2,12 +2,12 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.loader.Loader"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.loader.Loader"*/-->
 <div th:fragment="default(component)" th:class="|ui ${component.active ? 'active ' : ''}dimmer|">
     <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.loader.SimpleLoader"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.loader.SimpleLoader"*/-->
 <div th:fragment="simple(component)" th:class="${component.getClassName()}" th:utext="${component.text}"></div>
 </body>
 </html>

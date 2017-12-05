@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.AbstractForm"*/-->
 <th:block th:fragment="form(component)">
     <th:block th:if="${component.header ne null}">
         <div th:replace="~{qxcmp/globals/components :: component(${component.header})}"></div>
@@ -42,8 +42,8 @@
     </form>
 </th:block>
 
-<!--/*@thymesVar id="form" type="com.qxcmp.framework.web.view.modules.form.AbstractForm"*/-->
-<!--/*@thymesVar id="section" type="com.qxcmp.framework.web.view.modules.form.AbstractFormSection"*/-->
+<!--/*@thymesVar id="form" type="com.qxcmp.web.view.modules.form.AbstractForm"*/-->
+<!--/*@thymesVar id="section" type="com.qxcmp.web.view.modules.form.AbstractFormSection"*/-->
 <div th:fragment="section(form, section)" class="section">
     <div th:if="${#lists.size(form.sections) gt 1}" class="ui dividing small header" th:utext="${section.name}"></div>
     <th:block th:each="field : ${section.fields}">
@@ -92,12 +92,12 @@
     </script>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.HiddenField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.HiddenField"*/-->
 <th:block th:fragment="field-hidden(component)">
     <input th:field="*{__${component.name}__}" type="hidden"/>
 </th:block>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-text-input(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <input th:field="*{__${component.name}__}" th:placeholder="${component.placeholder}"
@@ -109,7 +109,7 @@
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextInputField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.TextInputField"*/-->
 <div th:fragment="field-password(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <input th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
@@ -121,7 +121,7 @@
     <script th:replace="~{:: field-text-script(${component})}"></script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.EmailField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.EmailField"*/-->
 <div th:fragment="field-email(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <input th:field="*{__${component.name}__}" type="email" th:placeholder="${component.placeholder}"
@@ -159,7 +159,7 @@
     <!--</script>-->
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.PhoneField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.PhoneField"*/-->
 <div th:fragment="field-phone(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <input th:field="*{__${component.name}__}" type="text" th:placeholder="${component.placeholder}"
@@ -187,7 +187,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextAreaField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.TextAreaField"*/-->
 <div th:fragment="field-text-area(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <textarea th:field="*{__${component.name}__}" type="password" th:placeholder="${component.placeholder}"
@@ -200,7 +200,7 @@
 </div>
 
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.ImageCaptchaField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.ImageCaptchaField"*/-->
 <div th:fragment="field-captcha-image(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div class="captcha section">
@@ -235,7 +235,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.PhoneCaptchaField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.PhoneCaptchaField"*/-->
 <div th:fragment="field-captcha-phone(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div class="captcha section">
@@ -308,7 +308,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AvatarField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.AvatarField"*/-->
 <div th:fragment="field-avatar(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <input th:field="*{__${component.name}__}" type="hidden"/>
     <input type="file" style="display: none" th:attr="data-max-size=${component.maxSize}"/>
@@ -415,7 +415,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.AlbumField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.AlbumField"*/-->
 <div th:fragment="field-album(component)"
      th:id="${component.id}" th:class="${component.getClassName()}">
     <input th:field="*{__${component.name}__}" type="hidden"/>
@@ -555,7 +555,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.BooleanField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.BooleanField"*/-->
 <div th:fragment="field-boolean(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div th:class="${component.getCheckboxClass()}">
@@ -565,7 +565,7 @@
     <script th:replace="~{:: field-common-script(${component})}"></script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.TextSelectionField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.TextSelectionField"*/-->
 <div th:fragment="field-selection-text(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div th:class="${component.getDropdownClass()}">
@@ -590,7 +590,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.NumberField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.NumberField"*/-->
 <div th:fragment="field-number(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div class="component">
@@ -652,7 +652,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.DynamicField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.DynamicField"*/-->
 <div th:fragment="field-dynamic(component)" th:with="items=*{__${component.name}__}"
      th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
@@ -702,7 +702,7 @@
     <script th:replace="~{:: field-common-script(${component})}"></script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.HtmlField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.HtmlField"*/-->
 <div th:fragment="field-html(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <input type="hidden" class="html-content" th:field="*{__${component.name}__}"/>
@@ -722,7 +722,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.DateTimeField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.DateTimeField"*/-->
 <div th:fragment="field-date-time(component)" th:id="${component.id}" th:class="${component.getClassName()}">
     <label th:replace="~{:: field-label(${component})}"></label>
     <div class="component">
@@ -778,7 +778,7 @@
     </script>
 </div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.modules.form.field.FileUploadField"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.modules.form.field.FileUploadField"*/-->
 <div th:fragment="field-file-upload(component)"
      th:id="${component.id}" th:class="${component.getClassName()}">
     <input th:field="*{__${component.name}__}" type="hidden"/>

@@ -2,10 +2,10 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.divider.Divider"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.divider.Divider"*/-->
 <div th:fragment="default(component)" th:class="${component.getClassName()}"></div>
 
-<!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.elements.divider.HorizontalDivider"*/-->
+<!--/*@thymesVar id="component" type="com.qxcmp.web.view.elements.divider.HorizontalDivider"*/-->
 <th:block th:fragment="horizontal(component)">
     <th:block th:if="${component.header eq null}">
         <div th:class="${component.getClassName()}" th:utext="${component.text}"></div>
