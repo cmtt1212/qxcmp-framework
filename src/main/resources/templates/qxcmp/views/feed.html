@@ -4,6 +4,7 @@
 
 <!--/*@thymesVar id="component" type="com.qxcmp.framework.web.view.views.Feed"*/-->
 <div th:fragment="default(component)" th:class="${component.getClassName()}">
+    <p th:if="${#lists.isEmpty(component.feeds)}">暂无内容</p>
     <div th:each="feed : ${component.feeds}" class="event">
         <div th:if="${feed.target ne null}" class="label">
             <img th:src="@{${feed.target.portrait}}"/>
