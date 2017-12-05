@@ -1,22 +1,23 @@
-package com.qxcmp.framework.account.phone;
+package com.qxcmp.account.email;
 
-import com.qxcmp.framework.core.validation.Phone;
 import com.qxcmp.framework.core.validation.Username;
 import com.qxcmp.framework.web.view.annotation.form.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
 
 /**
- * 手机账户注册平台统一表单
+ * 邮箱账户注册平台统一表单
  * <p>
- * 用户在使用手机号注册账户的时候需要填写的信息
+ * 用户在使用邮箱注册账户的时候需要填写的信息
  *
  * @author aaric
  */
 @Form(submitText = "立即注册")
 @Data
-public class AccountPhoneLogonForm {
+public class AccountEmailLogonForm {
 
     /**
      * 用户名
@@ -29,13 +30,14 @@ public class AccountPhoneLogonForm {
     private String username;
 
     /**
-     * 手机号码
+     * 用户邮箱
      * <p>
-     * 全局唯一，注册的时候需要检查手机号码是否已经存在
+     * 全局唯一，注册的时候需要检查邮箱是否已经被占用
      */
-    @Phone
-    @PhoneField(value = "手机号码", placeholder = "你的手机号码")
-    private String phone;
+    @Email(message = "{Email}")
+    @NotEmpty(message = "{NotEmpty.emailRegisterForm.email}")
+    @EmailField(value = "邮箱", placeholder = "请输入你的注册邮箱")
+    private String email;
 
     /**
      * 登录密码
@@ -55,10 +57,10 @@ public class AccountPhoneLogonForm {
     private String passwordConfirm;
 
     /**
-     * 短信验证码
+     * 会话验证码
      * <p>
-     * 输入的短信验证码需要与会话中的短信验证码一致
+     * 用户输入的会话验证码，需要和验证码图片中的信息一致
      */
-    @PhoneCaptchaField(value = "短信验证码", placeholder = "请输入你收到的短信验证码", phoneField = "phone")
+    @ImageCaptchaField(value = "验证码", placeholder = "请输入图片中的文字信息")
     private String captcha;
 }

@@ -1,4 +1,4 @@
-package com.qxcmp.framework.account;
+package com.qxcmp.account;
 
 import com.qxcmp.framework.core.entity.AbstractEntityService;
 import com.qxcmp.framework.core.support.IDGenerator;

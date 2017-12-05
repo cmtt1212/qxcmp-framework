@@ -1,4 +1,4 @@
-package com.qxcmp.framework.account;
+package com.qxcmp.account;
 
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;

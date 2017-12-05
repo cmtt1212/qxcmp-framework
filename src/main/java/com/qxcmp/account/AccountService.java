@@ -1,4 +1,4 @@
-package com.qxcmp.framework.account;
+package com.qxcmp.account;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.framework.config.SiteService;

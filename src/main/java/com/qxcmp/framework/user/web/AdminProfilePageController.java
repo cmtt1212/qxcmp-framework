@@ -1,8 +1,8 @@
 package com.qxcmp.framework.user.web;
 
-import com.qxcmp.framework.account.AccountService;
-import com.qxcmp.framework.account.username.AccountSecurityQuestion;
-import com.qxcmp.framework.account.username.AccountSecurityQuestionService;
+import com.qxcmp.account.AccountService;
+import com.qxcmp.account.username.AccountSecurityQuestion;
+import com.qxcmp.account.username.AccountSecurityQuestionService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.message.InnerMessage;
 import com.qxcmp.framework.message.InnerMessageService;

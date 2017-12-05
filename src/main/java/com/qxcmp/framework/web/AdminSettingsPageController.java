@@ -1,7 +1,7 @@
 package com.qxcmp.framework.web;
 
 import com.google.common.collect.ImmutableList;
-import com.qxcmp.framework.account.AccountService;
+import com.qxcmp.account.AccountService;
 import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.config.SystemDictionaryItem;
 import com.qxcmp.framework.config.SystemDictionaryItemService;

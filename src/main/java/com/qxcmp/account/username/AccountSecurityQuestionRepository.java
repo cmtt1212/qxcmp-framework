@@ -1,4 +1,4 @@
-package com.qxcmp.framework.account.username;
+package com.qxcmp.account.username;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

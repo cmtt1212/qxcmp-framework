@@ -1,7 +1,7 @@
 package com.qxcmp.framework.code;
 
-import com.qxcmp.framework.account.AccountCode;
-import com.qxcmp.framework.account.AccountCodeService;
+import com.qxcmp.account.AccountCode;
+import com.qxcmp.account.AccountCodeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

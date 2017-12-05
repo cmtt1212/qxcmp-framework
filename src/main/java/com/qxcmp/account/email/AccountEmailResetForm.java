@@ -1,7 +1,7 @@
-package com.qxcmp.framework.account.email;
+package com.qxcmp.account.email;
 
-import com.qxcmp.framework.account.AccountCode;
-import com.qxcmp.framework.account.AccountResetForm;
+import com.qxcmp.account.AccountCode;
+import com.qxcmp.account.AccountResetForm;
 import com.qxcmp.framework.web.view.annotation.form.EmailField;
 import com.qxcmp.framework.web.view.annotation.form.Form;
 import com.qxcmp.framework.web.view.annotation.form.ImageCaptchaField;

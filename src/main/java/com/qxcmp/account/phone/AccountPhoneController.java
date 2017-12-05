@@ -1,9 +1,9 @@
-package com.qxcmp.framework.account.phone;
+package com.qxcmp.account.phone;
 
-import com.qxcmp.framework.account.AccountCode;
-import com.qxcmp.framework.account.AccountCodeService;
-import com.qxcmp.framework.account.AccountPageController;
-import com.qxcmp.framework.account.AccountService;
+import com.qxcmp.account.AccountCode;
+import com.qxcmp.account.AccountCodeService;
+import com.qxcmp.account.AccountPageController;
+import com.qxcmp.account.AccountService;
 import com.qxcmp.framework.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.view.elements.header.HeaderType;

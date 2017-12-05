@@ -1,4 +1,4 @@
-package com.qxcmp.framework.account;
+package com.qxcmp.account;
 
 import lombok.Data;
 
