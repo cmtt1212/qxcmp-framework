@@ -1,7 +1,8 @@
 package com.qxcmp.framework.spdier;
 
 import com.qxcmp.framework.core.QxcmpConfigurator;
-import lombok.AllArgsConstructor;
+import com.qxcmp.framework.spdier.event.AdminSpiderFinishEvent;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -24,16 +25,13 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SpiderRunner implements QxcmpConfigurator {
 
-    private ApplicationContext applicationContext;
-
-    private TaskExecutor taskExecutor;
-
-    private SpiderContextHolder spiderContextHolder;
-
-    private SpiderLogService spiderLogService;
+    private final ApplicationContext applicationContext;
+    private final TaskExecutor taskExecutor;
+    private final SpiderContextHolder spiderContextHolder;
+    private final SpiderLogService spiderLogService;
 
 
     /**
@@ -121,6 +119,7 @@ public class SpiderRunner implements QxcmpConfigurator {
             spider.run();
             spiderContextHolder.getSpiderRuntimeInfo().remove(spiderRuntime);
             spiderLogService.save(spiderPageProcessor);
+            applicationContext.publishEvent(new AdminSpiderFinishEvent(spiderDefinition, spiderPageProcessor));
         } catch (NoSuchBeanDefinitionException e) {
             log.error("Start spider failed, cause: {}", e.getMessage());
         }

@@ -6,6 +6,9 @@ import com.qxcmp.framework.spdier.SpiderContextHolder;
 import com.qxcmp.framework.spdier.SpiderDefinition;
 import com.qxcmp.framework.spdier.SpiderLogService;
 import com.qxcmp.framework.spdier.SpiderRuntime;
+import com.qxcmp.framework.spdier.event.AdminSpiderDisableEvent;
+import com.qxcmp.framework.spdier.event.AdminSpiderEnableEvent;
+import com.qxcmp.framework.spdier.event.AdminSpiderStopEvent;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +26,15 @@ import java.util.Optional;
 import static com.qxcmp.framework.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.framework.core.QxcmpNavigationConfiguration.*;
 
+/**
+ * @author Aaric
+ */
 @Controller
 @RequestMapping(QXCMP_BACKEND_URL + "/spider")
 @RequiredArgsConstructor
 public class AdminSpiderPageController extends QxcmpController {
 
     private final SpiderContextHolder spiderContextHolder;
-
     private final SpiderLogService spiderLogService;
 
     @GetMapping("")
@@ -45,7 +50,11 @@ public class AdminSpiderPageController extends QxcmpController {
         RestfulResponse restfulResponse = audit("批量禁用蜘蛛", context -> {
             try {
                 for (String key : keys) {
-                    spiderContextHolder.getSpiderDefinitions().values().stream().filter(definition -> definition.getName().equals(key)).findAny().ifPresent(spiderDefinition -> spiderDefinition.setDisabled(true));
+                    spiderContextHolder.getSpiderDefinitions().values().stream().filter(definition -> definition.getName().equals(key)).findAny()
+                            .ifPresent(spiderDefinition -> {
+                                spiderDefinition.setDisabled(true);
+                                applicationContext.publishEvent(new AdminSpiderDisableEvent(currentUser().orElseThrow(RuntimeException::new), spiderDefinition));
+                            });
                 }
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
@@ -58,7 +67,11 @@ public class AdminSpiderPageController extends QxcmpController {
     public ResponseEntity<RestfulResponse> spiderEnable(@PathVariable String name) {
         RestfulResponse restfulResponse = audit("启用蜘蛛", context -> {
             try {
-                spiderContextHolder.getSpiderDefinitions().values().stream().filter(definition -> definition.getName().equals(name)).findAny().ifPresent(spiderDefinition -> spiderDefinition.setDisabled(false));
+                spiderContextHolder.getSpiderDefinitions().values().stream().filter(definition -> definition.getName().equals(name)).findAny()
+                        .ifPresent(spiderDefinition -> {
+                            spiderDefinition.setDisabled(false);
+                            applicationContext.publishEvent(new AdminSpiderEnableEvent(currentUser().orElseThrow(RuntimeException::new), spiderDefinition));
+                        });
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -70,7 +83,11 @@ public class AdminSpiderPageController extends QxcmpController {
     public ResponseEntity<RestfulResponse> spiderDisable(@PathVariable String name) {
         RestfulResponse restfulResponse = audit("禁用蜘蛛", context -> {
             try {
-                spiderContextHolder.getSpiderDefinitions().values().stream().filter(definition -> definition.getName().equals(name)).findAny().ifPresent(spiderDefinition -> spiderDefinition.setDisabled(true));
+                spiderContextHolder.getSpiderDefinitions().values().stream().filter(definition -> definition.getName().equals(name)).findAny()
+                        .ifPresent(spiderDefinition -> {
+                            spiderDefinition.setDisabled(true);
+                            applicationContext.publishEvent(new AdminSpiderDisableEvent(currentUser().orElseThrow(RuntimeException::new), spiderDefinition));
+                        });
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
             }
@@ -88,13 +105,14 @@ public class AdminSpiderPageController extends QxcmpController {
 
     @PostMapping("/status/{name}/stop")
     public ResponseEntity<RestfulResponse> spiderStatusStop(@PathVariable String name) {
-        RestfulResponse restfulResponse = audit("终止蜘蛛", context -> {
+        RestfulResponse restfulResponse = audit("停止蜘蛛", context -> {
 
             Optional<SpiderRuntime> spiderRuntime = spiderContextHolder.getSpiderRuntimeInfo().stream().filter(runtime -> runtime.getName().equals(name)).findAny();
 
             if (spiderRuntime.isPresent()) {
                 try {
                     spiderRuntime.get().getSpider().stop();
+                    applicationContext.publishEvent(new AdminSpiderStopEvent(currentUser().orElseThrow(RuntimeException::new), spiderRuntime.get()));
                 } catch (Exception e) {
                     throw new ActionException("Can't stop spider " + name, e);
                 }
