@@ -5,6 +5,9 @@ import com.qxcmp.framework.audit.ActionException;
 import com.qxcmp.framework.news.Article;
 import com.qxcmp.framework.news.ArticleService;
 import com.qxcmp.framework.news.ArticleStatus;
+import com.qxcmp.framework.news.event.AdminNewsArticleDisableEvent;
+import com.qxcmp.framework.news.event.AdminNewsArticleEnableEvent;
+import com.qxcmp.framework.news.event.AdminNewsArticlePublishEvent;
 import com.qxcmp.framework.user.User;
 import com.qxcmp.framework.web.QxcmpController;
 import com.qxcmp.framework.web.model.RestfulResponse;
@@ -145,7 +148,7 @@ public class AdminNewsArticlePageController extends QxcmpController {
                                 a.setAuditResponse(form.getResponse());
                                 a.setDatePublished(new Date());
                                 a.setStatus(ArticleStatus.PUBLISHED);
-                            });
+                            }).ifPresent(article1 -> applicationContext.publishEvent(new AdminNewsArticlePublishEvent(user, article1)));
                         } else {
                             articleService.update(article.getId(), a -> {
                                 a.setAuditor(user.getId());
@@ -192,7 +195,7 @@ public class AdminNewsArticlePageController extends QxcmpController {
                                 a.setDatePublished(new Date());
                                 a.setStatus(ArticleStatus.DISABLED);
                                 a.setDisableUser(user.getId());
-                            });
+                            }).ifPresent(article1 -> applicationContext.publishEvent(new AdminNewsArticleDisableEvent(user, article1)));
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
@@ -212,7 +215,7 @@ public class AdminNewsArticlePageController extends QxcmpController {
                             articleService.update(article.getId(), a -> {
                                 a.setDatePublished(new Date());
                                 a.setStatus(ArticleStatus.PUBLISHED);
-                            });
+                            }).ifPresent(article1 -> applicationContext.publishEvent(new AdminNewsArticleEnableEvent(currentUser().orElseThrow(RuntimeException::new), article1)));
                         } catch (Exception e) {
                             throw new ActionException(e.getMessage(), e);
                         }
@@ -232,12 +235,15 @@ public class AdminNewsArticlePageController extends QxcmpController {
                 for (String key : keys) {
                     articleService.findOne(key)
                             .filter(article -> article.getStatus().equals(ArticleStatus.AUDITING))
-                            .ifPresent(article -> articleService.update(article.getId(), a -> {
-                                a.setAuditor(user.getId());
-                                a.setAuditResponse("批量发布");
-                                a.setDatePublished(new Date());
-                                a.setStatus(ArticleStatus.PUBLISHED);
-                            }));
+                            .ifPresent(article -> {
+                                articleService.update(article.getId(), a -> {
+                                    a.setAuditor(user.getId());
+                                    a.setAuditResponse("批量发布");
+                                    a.setDatePublished(new Date());
+                                    a.setStatus(ArticleStatus.PUBLISHED);
+                                });
+                                applicationContext.publishEvent(new AdminNewsArticlePublishEvent(user, article));
+                            });
                 }
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
@@ -299,11 +305,14 @@ public class AdminNewsArticlePageController extends QxcmpController {
                     articleService.findOne(key)
                             .filter(article -> StringUtils.equals(article.getUserId(), user.getId()))
                             .filter(article -> article.getStatus().equals(ArticleStatus.PUBLISHED))
-                            .ifPresent(article -> articleService.update(article.getId(), a -> {
-                                a.setDatePublished(new Date());
-                                a.setStatus(ArticleStatus.DISABLED);
-                                a.setDisableUser(user.getId());
-                            }));
+                            .ifPresent(article -> {
+                                articleService.update(article.getId(), a -> {
+                                    a.setDatePublished(new Date());
+                                    a.setStatus(ArticleStatus.DISABLED);
+                                    a.setDisableUser(user.getId());
+                                });
+                                applicationContext.publishEvent(new AdminNewsArticleDisableEvent(user, article));
+                            });
                 }
             } catch (Exception e) {
                 throw new ActionException(e.getMessage(), e);
