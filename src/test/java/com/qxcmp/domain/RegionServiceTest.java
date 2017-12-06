@@ -1,5 +1,7 @@
 package com.qxcmp.domain;
 
+import com.qxcmp.region.RegionLevel;
+import com.qxcmp.region.RegionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.qxcmp.domain;
+package com.qxcmp.region;
 
 import com.qxcmp.config.SystemConfigService;
 import com.qxcmp.core.QxcmpConfigurator;

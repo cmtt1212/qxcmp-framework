@@ -1,6 +1,6 @@
 package com.qxcmp.web.event;
 
-import com.qxcmp.domain.Region;
+import com.qxcmp.region.Region;
 import com.qxcmp.user.User;
 import lombok.Getter;
 

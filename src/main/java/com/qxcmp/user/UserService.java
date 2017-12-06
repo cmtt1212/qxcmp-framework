@@ -5,7 +5,7 @@ import com.google.common.hash.Hashing;
 import com.qxcmp.core.entity.AbstractEntityService;
 import com.qxcmp.core.support.IDGenerator;
 import com.qxcmp.core.support.ImageGenerator;
-import com.qxcmp.domain.ImageService;
+import com.qxcmp.image.ImageService;
 import com.qxcmp.security.Role;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;

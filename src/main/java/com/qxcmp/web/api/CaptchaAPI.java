@@ -1,9 +1,9 @@
 package com.qxcmp.web.api;
 
 import com.qxcmp.core.validation.PhoneValidator;
-import com.qxcmp.domain.Captcha;
-import com.qxcmp.domain.CaptchaService;
 import com.qxcmp.message.SmsService;
+import com.qxcmp.util.Captcha;
+import com.qxcmp.util.CaptchaService;
 import com.qxcmp.web.QxcmpController;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

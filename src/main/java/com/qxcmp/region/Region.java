@@ -1,4 +1,4 @@
-package com.qxcmp.domain;
+package com.qxcmp.region;
 
 import com.qxcmp.web.view.annotation.table.*;
 import com.qxcmp.web.view.elements.icon.Icon;

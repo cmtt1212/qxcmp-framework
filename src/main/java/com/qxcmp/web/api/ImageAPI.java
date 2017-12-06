@@ -2,7 +2,7 @@ package com.qxcmp.web.api;
 
 import com.qxcmp.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.core.validation.ImageValidator;
-import com.qxcmp.domain.ImageService;
+import com.qxcmp.image.ImageService;
 import com.qxcmp.web.QxcmpController;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.geometry.Positions;

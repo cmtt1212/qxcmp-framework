@@ -2,7 +2,7 @@ package com.qxcmp.weixin;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.config.SiteService;
-import com.qxcmp.domain.ImageService;
+import com.qxcmp.image.ImageService;
 import com.qxcmp.user.User;
 import com.qxcmp.user.UserService;
 import com.qxcmp.weixin.event.WeixinMaterialSyncFinishEvent;

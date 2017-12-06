@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import com.qxcmp.core.support.IDGenerator;
 import com.qxcmp.core.validation.Phone;
 import com.qxcmp.core.validation.Username;
-import com.qxcmp.domain.Label;
 import com.qxcmp.security.Role;
 import com.qxcmp.web.view.annotation.table.*;
 import com.qxcmp.web.view.elements.icon.Icon;
@@ -262,8 +261,8 @@ public class User implements UserDetails {
     /**
      * 用户标签
      */
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Label> labels = Sets.newHashSet();
+    @ElementCollection
+    private Set<String> labels = Sets.newHashSet();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

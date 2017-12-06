@@ -1,4 +1,4 @@
-package com.qxcmp.domain;
+package com.qxcmp.util;
 
 
 import com.qxcmp.exception.CaptchaExpiredException;

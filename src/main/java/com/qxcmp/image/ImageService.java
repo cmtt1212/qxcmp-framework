@@ -1,4 +1,4 @@
-package com.qxcmp.domain;
+package com.qxcmp.image;
 
 import com.qxcmp.core.entity.AbstractEntityService;
 import com.qxcmp.core.support.IDGenerator;

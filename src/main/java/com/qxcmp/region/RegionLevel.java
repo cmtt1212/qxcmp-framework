@@ -1,4 +1,4 @@
-package com.qxcmp.domain;
+package com.qxcmp.region;
 
 /**
  * 地区类型
