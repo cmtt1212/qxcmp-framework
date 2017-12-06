@@ -21,7 +21,7 @@ import com.qxcmp.web.view.views.Overview;
 import com.qxcmp.weixin.WeixinMpMaterialService;
 import com.qxcmp.weixin.WeixinMpMaterialType;
 import com.qxcmp.weixin.WeixinService;
-import com.qxcmp.weixin.event.AdminWeixinSettingsEvent;
+import com.qxcmp.core.event.AdminWeixinSettingsEvent;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;

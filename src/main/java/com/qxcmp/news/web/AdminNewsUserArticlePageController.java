@@ -1,9 +1,9 @@
 package com.qxcmp.news.web;
 
 import com.qxcmp.audit.ActionException;
+import com.qxcmp.core.event.AdminNewsArticleDisableEvent;
+import com.qxcmp.core.event.AdminNewsArticleEnableEvent;
 import com.qxcmp.news.*;
-import com.qxcmp.news.event.AdminNewsArticleDisableEvent;
-import com.qxcmp.news.event.AdminNewsArticleEnableEvent;
 import com.qxcmp.user.User;
 import com.qxcmp.web.QxcmpController;
 import com.qxcmp.web.model.RestfulResponse;
