@@ -2,11 +2,11 @@ package com.qxcmp.weixin;
 
 import com.google.common.collect.Lists;
 import com.qxcmp.config.SiteService;
+import com.qxcmp.core.event.AdminWeixinMaterialSyncFinishEvent;
+import com.qxcmp.core.event.AdminWeixinMaterialSyncStartEvent;
 import com.qxcmp.image.ImageService;
 import com.qxcmp.user.User;
 import com.qxcmp.user.UserService;
-import com.qxcmp.core.event.WeixinMaterialSyncFinishEvent;
-import com.qxcmp.core.event.WeixinMaterialSyncStartEvent;
 import com.qxcmp.weixin.event.WeixinUserSyncFinishEvent;
 import com.qxcmp.weixin.event.WeixinUserSyncStartEvent;
 import jodd.http.HttpRequest;
@@ -116,7 +116,7 @@ public class WeixinService {
         try {
             log.info("Start weixin materials sync");
             weixinMaterialSync = true;
-            applicationContext.publishEvent(new WeixinMaterialSyncStartEvent(user));
+            applicationContext.publishEvent(new AdminWeixinMaterialSyncStartEvent(user));
 
             WxMpMaterialCountResult countResult = wxMpService.getMaterialService().materialCount();
             totalMaterialSync = countResult.getImageCount() + countResult.getNewsCount() + countResult.getVideoCount() + countResult.getVoiceCount();
@@ -179,7 +179,7 @@ public class WeixinService {
 
             log.info("Finish weixin material sync");
             weixinMaterialSync = false;
-            applicationContext.publishEvent(new WeixinMaterialSyncFinishEvent(user, totalMaterialSync));
+            applicationContext.publishEvent(new AdminWeixinMaterialSyncFinishEvent(user, totalMaterialSync));
         } catch (Exception e) {
             log.warn("Can't load weixin materials, cause: {}", e.getMessage());
             weixinMaterialSync = false;

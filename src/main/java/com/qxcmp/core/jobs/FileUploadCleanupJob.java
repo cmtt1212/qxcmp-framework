@@ -15,7 +15,9 @@ import java.io.File;
 import static com.qxcmp.core.QxcmpConfiguration.QXCMP_FILE_UPLOAD_TEMP_FOLDER;
 
 /**
- * 上传临时文件清理定是任务
+ * 上传临时文件清理定时任务
+ * <p>
+ * 该定时任务将在每天自动清理 tmp 目前下午超时的临时上传文件
  *
  * @author Aaric
  */

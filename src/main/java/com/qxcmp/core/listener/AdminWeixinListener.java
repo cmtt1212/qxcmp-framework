@@ -1,10 +1,10 @@
 package com.qxcmp.core.listener;
 
 import com.qxcmp.config.SiteService;
+import com.qxcmp.core.event.AdminWeixinMaterialSyncFinishEvent;
+import com.qxcmp.core.event.AdminWeixinMaterialSyncStartEvent;
 import com.qxcmp.core.event.AdminWeixinMenuEvent;
 import com.qxcmp.core.event.AdminWeixinSettingsEvent;
-import com.qxcmp.core.event.WeixinMaterialSyncFinishEvent;
-import com.qxcmp.core.event.WeixinMaterialSyncStartEvent;
 import com.qxcmp.message.MessageService;
 import com.qxcmp.user.User;
 import com.qxcmp.user.UserService;
@@ -31,7 +31,7 @@ public class AdminWeixinListener {
     private final SiteService siteService;
 
     @EventListener
-    public void onMaterialSyncEvent(WeixinMaterialSyncStartEvent event) {
+    public void onMaterialSyncEvent(AdminWeixinMaterialSyncStartEvent event) {
         User target = event.getTarget();
         List<User> feedUsers = userService.findByAuthority(PRIVILEGE_WEIXIN_MATERIAL);
         feedUsers.add(target);
@@ -41,7 +41,7 @@ public class AdminWeixinListener {
     }
 
     @EventListener
-    public void onMaterialSyncFinishEvent(WeixinMaterialSyncFinishEvent event) {
+    public void onMaterialSyncFinishEvent(AdminWeixinMaterialSyncFinishEvent event) {
         User target = event.getTarget();
         List<User> feedUsers = userService.findByAuthority(PRIVILEGE_WEIXIN_MATERIAL);
         feedUsers.add(target);
