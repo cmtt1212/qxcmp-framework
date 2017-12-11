@@ -1,4 +1,4 @@
-package com.qxcmp.web.event;
+package com.qxcmp.core.event;
 
 import com.qxcmp.user.User;
 import lombok.Getter;
