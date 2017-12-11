@@ -7,6 +7,7 @@ import com.qxcmp.core.support.IDGenerator;
 import com.qxcmp.core.support.ImageGenerator;
 import com.qxcmp.image.ImageService;
 import com.qxcmp.security.Role;
+import com.qxcmp.web.auth.UserAuthenticationToken;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,6 @@ import java.util.function.Supplier;
 public class UserService extends AbstractEntityService<User, String, UserRepository> {
 
     private final ImageService imageService;
-
     private final ImageGenerator imageGenerator;
 
     /**
@@ -41,7 +41,7 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      * <p>
      * Token的有效期为五分钟
      */
-    private Map<String, UserLoginToken> loginTokens = Maps.newConcurrentMap();
+    private Map<String, UserAuthenticationToken> loginTokens = Maps.newConcurrentMap();
 
     public UserService(UserRepository repository, ImageService imageService, ImageGenerator imageGenerator) {
         super(repository);
@@ -76,6 +76,7 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
      *
      * @param user       用户
      * @param privileges 要判定的权限
+     *
      * @return 如果用户拥有任意一个权限将返回真
      */
     public boolean hasRole(User user, String... privileges) {
@@ -90,26 +91,21 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
         });
     }
 
-    /**
-     * 查找具有指定权限的用户
-     *
-     * @param privilege 拥有的权限
-     * @return 指定权限的用户
-     */
     public List<User> findByAuthority(String privilege) {
         return repository.findByAuthority(privilege);
     }
 
-    /**
-     * 查找具有指定角色的用户
-     *
-     * @param role 拥有的角色
-     * @return 指定角色的用户
-     */
     public List<User> findByRole(Role role) {
         return repository.findByRole(role);
     }
 
+    /**
+     * 通过用户ID，用户名，邮箱，手机，OpenId来查询一个用户
+     *
+     * @param userId 查询键
+     *
+     * @return 查询后的用户
+     */
     public Optional<User> findById(String userId) {
 
         if (findByUsername(userId).isPresent()) {
@@ -132,19 +128,19 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
     }
 
     public Optional<User> findByUsername(String username) {
-        return StringUtils.isEmpty(username) ? Optional.empty() : repository.findByUsername(username);
+        return repository.findByUsername(username);
     }
 
     public Optional<User> findByEmail(String email) {
-        return StringUtils.isEmpty(email) ? Optional.empty() : repository.findByEmail(email);
+        return repository.findByEmail(email);
     }
 
     public Optional<User> findByPhone(String phone) {
-        return StringUtils.isEmpty(phone) ? Optional.empty() : repository.findByPhone(phone);
+        return repository.findByPhone(phone);
     }
 
     public Optional<User> findByOpenID(String openId) {
-        return StringUtils.isEmpty(openId) ? Optional.empty() : repository.findByOpenID(openId);
+        return repository.findByOpenID(openId);
     }
 
     public Page<User> findWeixinUser(Pageable pageable) {
@@ -178,23 +174,36 @@ public class UserService extends AbstractEntityService<User, String, UserReposit
     }
 
     /**
-     * 为用户生成一个登录Token
+     * 为用户生成一个认证Token
      *
      * @param userId 用户ID
+     *
      * @return 生成以后的Token
      */
     public String generateLoginToken(String userId) {
         String token = Hashing.sha256().hashString(userId + String.valueOf(System.currentTimeMillis()), Charset.defaultCharset()).toString();
-        loginTokens.put(token, new UserLoginToken(userId, DateTime.now().plusMinutes(5).toDate()));
+        loginTokens.put(token, new UserAuthenticationToken(userId, DateTime.now().plusMinutes(5).toDate()));
         return token;
     }
 
-    public boolean tokenLogin(String userId, String token) {
+    /**
+     * 使用认证Token让用户进行认证
+     * <p>
+     * 认证成功以后用户将进入登录状态
+     * <p>
+     * 当Token绑定的用户ID和传入的用户ID匹配且Token未过期时，认证成功
+     *
+     * @param userId 要认证用户ID
+     * @param token  认证Token
+     *
+     * @return 认证结果
+     */
+    public boolean tokenAuthentication(String userId, String token) {
         if (!loginTokens.containsKey(token)) {
             return false;
         }
 
-        UserLoginToken userLoginToken = loginTokens.get(token);
+        UserAuthenticationToken userLoginToken = loginTokens.get(token);
         loginTokens.remove(token);
 
         if (System.currentTimeMillis() > userLoginToken.getDateExpired().getTime()) {

@@ -1,4 +1,4 @@
-package com.qxcmp.user;
+package com.qxcmp.web.auth;
 
 import lombok.Data;
 
@@ -12,13 +12,19 @@ import java.util.Date;
  * @author Aaric
  */
 @Data
-public class UserLoginToken {
+public class UserAuthenticationToken {
 
+    /**
+     * Token 绑定的用户ID
+     */
     private String userId;
 
+    /**
+     * Token 过期时间
+     */
     private Date dateExpired;
 
-    public UserLoginToken(String userId, Date dateExpired) {
+    public UserAuthenticationToken(String userId, Date dateExpired) {
         this.userId = userId;
         this.dateExpired = dateExpired;
     }
