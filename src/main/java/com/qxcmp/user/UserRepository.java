@@ -15,20 +15,73 @@ import java.util.Optional;
 @Repository
 interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
 
+    /**
+     * 查找指定用户名的用户
+     *
+     * @param username 用户名
+     *
+     * @return 查找到的用户
+     */
     Optional<User> findByUsername(String username);
 
+    /**
+     * 查找指定邮箱的用户
+     *
+     * @param email 邮箱
+     *
+     * @return 查找到的用户
+     */
     Optional<User> findByEmail(String email);
 
+    /**
+     * 查找指定手机号的用户
+     *
+     * @param phone 手机号
+     *
+     * @return 查找到的用户
+     */
     Optional<User> findByPhone(String phone);
 
+    /**
+     * 查找指定微信公众号OpenId的用户
+     *
+     * @param openID OpenId
+     *
+     * @return 查找到的用户
+     */
     Optional<User> findByOpenID(String openID);
 
-    @Query("select user from User user join user.roles role inner join role.privileges privilege where privilege.name = :privilege")
+    /**
+     * 查找拥有指定权限的用户
+     * <p>
+     * 结果不包括Root用户
+     *
+     * @param privilege 权限
+     *
+     * @return 拥有该权限的用户列表
+     */
+    @Query("select user from User user join user.roles role inner join role.privileges privilege where privilege.name = :privilege and user.username <> 'administrator'")
     List<User> findByAuthority(@Param("privilege") String privilege);
 
-    @Query("select user from User user inner join user.roles role where role = :role")
+    /**
+     * 查找拥有指定角色的用户
+     * 结果不包括Root用户
+     *
+     * @param role 角色
+     *
+     * @return 拥有该角色的用户列表
+     */
+    @Query("select user from User user inner join user.roles role where role = :role and user.username <> 'administrator'")
     List<User> findByRole(@Param("role") Role role);
 
+    /**
+     * 查找所有微信用户
+     *
+     * @param pageable 分页信息
+     *
+     * @return 微信用户
+     */
     @Query("select user from User user where user.openID <> ''")
     Page<User> findWeixinUser(Pageable pageable);
+
 }
