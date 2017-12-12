@@ -24,7 +24,7 @@ interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecifi
      * <p>
      * 会过滤掉下架商品
      */
-    @Query("select commodity from Commodity commodity left join commodity.catalogs catalog where commodity.disabled = false and catalog = :catalog")
+    @Query("select commodity from Commodity commodity left join commodity.catalogs catalog where commodity.disabled = false and catalog = :catalog order by commodity.dateModified")
     Page<Commodity> findByCatalog(@Param("catalog") String catalog, Pageable pageable);
 
     /**
@@ -32,7 +32,7 @@ interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecifi
      * <p>
      * 会过滤掉下架商品
      */
-    @Query("select commodity from Commodity commodity left join commodity.catalogs catalog where commodity.disabled = false and catalog in :catalogs")
+    @Query("select commodity from Commodity commodity left join commodity.catalogs catalog where commodity.disabled = false and catalog in :catalogs order by commodity.dateModified")
     Page<Commodity> findByCatalogs(@Param("catalogs") Set<String> catalogs, Pageable pageable);
 
     /**

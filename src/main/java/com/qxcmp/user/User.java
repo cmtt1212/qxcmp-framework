@@ -261,7 +261,7 @@ public class User implements UserDetails {
     /**
      * 用户标签
      */
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> labels = Sets.newHashSet();
 
     @Override
