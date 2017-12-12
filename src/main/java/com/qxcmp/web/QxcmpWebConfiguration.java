@@ -4,12 +4,16 @@ import com.qxcmp.config.SystemConfigAutowired;
 import com.qxcmp.config.SystemConfigService;
 import com.qxcmp.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.security.PrivilegeAutowired;
+import com.qxcmp.statistics.AccessAddressService;
 import com.qxcmp.user.UserService;
 import com.qxcmp.web.auth.AuthenticationFilter;
+import com.qxcmp.web.filter.QxcmpFilter;
+import com.qxcmp.web.support.QXCMPIpAddressResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -46,15 +50,14 @@ import static com.qxcmp.core.QxcmpSecurityConfiguration.*;
 @RequiredArgsConstructor
 public class QxcmpWebConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final ApplicationContext applicationContext;
     private final SystemConfigService systemConfigService;
-
     private final UserService userService;
-
     private final UserDetailsService userDetailsService;
-
     private final AuthenticationFailureHandler authenticationFailureHandler;
-
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AccessAddressService accessAddressService;
+    private final QXCMPIpAddressResolver ipAddressResolver;
 
     /**
      * 增加并发会话控制
@@ -81,6 +84,12 @@ public class QxcmpWebConfiguration extends WebSecurityConfigurerAdapter {
         authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
         return authenticationFilter;
+    }
+
+    @Bean
+    public QxcmpFilter qxcmpFilter() throws Exception {
+        QxcmpFilter qxcmpFilter = new QxcmpFilter(applicationContext, accessAddressService, ipAddressResolver);
+        return qxcmpFilter;
     }
 
     /**

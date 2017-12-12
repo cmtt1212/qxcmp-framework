@@ -5,7 +5,6 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.config.SystemConfigService;
 import com.qxcmp.statistics.AccessAddressService;
-import com.qxcmp.web.filter.QxcmpFilter;
 import com.qxcmp.web.support.QXCMPIpAddressResolver;
 import com.qxcmp.weixin.WeixinMpMessageHandler;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -135,12 +133,12 @@ public class QxcmpConfiguration {
         wxPayConfig.setTradeType("JSAPI");
         return wxPayConfig;
     }
-
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        QxcmpFilter qxcmpFilter = new QxcmpFilter(applicationContext, accessAddressService, ipAddressResolver);
-        filterRegistrationBean.setFilter(qxcmpFilter);
-        return filterRegistrationBean;
-    }
+//
+//    @Bean
+//    public FilterRegistrationBean filterRegistrationBean() {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        QxcmpFilter qxcmpFilter = new QxcmpFilter(applicationContext, accessAddressService, ipAddressResolver);
+//        filterRegistrationBean.setFilter(qxcmpFilter);
+//        return filterRegistrationBean;
+//    }
 }
