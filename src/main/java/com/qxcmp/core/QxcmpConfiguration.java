@@ -5,7 +5,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.qxcmp.config.SystemConfigService;
 import com.qxcmp.statistics.AccessAddressService;
-import com.qxcmp.web.support.QXCMPIpAddressResolver;
+import com.qxcmp.util.IpAddressResolver;
 import com.qxcmp.weixin.WeixinMpMessageHandler;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -53,7 +53,7 @@ public class QxcmpConfiguration {
     private final SystemConfigService systemConfigService;
     private final ApplicationContext applicationContext;
     private final AccessAddressService accessAddressService;
-    private final QXCMPIpAddressResolver ipAddressResolver;
+    private final IpAddressResolver ipAddressResolver;
 
     @Bean
     public TaskExecutor taskExecutor() {

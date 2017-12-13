@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Aaric
+ */
 @Service
 @RequiredArgsConstructor
 public class SiteServiceImpl implements SiteService {

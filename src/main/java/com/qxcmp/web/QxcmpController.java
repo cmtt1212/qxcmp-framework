@@ -16,10 +16,10 @@ import com.qxcmp.user.User;
 import com.qxcmp.user.UserService;
 import com.qxcmp.util.Captcha;
 import com.qxcmp.util.CaptchaService;
+import com.qxcmp.util.IpAddressResolver;
+import com.qxcmp.util.QxcmpPageResolver;
 import com.qxcmp.web.model.RestfulResponse;
 import com.qxcmp.web.page.AbstractPage;
-import com.qxcmp.web.support.QXCMPIpAddressResolver;
-import com.qxcmp.web.support.QxcmpPageResolver;
 import com.qxcmp.web.view.annotation.form.Form;
 import com.qxcmp.web.view.elements.grid.Col;
 import com.qxcmp.web.view.elements.grid.Grid;
@@ -85,7 +85,7 @@ public abstract class QxcmpController {
     private TableHelper tableHelper;
     private CaptchaService captchaService;
     private ActionExecutor actionExecutor;
-    private QXCMPIpAddressResolver ipAddressResolver;
+    private IpAddressResolver ipAddressResolver;
 
     /**
      * 根据请求获取一个页面
@@ -409,7 +409,7 @@ public abstract class QxcmpController {
     }
 
     @Autowired
-    public void setIpAddressResolver(QXCMPIpAddressResolver ipAddressResolver) {
+    public void setIpAddressResolver(IpAddressResolver ipAddressResolver) {
         this.ipAddressResolver = ipAddressResolver;
     }
 }

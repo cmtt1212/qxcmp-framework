@@ -2,8 +2,8 @@ package com.qxcmp.statistics;
 
 import com.qxcmp.user.User;
 import com.qxcmp.user.UserService;
-import com.qxcmp.web.filter.QXCMPRequestEvent;
-import com.qxcmp.web.support.QXCMPIpAddressResolver;
+import com.qxcmp.util.IpAddressResolver;
+import com.qxcmp.web.filter.QxcmpRequestEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.event.EventListener;
@@ -21,10 +21,10 @@ public class AccessHistoryListener {
 
     private final AccessHistoryService accessHistoryService;
     private final AccessAddressService accessAddressService;
-    private final QXCMPIpAddressResolver ipAddressResolver;
+    private final IpAddressResolver ipAddressResolver;
 
     @EventListener
-    public void onRequest(QXCMPRequestEvent event) {
+    public void onRequest(QxcmpRequestEvent event) {
         try {
             HttpServletRequest request = event.getRequest();
 

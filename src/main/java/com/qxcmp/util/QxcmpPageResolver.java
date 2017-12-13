@@ -1,4 +1,4 @@
-package com.qxcmp.web.support;
+package com.qxcmp.util;
 
 import com.qxcmp.web.page.*;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class QxcmpPageResolver {
 
     private final ApplicationContext applicationContext;
 
-    private final QXCMPDeviceResolver deviceResolver;
+    private final QxcmpDeviceResolver deviceResolver;
 
     /**
      * 把请求解析为一个页面

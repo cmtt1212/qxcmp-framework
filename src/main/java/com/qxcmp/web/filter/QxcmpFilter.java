@@ -3,7 +3,7 @@ package com.qxcmp.web.filter;
 import com.qxcmp.exception.BlackListException;
 import com.qxcmp.statistics.AccessAddressService;
 import com.qxcmp.statistics.AccessAddressType;
-import com.qxcmp.web.support.QXCMPIpAddressResolver;
+import com.qxcmp.util.IpAddressResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -25,9 +25,9 @@ public class QxcmpFilter extends GenericFilterBean {
 
     private final ApplicationContext applicationContext;
     private final AccessAddressService accessAddressService;
-    private final QXCMPIpAddressResolver ipAddressResolver;
+    private final IpAddressResolver ipAddressResolver;
 
-    public QxcmpFilter(ApplicationContext applicationContext, AccessAddressService accessAddressService, QXCMPIpAddressResolver ipAddressResolver) {
+    public QxcmpFilter(ApplicationContext applicationContext, AccessAddressService accessAddressService, IpAddressResolver ipAddressResolver) {
         this.applicationContext = applicationContext;
         this.accessAddressService = accessAddressService;
         this.ipAddressResolver = ipAddressResolver;
@@ -37,7 +37,7 @@ public class QxcmpFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        applicationContext.publishEvent(new QXCMPRequestEvent(request, response));
+        applicationContext.publishEvent(new QxcmpRequestEvent(request, response));
 
         if (accessAddressService.findOne(ipAddressResolver.resolve(request)).map(accessAddress -> Objects.equals(accessAddress.getType(), AccessAddressType.BLACK)).orElse(false)) {
             throw new BlackListException();

@@ -14,6 +14,8 @@ import java.util.Random;
 
 /**
  * 验证码生成工具
+ *
+ * @author Aaric
  */
 @Component
 public class CaptchaService {

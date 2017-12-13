@@ -6,9 +6,9 @@ import com.qxcmp.core.QxcmpSystemConfigConfiguration;
 import com.qxcmp.security.PrivilegeAutowired;
 import com.qxcmp.statistics.AccessAddressService;
 import com.qxcmp.user.UserService;
+import com.qxcmp.util.IpAddressResolver;
 import com.qxcmp.web.auth.AuthenticationFilter;
 import com.qxcmp.web.filter.QxcmpFilter;
-import com.qxcmp.web.support.QXCMPIpAddressResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,7 +57,7 @@ public class QxcmpWebConfiguration extends WebSecurityConfigurerAdapter {
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AccessAddressService accessAddressService;
-    private final QXCMPIpAddressResolver ipAddressResolver;
+    private final IpAddressResolver ipAddressResolver;
 
     /**
      * 增加并发会话控制

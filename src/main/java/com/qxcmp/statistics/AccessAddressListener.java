@@ -1,8 +1,8 @@
 package com.qxcmp.statistics;
 
-import com.qxcmp.web.filter.QXCMPRequestEvent;
-import com.qxcmp.web.support.QXCMPDeviceResolver;
-import com.qxcmp.web.support.QXCMPIpAddressResolver;
+import com.qxcmp.util.IpAddressResolver;
+import com.qxcmp.util.QxcmpDeviceResolver;
+import com.qxcmp.web.filter.QxcmpRequestEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.mobile.device.Device;
@@ -17,11 +17,11 @@ import java.util.Optional;
 public class AccessAddressListener {
 
     private final AccessAddressService accessAddressService;
-    private final QXCMPIpAddressResolver ipAddressResolver;
-    private final QXCMPDeviceResolver deviceResolver;
+    private final IpAddressResolver ipAddressResolver;
+    private final QxcmpDeviceResolver deviceResolver;
 
     @EventListener
-    public void onRequest(QXCMPRequestEvent event) {
+    public void onRequest(QxcmpRequestEvent event) {
         try {
             HttpServletRequest request = event.getRequest();
 
