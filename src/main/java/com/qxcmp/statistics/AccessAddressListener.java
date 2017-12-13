@@ -1,24 +1,27 @@
 package com.qxcmp.statistics;
 
 import com.qxcmp.util.IpAddressResolver;
-import com.qxcmp.util.QxcmpDeviceResolver;
 import com.qxcmp.web.filter.QxcmpRequestEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceResolver;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
 
+/**
+ * @author Aaric
+ */
 @Component
 @RequiredArgsConstructor
 public class AccessAddressListener {
 
     private final AccessAddressService accessAddressService;
     private final IpAddressResolver ipAddressResolver;
-    private final QxcmpDeviceResolver deviceResolver;
+    private final DeviceResolver deviceResolver;
 
     @EventListener
     public void onRequest(QxcmpRequestEvent event) {
@@ -26,7 +29,7 @@ public class AccessAddressListener {
             HttpServletRequest request = event.getRequest();
 
             String ipAddress = ipAddressResolver.resolve(request);
-            Device device = deviceResolver.resolve(request);
+            Device device = deviceResolver.resolveDevice(request);
 
             Optional<AccessAddress> addressOptional = accessAddressService.findOne(ipAddress);
 

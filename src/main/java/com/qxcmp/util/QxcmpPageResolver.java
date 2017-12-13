@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceResolver;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +27,13 @@ import static com.qxcmp.core.QxcmpConfiguration.*;
 public class QxcmpPageResolver {
 
     private final ApplicationContext applicationContext;
-
-    private final QxcmpDeviceResolver deviceResolver;
+    private final DeviceResolver deviceResolver;
 
     /**
      * 把请求解析为一个页面
      *
      * @param request 请求
+     *
      * @return 解析后的页面
      */
     public AbstractPage resolve(HttpServletRequest request, HttpServletResponse response) {
@@ -45,7 +46,7 @@ public class QxcmpPageResolver {
         } else if (StringUtils.startsWith(path, QXCMP_ACCOUNT_URL) || StringUtils.startsWith(path, QXCMP_LOGIN_URL) || StringUtils.startsWith(path, QXCMP_LOGOUT_URL)) {
             return applicationContext.getBean(NormalPage.class, request, response);
         } else {
-            Device device = deviceResolver.resolve(request);
+            Device device = deviceResolver.resolveDevice(request);
 
             if (device.isMobile()) {
                 return applicationContext.getBean(MobilePage.class, request, response);
