@@ -7,12 +7,19 @@ import com.qxcmp.web.filter.QxcmpRequestEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.event.EventListener;
+import org.springframework.mobile.device.Device;
+import org.springframework.mobile.device.DeviceResolver;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * 统计网站访问记录
+ *
+ * @author Aaric
+ */
 @Component
 @RequiredArgsConstructor
 public class AccessHistoryListener {
@@ -22,6 +29,7 @@ public class AccessHistoryListener {
     private final AccessHistoryService accessHistoryService;
     private final AccessAddressService accessAddressService;
     private final IpAddressResolver ipAddressResolver;
+    private final DeviceResolver deviceResolver;
 
     @EventListener
     public void onRequest(QxcmpRequestEvent event) {
@@ -30,12 +38,14 @@ public class AccessHistoryListener {
 
             String ipAddress = ipAddressResolver.resolve(request);
             String requestURI = request.getRequestURI();
+            Device device = deviceResolver.resolveDevice(request);
 
             if (isAccessRequest(requestURI) && !isSpider(ipAddress)) {
                 AccessHistory accessHistory = accessHistoryService.next();
                 accessHistory.setDateCreated(new Date());
                 accessHistory.setIp(ipAddress);
                 accessHistory.setUrl(request.getRequestURL().toString());
+                accessHistory.setComments(device.isMobile() ? "手机" : (device.isTablet() ? "平板" : "电脑"));
 
                 User user = userService.currentUser();
 

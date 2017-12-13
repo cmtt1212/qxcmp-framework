@@ -13,7 +13,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 import static com.qxcmp.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
@@ -47,10 +46,6 @@ public class AccessAddress {
 
     @TableField("类型")
     private AccessAddressType type = AccessAddressType.NORMAL;
-
-    @TableField("备注")
-    @Size(max = 20)
-    private String comments;
 
     @TableField("最近访问时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

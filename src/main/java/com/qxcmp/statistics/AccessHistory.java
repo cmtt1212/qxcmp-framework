@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 import static com.qxcmp.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
@@ -37,6 +38,10 @@ public class AccessHistory {
 
     @TableField("访问链接")
     private String url;
+
+    @TableField("备注")
+    @Size(max = 20)
+    private String comments;
 
     private String userId;
 }
