@@ -90,8 +90,8 @@ public class AdminUserPageController extends QxcmpController {
         Grid grid = new Grid();
         Col col = new Col(Wide.SIXTEEN);
 
-        if (weixinService.isWeixinUserSync()) {
-            col.addComponent(new InfoMessage(String.format("微信用户正在同步中... 当前进度为 %d/%d，请稍后刷新查看", weixinService.getCurrentUserSync(), weixinService.getTotalUserSync())).setCloseable());
+        if (weixinService.getSyncService().isWeixinUserSync()) {
+            col.addComponent(new InfoMessage(String.format("微信用户正在同步中... 当前进度为 %d/%d，请稍后刷新查看", weixinService.getSyncService().getCurrentUserSync(), weixinService.getSyncService().getTotalUserSync())).setCloseable());
         }
 
         col.addComponent(convertToTable("weixin", User.class, users));
@@ -109,7 +109,7 @@ public class AdminUserPageController extends QxcmpController {
 
     @PostMapping("/weixin/sync")
     public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
-        weixinService.doWeixinUserSync(currentUser().orElseThrow(RuntimeException::new));
+        weixinService.getSyncService().syncUsers(currentUser().orElseThrow(RuntimeException::new));
         return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
     }
 

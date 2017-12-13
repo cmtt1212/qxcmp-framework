@@ -89,8 +89,8 @@ public class AdminWeixinPageController extends QxcmpController {
         Grid grid = new Grid();
         Col col = new Col(Wide.SIXTEEN);
 
-        if (weixinService.isWeixinMaterialSync()) {
-            col.addComponent(new InfoMessage(String.format("微信素材正在同步中... 当前进度为 %d/%d，请稍后刷新查看", weixinService.getCurrentMaterialSync(), weixinService.getTotalMaterialSync())).setCloseable());
+        if (weixinService.getSyncService().isWeixinMaterialSync()) {
+            col.addComponent(new InfoMessage(String.format("微信素材正在同步中... 当前进度为 %d/%d，请稍后刷新查看", weixinService.getSyncService().getCurrentMaterialSync(), weixinService.getSyncService().getTotalMaterialSync())).setCloseable());
         }
 
         col.addComponent(convertToTable(new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), new Sort(new Sort.Order("type"), new Sort.Order(Sort.Direction.DESC, "updateTime"))), weixinMpMaterialService));
@@ -103,7 +103,7 @@ public class AdminWeixinPageController extends QxcmpController {
 
     @PostMapping("/material/sync")
     public ResponseEntity<RestfulResponse> userWeixinSyncPage() {
-        weixinService.doWeixinMaterialSync(currentUser().orElseThrow(RuntimeException::new));
+        weixinService.getSyncService().syncMaterials(currentUser().orElseThrow(RuntimeException::new));
         return ResponseEntity.ok(new RestfulResponse(HttpStatus.OK.value()));
     }
 
