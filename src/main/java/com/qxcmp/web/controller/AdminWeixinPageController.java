@@ -25,7 +25,6 @@ import com.qxcmp.weixin.WeixinMpMaterialService;
 import com.qxcmp.weixin.WeixinMpMaterialType;
 import com.qxcmp.weixin.WeixinService;
 import lombok.RequiredArgsConstructor;
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -50,6 +49,7 @@ import java.util.Objects;
 import static com.qxcmp.core.QxcmpConfiguration.QXCMP_BACKEND_URL;
 import static com.qxcmp.core.QxcmpNavigationConfiguration.*;
 import static com.qxcmp.core.QxcmpSystemConfigConfiguration.*;
+import static me.chanjar.weixin.common.api.WxConsts.OAuth2Scope.SNSAPI_USERINFO;
 
 /**
  * @author Aaric
@@ -190,7 +190,7 @@ public class AdminWeixinPageController extends QxcmpController {
 
                 if (StringUtils.isNotBlank(form.getOauth2Url())) {
                     try {
-                        String oauth2Url = wxMpService.oauth2buildAuthorizationUrl(form.getOauth2Url(), WxConsts.OAUTH2_SCOPE_USER_INFO, null);
+                        String oauth2Url = wxMpService.oauth2buildAuthorizationUrl(form.getOauth2Url(), SNSAPI_USERINFO, null);
                         context.put("oauth2Url", oauth2Url);
                         systemConfigService.update(QxcmpSystemConfigConfiguration.SYSTEM_CONFIG_WECHAT_OAUTH2_AUTHORIZATION_URL, oauth2Url);
                     } catch (Exception e) {

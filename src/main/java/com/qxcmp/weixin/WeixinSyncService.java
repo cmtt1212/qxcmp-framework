@@ -13,7 +13,6 @@ import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialCountResult;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
@@ -35,6 +34,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static me.chanjar.weixin.common.api.WxConsts.MaterialType.*;
 
 /**
  * 微信公众号同步服务
@@ -199,19 +200,19 @@ public class WeixinSyncService {
             }
 
             for (int i = 0; i <= countResult.getImageCount() / MAX_MATERIAL_COUNT; i++) {
-                WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_IMAGE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
+                WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(IMAGE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
                 syncMaterial(fileBatchGetResult, WeixinMpMaterialType.IMAGE);
                 currentMaterialSync++;
             }
 
             for (int i = 0; i <= countResult.getVideoCount() / MAX_MATERIAL_COUNT; i++) {
-                WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VIDEO, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
+                WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(VIDEO, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
                 syncMaterial(fileBatchGetResult, WeixinMpMaterialType.VIDEO);
                 currentMaterialSync++;
             }
 
             for (int i = 0; i <= countResult.getVoiceCount() / MAX_MATERIAL_COUNT; i++) {
-                WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(WxConsts.MATERIAL_VOICE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
+                WxMpMaterialFileBatchGetResult fileBatchGetResult = wxMpService.getMaterialService().materialFileBatchGet(VOICE, i * MAX_MATERIAL_COUNT, i * MAX_MATERIAL_COUNT + MAX_MATERIAL_COUNT);
                 syncMaterial(fileBatchGetResult, WeixinMpMaterialType.VOICE);
                 currentMaterialSync++;
             }

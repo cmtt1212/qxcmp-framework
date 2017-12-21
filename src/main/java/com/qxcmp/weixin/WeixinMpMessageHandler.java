@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Objects;
 
-import static me.chanjar.weixin.common.api.WxConsts.*;
+import static me.chanjar.weixin.common.api.WxConsts.EventType.*;
+import static me.chanjar.weixin.common.api.WxConsts.EventType.LOCATION;
+import static me.chanjar.weixin.common.api.WxConsts.XmlMsgType.*;
 
 /**
  * 微信公众号消息处理器
@@ -52,37 +54,38 @@ public class WeixinMpMessageHandler implements WxMpMessageHandler {
      * @param wxMpService       微信服务
      * @param sessionManager    会话管理
      * @param wxMpXmlOutMessage 要返回的消息
+     *
      * @return 平台微信消息事件
      */
     private BaseWeixinMessageEvent convertMessageToEvent(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager, WxMpXmlOutMessage wxMpXmlOutMessage) {
         switch (wxMessage.getMsgType()) {
-            case XML_MSG_TEXT:
+            case TEXT:
                 return new WeixinMpTextMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_IMAGE:
+            case IMAGE:
                 return new WeixinMpImageMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_VOICE:
+            case VOICE:
                 return new WeixinMpVoiceMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_SHORTVIDEO:
+            case SHORTVIDEO:
                 return new WeixinMpShortVideoMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_VIDEO:
+            case VIDEO:
                 return new WeixinMpVideoMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_LOCATION:
+            case LOCATION:
                 return new WeixinMpLocationMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_LINK:
+            case LINK:
                 return new WeixinMpLinkMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-            case XML_MSG_EVENT: {
+            case EVENT: {
                 switch (wxMessage.getEvent()) {
-                    case EVT_SUBSCRIBE:
+                    case SUBSCRIBE:
                         return new WeixinMpSubscribeEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-                    case EVT_UNSUBSCRIBE:
+                    case UNSUBSCRIBE:
                         return new WeixinMpUnsubscribeEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-                    case EVT_SCAN:
+                    case SCAN:
                         return new WeixinMpScanEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-                    case EVT_LOCATION:
+                    case LOCATION:
                         return new WeixinMpLocationEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-                    case EVT_CLICK:
+                    case CLICK:
                         return new WeixinMpMenuClickEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
-                    case EVT_VIEW:
+                    case VIEW:
                         return new WeixinMpMenuViewEvent(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
                     default:
                         return new WeixinMpDefaultMessage(wxMessage, context, wxMpService, sessionManager, wxMpXmlOutMessage);
