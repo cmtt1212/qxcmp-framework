@@ -70,6 +70,7 @@ public class AdminStatisticPageController extends QxcmpController {
 
         PageRequest pageRequest = new PageRequest(0, pageable.getPageSize());
 
+        List<AccessHistoryPageResult> todayResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().withHourOfDay(0).toDate(), pageRequest).getContent();
         List<AccessHistoryPageResult> dayResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusDays(1).toDate(), pageRequest).getContent();
         List<AccessHistoryPageResult> weekResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusWeeks(1).toDate(), pageRequest).getContent();
         List<AccessHistoryPageResult> monthResult = accessHistoryService.findByDateCreatedAfter(DateTime.now().minusMonths(1).toDate(), pageRequest).getContent();
@@ -79,7 +80,8 @@ public class AdminStatisticPageController extends QxcmpController {
         List<AccessHistoryPageResult> allResult = accessHistoryService.findAllResult(pageRequest).getContent();
 
         return page().addComponent(new Grid()
-                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("昨日", dayResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("今日", todayResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近24小时", dayResult)))
                 .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近7天", weekResult)))
                 .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近30天", monthResult)))
                 .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertAccessResultToTable("近3月", seasonResult)))
@@ -97,6 +99,7 @@ public class AdminStatisticPageController extends QxcmpController {
 
         PageRequest pageRequest = new PageRequest(0, pageable.getPageSize());
 
+        List<SearchKeywordsPageResult> todayResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().withHourOfDay(0).toDate(), pageRequest).getContent();
         List<SearchKeywordsPageResult> dayResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusDays(1).toDate(), pageRequest).getContent();
         List<SearchKeywordsPageResult> weekResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusWeeks(1).toDate(), pageRequest).getContent();
         List<SearchKeywordsPageResult> monthResult = searchKeywordsService.findByDateCreatedAfter(DateTime.now().minusMonths(1).toDate(), pageRequest).getContent();
@@ -106,7 +109,8 @@ public class AdminStatisticPageController extends QxcmpController {
         List<SearchKeywordsPageResult> allResult = searchKeywordsService.findAllResult(pageRequest).getContent();
 
         return page().addComponent(new Grid()
-                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("昨日", dayResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("今日", todayResult)))
+                .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近24小时", dayResult)))
                 .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近7天", weekResult)))
                 .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近30天", monthResult)))
                 .addItem(new Col().setMobileWide(Wide.SIXTEEN).setTabletWide(Wide.EIGHT).setComputerWide(Wide.EIGHT).addComponent(convertSearchResultToTable("近3月", seasonResult)))
