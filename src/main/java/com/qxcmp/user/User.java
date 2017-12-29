@@ -75,10 +75,16 @@ public class User implements UserDetails {
     private String phone;
 
     /**
-     * 用户OpenID，用于与微信集成
+     * 用户公众号OpenID，用于与微信集成，单公众号时使用
      */
     @Column(unique = true)
     private String openID;
+
+    /**
+     * 用户多公众号之间统一UnionId，用于多公众号开发时使用
+     */
+    @Column(unique = true)
+    private String unionId;
 
     /**
      * 用户角色，用户的角色角色了用户的权限
@@ -212,11 +218,6 @@ public class User implements UserDetails {
      * 用户关注平台公众号时间
      */
     private Long subscribeTime;
-
-    /**
-     * 用户微信UnionID
-     */
-    private String unionId;
 
     /**
      * 用户性别代码
