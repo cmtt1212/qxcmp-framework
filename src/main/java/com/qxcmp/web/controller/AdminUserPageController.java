@@ -146,6 +146,7 @@ public class AdminUserPageController extends QxcmpController {
                                         .addComponent(convertToTable(stringObjectMap -> {
                                             stringObjectMap.put("UUID", user.getId());
                                             stringObjectMap.put("OpenID", user.getOpenID());
+                                            stringObjectMap.put("UnionID", user.getUnionId());
                                             stringObjectMap.put("上次登录时间", user.getDateLogin());
                                             stringObjectMap.put("拥有角色", new CollectionValueCell(user.getRoles(), "name"));
                                             stringObjectMap.put("账户是否过期", !user.isAccountNonExpired());
