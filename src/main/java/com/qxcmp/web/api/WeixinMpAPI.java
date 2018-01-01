@@ -10,6 +10,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -113,19 +114,23 @@ public class WeixinMpAPI extends QxcmpController {
     @GetMapping("/jsapi")
     public ResponseEntity<WxJsapiSignature> jsApi(@RequestParam String url) throws WxErrorException {
 
-        me.chanjar.weixin.common.bean.WxJsapiSignature wxJsapiSignature = wxMpService.createJsapiSignature(url);
+        try {
+            me.chanjar.weixin.common.bean.WxJsapiSignature wxJsapiSignature = wxMpService.createJsapiSignature(url);
 
+            WxJsapiSignature jsapiSignature = new WxJsapiSignature();
 
-        WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+            jsapiSignature.setAppId(wxJsapiSignature.getAppId());
+            jsapiSignature.setNonceStr(wxJsapiSignature.getNonceStr());
+            jsapiSignature.setSignature(wxJsapiSignature.getSignature());
+            jsapiSignature.setTimestamp(wxJsapiSignature.getTimestamp());
+            jsapiSignature.setUrl(wxJsapiSignature.getUrl());
+            jsapiSignature.setDebug(systemConfigService.getBoolean(SYSTEM_CONFIG_WECHAT_DEBUG).orElse(false));
 
-        jsapiSignature.setAppId(wxJsapiSignature.getAppId());
-        jsapiSignature.setNonceStr(wxJsapiSignature.getNonceStr());
-        jsapiSignature.setSignature(wxJsapiSignature.getSignature());
-        jsapiSignature.setTimestamp(wxJsapiSignature.getTimestamp());
-        jsapiSignature.setUrl(wxJsapiSignature.getUrl());
-        jsapiSignature.setDebug(systemConfigService.getBoolean(SYSTEM_CONFIG_WECHAT_DEBUG).orElse(false));
+            return ResponseEntity.ok(jsapiSignature);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+        }
 
-        return ResponseEntity.ok(jsapiSignature);
     }
 
     public class WxJsapiSignature extends me.chanjar.weixin.common.bean.WxJsapiSignature {
