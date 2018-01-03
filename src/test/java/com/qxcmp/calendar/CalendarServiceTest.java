@@ -51,4 +51,27 @@ public class CalendarServiceTest {
         assertEquals(CalendarDateType.HOLIDAY, dateService.get(2017, 1, 1).getType());
         assertEquals(CalendarDateType.HOLIDAY, dateService.get(2017, 4, 2).getType());
     }
+
+    @Test
+    public void testNormalWorkingDayOf2018() throws Exception {
+        assertEquals(CalendarDateType.WORKDAY, dateService.get(2018, 1, 2).getType());
+        assertEquals(CalendarDateType.WORKDAY, dateService.get(2018, 2, 8).getType());
+    }
+
+    @Test
+    public void testExceptionalWorkingDayOf2018() throws Exception {
+        assertEquals(CalendarDateType.WORKDAY, dateService.get(2018, 2, 11).getType());
+        assertEquals(CalendarDateType.WORKDAY, dateService.get(2018, 2, 24).getType());
+    }
+
+    @Test
+    public void testWeekendOf2018() throws Exception {
+        assertEquals(CalendarDateType.WEEKEND, dateService.get(2018, 4, 1).getType());
+    }
+
+    @Test
+    public void testHoldayOf2018() throws Exception {
+        assertEquals(CalendarDateType.HOLIDAY, dateService.get(2018, 2, 15).getType());
+        assertEquals(CalendarDateType.HOLIDAY, dateService.get(2018, 2, 16).getType());
+    }
 }
