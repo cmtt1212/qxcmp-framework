@@ -31,7 +31,7 @@ public class Feed {
     private String owner;
 
     /**
-     * Feed相关的用户
+     * Feed相关的用户，产生该Feed事件的用户
      */
     @ManyToOne
     private User target;
@@ -52,5 +52,12 @@ public class Feed {
      */
     @Lob
     private String extraContent;
+
+    /**
+     * 类型
+     * <p>
+     * 用于非用户流的情况
+     */
+    private String type;
 
 }

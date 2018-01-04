@@ -25,6 +25,10 @@ public class FeedService extends AbstractEntityService<Feed, Long, FeedRepositor
         return repository.findByOwnerAndDateCreatedAfterOrderByDateCreatedDesc(userId, DateTime.now().minusDays(30).toDate(), pageable);
     }
 
+    public Page<Feed> findByType(String type, Pageable pageable) {
+        return repository.findByTypeOrderByDateCreatedDesc(type, pageable);
+    }
+
     @Override
     protected <S extends Feed> Long getEntityId(S entity) {
         return entity.getId();

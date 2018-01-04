@@ -20,4 +20,13 @@ interface FeedRepository extends JpaRepository<Feed, Long>, JpaSpecificationExec
      * @return 指定日期之后的Feed列表
      */
     Page<Feed> findByOwnerAndDateCreatedAfterOrderByDateCreatedDesc(String owner, Date dateCreated, Pageable pageable);
+
+    /**
+     * 查询某类型的Feed流
+     *
+     * @param type     类型
+     * @param pageable 分页信息
+     * @return 某类型的Feed流
+     */
+    Page<Feed> findByTypeOrderByDateCreatedDesc(String type, Pageable pageable);
 }

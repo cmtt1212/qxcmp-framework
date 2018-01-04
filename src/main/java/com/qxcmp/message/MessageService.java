@@ -2,15 +2,12 @@ package com.qxcmp.message;
 
 import com.qxcmp.user.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.function.Consumer;
-
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * 消息服务总接口
@@ -63,7 +60,6 @@ public class MessageService {
      */
     @Async
     public void feed(Feed feed) {
-        checkState(StringUtils.isNotBlank(feed.getOwner()), "Empty feed owner");
         feed.setId(null);
         feed.setDateCreated(new Date());
         feedService.save(feed);
