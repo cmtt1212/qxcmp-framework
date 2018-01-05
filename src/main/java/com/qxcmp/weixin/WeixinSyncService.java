@@ -108,11 +108,13 @@ public class WeixinSyncService {
             }
 
             log.info("Finish weixin user sync, total {}, success: {}", total, successCount);
-            weixinUserSync = false;
             applicationContext.publishEvent(new WeixinUserSyncFinishEvent(user, totalUserSync));
+            weixinUserSync = false;
+            totalUserSync = 0;
         } catch (Exception e) {
             log.error("Can't load weixin user, cause：{}", e.getMessage(), Objects.nonNull(e.getCause()) ? e.getCause().getMessage() : "");
             weixinUserSync = false;
+            totalMaterialSync = 0;
         }
     }
 
@@ -218,11 +220,13 @@ public class WeixinSyncService {
             }
 
             log.info("Finish weixin material sync");
-            weixinMaterialSync = false;
             applicationContext.publishEvent(new AdminWeixinMaterialSyncFinishEvent(user, totalMaterialSync));
+            weixinMaterialSync = false;
+            totalMaterialSync = 0;
         } catch (Exception e) {
             log.warn("Can't load weixin materials, cause: {}", e.getMessage());
             weixinMaterialSync = false;
+            totalMaterialSync = 0;
         }
     }
 
