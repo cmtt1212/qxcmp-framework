@@ -273,10 +273,10 @@ public class WeixinSyncService {
     }
 
     private String nextUsername() {
-        String username = RandomStringUtils.randomAlphanumeric(10);
+        String username = RandomStringUtils.randomAlphanumeric(16);
 
-        while (userService.findByUsername(username).isPresent()) {
-            username = RandomStringUtils.randomAlphanumeric(10);
+        while (Character.isDigit(username.charAt(0)) || userService.findByUsername(username).isPresent()) {
+            username = RandomStringUtils.randomAlphanumeric(16);
         }
 
         return username;
