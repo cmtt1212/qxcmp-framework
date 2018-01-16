@@ -46,8 +46,7 @@ public class AccessAddressListener {
                 });
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 }
